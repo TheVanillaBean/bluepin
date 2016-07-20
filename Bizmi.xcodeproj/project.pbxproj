@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A025DCA1D403B530060791D /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A025DC91D403B530060791D /* ForgotPasswordVC.swift */; };
+		5A025DCC1D403CBE0060791D /* CustomerSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A025DCB1D403CBE0060791D /* CustomerSignUpVC.swift */; };
+		5A025DCE1D403D050060791D /* BusinessSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A025DCD1D403D050060791D /* BusinessSignUpVC.swift */; };
 		5A7880FD1D3E261400F168AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7880FC1D3E261400F168AE /* AppDelegate.swift */; };
 		5A7880FF1D3E261400F168AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7880FE1D3E261400F168AE /* ViewController.swift */; };
 		5A7881021D3E261500F168AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A7881001D3E261500F168AE /* Main.storyboard */; };
@@ -22,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5A025DC91D403B530060791D /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
+		5A025DCB1D403CBE0060791D /* CustomerSignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerSignUpVC.swift; sourceTree = "<group>"; };
+		5A025DCD1D403D050060791D /* BusinessSignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessSignUpVC.swift; sourceTree = "<group>"; };
 		5A7880F91D3E261400F168AE /* Bizmi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bizmi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A7880FC1D3E261400F168AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A7880FE1D3E261400F168AE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,7 +80,6 @@
 				5ADD36291D3E3BCC00394637 /* View */,
 				5ADD362A1D3E3BD100394637 /* Controller */,
 				5A7880FC1D3E261400F168AE /* AppDelegate.swift */,
-				5A7880FE1D3E261400F168AE /* ViewController.swift */,
 				5A7881001D3E261500F168AE /* Main.storyboard */,
 				5A7881031D3E261500F168AE /* Assets.xcassets */,
 				5A7881051D3E261500F168AE /* LaunchScreen.storyboard */,
@@ -121,6 +126,10 @@
 		5ADD362A1D3E3BD100394637 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				5A7880FE1D3E261400F168AE /* ViewController.swift */,
+				5A025DC91D403B530060791D /* ForgotPasswordVC.swift */,
+				5A025DCB1D403CBE0060791D /* CustomerSignUpVC.swift */,
+				5A025DCD1D403D050060791D /* BusinessSignUpVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -157,6 +166,7 @@
 				TargetAttributes = {
 					5A7880F81D3E261400F168AE = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = D4U8EYNJR5;
 					};
 				};
 			};
@@ -200,8 +210,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A025DCC1D403CBE0060791D /* CustomerSignUpVC.swift in Sources */,
 				5A7880FF1D3E261400F168AE /* ViewController.swift in Sources */,
 				5A7880FD1D3E261400F168AE /* AppDelegate.swift in Sources */,
+				5A025DCA1D403B530060791D /* ForgotPasswordVC.swift in Sources */,
+				5A025DCE1D403D050060791D /* BusinessSignUpVC.swift in Sources */,
 				5ADD36391D3E3E6100394637 /* MaterialTextField.swift in Sources */,
 				5ADD36341D3E3CD400394637 /* Constants.swift in Sources */,
 				5ADD36361D3E3D3E00394637 /* MaterialView.swift in Sources */,
@@ -317,10 +330,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Bizmi/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bizmiapp.Bizmi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -328,10 +345,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Bizmi/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bizmiapp.Bizmi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
