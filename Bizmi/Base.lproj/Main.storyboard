@@ -13,6 +13,19 @@
             <string>NotoSans</string>
             <string>NotoSans</string>
             <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -101,6 +114,7 @@
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
+                                                    <action selector="loginBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="v6G-XW-2kk"/>
                                                     <segue destination="HFK-N6-VuZ" kind="show" identifier="forgotPassword" id="x8C-IM-SB6"/>
                                                 </connections>
                                             </button>
@@ -246,14 +260,14 @@
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QsY-sm-lt3" customClass="MaterialView" customModule="Bizmi" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="32" width="600" height="125"/>
+                                                <rect key="frame" x="8" y="32" width="584" height="126"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Whz-WU-He6">
-                                                <rect key="frame" x="0.0" y="32" width="600" height="65"/>
+                                                <rect key="frame" x="16" y="40" width="568" height="50"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dpU-wv-pAO" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="65"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="568" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -267,11 +281,11 @@
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="65" id="rOJ-at-IHD"/>
+                                                    <constraint firstAttribute="height" constant="50" id="rOJ-at-IHD"/>
                                                 </constraints>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qm0-b3-edh">
-                                                <rect key="frame" x="0.0" y="97" width="600" height="60"/>
+                                                <rect key="frame" x="8" y="98" width="584" height="60"/>
                                                 <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="hC6-ko-nQG"/>
@@ -280,20 +294,23 @@
                                                 <state key="normal" title="Send Email">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="sendEmailBtnPressed:" destination="HFK-N6-VuZ" eventType="touchUpInside" id="Sra-2z-QYd"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.88235294117647056" green="0.88235294117647056" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstItem="Whz-WU-He6" firstAttribute="leading" secondItem="0nA-zk-ih9" secondAttribute="leading" id="3Ka-Ay-g6X"/>
-                                            <constraint firstAttribute="trailing" secondItem="Qm0-b3-edh" secondAttribute="trailing" id="5Hf-VR-Lxr"/>
+                                            <constraint firstItem="Whz-WU-He6" firstAttribute="leading" secondItem="0nA-zk-ih9" secondAttribute="leading" constant="16" id="3Ka-Ay-g6X"/>
+                                            <constraint firstAttribute="trailing" secondItem="Qm0-b3-edh" secondAttribute="trailing" constant="8" id="5Hf-VR-Lxr"/>
                                             <constraint firstItem="QsY-sm-lt3" firstAttribute="top" secondItem="0nA-zk-ih9" secondAttribute="top" constant="32" id="7RR-wJ-D88"/>
-                                            <constraint firstItem="QsY-sm-lt3" firstAttribute="leading" secondItem="0nA-zk-ih9" secondAttribute="leading" id="9GU-6Y-nRq"/>
-                                            <constraint firstAttribute="trailing" secondItem="Whz-WU-He6" secondAttribute="trailing" id="9YB-ZB-IEZ"/>
-                                            <constraint firstItem="Qm0-b3-edh" firstAttribute="leading" secondItem="0nA-zk-ih9" secondAttribute="leading" id="T19-mD-J9v"/>
-                                            <constraint firstItem="Qm0-b3-edh" firstAttribute="top" secondItem="Whz-WU-He6" secondAttribute="bottom" id="V6T-8T-NTM"/>
-                                            <constraint firstAttribute="trailing" secondItem="QsY-sm-lt3" secondAttribute="trailing" id="YhD-i9-gNm"/>
+                                            <constraint firstItem="QsY-sm-lt3" firstAttribute="leading" secondItem="0nA-zk-ih9" secondAttribute="leading" constant="8" id="9GU-6Y-nRq"/>
+                                            <constraint firstAttribute="trailing" secondItem="Whz-WU-He6" secondAttribute="trailing" constant="16" id="9YB-ZB-IEZ"/>
+                                            <constraint firstItem="Qm0-b3-edh" firstAttribute="leading" secondItem="0nA-zk-ih9" secondAttribute="leading" constant="8" id="T19-mD-J9v"/>
+                                            <constraint firstItem="Qm0-b3-edh" firstAttribute="top" secondItem="Whz-WU-He6" secondAttribute="bottom" constant="8" id="V6T-8T-NTM"/>
+                                            <constraint firstAttribute="trailing" secondItem="QsY-sm-lt3" secondAttribute="trailing" constant="8" id="YhD-i9-gNm"/>
                                             <constraint firstItem="Whz-WU-He6" firstAttribute="bottom" secondItem="Qm0-b3-edh" secondAttribute="bottom" id="bXv-MR-svu"/>
-                                            <constraint firstItem="QsY-sm-lt3" firstAttribute="top" secondItem="Whz-WU-He6" secondAttribute="top" id="du8-j2-Qep"/>
+                                            <constraint firstItem="Whz-WU-He6" firstAttribute="top" secondItem="QsY-sm-lt3" secondAttribute="top" constant="8" id="du8-j2-Qep"/>
                                             <constraint firstItem="QsY-sm-lt3" firstAttribute="bottom" secondItem="Qm0-b3-edh" secondAttribute="bottom" id="f5o-rS-Nip"/>
                                         </constraints>
                                         <variation key="default">
@@ -311,6 +328,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
+                        <color key="backgroundColor" red="0.88235294117647056" green="0.88235294117647056" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="nVr-hA-iXg" firstAttribute="top" secondItem="BnQ-jz-GMm" secondAttribute="bottom" id="3PN-0e-yDu"/>
                             <constraint firstItem="0nA-zk-ih9" firstAttribute="height" secondItem="lXu-DZ-vj4" secondAttribute="height" id="RME-rn-hjU"/>
@@ -320,6 +338,9 @@
                             <constraint firstItem="0nA-zk-ih9" firstAttribute="width" secondItem="lXu-DZ-vj4" secondAttribute="width" id="ptx-OO-toy"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="emailTextField" destination="dpU-wv-pAO" id="m3q-ic-1t3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pfo-kQ-7vo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -336,7 +357,143 @@
                     <view key="view" contentMode="scaleToFill" id="aTV-jo-MgK">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yUb-qM-bnM">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rrr-th-kmo">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fai-iY-7V6" customClass="MaterialView" customModule="Bizmi" customModuleProvider="target">
+                                                <rect key="frame" x="8" y="24" width="584" height="317"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            </view>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Zp1-qA-B66">
+                                                <rect key="frame" x="16" y="32" width="568" height="224"/>
+                                                <subviews>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New User ID" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Yi-8J-a6S" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="568" height="50"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="Rec-AA-hsk"/>
+                                                        </constraints>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="U5w-Ka-N87"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aPT-wS-37c" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="58" width="568" height="50"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="Zb3-Yd-Gjl"/>
+                                                        </constraints>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="frR-Nh-MX7"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone #" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4C9-MA-5g5" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="116" width="568" height="50"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="jRT-LD-foJ"/>
+                                                        </constraints>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="elQ-NN-nin"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ga9-nh-A9b" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="174" width="568" height="50"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="gFl-VO-8om"/>
+                                                        </constraints>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="ZMq-Pl-rC6"/>
+                                                        </connections>
+                                                    </textField>
+                                                </subviews>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="125" id="7Zk-4B-uze"/>
+                                                </constraints>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="7Zk-4B-uze"/>
+                                                    </mask>
+                                                </variation>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eae-QT-aUh">
+                                                <rect key="frame" x="8" y="281" width="584" height="60"/>
+                                                <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="Kmd-MH-ctM"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="24"/>
+                                                <state key="normal" title="Sign Up!">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="signUpBtnPressed:" destination="gp4-cn-0RD" eventType="touchUpInside" id="Uh6-2l-uGO"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing up, you agree to Bizmi's terms of use and privacy policy." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNd-kX-OeK">
+                                                <rect key="frame" x="8" y="349" width="584" height="17"/>
+                                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="12"/>
+                                                <color key="textColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.88235294119999996" green="0.88235294119999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="eae-QT-aUh" firstAttribute="top" secondItem="Zp1-qA-B66" secondAttribute="bottom" constant="25" id="0Ci-mO-4VL"/>
+                                            <constraint firstItem="Zp1-qA-B66" firstAttribute="leading" secondItem="rrr-th-kmo" secondAttribute="leadingMargin" constant="8" id="DJm-EO-7xN"/>
+                                            <constraint firstItem="fai-iY-7V6" firstAttribute="trailing" secondItem="rrr-th-kmo" secondAttribute="trailingMargin" id="HGV-KG-ehz"/>
+                                            <constraint firstItem="eae-QT-aUh" firstAttribute="bottom" secondItem="fai-iY-7V6" secondAttribute="bottom" id="OZg-4v-Spq"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="Zp1-qA-B66" secondAttribute="trailing" constant="8" id="SUu-bb-3iM"/>
+                                            <constraint firstItem="DNd-kX-OeK" firstAttribute="leading" secondItem="rrr-th-kmo" secondAttribute="leading" constant="8" id="bPv-Sb-xgr"/>
+                                            <constraint firstItem="eae-QT-aUh" firstAttribute="trailing" secondItem="rrr-th-kmo" secondAttribute="trailingMargin" id="d6L-T5-EtR"/>
+                                            <constraint firstItem="fai-iY-7V6" firstAttribute="leading" secondItem="rrr-th-kmo" secondAttribute="leadingMargin" id="eaq-92-v9A"/>
+                                            <constraint firstAttribute="trailing" secondItem="DNd-kX-OeK" secondAttribute="trailing" constant="8" id="hVo-tH-ZBX"/>
+                                            <constraint firstItem="Zp1-qA-B66" firstAttribute="top" secondItem="fai-iY-7V6" secondAttribute="top" constant="8" id="jyF-aB-mif"/>
+                                            <constraint firstItem="fai-iY-7V6" firstAttribute="top" secondItem="rrr-th-kmo" secondAttribute="topMargin" constant="16" id="qdV-6T-Mdf"/>
+                                            <constraint firstItem="eae-QT-aUh" firstAttribute="leading" secondItem="rrr-th-kmo" secondAttribute="leadingMargin" id="rxh-Do-yJw"/>
+                                            <constraint firstItem="DNd-kX-OeK" firstAttribute="top" secondItem="eae-QT-aUh" secondAttribute="bottom" constant="8" id="zUM-3n-0gL"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="rrr-th-kmo" secondAttribute="trailing" id="Kdd-rd-DJn"/>
+                                    <constraint firstAttribute="bottom" secondItem="rrr-th-kmo" secondAttribute="bottom" id="Pmr-q9-V3N"/>
+                                    <constraint firstItem="rrr-th-kmo" firstAttribute="top" secondItem="yUb-qM-bnM" secondAttribute="top" id="Zap-xH-AU4"/>
+                                    <constraint firstItem="rrr-th-kmo" firstAttribute="leading" secondItem="yUb-qM-bnM" secondAttribute="leading" id="aS8-ip-eYm"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" red="0.70196078429999997" green="0.8980392157" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="yUb-qM-bnM" secondAttribute="trailing" id="0JR-yu-zfJ"/>
+                            <constraint firstItem="yUb-qM-bnM" firstAttribute="top" secondItem="aTV-jo-MgK" secondAttribute="top" id="GtE-yp-gtk"/>
+                            <constraint firstItem="rrr-th-kmo" firstAttribute="width" secondItem="aTV-jo-MgK" secondAttribute="width" id="PT4-o6-3uW"/>
+                            <constraint firstItem="EjD-6Y-RwW" firstAttribute="top" secondItem="yUb-qM-bnM" secondAttribute="bottom" id="R3L-5H-BPB"/>
+                            <constraint firstItem="yUb-qM-bnM" firstAttribute="leading" secondItem="aTV-jo-MgK" secondAttribute="leading" id="cAq-N4-ODj"/>
+                            <constraint firstItem="rrr-th-kmo" firstAttribute="height" secondItem="aTV-jo-MgK" secondAttribute="height" id="w67-N2-2u0"/>
+                        </constraints>
                     </view>
                     <connections>
                         <segue destination="6qH-9c-EPt" kind="show" id="uJe-Xc-FIm"/>
@@ -376,15 +533,177 @@
                     <view key="view" contentMode="scaleToFill" id="6Nh-33-YPe">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="0.80780382100000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qX0-dM-cRJ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aSM-0V-38R">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cSU-HK-FBV" customClass="MaterialView" customModule="Bizmi" customModuleProvider="target">
+                                                <rect key="frame" x="8" y="16" width="584" height="375"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            </view>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="RmU-Ix-9nw">
+                                                <rect key="frame" x="16" y="24" width="568" height="282"/>
+                                                <subviews>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New User ID" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pcS-QD-M1G" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="568" height="50"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="p1e-Bm-zJb"/>
+                                                        </constraints>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="lhh-Xa-gjY"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Business Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qkx-V8-fYC" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="58" width="568" height="50"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="CIN-GI-1fK"/>
+                                                        </constraints>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="No6-Tu-IhU"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Business Type" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zs1-G8-M0e" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="116" width="568" height="50"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="9Nb-Qb-HEl"/>
+                                                        </constraints>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="b1I-h7-7vg"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QTQ-cd-WjK" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="174" width="568" height="50"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="hgV-cK-5st"/>
+                                                        </constraints>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="hAl-Vk-hzn"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="99S-05-d4Z" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="232" width="568" height="50"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="0mp-73-RyR"/>
+                                                        </constraints>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="5Vq-Vw-wSe"/>
+                                                        </connections>
+                                                    </textField>
+                                                </subviews>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="125" id="ll6-u6-Xcs"/>
+                                                </constraints>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="ll6-u6-Xcs"/>
+                                                    </mask>
+                                                </variation>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nm8-YI-Zkd">
+                                                <rect key="frame" x="8" y="331" width="584" height="60"/>
+                                                <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="TSJ-pW-0gJ"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="24"/>
+                                                <state key="normal" title="Sign Up!">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="signUpBtnPressed:" destination="gp4-cn-0RD" eventType="touchUpInside" id="uN7-Ec-BLO"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing up, you agree to Bizmi's terms of use and privacy policy." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jBw-vp-arZ">
+                                                <rect key="frame" x="8" y="399" width="584" height="17"/>
+                                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="12"/>
+                                                <color key="textColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.88235294119999996" green="0.88235294119999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="RmU-Ix-9nw" firstAttribute="leading" secondItem="aSM-0V-38R" secondAttribute="leadingMargin" constant="8" id="0C3-G2-Dvc"/>
+                                            <constraint firstItem="nm8-YI-Zkd" firstAttribute="top" secondItem="RmU-Ix-9nw" secondAttribute="bottom" constant="25" id="2q6-UV-eJ0"/>
+                                            <constraint firstItem="nm8-YI-Zkd" firstAttribute="trailing" secondItem="aSM-0V-38R" secondAttribute="trailingMargin" id="FHV-XJ-hLD"/>
+                                            <constraint firstItem="nm8-YI-Zkd" firstAttribute="leading" secondItem="aSM-0V-38R" secondAttribute="leadingMargin" id="Pfl-at-Lmw"/>
+                                            <constraint firstItem="cSU-HK-FBV" firstAttribute="trailing" secondItem="aSM-0V-38R" secondAttribute="trailingMargin" id="TVf-To-BuC"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="RmU-Ix-9nw" secondAttribute="trailing" constant="8" id="XqF-TP-FTB"/>
+                                            <constraint firstItem="jBw-vp-arZ" firstAttribute="leading" secondItem="aSM-0V-38R" secondAttribute="leading" constant="8" id="eYD-dY-f8I"/>
+                                            <constraint firstItem="cSU-HK-FBV" firstAttribute="top" secondItem="aSM-0V-38R" secondAttribute="top" constant="16" id="f0p-Ks-Hfs"/>
+                                            <constraint firstItem="cSU-HK-FBV" firstAttribute="leading" secondItem="aSM-0V-38R" secondAttribute="leadingMargin" id="gTO-ow-yE6"/>
+                                            <constraint firstItem="RmU-Ix-9nw" firstAttribute="top" secondItem="cSU-HK-FBV" secondAttribute="top" constant="8" id="jxz-rn-qKc"/>
+                                            <constraint firstItem="nm8-YI-Zkd" firstAttribute="bottom" secondItem="cSU-HK-FBV" secondAttribute="bottom" id="kIb-30-XKb"/>
+                                            <constraint firstAttribute="trailing" secondItem="jBw-vp-arZ" secondAttribute="trailing" constant="8" id="uWE-Ve-UEM"/>
+                                            <constraint firstItem="jBw-vp-arZ" firstAttribute="top" secondItem="nm8-YI-Zkd" secondAttribute="bottom" constant="8" id="uiQ-Wa-uOy"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="aSM-0V-38R" secondAttribute="trailing" id="3Ew-HL-dbU"/>
+                                    <constraint firstItem="aSM-0V-38R" firstAttribute="leading" secondItem="qX0-dM-cRJ" secondAttribute="leading" id="6qE-ea-tOo"/>
+                                    <constraint firstItem="aSM-0V-38R" firstAttribute="top" secondItem="qX0-dM-cRJ" secondAttribute="top" id="Mna-nx-qDw"/>
+                                    <constraint firstAttribute="bottom" secondItem="aSM-0V-38R" secondAttribute="bottom" id="Xam-Sk-ypc"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.88235294119999996" green="0.88235294119999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="qX0-dM-cRJ" firstAttribute="top" secondItem="6Nh-33-YPe" secondAttribute="topMargin" id="A7H-fm-0Fb"/>
+                            <constraint firstAttribute="trailing" secondItem="qX0-dM-cRJ" secondAttribute="trailing" id="NG0-hX-Xgt"/>
+                            <constraint firstItem="aSM-0V-38R" firstAttribute="height" secondItem="6Nh-33-YPe" secondAttribute="height" id="Rju-cN-Adv"/>
+                            <constraint firstItem="aSM-0V-38R" firstAttribute="width" secondItem="6Nh-33-YPe" secondAttribute="width" id="ay2-IS-rhT"/>
+                            <constraint firstItem="gOL-k3-du7" firstAttribute="top" secondItem="qX0-dM-cRJ" secondAttribute="bottom" id="cGf-9h-4md"/>
+                            <constraint firstItem="qX0-dM-cRJ" firstAttribute="leading" secondItem="6Nh-33-YPe" secondAttribute="leading" id="h6H-eQ-4KV"/>
+                            <constraint firstItem="qX0-dM-cRJ" firstAttribute="top" secondItem="hbD-eC-m2v" secondAttribute="bottom" id="tZW-ef-MRX"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="tZW-ef-MRX"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
+                        <outlet property="businessNameTextField" destination="qkx-V8-fYC" id="kyV-Sx-6CU"/>
+                        <outlet property="businessTypeTextField" destination="Zs1-G8-M0e" id="vm5-02-OvM"/>
+                        <outlet property="emailTextField" destination="QTQ-cd-WjK" id="zUq-Vz-s2h"/>
+                        <outlet property="passwordTextField" destination="99S-05-d4Z" id="vU6-qR-tVh"/>
+                        <outlet property="scrollView" destination="qX0-dM-cRJ" id="2j2-w5-vFt"/>
+                        <outlet property="userIDTextField" destination="pcS-QD-M1G" id="aFn-dw-yoI"/>
                         <segue destination="VfL-zT-dk7" kind="show" id="Oao-ec-MQi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yYf-be-biL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-655" y="-739"/>
+            <point key="canvasLocation" x="-655" y="-762"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1Jw-Yd-CnL">
@@ -486,7 +805,7 @@
         <image name="BizMi_Logo" width="1615" height="942"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eTq-fk-HST"/>
-        <segue reference="BNX-ez-XnG"/>
+        <segue reference="Oao-ec-MQi"/>
+        <segue reference="uJe-Xc-FIm"/>
     </inferredMetricsTieBreakers>
 </document>

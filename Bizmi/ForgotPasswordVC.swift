@@ -10,10 +10,15 @@ import UIKit
 
 class ForgotPasswordVC: UIViewController {
 
+    @IBOutlet weak var emailTextField: MaterialTextField!
+    
     override func viewDidLoad() {
         
         self.navigationItem.title = "Forgot Password"
         
+    }
+    
+    @IBAction func sendEmailBtnPressed(sender: AnyObject) {
     }
     
 }

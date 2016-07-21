@@ -16,7 +16,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var passwordTextField: MaterialTextField!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -55,6 +54,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func signUpBtnPressed(sender: AnyObject) {
         
+       showAlertDialog()
+        
+    }
+    
+    @IBAction func loginBtnPressed(sender: AnyObject) {
+    }
+    
+    func showAlertDialog(){
+    
         // Initialize Alert Controller
         let alertController = UIAlertController(title: "New User", message: "What type of user are you?", preferredStyle: .Alert)
         
