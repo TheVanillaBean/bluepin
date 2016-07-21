@@ -12,9 +12,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
 
-    @IBOutlet weak var userIDTextField: MaterialTextField!
+    @IBOutlet weak var emailTextField: MaterialTextField!
     
     @IBOutlet weak var passwordTextField: MaterialTextField!
+    
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +61,23 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func loginBtnPressed(sender: AnyObject) {
+        
+        if let email = emailTextField.text, password = passwordTextField.text{
+            
+            appDelegate.backendless.userService.setStayLoggedIn(true)
+            appDelegate.backendless.userService.login(
+                email , password: password,
+                response: { ( user : BackendlessUser!) -> () in
+                    print("User logged in! \(user.email)")
+                    
+                },
+                error: { ( fault : Fault!) -> () in
+                    print(fault.description + " Login")
+                }
+            )
+        
+        }
+        
     }
     
     func showAlertDialog(){

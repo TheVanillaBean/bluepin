@@ -10,6 +10,7 @@
 		5A025DCA1D403B530060791D /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A025DC91D403B530060791D /* ForgotPasswordVC.swift */; };
 		5A025DCC1D403CBE0060791D /* CustomerSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A025DCB1D403CBE0060791D /* CustomerSignUpVC.swift */; };
 		5A025DCE1D403D050060791D /* BusinessSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A025DCD1D403D050060791D /* BusinessSignUpVC.swift */; };
+		5A3F13F41D4098AF0028E428 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3F13F31D4098AF0028E428 /* User.swift */; };
 		5A7880FD1D3E261400F168AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7880FC1D3E261400F168AE /* AppDelegate.swift */; };
 		5A7880FF1D3E261400F168AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7880FE1D3E261400F168AE /* ViewController.swift */; };
 		5A7881021D3E261500F168AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A7881001D3E261500F168AE /* Main.storyboard */; };
@@ -29,6 +30,7 @@
 		5A025DC91D403B530060791D /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
 		5A025DCB1D403CBE0060791D /* CustomerSignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerSignUpVC.swift; sourceTree = "<group>"; };
 		5A025DCD1D403D050060791D /* BusinessSignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessSignUpVC.swift; sourceTree = "<group>"; };
+		5A3F13F31D4098AF0028E428 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5A7880F91D3E261400F168AE /* Bizmi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bizmi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A7880FC1D3E261400F168AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A7880FE1D3E261400F168AE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 		5ADD36281D3E3BC600394637 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5A3F13F31D4098AF0028E428 /* User.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				5A7880FD1D3E261400F168AE /* AppDelegate.swift in Sources */,
 				5A025DCA1D403B530060791D /* ForgotPasswordVC.swift in Sources */,
 				5A025DCE1D403D050060791D /* BusinessSignUpVC.swift in Sources */,
+				5A3F13F41D4098AF0028E428 /* User.swift in Sources */,
 				5ADD36391D3E3E6100394637 /* MaterialTextField.swift in Sources */,
 				5ADD36341D3E3CD400394637 /* Constants.swift in Sources */,
 				5ADD36361D3E3D3E00394637 /* MaterialView.swift in Sources */,

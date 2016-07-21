@@ -5,5 +5,6 @@ target 'Bizmi' do
   use_frameworks!
 
   pod 'DeviceKit', '~> 0.3.2'
+  pod 'Backendless-ios-SDK'
 
 end

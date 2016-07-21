@@ -25,7 +25,6 @@
             <string>NotoSans</string>
             <string>NotoSans</string>
             <string>NotoSans</string>
-            <string>NotoSans</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -61,7 +60,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Tnc-YY-wgW">
                                                 <rect key="frame" x="16" y="170" width="568" height="125"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="User ID" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="00t-1w-0Ax" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="00t-1w-0Ax" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="568" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -115,7 +114,6 @@
                                                 </state>
                                                 <connections>
                                                     <action selector="loginBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="v6G-XW-2kk"/>
-                                                    <segue destination="HFK-N6-VuZ" kind="show" identifier="forgotPassword" id="x8C-IM-SB6"/>
                                                 </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="uLP-xB-Kvc">
@@ -228,13 +226,14 @@
                     </view>
                     <navigationItem key="navigationItem" id="gqs-wr-FUj"/>
                     <connections>
+                        <outlet property="emailTextField" destination="00t-1w-0Ax" id="MTe-VU-bWd"/>
                         <outlet property="passwordTextField" destination="BEI-eI-ttz" id="PXm-AJ-G5Y"/>
                         <outlet property="scrollView" destination="yML-LP-tcx" id="Lrs-4N-i02"/>
-                        <outlet property="userIDTextField" destination="00t-1w-0Ax" id="ru1-cQ-PmT"/>
                         <segue destination="gp4-cn-0RD" kind="show" identifier="businessSignUp" id="wjQ-8U-OVX"/>
                         <segue destination="Vw4-2y-9GI" kind="show" identifier="customerSignUp" id="Eo5-wU-uVk"/>
                         <segue destination="VfL-zT-dk7" kind="show" identifier="businessLogin" id="eTq-fk-HST"/>
                         <segue destination="6qH-9c-EPt" kind="show" identifier="customerLogin" id="BNX-ez-XnG"/>
+                        <segue destination="HFK-N6-VuZ" kind="show" identifier="forgotPassword" id="4kh-DY-HhY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -371,7 +370,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Zp1-qA-B66">
                                                 <rect key="frame" x="16" y="32" width="568" height="224"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New User ID" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Yi-8J-a6S" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Yi-8J-a6S" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="568" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -382,7 +381,7 @@
                                                         <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
-                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="U5w-Ka-N87"/>
+                                                            <outlet property="delegate" destination="Vw4-2y-9GI" id="pra-wa-G5m"/>
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aPT-wS-37c" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
@@ -395,7 +394,7 @@
                                                         <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
-                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="frR-Nh-MX7"/>
+                                                            <outlet property="delegate" destination="Vw4-2y-9GI" id="A8h-BV-Iqp"/>
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone #" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4C9-MA-5g5" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
@@ -409,7 +408,7 @@
                                                         <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
-                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="elQ-NN-nin"/>
+                                                            <outlet property="delegate" destination="Vw4-2y-9GI" id="D9b-br-8OB"/>
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ga9-nh-A9b" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
@@ -423,7 +422,7 @@
                                                         <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
-                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="ZMq-Pl-rC6"/>
+                                                            <outlet property="delegate" destination="Vw4-2y-9GI" id="iqt-wg-WcY"/>
                                                         </connections>
                                                     </textField>
                                                 </subviews>
@@ -450,9 +449,10 @@
                                                 </state>
                                                 <connections>
                                                     <action selector="signUpBtnPressed:" destination="gp4-cn-0RD" eventType="touchUpInside" id="Uh6-2l-uGO"/>
+                                                    <action selector="signUpBtnPressed:" destination="Vw4-2y-9GI" eventType="touchUpInside" id="zIN-Q0-kao"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing up, you agree to Bizmi's terms of use and privacy policy." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNd-kX-OeK">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing up, you agree to Bizmi's terms of use and privacy policy." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="DNd-kX-OeK">
                                                 <rect key="frame" x="8" y="349" width="584" height="17"/>
                                                 <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="12"/>
                                                 <color key="textColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -485,7 +485,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="0.70196078429999997" green="0.8980392157" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.88235294117647056" green="0.88235294117647056" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="yUb-qM-bnM" secondAttribute="trailing" id="0JR-yu-zfJ"/>
                             <constraint firstItem="yUb-qM-bnM" firstAttribute="top" secondItem="aTV-jo-MgK" secondAttribute="top" id="GtE-yp-gtk"/>
@@ -496,6 +496,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="emailTextField" destination="1Yi-8J-a6S" id="jKb-Pr-PH9"/>
+                        <outlet property="fullNameTextField" destination="aPT-wS-37c" id="gZ9-OO-gah"/>
+                        <outlet property="passwordTextField" destination="ga9-nh-A9b" id="34Z-Zf-CXG"/>
+                        <outlet property="phoneNumberTextField" destination="4C9-MA-5g5" id="NSF-Cn-c82"/>
+                        <outlet property="scrollView" destination="yUb-qM-bnM" id="fAK-1t-rKV"/>
                         <segue destination="6qH-9c-EPt" kind="show" id="uJe-Xc-FIm"/>
                     </connections>
                 </viewController>
@@ -541,24 +546,24 @@
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cSU-HK-FBV" customClass="MaterialView" customModule="Bizmi" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="16" width="584" height="375"/>
+                                                <rect key="frame" x="8" y="16" width="584" height="317"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="RmU-Ix-9nw">
-                                                <rect key="frame" x="16" y="24" width="568" height="282"/>
+                                                <rect key="frame" x="16" y="24" width="568" height="224"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New User ID" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pcS-QD-M1G" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QTQ-cd-WjK" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="568" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="p1e-Bm-zJb"/>
+                                                            <constraint firstAttribute="height" constant="50" id="hgV-cK-5st"/>
                                                         </constraints>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
-                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="lhh-Xa-gjY"/>
+                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="hAl-Vk-hzn"/>
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Business Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qkx-V8-fYC" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
@@ -588,22 +593,8 @@
                                                             <outlet property="delegate" destination="gp4-cn-0RD" id="b1I-h7-7vg"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QTQ-cd-WjK" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="174" width="568" height="50"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="hgV-cK-5st"/>
-                                                        </constraints>
-                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
-                                                        <connections>
-                                                            <outlet property="delegate" destination="gp4-cn-0RD" id="hAl-Vk-hzn"/>
-                                                        </connections>
-                                                    </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="99S-05-d4Z" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="232" width="568" height="50"/>
+                                                        <rect key="frame" x="0.0" y="174" width="568" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
@@ -629,7 +620,7 @@
                                                 </variation>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nm8-YI-Zkd">
-                                                <rect key="frame" x="8" y="331" width="584" height="60"/>
+                                                <rect key="frame" x="8" y="273" width="584" height="60"/>
                                                 <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="TSJ-pW-0gJ"/>
@@ -642,8 +633,8 @@
                                                     <action selector="signUpBtnPressed:" destination="gp4-cn-0RD" eventType="touchUpInside" id="uN7-Ec-BLO"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing up, you agree to Bizmi's terms of use and privacy policy." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jBw-vp-arZ">
-                                                <rect key="frame" x="8" y="399" width="584" height="17"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing up, you agree to Bizmi's terms of use and privacy policy." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="jBw-vp-arZ">
+                                                <rect key="frame" x="8" y="341" width="584" height="17"/>
                                                 <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="12"/>
                                                 <color key="textColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -692,12 +683,11 @@
                         </variation>
                     </view>
                     <connections>
-                        <outlet property="businessNameTextField" destination="qkx-V8-fYC" id="kyV-Sx-6CU"/>
-                        <outlet property="businessTypeTextField" destination="Zs1-G8-M0e" id="vm5-02-OvM"/>
-                        <outlet property="emailTextField" destination="QTQ-cd-WjK" id="zUq-Vz-s2h"/>
-                        <outlet property="passwordTextField" destination="99S-05-d4Z" id="vU6-qR-tVh"/>
+                        <outlet property="businessNameTextField" destination="qkx-V8-fYC" id="GYV-jc-re7"/>
+                        <outlet property="businessTypeTextField" destination="Zs1-G8-M0e" id="NmC-jy-Loj"/>
+                        <outlet property="emailTextField" destination="QTQ-cd-WjK" id="Ihr-ot-0Tu"/>
+                        <outlet property="passwordTextField" destination="99S-05-d4Z" id="1ik-4i-uN2"/>
                         <outlet property="scrollView" destination="qX0-dM-cRJ" id="2j2-w5-vFt"/>
-                        <outlet property="userIDTextField" destination="pcS-QD-M1G" id="aFn-dw-yoI"/>
                         <segue destination="VfL-zT-dk7" kind="show" id="Oao-ec-MQi"/>
                     </connections>
                 </viewController>
@@ -805,7 +795,7 @@
         <image name="BizMi_Logo" width="1615" height="942"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Oao-ec-MQi"/>
+        <segue reference="eTq-fk-HST"/>
         <segue reference="uJe-Xc-FIm"/>
     </inferredMetricsTieBreakers>
 </document>

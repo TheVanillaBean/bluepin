@@ -1,12 +1,15 @@
 PODS:
+  - Backendless-ios-SDK (3.0.28)
   - DeviceKit (0.3.2)
 
 DEPENDENCIES:
+  - Backendless-ios-SDK
   - DeviceKit (~> 0.3.2)
 
 SPEC CHECKSUMS:
+  Backendless-ios-SDK: 27e012121c92be48c4aa99a21775732f5010281e
   DeviceKit: 79182140c0aa8daaf4f4b3920e0b079f5fa9db79
 
-PODFILE CHECKSUM: d0be1f9b96c6dbc42baa533a88d2ac17f291adcd
+PODFILE CHECKSUM: 21a987275dabe9459731894ffe88021cbf2d0701
 
 COCOAPODS: 1.0.1

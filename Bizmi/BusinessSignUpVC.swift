@@ -13,15 +13,15 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     
-    @IBOutlet weak var userIDTextField: MaterialTextField!
+    @IBOutlet weak var emailTextField: MaterialTextField!
     
     @IBOutlet weak var businessNameTextField: MaterialTextField!
     
     @IBOutlet weak var businessTypeTextField: MaterialTextField!
     
-    @IBOutlet weak var emailTextField: MaterialTextField!
-    
     @IBOutlet weak var passwordTextField: MaterialTextField!
+    
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     override func viewDidLoad() {
         self.navigationItem.title = "New Business"
@@ -53,9 +53,9 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
             //Only apply smart scrolling to iphone 4 and iphone 5 because they are smaller
             if device.isOneOf(groupOfAllowedDevices) {
                 
-                if textField == passwordTextField || textField == emailTextField {
+                if textField == passwordTextField || textField == businessTypeTextField {
                     scrollView.setContentOffset(CGPointMake(0, 80), animated: true)
-                }else if textField == businessTypeTextField{
+                }else if textField == businessNameTextField{
                     scrollView.setContentOffset(CGPointMake(0, 50), animated: true)
                 }else{
                     scrollView.setContentOffset(CGPointMake(0, -64), animated: true)
@@ -63,10 +63,43 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
                 
             }
         }
-    
     }
     
     @IBAction func signUpBtnPressed(sender: AnyObject) {
+        
+        if let businessName = businessNameTextField.text, businessType = businessTypeTextField.text, email = emailTextField.text, password = passwordTextField.text  {
+        
+            let user = User(email: email, password: password, userType: USER_BUSINESS_TYPE)
+            user.businessName = businessName
+            user.businessType = businessType
+            
+            appDelegate.backendless.userService.registering(user,
+                response: { (registeredUser : BackendlessUser!) -> () in
+                    
+                    self.appDelegate.backendless.userService.setStayLoggedIn(true)
+                    self.appDelegate.backendless.userService.login(
+                        email, password: password,
+                        response: { ( user : BackendlessUser!) -> () in
+
+                            //TODO:
+                            //Segue to First VC in Business TabView
+                            
+                        },
+                        error: { ( fault : Fault!) -> () in
+                            print(fault.description + " Login")
+                        }
+                    )
+                    
+                    
+                },
+                error: { ( fault : Fault!) -> () in
+                    print(fault.description + " Sign up")
+                    
+                } 
+            )
+
+        }
+        
     }
     
 }
