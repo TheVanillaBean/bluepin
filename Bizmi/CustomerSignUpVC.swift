@@ -8,6 +8,10 @@
 
 import UIKit
 import DeviceKit
+import Toast_Swift
+import PhoneNumberKit
+import SendBirdSDK
+import SinchVerification
 
 class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     
@@ -17,13 +21,18 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var fullNameTextField: MaterialTextField!
     
-    @IBOutlet weak var phoneNumberTextField: MaterialTextField!
+    @IBOutlet weak var phoneNumberTextField: PhoneNumberTextField!
     
     @IBOutlet weak var passwordTextField: MaterialTextField!
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
+    //Sinch Phone # Verification
+    var verification: Verification!;
+    let applicationKey = "fb9c06d5-53e7-4d60-83d0-cb853587884a";
+    
     override func viewDidLoad() {
+       
         self.navigationItem.title = "New Customer"
     }
     
@@ -75,35 +84,32 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
             user.fullName = customerName
             user.phoneNumber = phoneNumber
             
-            appDelegate.backendless.userService.registering(user,
-                response: { (registeredUser : BackendlessUser!) -> () in
-            
-                  self.appDelegate.backendless.userService.setStayLoggedIn(true)
-                  self.appDelegate.backendless.userService.login(
-                  email, password: password,
-                  response: { ( user : BackendlessUser!) -> () in
-                    
-                    //TODO:
-                    //Segue to First VC in Business TabView
-                    
-                   },
-                   error: { ( fault : Fault!) -> () in
-                        print(fault.description + " Login")
-                   }
-                )
-            
-        },
-        error: { ( fault : Fault!) -> () in
-            print(fault.description + " Sign up")
+            verification =
+                SMSVerification(applicationKey: applicationKey,
+                                phoneNumber: phoneNumber)
+            verification.initiate { (success:Bool, error: NSError?) -> Void in
+                if (success){
+                    self.performSegueWithIdentifier("verifyPhoneNumber", sender: user);
+                } else {
+                    Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error?.description)!)
+                }
+            }
             
         }
-                
-      )
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "verifyPhoneNumber" {
+            if let verifyVC = segue.destinationViewController as? VerifyPhoneNumberVC{
+                if let user = sender as? User{
+                    verifyVC.user = user
+                    verifyVC.verification = self.verification
+                }
+            }
+        }
         
     }
-        
-  }
-
 
 }
 

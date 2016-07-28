@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Toast_Swift
+import SendBirdSDK
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
@@ -32,6 +34,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         super.viewWillDisappear(animated)
         self.navigationController?.navigationBarHidden = false
     }
+   
 
     func textFieldDidBeginEditing(textField: UITextField) {
         scrollView.setContentOffset(CGPointMake(0, 130), animated: true)
@@ -69,13 +72,34 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 email , password: password,
                 response: { ( user : BackendlessUser!) -> () in
                     print("User logged in! \(user.email)")
+
+                    //Cast BackendlessUser object to Bizmi User object
+                    let userObj: User = User()
+                    userObj.populateUserData(user)
+                    
+                    self.navigateToTabBarVC(userObj)
                     
                 },
                 error: { ( fault : Fault!) -> () in
-                    print(fault.description + " Login")
+                    Messages.displayLoginErrorMessage(self.view, errorMsg: fault.faultCode)
                 }
             )
         
+        }
+        
+    }
+    
+    func navigateToTabBarVC(user: User?){
+    
+        if let userObj = user {
+            
+            if userObj.userType == "Business"{
+                self.performSegueWithIdentifier("businessLogin", sender: nil)
+                SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.businessName)
+            }else {
+                self.performSegueWithIdentifier("customerLogin", sender: nil)
+                SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.fullName)
+            }
         }
         
     }

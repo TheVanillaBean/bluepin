@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SendBirdSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let BACKENDLESS_APP_ID = "127AF0A5-6FB8-985E-FF8C-2EE5FFB8FF00"
     let BACKENDLESS_SECRET_KEY = "29070F55-9D89-30A2-FF34-0550B9057200"
     let BACKENDLESS_VERSION_NUM = "v1"
+    
+    let SENDBIRD_APP_ID: String = "5B91D270-3469-40A2-AF52-1C6AA169A4C1"
     
     var backendless = Backendless.sharedInstance()
     
@@ -24,7 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         backendless.initApp(BACKENDLESS_APP_ID, secret:BACKENDLESS_SECRET_KEY, version:BACKENDLESS_VERSION_NUM)
-
+        SendBird.initAppId(SENDBIRD_APP_ID)
+        
         customizeNavigationBar()
         
         return true

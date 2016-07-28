@@ -12,6 +12,9 @@ class User: BackendlessUser{
     
     //Password and Email computed properies have "user" in front because they are actually part of BackendlessUser class
     
+    //Password has additional variable because BackendlessUser class doesn't return password
+    var _password: String!
+    
     var fullName: String {
         get{
             if let fullNameProperty = self.getProperty("fullName") as? String{
@@ -63,9 +66,10 @@ class User: BackendlessUser{
         }
     }
     
+    // _password is used because BackendlessUser class doesn't return password
     var userPassword: String {
         get{
-            if let password = self.password{
+            if let password = self._password{
                 return password
             }else{
                 return ""
@@ -76,7 +80,9 @@ class User: BackendlessUser{
             
             if newPassword != ""{
                 self.password = newPassword
+                self._password = newPassword
             }
+            
         }
     }
     
@@ -166,13 +172,20 @@ class User: BackendlessUser{
         }
         
     }
+    
+    override init() {
+        super.init()
+        //Empty init used for casting of BackendlessUser Object to Bizmi User Object Model
+    }
 
-    init(email: String, password: String, userType: String){
+    init(email: String?, password: String?, userType: String?){
         super.init()
         
-        self.userEmail = email
-        self.userPassword = password
-        self.userType = userType
+        if let userEmail = email, userPassword = password, type = userType {
+        self.userEmail = userEmail
+        self.userPassword = userPassword
+        self.userType = type
+        }
         
     }
  

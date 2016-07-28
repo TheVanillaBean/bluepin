@@ -8,6 +8,8 @@
 
 import UIKit
 import DeviceKit
+import Toast_Swift
+import SendBirdSDK
 
 class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
 
@@ -22,9 +24,10 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: MaterialTextField!
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    
+            
     override func viewDidLoad() {
         self.navigationItem.title = "New Business"
+        
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {
@@ -81,20 +84,26 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
                         email, password: password,
                         response: { ( user : BackendlessUser!) -> () in
 
-                            //TODO:
-                            //Segue to First VC in Business TabView
+                            //Cast BackendlessUser object to Bizmi User object
+                            let userObj: User = User()
+                            userObj.populateUserData(user)
+                            
+                            //Authenticate with Sendbird for messagings
+                            SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.businessName)
+                            
+                            self.performSegueWithIdentifier("businessSignUp", sender: nil)
                             
                         },
                         error: { ( fault : Fault!) -> () in
-                            print(fault.description + " Login")
+                            Messages.displayLoginErrorMessage(self.view, errorMsg: fault.faultCode)
                         }
                     )
                     
                     
                 },
                 error: { ( fault : Fault!) -> () in
-                    print(fault.description + " Sign up")
-                    
+                    Messages.displaySignUpErrorMessage(self.view, errorMsg: fault.faultCode)
+    
                 } 
             )
 
@@ -102,4 +111,20 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
         
     }
     
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

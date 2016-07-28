@@ -9,7 +9,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>PhoneNumberKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Bizmi.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Toast-Swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,7 +27,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>428F349EE8BA42A27A49B1F182B3F8EB</key>
+		<key>C050EB90AEDA8E52289FB70BB490AC44</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CDAE17366C568DF681D015928B6771B8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CEE6D343C48993A019DA9BA0806BCDDD</key>
 		<dict>
 			<key>primary</key>
 			<true/>

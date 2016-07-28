@@ -25,6 +25,8 @@
             <string>NotoSans</string>
             <string>NotoSans</string>
             <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -69,7 +71,7 @@
                                                         </constraints>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="BYZ-38-t0r" id="RjP-gC-fQ7"/>
                                                         </connections>
@@ -82,7 +84,7 @@
                                                         </constraints>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="BYZ-38-t0r" id="Gvj-pG-57j"/>
                                                         </connections>
@@ -271,7 +273,7 @@
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="BYZ-38-t0r" id="BnU-nv-pZI"/>
                                                         </connections>
@@ -379,7 +381,7 @@
                                                         </constraints>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="Vw4-2y-9GI" id="pra-wa-G5m"/>
                                                         </connections>
@@ -397,7 +399,7 @@
                                                             <outlet property="delegate" destination="Vw4-2y-9GI" id="A8h-BV-Iqp"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone #" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4C9-MA-5g5" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone #" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4C9-MA-5g5" customClass="MaterialPhoneNumberTextView" customModule="Bizmi" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="116" width="568" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -420,7 +422,7 @@
                                                         </constraints>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="Vw4-2y-9GI" id="iqt-wg-WcY"/>
                                                         </connections>
@@ -501,14 +503,105 @@
                         <outlet property="passwordTextField" destination="ga9-nh-A9b" id="34Z-Zf-CXG"/>
                         <outlet property="phoneNumberTextField" destination="4C9-MA-5g5" id="NSF-Cn-c82"/>
                         <outlet property="scrollView" destination="yUb-qM-bnM" id="fAK-1t-rKV"/>
-                        <segue destination="6qH-9c-EPt" kind="show" id="uJe-Xc-FIm"/>
+                        <segue destination="T0f-PA-Fo3" kind="show" identifier="verifyPhoneNumber" id="rmP-4e-Kox"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="znm-GP-R2Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-655" y="225"/>
         </scene>
-        <!--Item-->
+        <!--Verify Phone NumberVC-->
+        <scene sceneID="sZN-dI-nVC">
+            <objects>
+                <viewController id="T0f-PA-Fo3" customClass="VerifyPhoneNumberVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9f4-nd-YJB"/>
+                        <viewControllerLayoutGuide type="bottom" id="ifs-Ww-wIs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WME-E2-8Y5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="knL-D9-Ufr" customClass="MaterialView" customModule="Bizmi" customModuleProvider="target">
+                                <rect key="frame" x="20" y="80" width="560" height="126"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Verification Code" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fcS-5z-pkk" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="8" width="528" height="50"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="CBx-xa-dIk"/>
+                                        </constraints>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="Vw4-2y-9GI" id="Btv-XH-iZO"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T8L-Lt-R03">
+                                        <rect key="frame" x="0.0" y="66" width="560" height="60"/>
+                                        <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="IsU-zr-tiC"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="24"/>
+                                        <state key="normal" title="Verify">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="signUpBtnPressed:" destination="gp4-cn-0RD" eventType="touchUpInside" id="GTv-9o-48d"/>
+                                            <action selector="signUpBtnPressed:" destination="Vw4-2y-9GI" eventType="touchUpInside" id="uDo-hY-mb3"/>
+                                            <action selector="verifyBtnPressed:" destination="T0f-PA-Fo3" eventType="touchUpInside" id="nh8-Ls-S2d"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailingMargin" secondItem="fcS-5z-pkk" secondAttribute="trailing" constant="8" id="8jX-rR-lXZ"/>
+                                    <constraint firstItem="T8L-Lt-R03" firstAttribute="top" secondItem="fcS-5z-pkk" secondAttribute="bottom" constant="8" id="A4S-1K-HE7"/>
+                                    <constraint firstItem="fcS-5z-pkk" firstAttribute="trailing" secondItem="knL-D9-Ufr" secondAttribute="trailingMargin" id="IH1-O2-0jv"/>
+                                    <constraint firstAttribute="bottom" secondItem="T8L-Lt-R03" secondAttribute="bottom" id="V6A-UB-xjg"/>
+                                    <constraint firstItem="fcS-5z-pkk" firstAttribute="top" secondItem="knL-D9-Ufr" secondAttribute="top" constant="8" id="g1H-gJ-wpN"/>
+                                    <constraint firstAttribute="leadingMargin" secondItem="T8L-Lt-R03" secondAttribute="leading" constant="8" id="iFW-y0-jBs"/>
+                                    <constraint firstItem="T8L-Lt-R03" firstAttribute="trailing" secondItem="knL-D9-Ufr" secondAttribute="trailingMargin" constant="8" id="lXB-nc-YPW"/>
+                                    <constraint firstItem="fcS-5z-pkk" firstAttribute="leading" secondItem="knL-D9-Ufr" secondAttribute="leadingMargin" constant="8" id="xmC-eD-KLn"/>
+                                    <constraint firstItem="fcS-5z-pkk" firstAttribute="leading" secondItem="knL-D9-Ufr" secondAttribute="leadingMargin" id="y9l-zt-qJ7"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="IH1-O2-0jv"/>
+                                        <exclude reference="y9l-zt-qJ7"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.88235294119999996" green="0.88235294119999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="knL-D9-Ufr" firstAttribute="trailing" secondItem="WME-E2-8Y5" secondAttribute="trailingMargin" id="0qO-dU-POZ"/>
+                            <constraint firstItem="knL-D9-Ufr" firstAttribute="leading" secondItem="WME-E2-8Y5" secondAttribute="leadingMargin" id="5dq-y9-cEI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="knL-D9-Ufr" secondAttribute="trailing" id="KEL-0W-804"/>
+                            <constraint firstItem="knL-D9-Ufr" firstAttribute="top" secondItem="9f4-nd-YJB" secondAttribute="bottom" constant="16" id="XVW-1R-bJy"/>
+                            <constraint firstItem="knL-D9-Ufr" firstAttribute="leading" secondItem="WME-E2-8Y5" secondAttribute="leadingMargin" id="kw2-Tr-3Mq"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="KEL-0W-804"/>
+                                <exclude reference="kw2-Tr-3Mq"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="verifyBtn" destination="T8L-Lt-R03" id="TVy-SV-9AP"/>
+                        <outlet property="verifyTextField" destination="fcS-5z-pkk" id="sF2-IZ-rNN"/>
+                        <segue destination="6qH-9c-EPt" kind="show" identifier="customerSignUp" id="TZP-pP-rf0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hfk-Jx-JxX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="301" y="225"/>
+        </scene>
+        <!--Messages-->
         <scene sceneID="iZx-SH-ZJX">
             <objects>
                 <viewController id="RXq-6F-5YB" sceneMemberID="viewController">
@@ -521,7 +614,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="wKo-8M-ctT"/>
+                    <tabBarItem key="tabBarItem" title="Messages" image="Message_Blue" selectedImage="Message_Blue" id="wKo-8M-ctT"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sUU-y5-DfQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -561,7 +654,7 @@
                                                         </constraints>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="gp4-cn-0RD" id="hAl-Vk-hzn"/>
                                                         </connections>
@@ -602,7 +695,7 @@
                                                         </constraints>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="gp4-cn-0RD" id="5Vq-Vw-wSe"/>
                                                         </connections>
@@ -688,7 +781,7 @@
                         <outlet property="emailTextField" destination="QTQ-cd-WjK" id="Ihr-ot-0Tu"/>
                         <outlet property="passwordTextField" destination="99S-05-d4Z" id="1ik-4i-uN2"/>
                         <outlet property="scrollView" destination="qX0-dM-cRJ" id="2j2-w5-vFt"/>
-                        <segue destination="VfL-zT-dk7" kind="show" id="Oao-ec-MQi"/>
+                        <segue destination="VfL-zT-dk7" kind="show" identifier="businessSignUp" id="Oao-ec-MQi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yYf-be-biL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -735,7 +828,7 @@
             </objects>
             <point key="canvasLocation" x="1209" y="-2998"/>
         </scene>
-        <!--Item-->
+        <!--Followers-->
         <scene sceneID="ihW-EO-wNp">
             <objects>
                 <viewController id="4gy-rd-1BN" sceneMemberID="viewController">
@@ -748,7 +841,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="Xvv-1z-qc5"/>
+                    <tabBarItem key="tabBarItem" title="Followers" image="People_Grey" selectedImage="People_Grey" id="Xvv-1z-qc5"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="URM-hZ-HDI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -793,9 +886,11 @@
     </scenes>
     <resources>
         <image name="BizMi_Logo" width="1615" height="942"/>
+        <image name="Message_Blue" width="33" height="33"/>
+        <image name="People_Grey" width="33" height="33"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="eTq-fk-HST"/>
-        <segue reference="uJe-Xc-FIm"/>
+        <segue reference="TZP-pP-rf0"/>
     </inferredMetricsTieBreakers>
 </document>

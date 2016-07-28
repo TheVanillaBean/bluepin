@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Toast_Swift
 
 class ForgotPasswordVC: UIViewController {
 
@@ -22,14 +23,13 @@ class ForgotPasswordVC: UIViewController {
         
         if let email = emailTextField.text {
             
-             appDelegate.backendless.userService.restorePassword( email,
+             appDelegate.backendless.userService.restorePassword(email,
                 response:{ ( result : AnyObject!) -> () in
                     self.emailTextField.text = ""
-                    self.showAlertDialog()
-                    print("Check your email address! result = \(result)")
+                    Messages.showAlertDialog("Password Change", msgAlert: "Check your email for a password reset link.")
                 },
                 error: { ( fault : Fault!) -> () in
-                    print("Server reported an error: \(fault)")
+                    Messages.displayForgotPasswordErrorMessage(self.view, errorMsg: fault.faultCode)
                 }
                 
             )
@@ -38,22 +38,5 @@ class ForgotPasswordVC: UIViewController {
         
     }
     
-    
-    func showAlertDialog(){
-        
-        // Initialize Alert Controller
-        let alertController = UIAlertController(title: "Password Change", message: "Check your email for a password reset link.", preferredStyle: .Alert)
-        
-        // Initialize Actions
-        let okAction = UIAlertAction(title: "Okay", style: .Default) { (action) -> Void in
-        }
-        
-        // Add Actions
-        alertController.addAction(okAction)
-        
-        // Present Alert Controller
-        self.presentViewController(alertController, animated: true, completion: nil)
-        
-    }
     
 }
