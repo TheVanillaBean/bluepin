@@ -45,7 +45,6 @@ class VerifyPhoneNumberVC: UIViewController {
             })
             
         }
-
                                                             
     }
     
@@ -54,30 +53,30 @@ class VerifyPhoneNumberVC: UIViewController {
         appDelegate.backendless.userService.registering(user,
           response: { (registeredUser : BackendlessUser!) -> () in
                                                             
-              self.appDelegate.backendless.userService.setStayLoggedIn(true)
-              self.appDelegate.backendless.userService.login(
-              self.user.userEmail, password: self.user.userPassword,
-              response: { ( user : BackendlessUser!) -> () in
-                                                                    
-                  //Cast BackendlessUser object to Bizmi User object
-                  let userObj: User = User()
-                  userObj.populateUserData(user)
+                  self.appDelegate.backendless.userService.setStayLoggedIn(true)
+                  self.appDelegate.backendless.userService.login(
+                  self.user.userEmail, password: self.user.userPassword,
+                  response: { ( user : BackendlessUser!) -> () in
                                                                         
-                  //Authenticate with Sendbird for messagings
-                  SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.fullName)
-                
-                  self.view.hideToastActivity()
+                      //Cast BackendlessUser object to Bizmi User object
+                      let userObj: User = User()
+                      userObj.populateUserData(user)
+                                                                            
+                      //Authenticate with Sendbird for messagings
+                      SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.fullName)
+                    
+                      self.view.hideToastActivity()
 
-                  self.performSegueWithIdentifier("customerSignUp", sender: nil)
+                      self.performSegueWithIdentifier("customerSignUp", sender: nil)
                                                                     
-              },
-              error: { ( fault : Fault!) -> () in
-                Messages.displayLoginErrorMessage(self.view, errorMsg: fault.faultCode)
-              }
-            )
+                  },
+                  error: { ( fault : Fault!) -> () in
+                        Messages.displayLoginErrorMessage(self.view, errorMsg: fault.faultCode)
+                  }
+                )
                                                             
             },
-              error: { ( fault : Fault!) -> () in
+            error: { ( fault : Fault!) -> () in
                 Messages.displaySignUpErrorMessage(self.view, errorMsg: fault.faultCode)
             }
             

@@ -27,6 +27,8 @@
             <string>NotoSans</string>
             <string>NotoSans</string>
             <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -604,7 +606,7 @@
         <!--Messages-->
         <scene sceneID="iZx-SH-ZJX">
             <objects>
-                <viewController id="RXq-6F-5YB" sceneMemberID="viewController">
+                <viewController id="RXq-6F-5YB" customClass="BusinessViewMessagesVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="f0x-tY-NmP"/>
                         <viewControllerLayoutGuide type="bottom" id="YqW-ps-I52"/>
@@ -618,7 +620,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sUU-y5-DfQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2026" y="-3197"/>
+            <point key="canvasLocation" x="2589" y="-5073"/>
         </scene>
         <!--Business Sign UpVC-->
         <scene sceneID="TDd-JH-jaX">
@@ -822,16 +824,18 @@
                     <connections>
                         <segue destination="RXq-6F-5YB" kind="relationship" relationship="viewControllers" id="JgQ-0Q-psy"/>
                         <segue destination="4gy-rd-1BN" kind="relationship" relationship="viewControllers" id="ghX-eR-iQk"/>
+                        <segue destination="4nB-Te-mdk" kind="relationship" relationship="viewControllers" id="WEj-FL-y3K"/>
+                        <segue destination="52g-OX-W7S" kind="relationship" relationship="viewControllers" id="L1W-d1-R0E"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iDN-7c-LQW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1209" y="-2998"/>
+            <point key="canvasLocation" x="1233" y="-2974"/>
         </scene>
         <!--Followers-->
         <scene sceneID="ihW-EO-wNp">
             <objects>
-                <viewController id="4gy-rd-1BN" sceneMemberID="viewController">
+                <viewController id="4gy-rd-1BN" customClass="BusinessViewCustomersVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L1i-nt-6Ok"/>
                         <viewControllerLayoutGuide type="bottom" id="7OT-C6-SVx"/>
@@ -839,18 +843,121 @@
                     <view key="view" contentMode="scaleToFill" id="azs-Yo-Moa">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="72" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BpQ-Z0-tQL">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="viewFollowersCell" rowHeight="72" id="Eay-E0-kLC" customClass="ViewFollowersCell" customModule="Bizmi" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="72"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eay-E0-kLC" id="frj-Ui-d1A">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="72"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Business_Blue" translatesAutoresizingMaskIntoConstraints="NO" id="O7B-fG-Nqx">
+                                                    <rect key="frame" x="8" y="8" width="55" height="55"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="55" id="T3L-r0-uRI"/>
+                                                        <constraint firstAttribute="height" constant="55" id="Ti3-3S-QWK"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Zq5-T3-nzZ">
+                                                    <rect key="frame" x="71" y="8" width="521" height="56"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alex Alimov" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z8y-fA-GlU">
+                                                            <rect key="frame" x="0.0" y="0.0" width="521" height="28"/>
+                                                            <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="20"/>
+                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="aalimov@asu.edu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bdf-oS-h0y">
+                                                            <rect key="frame" x="0.0" y="28" width="521" height="28"/>
+                                                            <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
+                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Zq5-T3-nzZ" secondAttribute="trailing" id="3T8-OK-mwB"/>
+                                                <constraint firstItem="O7B-fG-Nqx" firstAttribute="bottom" secondItem="frj-Ui-d1A" secondAttribute="bottomMargin" id="6eH-Kn-qp1"/>
+                                                <constraint firstItem="Zq5-T3-nzZ" firstAttribute="top" secondItem="frj-Ui-d1A" secondAttribute="topMargin" id="BId-cR-tvl"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Zq5-T3-nzZ" secondAttribute="bottom" id="OHg-Ib-mCM"/>
+                                                <constraint firstItem="O7B-fG-Nqx" firstAttribute="leading" secondItem="frj-Ui-d1A" secondAttribute="leadingMargin" id="TKz-5i-DW0"/>
+                                                <constraint firstItem="Zq5-T3-nzZ" firstAttribute="leading" secondItem="O7B-fG-Nqx" secondAttribute="trailing" constant="8" id="kt6-VM-JdC"/>
+                                                <constraint firstItem="O7B-fG-Nqx" firstAttribute="top" secondItem="frj-Ui-d1A" secondAttribute="topMargin" id="yS6-RZ-ZIU"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="emailLbl" destination="Bdf-oS-h0y" id="ZNb-8P-yBG"/>
+                                            <outlet property="nameLbl" destination="Z8y-fA-GlU" id="Dz9-Bu-k4f"/>
+                                            <outlet property="profileImg" destination="O7B-fG-Nqx" id="5uO-eT-HYF"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="BpQ-Z0-tQL" firstAttribute="top" secondItem="L1i-nt-6Ok" secondAttribute="bottom" id="BSB-gl-eA0"/>
+                            <constraint firstItem="BpQ-Z0-tQL" firstAttribute="leading" secondItem="azs-Yo-Moa" secondAttribute="leading" id="MwM-Qw-sKn"/>
+                            <constraint firstAttribute="trailing" secondItem="BpQ-Z0-tQL" secondAttribute="trailing" id="chx-61-bCm"/>
+                            <constraint firstItem="7OT-C6-SVx" firstAttribute="top" secondItem="BpQ-Z0-tQL" secondAttribute="bottom" id="pIm-Gn-qvc"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Followers" image="People_Grey" selectedImage="People_Grey" id="Xvv-1z-qc5"/>
+                    <connections>
+                        <outlet property="tableView" destination="BpQ-Z0-tQL" id="zH5-c8-Ui5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="URM-hZ-HDI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2049" y="-2412"/>
+            <point key="canvasLocation" x="2589" y="-4089"/>
         </scene>
-        <!--Item-->
+        <!--Reservations-->
+        <scene sceneID="b66-e1-MeN">
+            <objects>
+                <viewController id="4nB-Te-mdk" customClass="BusinessViewReservationsVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iWc-Ck-0sN"/>
+                        <viewControllerLayoutGuide type="bottom" id="GT7-QX-NbF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8ZG-W5-vUX">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Reservations" image="Reservation_Grey" selectedImage="Reservation_Blue" id="IXc-wJ-Mdn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ULy-BD-j1o" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2570" y="-3214"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="HBR-Ie-xOC">
+            <objects>
+                <viewController id="52g-OX-W7S" customClass="BusinessProfileVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MER-nY-Hyu"/>
+                        <viewControllerLayoutGuide type="bottom" id="lhj-VB-SK1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6Hd-8b-sPe">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Profile" image="Profile_Grey" id="Dva-hK-ba6"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0gf-Lt-E9K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2589" y="-2104"/>
+        </scene>
+        <!--Messages-->
         <scene sceneID="1jf-3L-Xgj">
             <objects>
-                <viewController id="Jhl-c6-lBE" sceneMemberID="viewController">
+                <viewController id="Jhl-c6-lBE" customClass="CustomerViewMessagesVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hQH-ey-R9O"/>
                         <viewControllerLayoutGuide type="bottom" id="HJb-fv-p9Q"/>
@@ -860,11 +967,68 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="vff-lg-4o7"/>
+                    <tabBarItem key="tabBarItem" title="Messages" image="Message_Blue" id="vff-lg-4o7"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OCq-AX-B8c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2073" y="-965"/>
+            <point key="canvasLocation" x="2589" y="-1283"/>
+        </scene>
+        <!--Businesses-->
+        <scene sceneID="PIK-sb-JWV">
+            <objects>
+                <viewController id="0Af-6Y-MTv" customClass="CustomerViewBusinessesVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bnl-dI-lWV"/>
+                        <viewControllerLayoutGuide type="bottom" id="hsJ-Qc-y05"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="HFe-bZ-Vb0">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Businesses" image="Business_Grey" id="YGl-DF-ied"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sia-b4-jQh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2589" y="-460"/>
+        </scene>
+        <!--Reservations-->
+        <scene sceneID="cf8-Bb-4Gs">
+            <objects>
+                <viewController id="ahQ-St-BQ8" customClass="CustomerViewReservationsVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="e9U-xD-laH"/>
+                        <viewControllerLayoutGuide type="bottom" id="8HI-R4-hsE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="NuF-31-xHw">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Reservations" image="Reservation_Grey" id="VLa-xa-wd1"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gY0-fB-e1Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2589" y="322"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="8IE-Ei-ddm">
+            <objects>
+                <viewController id="2Rc-WX-jJG" customClass="CustomerProfileVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Abk-Cu-15h"/>
+                        <viewControllerLayoutGuide type="bottom" id="vXo-Yr-xMi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ecs-u5-H9G">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Profile" image="Profile_Grey" id="7nk-oa-abE"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yqq-vM-xb7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2589" y="1028"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="1nq-oo-YP5">
@@ -877,20 +1041,28 @@
                     </tabBar>
                     <connections>
                         <segue destination="Jhl-c6-lBE" kind="relationship" relationship="viewControllers" id="b9f-N1-vN6"/>
+                        <segue destination="0Af-6Y-MTv" kind="relationship" relationship="viewControllers" id="pFl-PQ-Z8o"/>
+                        <segue destination="ahQ-St-BQ8" kind="relationship" relationship="viewControllers" id="RhP-x9-eZ3"/>
+                        <segue destination="2Rc-WX-jJG" kind="relationship" relationship="viewControllers" id="Qly-mP-n6n"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5gQ-zZ-g6z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1261" y="-965"/>
+            <point key="canvasLocation" x="1249" y="-501"/>
         </scene>
     </scenes>
     <resources>
-        <image name="BizMi_Logo" width="1615" height="942"/>
-        <image name="Message_Blue" width="33" height="33"/>
-        <image name="People_Grey" width="33" height="33"/>
+        <image name="BizMi_Logo" width="807" height="471"/>
+        <image name="Business_Blue" width="28" height="28"/>
+        <image name="Business_Grey" width="28" height="28"/>
+        <image name="Message_Blue" width="28" height="28"/>
+        <image name="People_Grey" width="28" height="28"/>
+        <image name="Profile_Grey" width="28" height="28"/>
+        <image name="Reservation_Blue" width="28" height="28"/>
+        <image name="Reservation_Grey" width="28" height="28"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eTq-fk-HST"/>
         <segue reference="TZP-pP-rf0"/>
+        <segue reference="eTq-fk-HST"/>
     </inferredMetricsTieBreakers>
 </document>

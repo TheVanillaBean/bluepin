@@ -13,6 +13,7 @@ class User: BackendlessUser{
     //Password and Email computed properies have "user" in front because they are actually part of BackendlessUser class
     
     //Password has additional variable because BackendlessUser class doesn't return password
+    var _email: String!
     var _password: String!
     
     var fullName: String {
@@ -49,9 +50,27 @@ class User: BackendlessUser{
         }
     }
     
+//    var userEmail: String {
+//        get{
+//            if let email = self.email{
+//                return email
+//            }else{
+//                return ""
+//            }
+//        }
+//        
+//        set(newEmail){
+//            
+//            if newEmail != ""{
+//                self.email = newEmail
+//            }
+//        }
+//    }
+//    
+    // _email is used because BackendlessUser class doesn't return email
     var userEmail: String {
         get{
-            if let email = self.email{
+            if let email = self._email{
                 return email
             }else{
                 return ""
@@ -62,7 +81,9 @@ class User: BackendlessUser{
             
             if newEmail != ""{
                 self.email = newEmail
+                self._email = newEmail
             }
+            
         }
     }
     
@@ -155,6 +176,7 @@ class User: BackendlessUser{
             
             if let fullNameProperty = user.getProperty("fullName") as? String{
                 self.fullName = fullNameProperty
+                
             }
             
             if let phoneNumberProperty = user.getProperty("phoneNumber") as? String{
@@ -162,12 +184,14 @@ class User: BackendlessUser{
             }
             
             if let emailProperty = user.email{
-                self.email = emailProperty
+                self.userEmail = emailProperty
             }
             
-            if let passwordProperty = user.password{
-                self.password = passwordProperty
-            }
+            //Backendless doesnt return password
+            
+//            if let passwordProperty = user.password{
+//               self.userPassword = passwordProperty
+//            }
             
         }
         

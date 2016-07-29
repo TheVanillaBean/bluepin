@@ -10,8 +10,18 @@
 		5A025DCA1D403B530060791D /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A025DC91D403B530060791D /* ForgotPasswordVC.swift */; };
 		5A025DCC1D403CBE0060791D /* CustomerSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A025DCB1D403CBE0060791D /* CustomerSignUpVC.swift */; };
 		5A025DCE1D403D050060791D /* BusinessSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A025DCD1D403D050060791D /* BusinessSignUpVC.swift */; };
+		5A129BF21D49C77E00FE5126 /* CustomerViewMessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BF11D49C77E00FE5126 /* CustomerViewMessagesVC.swift */; };
+		5A129BF41D49C7BC00FE5126 /* CustomerViewBusinessesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BF31D49C7BC00FE5126 /* CustomerViewBusinessesVC.swift */; };
+		5A129BF61D49C81200FE5126 /* CustomerViewReservationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BF51D49C81200FE5126 /* CustomerViewReservationsVC.swift */; };
+		5A129BF81D49C83000FE5126 /* CustomerProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BF71D49C83000FE5126 /* CustomerProfileVC.swift */; };
+		5A129BFA1D49C85500FE5126 /* BusinessViewMessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BF91D49C85500FE5126 /* BusinessViewMessagesVC.swift */; };
+		5A129BFC1D49C88000FE5126 /* BusinessViewCustomersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BFB1D49C88000FE5126 /* BusinessViewCustomersVC.swift */; };
+		5A129BFE1D49C8B400FE5126 /* BusinessViewReservationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BFD1D49C8B400FE5126 /* BusinessViewReservationsVC.swift */; };
+		5A129C001D49C8D100FE5126 /* BusinessProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BFF1D49C8D100FE5126 /* BusinessProfileVC.swift */; };
+		5A129C021D49F87800FE5126 /* ViewFollowersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129C011D49F87800FE5126 /* ViewFollowersCell.swift */; };
 		5A33FF981D41007D00498EC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A33FF971D41007D00498EC2 /* Assets.xcassets */; };
 		5A3F13F41D4098AF0028E428 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3F13F31D4098AF0028E428 /* User.swift */; };
+		5A4C526C1D4B31530052E49B /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4C526B1D4B31530052E49B /* DataService.swift */; };
 		5A575A731D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A575A721D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift */; };
 		5A7880FD1D3E261400F168AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7880FC1D3E261400F168AE /* AppDelegate.swift */; };
 		5A7880FF1D3E261400F168AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7880FE1D3E261400F168AE /* ViewController.swift */; };
@@ -33,8 +43,18 @@
 		5A025DC91D403B530060791D /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
 		5A025DCB1D403CBE0060791D /* CustomerSignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerSignUpVC.swift; sourceTree = "<group>"; };
 		5A025DCD1D403D050060791D /* BusinessSignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessSignUpVC.swift; sourceTree = "<group>"; };
+		5A129BF11D49C77E00FE5126 /* CustomerViewMessagesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerViewMessagesVC.swift; sourceTree = "<group>"; };
+		5A129BF31D49C7BC00FE5126 /* CustomerViewBusinessesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerViewBusinessesVC.swift; sourceTree = "<group>"; };
+		5A129BF51D49C81200FE5126 /* CustomerViewReservationsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerViewReservationsVC.swift; sourceTree = "<group>"; };
+		5A129BF71D49C83000FE5126 /* CustomerProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerProfileVC.swift; sourceTree = "<group>"; };
+		5A129BF91D49C85500FE5126 /* BusinessViewMessagesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessViewMessagesVC.swift; sourceTree = "<group>"; };
+		5A129BFB1D49C88000FE5126 /* BusinessViewCustomersVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessViewCustomersVC.swift; sourceTree = "<group>"; };
+		5A129BFD1D49C8B400FE5126 /* BusinessViewReservationsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessViewReservationsVC.swift; sourceTree = "<group>"; };
+		5A129BFF1D49C8D100FE5126 /* BusinessProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessProfileVC.swift; sourceTree = "<group>"; };
+		5A129C011D49F87800FE5126 /* ViewFollowersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewFollowersCell.swift; sourceTree = "<group>"; };
 		5A33FF971D41007D00498EC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A3F13F31D4098AF0028E428 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		5A4C526B1D4B31530052E49B /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		5A575A721D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialPhoneNumberTextView.swift; sourceTree = "<group>"; };
 		5A7880F91D3E261400F168AE /* Bizmi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bizmi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A7880FC1D3E261400F168AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +88,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A129BEF1D49C74500FE5126 /* Customer Tab Bar */ = {
+			isa = PBXGroup;
+			children = (
+				5A129BF11D49C77E00FE5126 /* CustomerViewMessagesVC.swift */,
+				5A129BF31D49C7BC00FE5126 /* CustomerViewBusinessesVC.swift */,
+				5A129BF51D49C81200FE5126 /* CustomerViewReservationsVC.swift */,
+				5A129BF71D49C83000FE5126 /* CustomerProfileVC.swift */,
+			);
+			name = "Customer Tab Bar";
+			sourceTree = "<group>";
+		};
+		5A129BF01D49C74F00FE5126 /* Business Tab Bar */ = {
+			isa = PBXGroup;
+			children = (
+				5A129BF91D49C85500FE5126 /* BusinessViewMessagesVC.swift */,
+				5A129BFB1D49C88000FE5126 /* BusinessViewCustomersVC.swift */,
+				5A129BFD1D49C8B400FE5126 /* BusinessViewReservationsVC.swift */,
+				5A129BFF1D49C8D100FE5126 /* BusinessProfileVC.swift */,
+			);
+			name = "Business Tab Bar";
+			sourceTree = "<group>";
+		};
 		5A7880F01D3E261400F168AE = {
 			isa = PBXGroup;
 			children = (
@@ -108,6 +150,7 @@
 			children = (
 				5ADD36331D3E3CD400394637 /* Constants.swift */,
 				5AF71CB81D488A9B009B6951 /* Messages.swift */,
+				5A4C526B1D4B31530052E49B /* DataService.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -137,6 +180,7 @@
 				5ADD36351D3E3D3E00394637 /* MaterialView.swift */,
 				5ADD36381D3E3E6100394637 /* MaterialTextField.swift */,
 				5A575A721D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift */,
+				5A129C011D49F87800FE5126 /* ViewFollowersCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -144,6 +188,8 @@
 		5ADD362A1D3E3BD100394637 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				5A129BF01D49C74F00FE5126 /* Business Tab Bar */,
+				5A129BEF1D49C74500FE5126 /* Customer Tab Bar */,
 				5A7880FE1D3E261400F168AE /* ViewController.swift */,
 				5A025DC91D403B530060791D /* ForgotPasswordVC.swift */,
 				5A025DCB1D403CBE0060791D /* CustomerSignUpVC.swift */,
@@ -297,17 +343,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A129BF61D49C81200FE5126 /* CustomerViewReservationsVC.swift in Sources */,
 				5A025DCC1D403CBE0060791D /* CustomerSignUpVC.swift in Sources */,
+				5A129BFA1D49C85500FE5126 /* BusinessViewMessagesVC.swift in Sources */,
+				5A129BF21D49C77E00FE5126 /* CustomerViewMessagesVC.swift in Sources */,
+				5A129C001D49C8D100FE5126 /* BusinessProfileVC.swift in Sources */,
+				5A4C526C1D4B31530052E49B /* DataService.swift in Sources */,
 				5A7880FF1D3E261400F168AE /* ViewController.swift in Sources */,
+				5A129BF41D49C7BC00FE5126 /* CustomerViewBusinessesVC.swift in Sources */,
 				5A7880FD1D3E261400F168AE /* AppDelegate.swift in Sources */,
 				5A575A731D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift in Sources */,
+				5A129C021D49F87800FE5126 /* ViewFollowersCell.swift in Sources */,
 				5A025DCA1D403B530060791D /* ForgotPasswordVC.swift in Sources */,
+				5A129BFC1D49C88000FE5126 /* BusinessViewCustomersVC.swift in Sources */,
 				5A025DCE1D403D050060791D /* BusinessSignUpVC.swift in Sources */,
 				5A3F13F41D4098AF0028E428 /* User.swift in Sources */,
+				5A129BFE1D49C8B400FE5126 /* BusinessViewReservationsVC.swift in Sources */,
 				5AF71CB91D488A9B009B6951 /* Messages.swift in Sources */,
 				5ADD36391D3E3E6100394637 /* MaterialTextField.swift in Sources */,
 				5AFB6F3C1D497174008E332B /* VerifyPhoneNumberVC.swift in Sources */,
 				5ADD36341D3E3CD400394637 /* Constants.swift in Sources */,
+				5A129BF81D49C83000FE5126 /* CustomerProfileVC.swift in Sources */,
 				5ADD36361D3E3D3E00394637 /* MaterialView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

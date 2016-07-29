@@ -76,7 +76,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //Cast BackendlessUser object to Bizmi User object
                     let userObj: User = User()
                     userObj.populateUserData(user)
-                    
+
                     self.navigateToTabBarVC(userObj)
                     
                 },
