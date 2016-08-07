@@ -19,6 +19,7 @@
 		5A129BFE1D49C8B400FE5126 /* BusinessViewReservationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BFD1D49C8B400FE5126 /* BusinessViewReservationsVC.swift */; };
 		5A129C001D49C8D100FE5126 /* BusinessProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BFF1D49C8D100FE5126 /* BusinessProfileVC.swift */; };
 		5A129C021D49F87800FE5126 /* ViewFollowersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129C011D49F87800FE5126 /* ViewFollowersCell.swift */; };
+		5A1E47A31D55DA0E00A4A308 /* ViewBusinessesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E47A21D55DA0E00A4A308 /* ViewBusinessesCell.swift */; };
 		5A33FF981D41007D00498EC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A33FF971D41007D00498EC2 /* Assets.xcassets */; };
 		5A3F13F41D4098AF0028E428 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3F13F31D4098AF0028E428 /* User.swift */; };
 		5A4C526C1D4B31530052E49B /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4C526B1D4B31530052E49B /* DataService.swift */; };
@@ -34,6 +35,8 @@
 		5ADD36341D3E3CD400394637 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD36331D3E3CD400394637 /* Constants.swift */; };
 		5ADD36361D3E3D3E00394637 /* MaterialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD36351D3E3D3E00394637 /* MaterialView.swift */; };
 		5ADD36391D3E3E6100394637 /* MaterialTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD36381D3E3E6100394637 /* MaterialTextField.swift */; };
+		5AF0B1221D547A4700C14BC4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF0B1211D547A4700C14BC4 /* Extensions.swift */; };
+		5AF412871D52A83200F184C0 /* BusinessProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF412861D52A83200F184C0 /* BusinessProfileCell.swift */; };
 		5AF71CB91D488A9B009B6951 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF71CB81D488A9B009B6951 /* Messages.swift */; };
 		5AFB6F3C1D497174008E332B /* VerifyPhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB6F3B1D497174008E332B /* VerifyPhoneNumberVC.swift */; };
 		F444B6F11D1851099142F997 /* Pods_Bizmi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907A8472BDDF650214013686 /* Pods_Bizmi.framework */; };
@@ -52,6 +55,7 @@
 		5A129BFD1D49C8B400FE5126 /* BusinessViewReservationsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessViewReservationsVC.swift; sourceTree = "<group>"; };
 		5A129BFF1D49C8D100FE5126 /* BusinessProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessProfileVC.swift; sourceTree = "<group>"; };
 		5A129C011D49F87800FE5126 /* ViewFollowersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewFollowersCell.swift; sourceTree = "<group>"; };
+		5A1E47A21D55DA0E00A4A308 /* ViewBusinessesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessesCell.swift; sourceTree = "<group>"; };
 		5A33FF971D41007D00498EC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A3F13F31D4098AF0028E428 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5A4C526B1D4B31530052E49B /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
@@ -69,6 +73,8 @@
 		5ADD36331D3E3CD400394637 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5ADD36351D3E3D3E00394637 /* MaterialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialView.swift; sourceTree = "<group>"; };
 		5ADD36381D3E3E6100394637 /* MaterialTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialTextField.swift; sourceTree = "<group>"; };
+		5AF0B1211D547A4700C14BC4 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		5AF412861D52A83200F184C0 /* BusinessProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessProfileCell.swift; sourceTree = "<group>"; };
 		5AF71CB81D488A9B009B6951 /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		5AFB6F3B1D497174008E332B /* VerifyPhoneNumberVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyPhoneNumberVC.swift; sourceTree = "<group>"; };
 		8645C214E14E20DB58C1F663 /* Pods-Bizmi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizmi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bizmi/Pods-Bizmi.release.xcconfig"; sourceTree = "<group>"; };
@@ -151,6 +157,7 @@
 				5ADD36331D3E3CD400394637 /* Constants.swift */,
 				5AF71CB81D488A9B009B6951 /* Messages.swift */,
 				5A4C526B1D4B31530052E49B /* DataService.swift */,
+				5AF0B1211D547A4700C14BC4 /* Extensions.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -181,6 +188,8 @@
 				5ADD36381D3E3E6100394637 /* MaterialTextField.swift */,
 				5A575A721D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift */,
 				5A129C011D49F87800FE5126 /* ViewFollowersCell.swift */,
+				5AF412861D52A83200F184C0 /* BusinessProfileCell.swift */,
+				5A1E47A21D55DA0E00A4A308 /* ViewBusinessesCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -343,6 +352,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AF412871D52A83200F184C0 /* BusinessProfileCell.swift in Sources */,
+				5A1E47A31D55DA0E00A4A308 /* ViewBusinessesCell.swift in Sources */,
 				5A129BF61D49C81200FE5126 /* CustomerViewReservationsVC.swift in Sources */,
 				5A025DCC1D403CBE0060791D /* CustomerSignUpVC.swift in Sources */,
 				5A129BFA1D49C85500FE5126 /* BusinessViewMessagesVC.swift in Sources */,
@@ -361,6 +372,7 @@
 				5A129BFE1D49C8B400FE5126 /* BusinessViewReservationsVC.swift in Sources */,
 				5AF71CB91D488A9B009B6951 /* Messages.swift in Sources */,
 				5ADD36391D3E3E6100394637 /* MaterialTextField.swift in Sources */,
+				5AF0B1221D547A4700C14BC4 /* Extensions.swift in Sources */,
 				5AFB6F3C1D497174008E332B /* VerifyPhoneNumberVC.swift in Sources */,
 				5ADD36341D3E3CD400394637 /* Constants.swift in Sources */,
 				5A129BF81D49C83000FE5126 /* CustomerProfileVC.swift in Sources */,

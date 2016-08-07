@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+//API Keys
+let sinchApplicationKey = "fb9c06d5-53e7-4d60-83d0-cb853587884a";
+
+
 //User Interface
 let SHADOW_COLOR: CGFloat = 157.0 / 255.0
 let ACCENT_COLOR: UIColor = UIColor(red: 255.0/255.0, green: 87.0/255.0, blue: 34.0/255.0, alpha: 1.0)

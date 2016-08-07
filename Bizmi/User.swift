@@ -38,7 +38,7 @@ class User: BackendlessUser{
             if let phoneNumberProperty = self.getProperty("phoneNumber") as? String{
                 return phoneNumberProperty
             }else{
-                return ""
+                return "No Phone Number Available"
             }
         }
         
@@ -129,7 +129,7 @@ class User: BackendlessUser{
             if let businessTypeProperty = self.getProperty("businessType") as? String{
                 return businessTypeProperty
             }else{
-                return ""
+                return "Business Type Not Available"
             }
         }
         
@@ -155,6 +155,108 @@ class User: BackendlessUser{
             if newUserType != ""{
                 self.setProperty("userType", object: newUserType)
             }
+        }
+    }
+    
+    var phoneNumberVerified: Bool {
+        get{
+            if let phoneNumberVerifiedProperty = self.getProperty("phoneNumberVerified") as? Bool{
+                return phoneNumberVerifiedProperty
+            }else{
+                return false
+            }
+        }
+        
+        set(newStatus){
+            
+            self.setProperty("phoneNumberVerified", object: newStatus)
+            
+        }
+    }
+    
+    //After Signup Values
+    
+    var businessDesc: String {
+        get{
+            if let businessDescProperty = self.getProperty("businessDesc") as? String{
+                return businessDescProperty
+            }else{
+                return "No Description Available"
+            }
+        }
+        
+        set(newBusinessDesc){
+            
+            if newBusinessDesc != ""{
+                self.setProperty("businessDesc", object: newBusinessDesc)
+            }
+        }
+    }
+    
+    var businessWebsite: String {
+        get{
+            if let businessWebsiteProperty = self.getProperty("businessWebsite") as? String{
+                return businessWebsiteProperty
+            }else{
+                return "Business Website Not Available"
+            }
+        }
+        
+        set(newBusinessWebsite){
+            
+            if newBusinessWebsite != ""{
+                self.setProperty("businessWebsite", object: newBusinessWebsite)
+            }
+        }
+    }
+    
+    var businessHours: String {
+        get{
+            if let businessHoursProperty = self.getProperty("businessHours") as? String{
+                return businessHoursProperty
+            }else{
+                return "Hours Not Available"
+            }
+        }
+        
+        set(newBusinessHours){
+            
+            if newBusinessHours != ""{
+                self.setProperty("businessHours", object: newBusinessHours)
+            }
+        }
+    }
+    
+    var userProfilePicLocation: String {
+        get{
+            if let userProfilePictureProperty = self.getProperty("userProfilePicLocation") as? String{
+                return userProfilePictureProperty
+            }else{
+                return ""
+            }
+        }
+        
+        set(newUserProfilePicture){
+            
+            if newUserProfilePicture != "" {
+                self.setProperty("userProfilePicLocation", object: newUserProfilePicture)
+            }
+        }
+    }
+    
+    var businessLocation: GeoPoint {
+        get{
+            if let businessLocationProperty = self.getProperty("businessLocation") as? GeoPoint{
+                return businessLocationProperty
+            }else{
+                return GeoPoint()
+            }
+        }
+        
+        set(newBusinessLocation){
+            
+            self.setProperty("businessLocation", object: newBusinessLocation)
+            
         }
     }
     
@@ -187,6 +289,26 @@ class User: BackendlessUser{
                 self.userEmail = emailProperty
             }
             
+            if let businessDescProperty = user.getProperty("businessDesc") as? String{
+                self.businessDesc = businessDescProperty
+            }
+            
+            if let businessWebsiteProperty = user.getProperty("businessWebsite") as? String{
+                self.businessWebsite = businessWebsiteProperty
+            }
+            
+            if let businessHoursProperty = user.getProperty("businessHours") as? String{
+                self.businessHours = businessHoursProperty
+            }
+            
+            if let userProfilePicLocationProperty = user.getProperty("userProfilePicLocation") as? String{
+                self.userProfilePicLocation = userProfilePicLocationProperty
+            }
+            
+            if let isPhoneVerifiedProperty = user.getProperty("phoneNumberVerified") as? Bool{
+                self.phoneNumberVerified = isPhoneVerifiedProperty
+            }
+            
             //Backendless doesnt return password
             
 //            if let passwordProperty = user.password{
@@ -206,9 +328,9 @@ class User: BackendlessUser{
         super.init()
         
         if let userEmail = email, userPassword = password, type = userType {
-        self.userEmail = userEmail
-        self.userPassword = userPassword
-        self.userType = type
+            self.userEmail = userEmail
+            self.userPassword = userPassword
+            self.userType = type
         }
         
     }

@@ -23,20 +23,11 @@ class ForgotPasswordVC: UIViewController {
         
         if let email = emailTextField.text {
             
-             appDelegate.backendless.userService.restorePassword(email,
-                response:{ ( result : AnyObject!) -> () in
-                    self.emailTextField.text = ""
-                    Messages.showAlertDialog("Password Change", msgAlert: "Check your email for a password reset link.")
-                },
-                error: { ( fault : Fault!) -> () in
-                    Messages.displayForgotPasswordErrorMessage(self.view, errorMsg: fault.faultCode)
-                }
-                
-            )
+             self.emailTextField.text = ""
+             DataService.instance.requestUserPasswordChange(email, uiVIew: self.view)
             
         }
         
     }
-    
     
 }

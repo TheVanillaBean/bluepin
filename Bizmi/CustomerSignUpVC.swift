@@ -29,7 +29,6 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     
     //Sinch Phone # Verification
     var verification: Verification!;
-    let applicationKey = "fb9c06d5-53e7-4d60-83d0-cb853587884a";
     
     override func viewDidLoad() {
        
@@ -83,29 +82,72 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
             let user = User(email: email, password: password, userType: USER_CUSTOMER_TYPE)
             user.fullName = customerName
             user.phoneNumber = phoneNumber
+            user.phoneNumberVerified = false;
             
-            verification =
-                SMSVerification(applicationKey: applicationKey,
-                                phoneNumber: phoneNumber)
-            verification.initiate { (success:Bool, error: NSError?) -> Void in
-                if (success){
-                    self.performSegueWithIdentifier("verifyPhoneNumber", sender: user);
-                } else {
-                    Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error?.description)!)
-                }
-            }
+            signUpUser(user)
             
         }
+    }
+    
+    func initiateVerificationProcess(user: User!, phoneNumber: String){
+    
+        self.verification =
+            SMSVerification(applicationKey: sinchApplicationKey,
+                            phoneNumber: phoneNumber)
+        self.verification.initiate { (success:Bool, error: NSError?) -> Void in
+            if (success){
+                self.performSegueWithIdentifier("verifyPhoneNumber", sender: user);
+            } else {
+                Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error?.description)!)
+            }
+        }
+        
+    }
+    
+    func signUpUser(userObj: User?){
+        
+        if let user = userObj{
+        
+                appDelegate.backendless.userService.registering(user,
+                response: { (registeredUser : BackendlessUser!) -> () in
+                    
+                        self.appDelegate.backendless.userService.setStayLoggedIn(true)
+                        self.appDelegate.backendless.userService.login(
+                            user.userEmail, password: user.userPassword,
+                            response: { ( user : BackendlessUser!) -> () in
+                                
+                                //Cast BackendlessUser object to Bizmi User object
+                                let userObj: User = User()
+                                userObj.populateUserData(user)
+                                
+                                //Authenticate with Sendbird for messaging
+                                SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.fullName)
+                                
+                                self.view.hideToastActivity()
+                                
+                                self.initiateVerificationProcess(userObj, phoneNumber: userObj.phoneNumber)
+                                                                
+                            },
+                            error: { ( fault : Fault!) -> () in
+                                Messages.displayLoginErrorMessage(self.view, errorMsg: fault.faultCode)
+                            }
+                        )
+                    
+                    },
+                error: { ( fault : Fault!) -> () in
+                    Messages.displaySignUpErrorMessage(self.view, errorMsg: fault.faultCode)
+                }
+                    
+            )
+        }
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "verifyPhoneNumber" {
             if let verifyVC = segue.destinationViewController as? VerifyPhoneNumberVC{
-                if let user = sender as? User{
-                    verifyVC.user = user
-                    verifyVC.verification = self.verification
-                }
+                verifyVC.verification = self.verification
             }
         }
         

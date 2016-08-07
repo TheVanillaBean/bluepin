@@ -10,5 +10,8 @@ target 'Bizmi' do
   pod 'Backendless-ios-SDK'
   pod 'SendBirdSDK'
   pod 'SinchVerification-Swift'
+  pod 'ALCameraViewController'
+  pod 'AlamofireImage', '~> 2.0'
+  pod 'TTTAttributedLabel'
 
 end

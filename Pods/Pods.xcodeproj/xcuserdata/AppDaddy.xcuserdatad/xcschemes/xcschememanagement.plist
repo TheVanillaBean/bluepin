@@ -4,6 +4,21 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>ALCameraViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Alamofire.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>AlamofireImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>DeviceKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -19,6 +34,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>TTTAttributedLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Toast-Swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,17 +47,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>05094CC4A047119F7ADC14EE74C4881C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5A2AC9986A09B5B66AE933FA137B054E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6A28AEF290A2FBDF5FD852C93401F485</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>88CA18CF66D1F86A3AEF8405DCA4C67A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>C050EB90AEDA8E52289FB70BB490AC44</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CDAE17366C568DF681D015928B6771B8</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>CEE6D343C48993A019DA9BA0806BCDDD</key>
+		<key>DAEFE5845A9A47287B43BE713DFD4B08</key>
 		<dict>
 			<key>primary</key>
 			<true/>

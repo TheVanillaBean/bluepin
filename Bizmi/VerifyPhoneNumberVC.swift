@@ -16,13 +16,13 @@ class VerifyPhoneNumberVC: UIViewController {
     @IBOutlet weak var verifyTextField: MaterialTextField!
     @IBOutlet weak var verifyBtn: UIButton!
     
-    var user: User! =  User()
     var verification: Verification!
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 
     override func viewDidLoad() {
-        
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.title = "Verify Phone Number"
     }
     
     @IBAction func verifyBtnPressed(sender: AnyObject) {
@@ -36,9 +36,23 @@ class VerifyPhoneNumberVC: UIViewController {
                 completion: { (success:Bool, error:NSError?) -> Void in
                     self.verifyBtn.enabled = true
                     if (success) {
-                        Messages.displayToastMessage(self.view, msg: "Verification Successful!")
+                        Messages.displayToastMessage(self.view, msg: "Verification Successful! Please wait...")
                         self.view.makeToastActivity(.Center)
-                        self.signUpUser()
+                        
+                        let properties = [
+                            "phoneNumberVerified" : true
+                        ]
+                        
+                        self.appDelegate.backendless.userService.currentUser.updateProperties( properties )
+                        self.appDelegate.backendless.userService.update(self.appDelegate.backendless.userService.currentUser,
+                            response: { ( updatedUser : BackendlessUser!) -> () in
+                                self.performSegueWithIdentifier("customerSignUp", sender: nil)
+                            },
+                            
+                            error: { ( fault : Fault!) -> () in
+                                print("Server reported an error (2): \(fault.message)")
+                        })
+                        
                     } else {
                         Messages.displayToastMessage(self.view, msg: "Verification Unsuccessful...")
                     }
@@ -47,41 +61,6 @@ class VerifyPhoneNumberVC: UIViewController {
         }
                                                             
     }
-    
-    func signUpUser(){
-        
-        appDelegate.backendless.userService.registering(user,
-          response: { (registeredUser : BackendlessUser!) -> () in
-                                                            
-                  self.appDelegate.backendless.userService.setStayLoggedIn(true)
-                  self.appDelegate.backendless.userService.login(
-                  self.user.userEmail, password: self.user.userPassword,
-                  response: { ( user : BackendlessUser!) -> () in
-                                                                        
-                      //Cast BackendlessUser object to Bizmi User object
-                      let userObj: User = User()
-                      userObj.populateUserData(user)
-                                                                            
-                      //Authenticate with Sendbird for messagings
-                      SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.fullName)
-                    
-                      self.view.hideToastActivity()
 
-                      self.performSegueWithIdentifier("customerSignUp", sender: nil)
-                                                                    
-                  },
-                  error: { ( fault : Fault!) -> () in
-                        Messages.displayLoginErrorMessage(self.view, errorMsg: fault.faultCode)
-                  }
-                )
-                                                            
-            },
-            error: { ( fault : Fault!) -> () in
-                Messages.displaySignUpErrorMessage(self.view, errorMsg: fault.faultCode)
-            }
-            
-        )
-        
-    }
     
 }

@@ -9,6 +9,7 @@
 import UIKit
 import Toast_Swift
 import SendBirdSDK
+import SinchVerification
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
@@ -20,6 +21,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
+    //Sinch Phone # Verification
+    var verification: Verification!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -28,6 +32,34 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         self.navigationController?.navigationBarHidden = true
+        
+        validUserToken()
+        
+    }
+  
+    
+    func validUserToken() {
+        appDelegate.backendless.userService.isValidUserToken(
+            { (result : AnyObject!) -> () in
+
+                if let isValid = result.boolValue{
+                    if isValid {
+                        
+                        //Casting
+                        let currentBackendlessUser = self.appDelegate.backendless.userService.currentUser
+                        let user = User()
+                        user.populateUserData(currentBackendlessUser)
+                        
+                        self.navigateToTabBarVC(user)
+
+                    }
+                }
+                
+            },
+            error: { (fault : Fault!) -> () in
+                print("Server reported an error (ASYNC): \(fault)")
+            } 
+        ) 
     }
     
     override func viewWillDisappear(animated: Bool){
@@ -97,8 +129,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 self.performSegueWithIdentifier("businessLogin", sender: nil)
                 SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.businessName)
             }else {
-                self.performSegueWithIdentifier("customerLogin", sender: nil)
-                SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.fullName)
+                
+                if userObj.phoneNumberVerified{
+                    self.performSegueWithIdentifier("customerLogin", sender: nil)
+                    SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.fullName)
+                }else {
+                    self.initiateVerificationProcess(userObj, phoneNumber: userObj.phoneNumber)
+                }
+                
             }
         }
         
@@ -124,6 +162,33 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // Present Alert Controller
         self.presentViewController(alertController, animated: true, completion: nil)
+        
+    }
+    
+    func initiateVerificationProcess(user: User!, phoneNumber: String){
+        
+        self.verification =
+            SMSVerification(applicationKey: sinchApplicationKey,
+                            phoneNumber: phoneNumber)
+        self.verification.initiate { (success:Bool, error: NSError?) -> Void in
+            if (success){
+                self.performSegueWithIdentifier("phoneNotVerified", sender: user);
+            } else {
+                Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error?.description)!)
+            }
+        }
+        
+    }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "phoneNotVerified" {
+            if let verifyVC = segue.destinationViewController as? VerifyPhoneNumberVC{
+                verifyVC.verification = self.verification
+            }
+
+        }
         
     }
     
