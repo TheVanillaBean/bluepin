@@ -18,9 +18,9 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
         tableView.delegate = self
         tableView.dataSource = self
         
-        DataService.instance.loadAllUsers()
+        DataService.instance.loadAllFollowers()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessViewCustomersVC.onUsersLoaded), name: "allUsersLoaded", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessViewCustomersVC.onFollowersLoaded), name: "allFollowersLoaded", object: nil)
         
     }
     
@@ -36,7 +36,7 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let user = DataService.instance.allUsers[indexPath.row]
+        let user = DataService.instance.allFollowers[indexPath.row]
         
         if let cell = tableView.dequeueReusableCellWithIdentifier("viewFollowersCell") as? ViewFollowersCell{
             
@@ -57,10 +57,10 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DataService.instance.allUsers.count
+        return DataService.instance.allFollowers.count
     }
     
-    func onUsersLoaded(){
+    func onFollowersLoaded(){
         tableView.reloadData()
     }
     

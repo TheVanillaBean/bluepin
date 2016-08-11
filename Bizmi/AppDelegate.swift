@@ -30,9 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SendBird.initAppId(SENDBIRD_APP_ID)
         
         customizeNavigationBar()
-        
+                
         return true
     }
+
     
     func customizeNavigationBar(){
         

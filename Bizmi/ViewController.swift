@@ -187,7 +187,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if let verifyVC = segue.destinationViewController as? VerifyPhoneNumberVC{
                 verifyVC.verification = self.verification
             }
-
         }
         
     }

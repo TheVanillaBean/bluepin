@@ -37,12 +37,39 @@ class ViewBusinessesCell: UITableViewCell {
         let URL = NSURL(string: "\(user.userProfilePicLocation)")!
         let placeholderImage = UIImage(named: "Placeholder")!
         
+        reverseGeoLocate(user.businessLocation)
         businessBGImage.af_setImageWithURL(URL, placeholderImage: placeholderImage)
         businessNameLbl.text = user.businessName
         businessTypeLbl.text = user.businessType
         businessDesclbl.text = user.businessDesc
-        businessLocationLbl.text = "Chandler"  //Location TODO
         
+        
+    }
+    
+    func reverseGeoLocate(location: GeoPoint){
+        
+        if location.latitude != 0 && location.longitude != 0{
+            
+            let loc = CLLocation(latitude: Double(location.latitude), longitude: Double(location.longitude) )
+            
+            CLGeocoder().reverseGeocodeLocation(loc, completionHandler: {(placemarks, error) -> Void in
+                
+                if let marks = placemarks where marks.count > 0 {
+                    
+                    let pm = marks[0] as CLPlacemark
+                    
+                    if let locality = pm.locality{
+                        self.businessLocationLbl.text = "\(locality)"
+                    }
+                    
+                }else {
+                    print("there was an error no location")
+                }
+                
+            })
+            
+        }
+      
     }
     
 

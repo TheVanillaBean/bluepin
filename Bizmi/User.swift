@@ -16,6 +16,26 @@ class User: BackendlessUser{
     var _email: String!
     var _password: String!
     
+    //Backendless doesnt return object ID for some odd reason
+    
+    //REMMEBER TO UDATE USER REGISTRATION AND SET userObjectID CUSTOM ROPERTY
+    var userObjectID: String {
+        get{
+            if let objectID = self.getProperty("userObjectID") as? String{
+                return objectID
+            }else{
+                return ""
+            }
+        }
+        
+        set(newObjectID){
+            
+            if newObjectID != ""{
+                self.setProperty("userObjectID", object: newObjectID)
+            }
+        }
+    }
+    
     var fullName: String {
         get{
             if let fullNameProperty = self.getProperty("fullName") as? String{
@@ -249,7 +269,7 @@ class User: BackendlessUser{
             if let businessLocationProperty = self.getProperty("businessLocation") as? GeoPoint{
                 return businessLocationProperty
             }else{
-                return GeoPoint()
+                return GeoPoint.geoPoint(GEO_POINT(latitude: 0, longitude: 0)) as! GeoPoint //Middle Of The Ocean Baby
             }
         }
         
@@ -263,6 +283,10 @@ class User: BackendlessUser{
     func populateUserData(backendlessUser: BackendlessUser?){
     
         if let user = backendlessUser{
+            
+            if let objectIDProperty = user.getProperty("userObjectID") as? String{
+                self.userObjectID = objectIDProperty
+            }
             
             if let userTypeProperty = user.getProperty("userType") as? String{
                 self.userType = userTypeProperty
@@ -307,6 +331,10 @@ class User: BackendlessUser{
             
             if let isPhoneVerifiedProperty = user.getProperty("phoneNumberVerified") as? Bool{
                 self.phoneNumberVerified = isPhoneVerifiedProperty
+            }
+            
+            if let businessLocationProperty = user.getProperty("businessLocation") as? GeoPoint{
+                self.businessLocation = businessLocationProperty
             }
             
             //Backendless doesnt return password

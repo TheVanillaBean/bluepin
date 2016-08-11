@@ -50,16 +50,35 @@ class CustomerViewBusinessesVC: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 128.0
+        return 100.0
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataService.instance.allBusinesses.count
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true) //So tableview row doesn't stay highlighted
+        
+        let business = DataService.instance.allBusinesses[indexPath.row]
+        performSegueWithIdentifier("ViewSingleBusiness", sender: business)
+        
+    }
+    
     func onBusinessesLoaded(){
         tableView.reloadData()
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ViewSingleBusiness" {
+            if let viewBusinessVC = segue.destinationViewController as? ViewBusinessVC{
+                if let business = sender as? BackendlessUser {
+                    viewBusinessVC.backendlessUser = business
+                }
+            }
+            
+        }
+    }
     
 }

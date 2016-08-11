@@ -41,6 +41,7 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         UIImage(named: "Phone_Blue")!,
         UIImage(named: "Website_Blue")!,
         UIImage(named: "Email_Blue")!,
+        UIImage(named: "Marker")!,
         UIImage(named: "Password_Blue")!
     ]
 
@@ -61,7 +62,6 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.dataSource = self
 
         subscribeToNofications()
-        editUserProfileImageView()
         
     }
     
@@ -71,13 +71,6 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessProfileVC.onFileUploaded), name: "fileUploaded", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessProfileVC.onUserLoggedOut), name: "userLoggedOut", object: nil)
-    }
-    
-    func editUserProfileImageView(){
-        self.userProfileImg.layer.cornerRadius = 10.0
-        self.userProfileImg.clipsToBounds = true;
-        self.userProfileImg.layer.borderWidth = 3.0
-        self.userProfileImg.layer.borderColor = ACCENT_COLOR.CGColor
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -108,7 +101,8 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             user.phoneNumber,
             user.businessWebsite,
             user.userEmail,
-            "Change Password" //Because users password should not be displayed
+            "Change Location",
+            "Change Password", //Because users password should not be displayed
         ]
     }
     
@@ -175,6 +169,10 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             }))
             self.presentViewController(alert, animated: true, completion: nil)
             
+        }else if indexPath.row == 7 {
+        
+            performSegueWithIdentifier("EditBusinessLocation", sender: nil)
+        
         }else {
             
             print("Change Password")
@@ -351,5 +349,29 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     @IBAction func analyticsBtnPressed(sender: AnyObject) {
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "EditBusinessLocation" {
+            if let locationVC = segue.destinationViewController as? EditBusinessLocationVC{
+                
+                    let loc = user.businessLocation
+                    locationVC.location = loc
+
+            }
+            
+        }
+        
+    }
     
 }
+
+
+
+
+
+
+
+
+
+
+

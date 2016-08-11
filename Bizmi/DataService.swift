@@ -35,6 +35,14 @@ class DataService {
         
     }
     
+    private var _allFollowers = [User]()
+    
+    var allFollowers: [User] {
+        
+        return _allFollowers
+        
+    }
+    
     func loadAllUsers(){
         
         let dataStore = appDelegate.self.backendless.persistenceService.of(BackendlessUser.ofClass())
@@ -64,6 +72,96 @@ class DataService {
         )
      
     }
+    
+     /*
+     1. Load all Follower ID's from Follow table
+     2. Query Follower ID from Users table one-by-one until all followers have been loaded from Users table
+     3. Send Notificaton once all users have been addd to _allFollowers variable
+     */
+    
+    func loadAllFollowers(){
+        
+        let currentuser = appDelegate.backendless.userService.currentUser
+        
+        let dataStore = appDelegate.self.backendless.persistenceService.of(Follow.ofClass())
+        
+        let whereClause = "To = '\(currentuser.objectId)'"
+        let dataQuery = BackendlessDataQuery()
+        dataQuery.whereClause = whereClause
+        
+        dataStore.find(dataQuery,
+               response: { (follows : BackendlessCollection!) -> () in
+                
+                let currentFollowersPage = follows.getCurrentPage()
+                
+                print("\(currentFollowersPage.count) current followers page")
+                
+                if currentFollowersPage.count > 0 {
+                    
+                    for follow in currentFollowersPage as! [Follow]{
+                        
+                        print("\(follow.From) current page")
+
+                        if let followerID = follow.From{
+                            
+                            let dataStore = self.appDelegate.backendless.persistenceService.of(BackendlessUser.ofClass())
+                            
+                            let whereClause = "userType = 'Customer' AND userObjectID = '\(followerID)'"
+                            let dataQuery = BackendlessDataQuery()
+                            dataQuery.whereClause = whereClause
+                            
+                            dataStore.find(dataQuery,
+                                response: { (users : BackendlessCollection!) -> () in
+                                    
+                                    //Backendless pages data - getCurrentPage will load 100 users
+                                    //Eventually we will implement paging mechanism as user scrolls more data will be loaded.
+                                    let currentPage = users.getCurrentPage()
+                                    print("\(currentPage.count) current page")
+
+                                    for user in currentPage as! [BackendlessUser]{
+                                        
+                                        //Cast BackendlessUser object to Bizmi User object
+                                        let userObj: User = User()
+                                        userObj.populateUserData(user)
+                                        
+                                        self._allFollowers.append(userObj)
+                                        
+                                        print("\(userObj.fullName)")
+
+                                    }
+                                    
+                                    //Make sure all users have been loaded because it is asyncronous
+                                    
+                                    if self._allFollowers.count == currentFollowersPage.count {
+                                        
+                                        NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "allFollowersLoaded", object: nil))
+                                        
+                                    }
+                                    
+                                    
+                                },
+                                error: { (fault : Fault!) -> () in
+                                    print("Server reported an error (ASYNC): \(fault.description)")
+                                }
+                            )
+                            
+                        }
+                    }
+                   
+                    
+                }
+                
+            },
+           error: { (fault : Fault!) -> () in
+            print("Server reported an error (ASYNC): \(fault.description)")
+            }
+        )
+
+        
+    }
+    
+    
+    
     
     //TODO add filter option as argument
     
@@ -116,7 +214,6 @@ class DataService {
         currentUser.updateProperties( properties )
         self.appDelegate.backendless.userService.update(currentUser,
             response: { ( updatedUser : BackendlessUser!) -> () in
-                print("No Error \(updatedUser.email)")
                 NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "userUpdated", object: nil))
             },
             error: { ( fault : Fault!) -> () in

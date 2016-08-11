@@ -27,7 +27,6 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
             
     override func viewDidLoad() {
         self.navigationItem.title = "New Business"
-        
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {

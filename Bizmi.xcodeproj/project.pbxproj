@@ -20,9 +20,17 @@
 		5A129C001D49C8D100FE5126 /* BusinessProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BFF1D49C8D100FE5126 /* BusinessProfileVC.swift */; };
 		5A129C021D49F87800FE5126 /* ViewFollowersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129C011D49F87800FE5126 /* ViewFollowersCell.swift */; };
 		5A1E47A31D55DA0E00A4A308 /* ViewBusinessesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E47A21D55DA0E00A4A308 /* ViewBusinessesCell.swift */; };
+		5A248B8B1D5AF48B00854CC3 /* ButtonBorderBlue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A248B8A1D5AF48B00854CC3 /* ButtonBorderBlue.swift */; };
+		5A3026B61D5BE97C00B3E382 /* BorderImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3026B51D5BE97C00B3E382 /* BorderImageView.swift */; };
+		5A3026B81D5BFD7A00B3E382 /* ViewBusinessLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3026B71D5BFD7A00B3E382 /* ViewBusinessLocationVC.swift */; };
+		5A3026BC1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3026BB1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift */; };
+		5A3026BE1D5C534000B3E382 /* ViewBusinessHoursVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3026BD1D5C534000B3E382 /* ViewBusinessHoursVC.swift */; };
+		5A3026C01D5C582700B3E382 /* Follow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3026BF1D5C582700B3E382 /* Follow.swift */; };
 		5A33FF981D41007D00498EC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A33FF971D41007D00498EC2 /* Assets.xcassets */; };
 		5A3F13F41D4098AF0028E428 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3F13F31D4098AF0028E428 /* User.swift */; };
 		5A4C526C1D4B31530052E49B /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4C526B1D4B31530052E49B /* DataService.swift */; };
+		5A4D3A201D57FE72003C1CC1 /* EditBusinessLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4D3A1F1D57FE72003C1CC1 /* EditBusinessLocationVC.swift */; };
+		5A4D3A221D580CEB003C1CC1 /* BusinessAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4D3A211D580CEB003C1CC1 /* BusinessAnnotation.swift */; };
 		5A575A731D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A575A721D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift */; };
 		5A7880FD1D3E261400F168AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7880FC1D3E261400F168AE /* AppDelegate.swift */; };
 		5A7880FF1D3E261400F168AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7880FE1D3E261400F168AE /* ViewController.swift */; };
@@ -38,6 +46,7 @@
 		5AF0B1221D547A4700C14BC4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF0B1211D547A4700C14BC4 /* Extensions.swift */; };
 		5AF412871D52A83200F184C0 /* BusinessProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF412861D52A83200F184C0 /* BusinessProfileCell.swift */; };
 		5AF71CB91D488A9B009B6951 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF71CB81D488A9B009B6951 /* Messages.swift */; };
+		5AF845B81D56E2D400F4A727 /* ViewBusinessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF845B71D56E2D400F4A727 /* ViewBusinessVC.swift */; };
 		5AFB6F3C1D497174008E332B /* VerifyPhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB6F3B1D497174008E332B /* VerifyPhoneNumberVC.swift */; };
 		F444B6F11D1851099142F997 /* Pods_Bizmi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907A8472BDDF650214013686 /* Pods_Bizmi.framework */; };
 /* End PBXBuildFile section */
@@ -56,9 +65,17 @@
 		5A129BFF1D49C8D100FE5126 /* BusinessProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessProfileVC.swift; sourceTree = "<group>"; };
 		5A129C011D49F87800FE5126 /* ViewFollowersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewFollowersCell.swift; sourceTree = "<group>"; };
 		5A1E47A21D55DA0E00A4A308 /* ViewBusinessesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessesCell.swift; sourceTree = "<group>"; };
+		5A248B8A1D5AF48B00854CC3 /* ButtonBorderBlue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonBorderBlue.swift; sourceTree = "<group>"; };
+		5A3026B51D5BE97C00B3E382 /* BorderImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderImageView.swift; sourceTree = "<group>"; };
+		5A3026B71D5BFD7A00B3E382 /* ViewBusinessLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessLocationVC.swift; sourceTree = "<group>"; };
+		5A3026BB1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessWebsiteVC.swift; sourceTree = "<group>"; };
+		5A3026BD1D5C534000B3E382 /* ViewBusinessHoursVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessHoursVC.swift; sourceTree = "<group>"; };
+		5A3026BF1D5C582700B3E382 /* Follow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Follow.swift; sourceTree = "<group>"; };
 		5A33FF971D41007D00498EC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A3F13F31D4098AF0028E428 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5A4C526B1D4B31530052E49B /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		5A4D3A1F1D57FE72003C1CC1 /* EditBusinessLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBusinessLocationVC.swift; sourceTree = "<group>"; };
+		5A4D3A211D580CEB003C1CC1 /* BusinessAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessAnnotation.swift; sourceTree = "<group>"; };
 		5A575A721D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialPhoneNumberTextView.swift; sourceTree = "<group>"; };
 		5A7880F91D3E261400F168AE /* Bizmi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bizmi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A7880FC1D3E261400F168AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +93,7 @@
 		5AF0B1211D547A4700C14BC4 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5AF412861D52A83200F184C0 /* BusinessProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessProfileCell.swift; sourceTree = "<group>"; };
 		5AF71CB81D488A9B009B6951 /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
+		5AF845B71D56E2D400F4A727 /* ViewBusinessVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessVC.swift; sourceTree = "<group>"; };
 		5AFB6F3B1D497174008E332B /* VerifyPhoneNumberVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyPhoneNumberVC.swift; sourceTree = "<group>"; };
 		8645C214E14E20DB58C1F663 /* Pods-Bizmi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizmi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bizmi/Pods-Bizmi.release.xcconfig"; sourceTree = "<group>"; };
 		907A8472BDDF650214013686 /* Pods_Bizmi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bizmi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				5A3F13F31D4098AF0028E428 /* User.swift */,
+				5A3026BF1D5C582700B3E382 /* Follow.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -190,6 +209,9 @@
 				5A129C011D49F87800FE5126 /* ViewFollowersCell.swift */,
 				5AF412861D52A83200F184C0 /* BusinessProfileCell.swift */,
 				5A1E47A21D55DA0E00A4A308 /* ViewBusinessesCell.swift */,
+				5A4D3A211D580CEB003C1CC1 /* BusinessAnnotation.swift */,
+				5A248B8A1D5AF48B00854CC3 /* ButtonBorderBlue.swift */,
+				5A3026B51D5BE97C00B3E382 /* BorderImageView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -204,6 +226,11 @@
 				5A025DCB1D403CBE0060791D /* CustomerSignUpVC.swift */,
 				5A025DCD1D403D050060791D /* BusinessSignUpVC.swift */,
 				5AFB6F3B1D497174008E332B /* VerifyPhoneNumberVC.swift */,
+				5AF845B71D56E2D400F4A727 /* ViewBusinessVC.swift */,
+				5A4D3A1F1D57FE72003C1CC1 /* EditBusinessLocationVC.swift */,
+				5A3026B71D5BFD7A00B3E382 /* ViewBusinessLocationVC.swift */,
+				5A3026BB1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift */,
+				5A3026BD1D5C534000B3E382 /* ViewBusinessHoursVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -354,10 +381,15 @@
 			files = (
 				5AF412871D52A83200F184C0 /* BusinessProfileCell.swift in Sources */,
 				5A1E47A31D55DA0E00A4A308 /* ViewBusinessesCell.swift in Sources */,
+				5A4D3A221D580CEB003C1CC1 /* BusinessAnnotation.swift in Sources */,
+				5A248B8B1D5AF48B00854CC3 /* ButtonBorderBlue.swift in Sources */,
 				5A129BF61D49C81200FE5126 /* CustomerViewReservationsVC.swift in Sources */,
 				5A025DCC1D403CBE0060791D /* CustomerSignUpVC.swift in Sources */,
+				5A4D3A201D57FE72003C1CC1 /* EditBusinessLocationVC.swift in Sources */,
+				5A3026BE1D5C534000B3E382 /* ViewBusinessHoursVC.swift in Sources */,
 				5A129BFA1D49C85500FE5126 /* BusinessViewMessagesVC.swift in Sources */,
 				5A129BF21D49C77E00FE5126 /* CustomerViewMessagesVC.swift in Sources */,
+				5A3026BC1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift in Sources */,
 				5A129C001D49C8D100FE5126 /* BusinessProfileVC.swift in Sources */,
 				5A4C526C1D4B31530052E49B /* DataService.swift in Sources */,
 				5A7880FF1D3E261400F168AE /* ViewController.swift in Sources */,
@@ -365,10 +397,13 @@
 				5A7880FD1D3E261400F168AE /* AppDelegate.swift in Sources */,
 				5A575A731D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift in Sources */,
 				5A129C021D49F87800FE5126 /* ViewFollowersCell.swift in Sources */,
+				5A3026B81D5BFD7A00B3E382 /* ViewBusinessLocationVC.swift in Sources */,
+				5AF845B81D56E2D400F4A727 /* ViewBusinessVC.swift in Sources */,
 				5A025DCA1D403B530060791D /* ForgotPasswordVC.swift in Sources */,
 				5A129BFC1D49C88000FE5126 /* BusinessViewCustomersVC.swift in Sources */,
 				5A025DCE1D403D050060791D /* BusinessSignUpVC.swift in Sources */,
 				5A3F13F41D4098AF0028E428 /* User.swift in Sources */,
+				5A3026C01D5C582700B3E382 /* Follow.swift in Sources */,
 				5A129BFE1D49C8B400FE5126 /* BusinessViewReservationsVC.swift in Sources */,
 				5AF71CB91D488A9B009B6951 /* Messages.swift in Sources */,
 				5ADD36391D3E3E6100394637 /* MaterialTextField.swift in Sources */,
@@ -376,6 +411,7 @@
 				5AFB6F3C1D497174008E332B /* VerifyPhoneNumberVC.swift in Sources */,
 				5ADD36341D3E3CD400394637 /* Constants.swift in Sources */,
 				5A129BF81D49C83000FE5126 /* CustomerProfileVC.swift in Sources */,
+				5A3026B61D5BE97C00B3E382 /* BorderImageView.swift in Sources */,
 				5ADD36361D3E3D3E00394637 /* MaterialView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

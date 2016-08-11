@@ -49,7 +49,6 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.dataSource = self
         
         subscribeToNofications()
-        editUserProfileImageView()
         
     }
     
@@ -59,13 +58,6 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessProfileVC.onFileUploaded), name: "fileUploaded", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessProfileVC.onUserLoggedOut), name: "userLoggedOut", object: nil)
-    }
-    
-    func editUserProfileImageView(){
-        self.userProfileImg.layer.cornerRadius = 10.0
-        self.userProfileImg.clipsToBounds = true;
-        self.userProfileImg.layer.borderWidth = 3.0
-        self.userProfileImg.layer.borderColor = ACCENT_COLOR.CGColor
     }
     
     override func viewWillAppear(animated: Bool) {
