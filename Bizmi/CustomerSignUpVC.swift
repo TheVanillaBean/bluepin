@@ -10,7 +10,6 @@ import UIKit
 import DeviceKit
 import Toast_Swift
 import PhoneNumberKit
-import SendBirdSDK
 import SinchVerification
 
 class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
@@ -120,12 +119,22 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
                                 let userObj: User = User()
                                 userObj.populateUserData(user)
                                 
-                                //Authenticate with Sendbird for messaging
-                                SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.fullName)
+                                let properties = [
+                                    "userObjectID" : user.objectId
+                                ]
                                 
-                                self.view.hideToastActivity()
+                                self.appDelegate.backendless.userService.currentUser.updateProperties( properties )
+                                self.appDelegate.backendless.userService.update(self.appDelegate.backendless.userService.currentUser,
+                                    response: { ( updatedUser : BackendlessUser!) -> () in
+                                        self.view.hideToastActivity()
+                                        
+                                        self.initiateVerificationProcess(userObj, phoneNumber: userObj.phoneNumber)
+                                    },
+                                    
+                                    error: { ( fault : Fault!) -> () in
+                                        print("Server reported an error (2): \(fault.message)")
+                                })
                                 
-                                self.initiateVerificationProcess(userObj, phoneNumber: userObj.phoneNumber)
                                                                 
                             },
                             error: { ( fault : Fault!) -> () in

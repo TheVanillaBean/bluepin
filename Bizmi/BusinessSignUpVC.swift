@@ -9,7 +9,6 @@
 import UIKit
 import DeviceKit
 import Toast_Swift
-import SendBirdSDK
 
 class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
 
@@ -87,10 +86,25 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
                             let userObj: User = User()
                             userObj.populateUserData(user)
                             
-                            //Authenticate with Sendbird for messagings
-                            SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.businessName)
+                            let properties = [
+                                "userObjectID" : user.objectId
+                            ]
                             
-                            self.performSegueWithIdentifier("businessSignUp", sender: nil)
+                            self.appDelegate.backendless.userService.currentUser.updateProperties( properties )
+                            self.appDelegate.backendless.userService.update(self.appDelegate.backendless.userService.currentUser,
+                                response: { ( updatedUser : BackendlessUser!) -> () in
+                                    self.view.hideToastActivity()
+                                    
+                                    self.performSegueWithIdentifier("businessSignUp", sender: nil)
+
+                                },
+                                
+                                error: { ( fault : Fault!) -> () in
+                                    print("Server reported an error (2): \(fault.message)")
+                            })
+                            
+
+                            
                             
                         },
                         error: { ( fault : Fault!) -> () in

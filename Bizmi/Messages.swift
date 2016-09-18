@@ -15,7 +15,7 @@ class Messages {
     static let screenWidth = screenSize.width
     static let screenHeight = screenSize.height
     static let position = CGPoint(x: CGFloat(screenWidth/2), y: CGFloat( (screenHeight * 0.33 ) ))
-    
+        
     static func displayToastMessage(uiVIew: UIView!, msg: String?){
         
         view = uiVIew
@@ -109,8 +109,9 @@ class Messages {
             UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(alertController, animated: true, completion: nil)
         }
        
-        
     }
+ 
+    
 }
     
     

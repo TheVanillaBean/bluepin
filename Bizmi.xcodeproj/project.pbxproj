@@ -36,6 +36,12 @@
 		5A7880FF1D3E261400F168AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7880FE1D3E261400F168AE /* ViewController.swift */; };
 		5A7881021D3E261500F168AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A7881001D3E261500F168AE /* Main.storyboard */; };
 		5A7881071D3E261500F168AE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A7881051D3E261500F168AE /* LaunchScreen.storyboard */; };
+		5AAC6E071D6505D400D59F44 /* ViewMessageThreadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAC6E061D6505D400D59F44 /* ViewMessageThreadVC.swift */; };
+		5ABEC9611D7B9439009D7032 /* CustomerReservationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEC9601D7B9439009D7032 /* CustomerReservationCell.swift */; };
+		5ACA47CA1D725AF400583632 /* ViewCustomerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACA47C91D725AF400583632 /* ViewCustomerVC.swift */; };
+		5ACF9D051D69354800ED25F7 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF9D041D69354800ED25F7 /* Structs.swift */; };
+		5ACF9D071D69B2E700ED25F7 /* CustomerMessageChannelsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF9D061D69B2E700ED25F7 /* CustomerMessageChannelsCell.swift */; };
+		5ACF9D091D6A857100ED25F7 /* BusinessMessageChannelsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF9D081D6A857100ED25F7 /* BusinessMessageChannelsCell.swift */; };
 		5ADD362F1D3E3C3300394637 /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ADD362B1D3E3C3300394637 /* NotoSans-Bold.ttf */; };
 		5ADD36301D3E3C3300394637 /* NotoSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ADD362C1D3E3C3300394637 /* NotoSans-BoldItalic.ttf */; };
 		5ADD36311D3E3C3300394637 /* NotoSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ADD362D1D3E3C3300394637 /* NotoSans-Italic.ttf */; };
@@ -44,10 +50,15 @@
 		5ADD36361D3E3D3E00394637 /* MaterialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD36351D3E3D3E00394637 /* MaterialView.swift */; };
 		5ADD36391D3E3E6100394637 /* MaterialTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD36381D3E3E6100394637 /* MaterialTextField.swift */; };
 		5AF0B1221D547A4700C14BC4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF0B1211D547A4700C14BC4 /* Extensions.swift */; };
+		5AF2DA091D73E99600C55BEB /* ChoosePartyLeaderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF2DA081D73E99600C55BEB /* ChoosePartyLeaderVC.swift */; };
+		5AF2DA0B1D73EB0900C55BEB /* ChoosePartyLeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF2DA0A1D73EB0900C55BEB /* ChoosePartyLeaderCell.swift */; };
+		5AF4093C1D73BEED00814B65 /* NewReservationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF4093B1D73BEED00814B65 /* NewReservationVC.swift */; };
+		5AF4093E1D73C3C300814B65 /* Reservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF4093D1D73C3C300814B65 /* Reservation.swift */; };
 		5AF412871D52A83200F184C0 /* BusinessProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF412861D52A83200F184C0 /* BusinessProfileCell.swift */; };
 		5AF71CB91D488A9B009B6951 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF71CB81D488A9B009B6951 /* Messages.swift */; };
 		5AF845B81D56E2D400F4A727 /* ViewBusinessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF845B71D56E2D400F4A727 /* ViewBusinessVC.swift */; };
 		5AFB6F3C1D497174008E332B /* VerifyPhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB6F3B1D497174008E332B /* VerifyPhoneNumberVC.swift */; };
+		5AFC0F7E1D7BD14A00CAE39A /* BusinessReservationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFC0F7D1D7BD14A00CAE39A /* BusinessReservationCell.swift */; };
 		F444B6F11D1851099142F997 /* Pods_Bizmi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907A8472BDDF650214013686 /* Pods_Bizmi.framework */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +94,12 @@
 		5A7881011D3E261500F168AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5A7881061D3E261500F168AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5A7881081D3E261500F168AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5AAC6E061D6505D400D59F44 /* ViewMessageThreadVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewMessageThreadVC.swift; sourceTree = "<group>"; };
+		5ABEC9601D7B9439009D7032 /* CustomerReservationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerReservationCell.swift; sourceTree = "<group>"; };
+		5ACA47C91D725AF400583632 /* ViewCustomerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewCustomerVC.swift; sourceTree = "<group>"; };
+		5ACF9D041D69354800ED25F7 /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
+		5ACF9D061D69B2E700ED25F7 /* CustomerMessageChannelsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerMessageChannelsCell.swift; sourceTree = "<group>"; };
+		5ACF9D081D6A857100ED25F7 /* BusinessMessageChannelsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessMessageChannelsCell.swift; sourceTree = "<group>"; };
 		5ADD362B1D3E3C3300394637 /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
 		5ADD362C1D3E3C3300394637 /* NotoSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		5ADD362D1D3E3C3300394637 /* NotoSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Italic.ttf"; sourceTree = "<group>"; };
@@ -91,10 +108,15 @@
 		5ADD36351D3E3D3E00394637 /* MaterialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialView.swift; sourceTree = "<group>"; };
 		5ADD36381D3E3E6100394637 /* MaterialTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialTextField.swift; sourceTree = "<group>"; };
 		5AF0B1211D547A4700C14BC4 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		5AF2DA081D73E99600C55BEB /* ChoosePartyLeaderVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoosePartyLeaderVC.swift; sourceTree = "<group>"; };
+		5AF2DA0A1D73EB0900C55BEB /* ChoosePartyLeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoosePartyLeaderCell.swift; sourceTree = "<group>"; };
+		5AF4093B1D73BEED00814B65 /* NewReservationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewReservationVC.swift; sourceTree = "<group>"; };
+		5AF4093D1D73C3C300814B65 /* Reservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reservation.swift; sourceTree = "<group>"; };
 		5AF412861D52A83200F184C0 /* BusinessProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessProfileCell.swift; sourceTree = "<group>"; };
 		5AF71CB81D488A9B009B6951 /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		5AF845B71D56E2D400F4A727 /* ViewBusinessVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessVC.swift; sourceTree = "<group>"; };
 		5AFB6F3B1D497174008E332B /* VerifyPhoneNumberVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyPhoneNumberVC.swift; sourceTree = "<group>"; };
+		5AFC0F7D1D7BD14A00CAE39A /* BusinessReservationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessReservationCell.swift; sourceTree = "<group>"; };
 		8645C214E14E20DB58C1F663 /* Pods-Bizmi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizmi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bizmi/Pods-Bizmi.release.xcconfig"; sourceTree = "<group>"; };
 		907A8472BDDF650214013686 /* Pods_Bizmi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bizmi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F0D574491D1769EE46A7BE /* Pods-Bizmi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizmi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bizmi/Pods-Bizmi.debug.xcconfig"; sourceTree = "<group>"; };
@@ -176,6 +198,7 @@
 				5AF71CB81D488A9B009B6951 /* Messages.swift */,
 				5A4C526B1D4B31530052E49B /* DataService.swift */,
 				5AF0B1211D547A4700C14BC4 /* Extensions.swift */,
+				5ACF9D041D69354800ED25F7 /* Structs.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -196,6 +219,7 @@
 			children = (
 				5A3F13F31D4098AF0028E428 /* User.swift */,
 				5A3026BF1D5C582700B3E382 /* Follow.swift */,
+				5AF4093D1D73C3C300814B65 /* Reservation.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -212,6 +236,11 @@
 				5A4D3A211D580CEB003C1CC1 /* BusinessAnnotation.swift */,
 				5A248B8A1D5AF48B00854CC3 /* ButtonBorderBlue.swift */,
 				5A3026B51D5BE97C00B3E382 /* BorderImageView.swift */,
+				5ACF9D061D69B2E700ED25F7 /* CustomerMessageChannelsCell.swift */,
+				5ACF9D081D6A857100ED25F7 /* BusinessMessageChannelsCell.swift */,
+				5AF2DA0A1D73EB0900C55BEB /* ChoosePartyLeaderCell.swift */,
+				5ABEC9601D7B9439009D7032 /* CustomerReservationCell.swift */,
+				5AFC0F7D1D7BD14A00CAE39A /* BusinessReservationCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -231,6 +260,10 @@
 				5A3026B71D5BFD7A00B3E382 /* ViewBusinessLocationVC.swift */,
 				5A3026BB1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift */,
 				5A3026BD1D5C534000B3E382 /* ViewBusinessHoursVC.swift */,
+				5AAC6E061D6505D400D59F44 /* ViewMessageThreadVC.swift */,
+				5ACA47C91D725AF400583632 /* ViewCustomerVC.swift */,
+				5AF4093B1D73BEED00814B65 /* NewReservationVC.swift */,
+				5AF2DA081D73E99600C55BEB /* ChoosePartyLeaderVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -379,19 +412,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5ACF9D051D69354800ED25F7 /* Structs.swift in Sources */,
 				5AF412871D52A83200F184C0 /* BusinessProfileCell.swift in Sources */,
+				5ACF9D071D69B2E700ED25F7 /* CustomerMessageChannelsCell.swift in Sources */,
+				5ACF9D091D6A857100ED25F7 /* BusinessMessageChannelsCell.swift in Sources */,
+				5AAC6E071D6505D400D59F44 /* ViewMessageThreadVC.swift in Sources */,
 				5A1E47A31D55DA0E00A4A308 /* ViewBusinessesCell.swift in Sources */,
+				5AF4093C1D73BEED00814B65 /* NewReservationVC.swift in Sources */,
 				5A4D3A221D580CEB003C1CC1 /* BusinessAnnotation.swift in Sources */,
 				5A248B8B1D5AF48B00854CC3 /* ButtonBorderBlue.swift in Sources */,
 				5A129BF61D49C81200FE5126 /* CustomerViewReservationsVC.swift in Sources */,
 				5A025DCC1D403CBE0060791D /* CustomerSignUpVC.swift in Sources */,
 				5A4D3A201D57FE72003C1CC1 /* EditBusinessLocationVC.swift in Sources */,
+				5AFC0F7E1D7BD14A00CAE39A /* BusinessReservationCell.swift in Sources */,
 				5A3026BE1D5C534000B3E382 /* ViewBusinessHoursVC.swift in Sources */,
 				5A129BFA1D49C85500FE5126 /* BusinessViewMessagesVC.swift in Sources */,
 				5A129BF21D49C77E00FE5126 /* CustomerViewMessagesVC.swift in Sources */,
 				5A3026BC1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift in Sources */,
 				5A129C001D49C8D100FE5126 /* BusinessProfileVC.swift in Sources */,
 				5A4C526C1D4B31530052E49B /* DataService.swift in Sources */,
+				5ACA47CA1D725AF400583632 /* ViewCustomerVC.swift in Sources */,
 				5A7880FF1D3E261400F168AE /* ViewController.swift in Sources */,
 				5A129BF41D49C7BC00FE5126 /* CustomerViewBusinessesVC.swift in Sources */,
 				5A7880FD1D3E261400F168AE /* AppDelegate.swift in Sources */,
@@ -404,9 +444,13 @@
 				5A025DCE1D403D050060791D /* BusinessSignUpVC.swift in Sources */,
 				5A3F13F41D4098AF0028E428 /* User.swift in Sources */,
 				5A3026C01D5C582700B3E382 /* Follow.swift in Sources */,
+				5AF2DA0B1D73EB0900C55BEB /* ChoosePartyLeaderCell.swift in Sources */,
 				5A129BFE1D49C8B400FE5126 /* BusinessViewReservationsVC.swift in Sources */,
+				5AF4093E1D73C3C300814B65 /* Reservation.swift in Sources */,
 				5AF71CB91D488A9B009B6951 /* Messages.swift in Sources */,
 				5ADD36391D3E3E6100394637 /* MaterialTextField.swift in Sources */,
+				5ABEC9611D7B9439009D7032 /* CustomerReservationCell.swift in Sources */,
+				5AF2DA091D73E99600C55BEB /* ChoosePartyLeaderVC.swift in Sources */,
 				5AF0B1221D547A4700C14BC4 /* Extensions.swift in Sources */,
 				5AFB6F3C1D497174008E332B /* VerifyPhoneNumberVC.swift in Sources */,
 				5ADD36341D3E3CD400394637 /* Constants.swift in Sources */,

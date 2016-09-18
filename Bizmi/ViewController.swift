@@ -8,7 +8,6 @@
 
 import UIKit
 import Toast_Swift
-import SendBirdSDK
 import SinchVerification
 
 class ViewController: UIViewController, UITextFieldDelegate {
@@ -33,12 +32,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(true)
         self.navigationController?.navigationBarHidden = true
         
-        validUserToken()
+        validateUserToken()
         
     }
   
     
-    func validUserToken() {
+    func validateUserToken() {
         appDelegate.backendless.userService.isValidUserToken(
             { (result : AnyObject!) -> () in
 
@@ -127,12 +126,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
             if userObj.userType == "Business"{
                 self.performSegueWithIdentifier("businessLogin", sender: nil)
-                SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.businessName)
             }else {
                 
                 if userObj.phoneNumberVerified{
                     self.performSegueWithIdentifier("customerLogin", sender: nil)
-                    SendBird.loginWithUserId(userObj.objectId, andUserName: userObj.fullName)
                 }else {
                     self.initiateVerificationProcess(userObj, phoneNumber: userObj.phoneNumber)
                 }

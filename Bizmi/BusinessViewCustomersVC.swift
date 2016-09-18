@@ -12,6 +12,8 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
 
     @IBOutlet weak var tableView: UITableView!
     
+    var customerUser: BackendlessUser!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,7 +29,6 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         
-     
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -53,16 +54,40 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 72.0
+        return 100.0
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataService.instance.allFollowers.count
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true) //So tableview row doesn't stay highlighted
+        
+        let currentCell = tableView.cellForRowAtIndexPath(indexPath)! as! ViewFollowersCell
+        
+        let date = currentCell.followingDate.text! as String
+        
+        customerUser = DataService.instance.allFollowers[indexPath.row]
+        performSegueWithIdentifier("ViewSingleCustomer", sender: date)
+            
+    }
+    
     func onFollowersLoaded(){
         tableView.reloadData()
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ViewSingleCustomer" {
+            if let viewCustomerVC = segue.destinationViewController as? ViewCustomerVC{
+                if let date = sender as? String {
+                    viewCustomerVC.backendlessUser = customerUser
+                    viewCustomerVC.followingDate = date
+                }
+            }
+            
+        }
+    }
     
 }

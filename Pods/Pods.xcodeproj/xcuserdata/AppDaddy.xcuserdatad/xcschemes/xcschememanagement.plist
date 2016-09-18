@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>ALCameraViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -19,7 +24,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CocoaLumberjack.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>DeviceKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>JSQMessagesViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>JSQSystemSoundPlayer.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -30,6 +50,11 @@
 			<false/>
 		</dict>
 		<key>Pods-Bizmi.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>PubNub.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -52,12 +77,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5A2AC9986A09B5B66AE933FA137B054E</key>
+		<key>1C3436CEA5C3D39764C5F54374794ECB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6A28AEF290A2FBDF5FD852C93401F485</key>
+		<key>1ED4DFAAD25E1999D0244868457A351E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4A48ABF4E565A29E3B3E177111AD8948</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>59CDDB315DD2B098E0CD9ED56B026F4B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -67,12 +102,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>88CA18CF66D1F86A3AEF8405DCA4C67A</key>
+		<key>8A2E8FED01C8A6BC8ADFCF3C3B78368F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B5A44B4760DF1495A923DA7F84B0168F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>C050EB90AEDA8E52289FB70BB490AC44</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D011FD3C99D8ABDA2F31456E80EAE50C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -83,6 +128,11 @@
 			<true/>
 		</dict>
 		<key>EF78824223C74AA13AE655CD2ACF32A3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F06793CEBC9EB526AB63D10DE825A1D3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

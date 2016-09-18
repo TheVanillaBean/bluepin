@@ -8,11 +8,13 @@
 
 import Foundation
 import UIKit
+import JSQMessagesViewController
 
-class DataService {
+class DataService: NSObject{
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    
+    let serialQueue: dispatch_queue_t = dispatch_queue_create("pageHistoryQueue", DISPATCH_QUEUE_SERIAL)
+
     private static let _instance = DataService()
 
     static var instance: DataService {
@@ -40,6 +42,129 @@ class DataService {
     var allFollowers: [User] {
         
         return _allFollowers
+        
+    }
+    
+    func currentUser() -> User{
+        
+        let user = User()
+        user.populateUserData(appDelegate.backendless.userService.currentUser)
+        
+        return user
+    }
+    
+    private var _allCustomerReservations: [Reservation] = []
+    
+    var allCustomerReservations: [Reservation] {
+        
+        return _allCustomerReservations
+    
+    }
+    
+    private var _allBusinessReservations: [Reservation] = []
+    
+    var allBusinessReservations: [Reservation] {
+        
+        return _allBusinessReservations
+    
+    }
+    
+    private var _allInboundMessageItems: [MessageItem] = [] //From Pubnub
+    
+    private var _allUniqueChannelNames: [String] = []
+    
+    private var _allUniqueChannels: [MessageItem] = [] //Queried from _allInboundMessageItems
+    
+    var allUniqueChannels: [MessageItem] {
+        
+        return _allUniqueChannels
+        
+    }
+    
+    var allUniqueChannelNames: [String] {
+        
+        return _allUniqueChannelNames
+        
+    }
+    
+    var allInboundMessageItems: [MessageItem] {
+    
+        return _allInboundMessageItems
+        
+    }
+    
+    private var _newPubNubMessage: MessageItem!
+    
+    var newPubNubMessage: MessageItem {
+        
+        get {
+            return _newPubNubMessage
+        }
+        
+        set(newMessage){
+            _newPubNubMessage = newMessage
+        }
+    }
+    
+    private var _allMessageItemsInChat: [MessageItem] = []
+    private var _allJSQMessagesInChat: [JSQMessage] = []
+    
+    var allJSQMessagesInChat: [JSQMessage] {
+       
+        get {
+            return _allJSQMessagesInChat
+        }
+        
+    }
+    
+    private var _appointmentLeaderName: String?
+    
+    var appointmentLeaderName: String {
+        
+        get {
+            if let name = _appointmentLeaderName{
+                return name
+            }else{
+                return "Select Customer"
+            }
+            
+        }
+        
+        set(newLeader){
+            _appointmentLeaderName = newLeader
+        }
+    }
+    
+    private var _appointmentLeaderID: String?
+    
+    var appointmentLeaderID: String {
+        
+        get {
+            if let ID = _appointmentLeaderID{
+                return ID
+            }else{
+                return "Select Customer"
+            }
+        }
+        
+        set(newLeaderID){
+            _appointmentLeaderID = newLeaderID
+        }
+    }
+    
+    enum statusType: String {
+        case PENDING = "Pending"
+        case ACTIVE = "Active"
+        case INACTIVE = "Inactive"
+        case DECLINED = "Declined"
+    }
+
+    func appendMessageToAllJSQMessages(newMessage: MessageItem){
+        
+        let newJSQMessage = JSQMessage(senderId: newMessage.uuid, displayName: "", text: newMessage.message)
+        
+        _allJSQMessagesInChat.append(newJSQMessage)
+        _allMessageItemsInChat.append(newMessage)
         
     }
     
@@ -156,12 +281,8 @@ class DataService {
             print("Server reported an error (ASYNC): \(fault.description)")
             }
         )
-
         
     }
-    
-    
-    
     
     //TODO add filter option as argument
     
@@ -253,6 +374,19 @@ class DataService {
             { ( user : AnyObject!) -> () in
                 print("User logged out.")
                 NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "userLoggedOut", object: nil))
+                
+                //Clear DataService Instance
+                self._allUsers.removeAll()
+                self._allBusinesses.removeAll()
+                self._allFollowers.removeAll()
+                self._allCustomerReservations.removeAll()
+                self._allBusinessReservations.removeAll()
+                self._allInboundMessageItems.removeAll()
+                self._allUniqueChannelNames.removeAll()
+                self._allUniqueChannels.removeAll()
+                self._allMessageItemsInChat.removeAll()
+                self._allJSQMessagesInChat.removeAll()
+                
             },
             error: { ( fault : Fault!) -> () in
                 print("Server reported an error: \(fault)")
@@ -277,8 +411,403 @@ class DataService {
         })
 
     }
-
     
+    func subscribeToBusiness(From: String, To: String){
+    
+        let dataStore = appDelegate.self.backendless.persistenceService.of(Follow.ofClass())
+        
+        let whereClause = "From = '\(From)' AND To = '\(To)'"
+        let dataQuery = BackendlessDataQuery()
+        dataQuery.whereClause = whereClause
+        
+        dataStore.find(dataQuery,
+                       response: { (follows : BackendlessCollection!) -> () in
+                        
+                        let responseDict: [String: AnyObject]!
+
+                        
+                        if follows.getCurrentPage().count > 0 {
+                            
+                            let follow = follows.getCurrentPage()[0] as! Follow
+                            
+                            responseDict = ["response": "Removed"]
+                            
+                            // now delete the saved object - unsubscribe
+                            dataStore.remove(
+                                follow,
+                                response: { (result: AnyObject!) -> Void in
+                                     NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "subscribedToBusiness", object: responseDict))
+                                },
+                                error: { (fault: Fault!) -> Void in
+                                    print("Server reported an error (2): \(fault)")
+                            })
+                            
+                        }else{
+                            
+                            let follow = Follow()
+                            follow.From = From
+                            follow.To = To
+                            
+                            responseDict = ["response": "Subscribed"]
+
+                            
+                            var error: Fault?
+                            let result = self.appDelegate.backendless.data.save(follow, error: &error) as? Follow
+                            if error == nil {
+                                print("Follow has been saved: \(result?.To)")
+                                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "subscribedToBusiness", object: responseDict))
+
+                            }
+                            else {
+                                print("Server reported an error: \(error)")
+                            }
+                            
+                        }
+                        
+            },
+               error: { (fault : Fault!) -> () in
+                    print("Server reported an error (ASYNC): \(fault.description)")
+            }
+        )
+    }
+    
+    
+    func findCustomerSubscriptionStatus(From: String, To: String){
+        
+        let dataStore = appDelegate.self.backendless.persistenceService.of(Follow.ofClass())
+        
+        let whereClause = "From = '\(From)' AND To = '\(To)'"
+        let dataQuery = BackendlessDataQuery()
+        dataQuery.whereClause = whereClause
+        
+        dataStore.find(dataQuery,
+                       response: { (follows : BackendlessCollection!) -> () in
+                        
+                        let responseDict: [String: AnyObject]!
+
+                        if follows.getCurrentPage().count > 0 {
+                            
+                            let follow = follows.getCurrentPage()[0]
+                            
+                            let followDate = follow.created.description
+                            
+                            let convertedDate = self.convertDateToString(followDate)
+                            
+                            responseDict = ["response": "Subscribed", "date": convertedDate]
+                            
+                            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "subscriptionStatus", object: responseDict))
+                            
+                        }else{
+                            
+                            responseDict = ["response": "Not Subscribed", "date": "nil"]
+
+                            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "subscriptionStatus", object: responseDict))
+                            
+                        }
+                        
+            },
+               error: { (fault : Fault!) -> () in
+                    print("Server reported an error (ASYNC): \(fault.description)")
+            }
+        )
+    }
+    
+    func convertDateToString(followDate: String) -> String {
+    
+        
+        let followDateSubstring = followDate[followDate.startIndex.advancedBy(0)...followDate.startIndex.advancedBy(10)]
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.locale = NSLocale.currentLocale()
+        
+        let dateStringFormatter = NSDateFormatter()
+        dateStringFormatter.dateFormat = "yyyy-MM-dd"
+        let date: NSDate = dateStringFormatter.dateFromString(followDateSubstring)!
+        
+        
+        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        let convertedDate = dateFormatter.stringFromDate(date)
+        
+        return convertedDate
+    
+    }
+    
+    func findCustomerReservations(customerID: String!, status: String){
+        
+        let dataStore = appDelegate.self.backendless.persistenceService.of(Reservation.ofClass())
+        
+        let whereClause = "PartyLeaderID = '\(customerID)' AND Status = '\(status)'"
+        let dataQuery = BackendlessDataQuery()
+        dataQuery.whereClause = whereClause
+        
+        dataStore.find(dataQuery,
+                       response: { (reservations : BackendlessCollection!) -> () in
+                        
+                        let currentPage = reservations.getCurrentPage()
+                     
+                        for reservation in currentPage as! [Reservation]{
+                            self._allCustomerReservations.append(reservation)
+                        }
+                    
+                        if status == statusType.PENDING.rawValue{
+                            self.findCustomerReservations(customerID, status: statusType.ACTIVE.rawValue)
+                        }else if status == statusType.ACTIVE.rawValue{
+                            self.findCustomerReservations(customerID, status: statusType.INACTIVE.rawValue)
+                        }else if status == statusType.INACTIVE.rawValue{
+                            self.findCustomerReservations(customerID, status: statusType.DECLINED.rawValue)
+                        }else if status == statusType.DECLINED.rawValue{
+                            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "findCustomerReservations", object: nil))
+                            
+                            print("reservations loaded")
+                        }
+                        
+
+            },
+               error: { (fault : Fault!) -> () in
+                print("Server reported an error (ASYNC): \(fault.description)")
+            }
+        )
+
+    }
+    
+    func clearCustomerReservation(){
+        self._allCustomerReservations.removeAll()
+    }
+
+    func clearBusinessReservation(){
+        self._allBusinessReservations.removeAll()
+    }
+    
+    func findBusinessReservations(businessID: String!){
+        
+        self._allBusinessReservations.removeAll()
+        
+        let dataStore = appDelegate.self.backendless.persistenceService.of(Reservation.ofClass())
+        
+        let whereClause = "BusinessID = '\(businessID)'"
+        let dataQuery = BackendlessDataQuery()
+        dataQuery.whereClause = whereClause
+        
+        dataStore.find(dataQuery,
+                       response: { (reservations : BackendlessCollection!) -> () in
+                        
+                        let currentPage = reservations.getCurrentPage()
+                        
+                        for reservation in currentPage as! [Reservation]{
+                            self._allBusinessReservations.append(reservation)
+                        }
+                        
+                        NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "findBusinessReservations", object: nil))
+                        
+                        print("reservations loaded")
+                        
+            },
+           error: { (fault : Fault!) -> () in
+            print("Server reported an error (ASYNC): \(fault.description)")
+            }
+        )
+        
+    }
+    
+    func updateReservation(reservation: Reservation, status: String){
+     
+        let dataStore = Backendless.sharedInstance().data.of(Reservation.ofClass())
+        
+        // update object asynchronously
+        reservation.Status = status
+        dataStore.save(
+            reservation,
+            response: { (result: AnyObject!) -> Void in
+                let reservation = result as! Reservation
+                
+                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "updateCustomerReservation", object: nil))
+                
+                print("Reservation Updated: \(reservation.objectId)")
+
+            },
+            error: { (fault: Fault!) -> Void in
+                print("Server reported an error (2): \(fault)")
+        })
+        
+    }
+    
+    func removeReservation(reservation: Reservation){
+        
+        let dataStore = Backendless.sharedInstance().data.of(Reservation.ofClass())
+        
+        dataStore.remove(
+            reservation,
+            response: { (result: AnyObject!) -> Void in
+                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "removeReservation", object: nil))
+            },
+            error: { (fault: Fault!) -> Void in
+                print("Server reported an error (2): \(fault)")
+        })
+
+        
+    }
+
+    func subscribeToInboundChannel(){
+    
+        let currentUser = self.appDelegate.backendless.userService.currentUser
+        
+        appDelegate.client.subscribeToChannels([currentUser.objectId], withPresence: false)
+
+        getInboundChannelHistory(currentUser.objectId)
+        
+        print(currentUser.objectId)
+
+        
+    }
+    
+    func getInboundChannelHistory(channelName: String){
+        dispatch_async(serialQueue) { [unowned self] () -> Void in
+            self._allInboundMessageItems = self.pageHistory(channelName)
+            self._allUniqueChannels = self.findUniqueChannels(self._allInboundMessageItems)
+            print(self._allInboundMessageItems)
+            self.sendUniqueChannelsRetrievedNotification()
+        }
+    
+    }
+
+    func findUniqueChannels(allMessageItems: [MessageItem]) -> [MessageItem]{
+        
+        var uniqueMessages = [MessageItem]()
+        
+        for message in allMessageItems.reverse() { //Because we want the latest messages to show up in inbound box not the first
+            
+            if !_allUniqueChannelNames.contains(message.channelName){
+            
+                uniqueMessages.append(message)
+                _allUniqueChannelNames.append(message.channelName)
+                
+            }
+        }
+        
+        return uniqueMessages //Each Unique Message represents a channel
+    }
+    
+    
+    func sendUniqueChannelsRetrievedNotification(){
+        
+        //Update UI on main thread
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "uniqueChannelsRetrieved", object: nil))
+        })
+        
+    }
+    
+    
+    func getAllMessagesInChat(channelName: String){
+    
+        dispatch_async(serialQueue) { [unowned self] () -> Void in
+            self._allMessageItemsInChat = self.pageHistory(channelName)
+            self._allJSQMessagesInChat = self.updateMessages(self._allMessageItemsInChat)
+            self.sendChatMessagesRecievedNotification()
+        }
+        
+    }
+    
+    func updateMessages(allMessageItems: [MessageItem]) -> [JSQMessage]{
+        
+        var updatedMessagesList = [JSQMessage]()
+        
+        for message in allMessageItems {
+            
+            let newJSQMessage = JSQMessage(senderId: message.uuid, displayName: "", text: message.message)
+            
+            updatedMessagesList.append(newJSQMessage)
+            
+        }
+        
+        return updatedMessagesList
+    }
+    
+    func sendChatMessagesRecievedNotification(){
+        
+        //Update UI on main thread
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "chatMessagesRecieved", object: nil))
+        })
+        
+    }
+    
+    //Page history of specified channel using semaphore and return array with history task items
+    func pageHistory(channelName: String) -> [MessageItem] {
+        
+        var uuidArray: [MessageItem] = []
+        var shouldStop: Bool = false
+        var isPaging: Bool = false
+        var startTimeToken: NSNumber = 0
+        let itemLimit: Int = 100
+        let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(0)
+        
+        self.appDelegate.client.historyForChannel(channelName, start: nil, end: nil, limit: 100, reverse: true, includeTimeToken: true, withCompletion: { (result, status) in
+            
+            //Check status isnt nil
+            
+            for message in (result?.data.messages)! {
+                if let resultMessage = message["message"] {
+                    uuidArray.append((MessageItem(uuid: resultMessage!["uuid"] as! String, message: resultMessage!["message"] as! String, channelName: resultMessage!["channelName"] as! String, senderDisplayName: resultMessage!["senderDisplayName"] as! String, recipientID : resultMessage!["recipientID"] as! String, recipientProfilePictureLocation: resultMessage!["recipientProfilePictureLocation"] as! String, recipientDisplayName: resultMessage!["recipientDisplayName"] as! String, senderProfilePictureLocation: resultMessage!["senderProfilePictureLocation"] as! String)))
+                }
+            }
+            
+            if let endTime = result?.data.end {
+                startTimeToken = endTime
+            }
+            
+            if result?.data.messages.count == itemLimit {
+                isPaging = true
+            }
+            dispatch_semaphore_signal(semaphore)
+        })
+        
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        
+        while isPaging && !shouldStop {
+            self.appDelegate.client.historyForChannel(channelName, start: startTimeToken, end: nil, limit: 100, reverse: true, includeTimeToken: true, withCompletion: { (result, status) in
+                for message in (result?.data.messages)! {
+                    if let resultMessage = message["message"] {
+                   
+                         uuidArray.append((MessageItem(uuid: resultMessage!["uuid"] as! String, message: resultMessage!["message"] as! String, channelName: resultMessage!["channelName"] as! String, senderDisplayName: resultMessage!["senderDisplayName"] as! String, recipientID : resultMessage!["recipientID"] as! String, recipientProfilePictureLocation: resultMessage!["recipientProfilePictureLocation"] as! String, recipientDisplayName: resultMessage!["recipientDisplayName"] as! String, senderProfilePictureLocation: resultMessage!["senderProfilePictureLocation"] as! String)))
+                        
+                    }
+                }
+                
+                if let endTime = result?.data.end {
+                    startTimeToken = endTime
+                }
+                
+                if result?.data.messages.count < itemLimit {
+                    shouldStop = true
+                }
+                dispatch_semaphore_signal(semaphore)
+            })
+            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        }
+        return uuidArray
+    }
+    
+    func clearAllMessagesInChat() {
+        
+        _allJSQMessagesInChat.removeAll()
+        _allMessageItemsInChat.removeAll()
+        
+    }
+    
+    func clearAllChannels() {
+        _allUniqueChannelNames.removeAll()
+        _allUniqueChannels.removeAll()
+        _allInboundMessageItems.removeAll()
+    }
+    
+    func clearAllFollowers() {
+        _allFollowers.removeAll()
+    }
+    
+    func clearAllBusinesses() {
+        _allBusinesses.removeAll()
+    }
 }
 
 

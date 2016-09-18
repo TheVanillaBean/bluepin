@@ -7,30 +7,54 @@
 //
 
 import UIKit
-import SendBirdSDK
+import PubNub
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
 
     let BACKENDLESS_APP_ID = "127AF0A5-6FB8-985E-FF8C-2EE5FFB8FF00"
     let BACKENDLESS_SECRET_KEY = "29070F55-9D89-30A2-FF34-0550B9057200"
     let BACKENDLESS_VERSION_NUM = "v1"
     
-    let SENDBIRD_APP_ID: String = "5B91D270-3469-40A2-AF52-1C6AA169A4C1"
     
     var backendless = Backendless.sharedInstance()
-    
+        
     var window: UIWindow?
+    
+    lazy var client: PubNub = {
+        let config = PNConfiguration(publishKey: "pub-c-62a2e0d2-c6d4-405a-9446-e2d18166e536", subscribeKey: "sub-c-6b67ad2e-64b9-11e6-8de8-02ee2ddab7fe")
+        let pub = PubNub.clientWithConfiguration(config)
+        return pub
+    }()
+    
+    override init() {
+        super.init()
+        client.addListener(self)
+    }
+    
+    func client(client: PubNub, didReceiveStatus status: PNStatus) {
+        if status.error {
+            showAlert(status.error.description)
+        }
+    }
+    
+    //Dialogue showing error
+    func showAlert(error: String) {
+        let alertController = UIAlertController(title: "Error", message: error, preferredStyle: .Alert)
+        let OKAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        alertController.addAction(OKAction)
+        self.window?.rootViewController?.presentViewController(alertController, animated: true, completion:nil)
+    }
+    
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
         backendless.initApp(BACKENDLESS_APP_ID, secret:BACKENDLESS_SECRET_KEY, version:BACKENDLESS_VERSION_NUM)
-        SendBird.initAppId(SENDBIRD_APP_ID)
         
         customizeNavigationBar()
-                
+                        
         return true
     }
 

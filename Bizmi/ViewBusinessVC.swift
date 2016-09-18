@@ -60,8 +60,15 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         
         businessDescLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.Top
         
+        subscribeToNofications()
+        
     }
     
+    func subscribeToNofications(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewBusinessVC.onSubscribedToBusiness), name: "subscribedToBusiness", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewBusinessVC.onSubscriptionStatusRetrieved), name: "subscriptionStatus", object: nil)
+    }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
@@ -105,9 +112,10 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
             
             self.navigationItem.title = "\(business.businessName)"
 
-            
             let URL = NSURL(string: "\(business.userProfilePicLocation)")!
             let placeholderImage = UIImage(named: "Placeholder")!
+            
+            let currentuser = appDelegate.backendless.userService.currentUser
             
             businessProfileImg.af_setImageWithURL(URL, placeholderImage: placeholderImage)
             businessNameLbl.text = business.businessName
@@ -115,6 +123,7 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
             businessDescLbl.text = business.businessDesc
             aboutBusinessLbl.text = "About \(business.businessName)"
             phoneNumberBtn.setTitle("\(business.phoneNumber)", forState: .Normal)
+            DataService.instance.findCustomerSubscriptionStatus(currentuser.objectId, To: business.userObjectID)
             
             location = business.businessLocation
             
@@ -125,6 +134,9 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         }
     
     }
+    
+//Begin Map View Setup---------------------------------------------------
+
     
     func locationAuthStatus() {
         
@@ -228,67 +240,68 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
     
     }
 
+//---------------------------End MapView Setup
     
     @IBAction func onMessageBtnPressed(sender: AnyObject) {
+        performSegueWithIdentifier("ViewMessageThread", sender: nil)
     }
     
     @IBAction func onSubscribeBtnPressed(sender: AnyObject) {
         
         let currentuser = appDelegate.backendless.userService.currentUser
  
-        let dataStore = appDelegate.self.backendless.persistenceService.of(Follow.ofClass())
+        DataService.instance.subscribeToBusiness(currentuser.objectId, To: business.userObjectID)
         
-        let whereClause = "From = '\(currentuser.objectId)' AND To = '\(business.userObjectID)'"
-        let dataQuery = BackendlessDataQuery()
-        dataQuery.whereClause = whereClause
-        
-        dataStore.find(dataQuery,
-                    response: { (follows : BackendlessCollection!) -> () in
-                    
-                if follows.getCurrentPage().count > 0 {
-                    
-                    let follow = follows.getCurrentPage()[0] as! Follow
+        self.subscribeBtn.setTitle("Loading...", forState: .Normal)
+        self.subscribeBtn.enabled = false
+    }
+    
+    func onSubscribedToBusiness(notification: NSNotification){
+    
+        if let responseDict = notification.object as? [String:AnyObject] {
+            if let response = responseDict["response"] as? String {
+                
+                self.subscribeBtn.enabled = true
 
-                    // now delete the saved object
-                    dataStore.remove(
-                        follow,
-                        response: { (result: AnyObject!) -> Void in
-                            print("Follow has been deleted: \(result)")
-                            self.subscribeBtn.setTitle("Subscribe to Business", forState: .Normal)
-                            self.subscribeBtn.backgroundColor = DARK_PRIMARY_COLOR
-                        },
-                        error: { (fault: Fault!) -> Void in
-                            print("Server reported an error (2): \(fault)")
-                    })
+                if response == "Subscribed" {
+                    
+                    self.subscribeBtn.setTitle("Unsubscribe from Business", forState: .Normal)
+                    self.subscribeBtn.backgroundColor = ACCENT_COLOR
                     
                 }else{
                     
-                    let follow = Follow()
-                    follow.From = currentuser.objectId
-                    follow.To = self.business.userObjectID
-                    
-                    var error: Fault?
-                    let result = self.appDelegate.backendless.data.save(follow, error: &error) as? Follow
-                    if error == nil {
-                        print("Follow has been saved: \(result?.To)")
-                        self.subscribeBtn.setTitle("Unsubscribe from Business", forState: .Normal)
-                        self.subscribeBtn.backgroundColor = ACCENT_COLOR
-                    }
-                    else {
-                        print("Server reported an error: \(error)")
-                    }
+                    self.subscribeBtn.setTitle("Subscribe to Business", forState: .Normal)
+                    self.subscribeBtn.backgroundColor = DARK_PRIMARY_COLOR
                     
                 }
-                       
-            },
-               error: { (fault : Fault!) -> () in
-                print("Server reported an error (ASYNC): \(fault.description)")
+                
             }
-        )
+            
+        }
 
+    }
+    
+    
+    func onSubscriptionStatusRetrieved(notification: NSNotification){
         
-        
-      
+        if let responseDict = notification.object as? [String:AnyObject] {
+            if let response = responseDict["response"] as? String {
+                
+                if response == "Subscribed" {
+                    
+                    self.subscribeBtn.setTitle("Unsubscribe from Business", forState: .Normal)
+                    self.subscribeBtn.backgroundColor = ACCENT_COLOR
+                    
+                }else{
+                    
+                    self.subscribeBtn.setTitle("Subscribe to Business", forState: .Normal)
+                    self.subscribeBtn.backgroundColor = DARK_PRIMARY_COLOR
+                    
+                }
+                
+            }
+            
+        }
         
     }
     
@@ -333,6 +346,8 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        super.prepareForSegue(segue, sender: sender)
+
         if segue.identifier == "ViewBusinessLocation" {
             if let viewLocationVC = segue.destinationViewController as? ViewBusinessLocationVC{
                 
@@ -361,10 +376,54 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
             
         }
         
+        
+        if segue.identifier == "ViewMessageThread" {
+            
+            let navVc = segue.destinationViewController as! UINavigationController
+            let messageVC = navVc.viewControllers.first as! ViewMessageThreadVC
+        
+            let currentUser = self.appDelegate.backendless.userService.currentUser
+            let user = User()
+            user.populateUserData(currentUser)
+            
+            
+            //Check if Channel Already Exists
+            
+            var channelName: String = "\(user.userObjectID) - \(business.userObjectID)"
+            
+            let potentialChannelNameOne = channelName
+            let potentialChannelNameTwo = "\(business.userObjectID) - \(user.userObjectID)"
+            
+            for channel in DataService.instance.allUniqueChannelNames {
+                
+                if channel == potentialChannelNameOne || channel == potentialChannelNameTwo{ //uuid is senderid of message
+                    
+                    //Channel already exists
+                    
+                    channelName = channel
+    
+                    break
+                }
+               
+            }
+            
+            //Later on create function that checks if channel name of uniquechannelnames has the businessID in it
+            
+            //create two potentially chanel names - 1 where currentuser id is first and another where its second. if any of those exits, channel already exists then
+        
+            messageVC.mainChannelName = channelName
+            messageVC.senderId =  user.userObjectID // 3
+            messageVC.senderDisplayName = user.fullName // 4
+            messageVC.currentUserID = user.userObjectID
+            messageVC.otherUserName = business.businessName
+            messageVC.otherUserID = business.userObjectID
+            messageVC.otherUserProfilePictureLocation = business.userProfilePicLocation
+            
+        }
+        
     }
     
 }
-
 
 
 

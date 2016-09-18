@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SendBirdSDK
 import SinchVerification
 import Toast_Swift
 
