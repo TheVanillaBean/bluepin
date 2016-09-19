@@ -9,6 +9,7 @@
 import UIKit
 import Toast_Swift
 import SinchVerification
+import FirebaseAuth
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
@@ -22,6 +23,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //Sinch Phone # Verification
     var verification: Verification!
+    
+    var authListener: FIRAuthStateDidChangeListenerHandle!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,27 +41,28 @@ class ViewController: UIViewController, UITextFieldDelegate {
   
     
     func validateUserToken() {
-        appDelegate.backendless.userService.isValidUserToken(
-            { (result : AnyObject!) -> () in
-
-                if let isValid = result.boolValue{
-                    if isValid {
-                        
-                        //Casting
-                        let currentBackendlessUser = self.appDelegate.backendless.userService.currentUser
-                        let user = User()
-                        user.populateUserData(currentBackendlessUser)
-                        
-                        self.navigateToTabBarVC(user)
-
+        
+        authListener = FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
+            if let user = user {
+                // User is signed in.
+               print(user.uid)
+               let newUser = NewUser()
+               newUser.castUser(user.uid, onComplete: { (errMsg) in
+                    if errMsg == nil {
+                        self.navigateToTabBarVC(newUser)
+                    }else{
+                        Messages.showAlertDialog("Error", msgAlert: errMsg)
                     }
-                }
+               })
                 
-            },
-            error: { (fault : Fault!) -> () in
-                print("Server reported an error (ASYNC): \(fault)")
-            } 
-        ) 
+            }
+            
+        }
+        
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        FIRAuth.auth()?.removeAuthStateDidChangeListener(authListener)
     }
     
     override func viewWillDisappear(animated: Bool){
@@ -98,40 +102,36 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         if let email = emailTextField.text, password = passwordTextField.text{
             
-            appDelegate.backendless.userService.setStayLoggedIn(true)
-            appDelegate.backendless.userService.login(
-                email , password: password,
-                response: { ( user : BackendlessUser!) -> () in
-                    print("User logged in! \(user.email)")
+            AuthService.instance.login(email, password: password, onComplete: { (errMsg, data) in
+                
+                let firUser = data as? FIRUser
+                let newUser = NewUser()
+                newUser.castUser(firUser!.uid, onComplete: { (errMsg) in
+                    if errMsg == nil {
+                        self.navigateToTabBarVC(newUser)
+                    }
+                })
 
-                    //Cast BackendlessUser object to Bizmi User object
-                    let userObj: User = User()
-                    userObj.populateUserData(user)
-
-                    self.navigateToTabBarVC(userObj)
-                    
-                },
-                error: { ( fault : Fault!) -> () in
-                    Messages.displayLoginErrorMessage(self.view, errorMsg: fault.faultCode)
-                }
-            )
+            })
         
+        }else{
+            Messages.showAlertDialog("Invalid", msgAlert: "Please Enter an Email and Password")
         }
         
     }
     
-    func navigateToTabBarVC(user: User?){
+    func navigateToTabBarVC(user: NewUser?){
     
         if let userObj = user {
             
-            if userObj.userType == "Business"{
+            if userObj.userType == USER_BUSINESS_TYPE{
                 self.performSegueWithIdentifier("businessLogin", sender: nil)
             }else {
                 
-                if userObj.phoneNumberVerified{
+                if userObj.phoneNumberVerified == "true"{
                     self.performSegueWithIdentifier("customerLogin", sender: nil)
                 }else {
-                    self.initiateVerificationProcess(userObj, phoneNumber: userObj.phoneNumber)
+                    self.initiateVerificationProcess(userObj.phoneNumber)
                 }
                 
             }
@@ -162,14 +162,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func initiateVerificationProcess(user: User!, phoneNumber: String){
+    func initiateVerificationProcess(phoneNumber: String){
         
         self.verification =
             SMSVerification(applicationKey: sinchApplicationKey,
                             phoneNumber: phoneNumber)
         self.verification.initiate { (success:Bool, error: NSError?) -> Void in
             if (success){
-                self.performSegueWithIdentifier("phoneNotVerified", sender: user);
+                self.performSegueWithIdentifier("phoneNotVerified", sender: nil);
             } else {
                 Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error?.description)!)
             }

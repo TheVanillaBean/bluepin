@@ -15,5 +15,9 @@ target 'Bizmi' do
   pod 'AFNetworking', '~> 3.0'
   pod 'JSQMessagesViewController'
   pod ‘PubNub’
-
+  pod ‘Firebase’
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+  pod 'Firebase/Storage'
 end

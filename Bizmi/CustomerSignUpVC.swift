@@ -11,6 +11,7 @@ import DeviceKit
 import Toast_Swift
 import PhoneNumberKit
 import SinchVerification
+import FirebaseAuth
 
 class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     
@@ -23,6 +24,8 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var phoneNumberTextField: PhoneNumberTextField!
     
     @IBOutlet weak var passwordTextField: MaterialTextField!
+    
+    @IBOutlet weak var submitBtn: UIButton!
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
@@ -72,30 +75,48 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
         }
         
     }
-
+    
+    func toggleSubmit(enable: Bool){
+        submitBtn.enabled = enable
+    }
     
     @IBAction func signUpBtnPressed(sender: AnyObject) {
         
+        toggleSubmit(false)
+        
         if let customerName = fullNameTextField.text, phoneNumber = phoneNumberTextField.text, email = emailTextField.text, password = passwordTextField.text  {
             
-            let user = User(email: email, password: password, userType: USER_CUSTOMER_TYPE)
+            passwordTextField.text = ""
+
+            let user = NewUser(email: email, password: password, userType: USER_CUSTOMER_TYPE)
             user.fullName = customerName
             user.phoneNumber = phoneNumber
-            user.phoneNumberVerified = false;
+            user.phoneNumberVerified = "false";
             
             signUpUser(user)
             
+        }else{
+            toggleSubmit(true)
+            Messages.showAlertDialog("Error", msgAlert: "One or More Fields are Empty")
         }
     }
     
-    func initiateVerificationProcess(user: User!, phoneNumber: String){
+    func userProperties(uuid: String!, name: String!, number: String!, email: String!) -> Dictionary<String, AnyObject>  {
+    
+        let profile: Dictionary<String, AnyObject> = [UUID: uuid, EMAIL: email, FULL_NAME: name, PHONE_NUMBER: number, USER_TYPE: USER_CUSTOMER_TYPE, PHONE_NUMBER_VERIFIED: "true"]
+    
+        return profile
+    
+    }
+    
+    func initiateVerificationProcess(phoneNumber: String){
     
         self.verification =
             SMSVerification(applicationKey: sinchApplicationKey,
                             phoneNumber: phoneNumber)
         self.verification.initiate { (success:Bool, error: NSError?) -> Void in
             if (success){
-                self.performSegueWithIdentifier("verifyPhoneNumber", sender: user);
+                self.performSegueWithIdentifier("verifyPhoneNumber", sender: nil);
             } else {
                 Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error?.description)!)
             }
@@ -103,51 +124,35 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    func signUpUser(userObj: User?){
+    func signUpUser(userObj: NewUser?){
         
         if let user = userObj{
-        
-                appDelegate.backendless.userService.registering(user,
-                response: { (registeredUser : BackendlessUser!) -> () in
-                    
-                        self.appDelegate.backendless.userService.setStayLoggedIn(true)
-                        self.appDelegate.backendless.userService.login(
-                            user.userEmail, password: user.userPassword,
-                            response: { ( user : BackendlessUser!) -> () in
-                                
-                                //Cast BackendlessUser object to Bizmi User object
-                                let userObj: User = User()
-                                userObj.populateUserData(user)
-                                
-                                let properties = [
-                                    "userObjectID" : user.objectId
-                                ]
-                                
-                                self.appDelegate.backendless.userService.currentUser.updateProperties( properties )
-                                self.appDelegate.backendless.userService.update(self.appDelegate.backendless.userService.currentUser,
-                                    response: { ( updatedUser : BackendlessUser!) -> () in
-                                        self.view.hideToastActivity()
-                                        
-                                        self.initiateVerificationProcess(userObj, phoneNumber: userObj.phoneNumber)
-                                    },
-                                    
-                                    error: { ( fault : Fault!) -> () in
-                                        print("Server reported an error (2): \(fault.message)")
-                                })
-                                
-                                                                
-                            },
-                            error: { ( fault : Fault!) -> () in
-                                Messages.displayLoginErrorMessage(self.view, errorMsg: fault.faultCode)
-                            }
-                        )
-                    
-                    },
-                error: { ( fault : Fault!) -> () in
-                    Messages.displaySignUpErrorMessage(self.view, errorMsg: fault.faultCode)
+       
+            AuthService.instance.signUp(user.email, password: user.password, onComplete: { (errMsg, data) in
+
+                user.password = ""
+                
+                guard errMsg == nil else {
+                    Messages.showAlertDialog("Authentication Error", msgAlert: errMsg)
+                    return
                 }
+                
+                let firUser = data as? FIRUser
+                
+                let properties = self.userProperties(firUser?.uid, name: user.fullName, number: user.phoneNumber, email: user.email)
+                
+                FBDataService.instance.saveUser(firUser?.uid, propertes: properties, onComplete: { (errMsg, data) in
                     
-            )
+                        self.toggleSubmit(true)
+
+                        if errMsg == nil {
+                            self.initiateVerificationProcess(user.phoneNumber)
+                        }
+                    
+                })
+                
+            })
+            
         }
         
     }
@@ -162,6 +167,8 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
         
     }
 
+    
+    
 }
 
 

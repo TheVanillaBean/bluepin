@@ -1,11 +1,3 @@
-//
-//  User.swift
-//  Bizmi
-//
-//  Created by Alex on 7/20/16.
-//  Copyright © 2016 Alex. All rights reserved.
-//
-
 import Foundation
 
 class User: BackendlessUser{
@@ -70,23 +62,23 @@ class User: BackendlessUser{
         }
     }
     
-//    var userEmail: String {
-//        get{
-//            if let email = self.email{
-//                return email
-//            }else{
-//                return ""
-//            }
-//        }
-//        
-//        set(newEmail){
-//            
-//            if newEmail != ""{
-//                self.email = newEmail
-//            }
-//        }
-//    }
-//    
+    //    var userEmail: String {
+    //        get{
+    //            if let email = self.email{
+    //                return email
+    //            }else{
+    //                return ""
+    //            }
+    //        }
+    //
+    //        set(newEmail){
+    //
+    //            if newEmail != ""{
+    //                self.email = newEmail
+    //            }
+    //        }
+    //    }
+    //
     // _email is used because BackendlessUser class doesn't return email
     var userEmail: String {
         get{
@@ -281,7 +273,7 @@ class User: BackendlessUser{
     }
     
     func populateUserData(backendlessUser: BackendlessUser?){
-    
+        
         if let user = backendlessUser{
             
             if let objectIDProperty = user.getProperty("userObjectID") as? String{
@@ -339,9 +331,9 @@ class User: BackendlessUser{
             
             //Backendless doesnt return password
             
-//            if let passwordProperty = user.password{
-//               self.userPassword = passwordProperty
-//            }
+            //            if let passwordProperty = user.password{
+            //               self.userPassword = passwordProperty
+            //            }
             
         }
         
@@ -351,7 +343,7 @@ class User: BackendlessUser{
         super.init()
         //Empty init used for casting of BackendlessUser Object to Bizmi User Object Model
     }
-
+    
     init(email: String?, password: String?, userType: String?){
         super.init()
         
@@ -362,38 +354,8 @@ class User: BackendlessUser{
         }
         
     }
- 
+    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

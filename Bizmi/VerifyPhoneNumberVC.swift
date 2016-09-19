@@ -35,22 +35,23 @@ class VerifyPhoneNumberVC: UIViewController {
                 completion: { (success:Bool, error:NSError?) -> Void in
                     self.verifyBtn.enabled = true
                     if (success) {
+                        
                         Messages.displayToastMessage(self.view, msg: "Verification Successful! Please wait...")
                         self.view.makeToastActivity(.Center)
                         
-                        let properties = [
-                            "phoneNumberVerified" : true
-                        ]
+                        let properties = [PHONE_NUMBER_VERIFIED : "true"]
                         
-                        self.appDelegate.backendless.userService.currentUser.updateProperties( properties )
-                        self.appDelegate.backendless.userService.update(self.appDelegate.backendless.userService.currentUser,
-                            response: { ( updatedUser : BackendlessUser!) -> () in
-                                self.performSegueWithIdentifier("customerSignUp", sender: nil)
-                            },
+                        let currentUserID = FBDataService.instance.currentUser?.uid
+                        
+                        FBDataService.instance.updateUser(currentUserID, propertes: properties, onComplete: { (errMsg, data) in
                             
-                            error: { ( fault : Fault!) -> () in
-                                print("Server reported an error (2): \(fault.message)")
+                            if errMsg == nil {
+                                self.performSegueWithIdentifier("customerSignUp", sender: nil)
+                            }
+                            
                         })
+                        
+                        
                         
                     } else {
                         Messages.displayToastMessage(self.view, msg: "Verification Unsuccessful...")

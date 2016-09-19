@@ -21,6 +21,38 @@ let PRIMARY_COLOR: UIColor = UIColor(red: 3.0/255.0, green: 169.0/255.0, blue: 2
 let LIGHT_PRIMARY_COLOR: UIColor = UIColor(red: 179.0/255.0, green: 229.0/255.0, blue: 252.0/255.0, alpha: 1.0)
 let DIVIDER_COLOR: UIColor = UIColor(red: 182.0/255.0, green: 182.0/255.0, blue: 182.0/255.0, alpha: 1.0)
 
-//User
+//User Types
 let USER_BUSINESS_TYPE: String = "Business"
 let USER_CUSTOMER_TYPE: String = "Customer"
+
+//KEYS
+let UUID: String = "uuid"
+let EMAIL: String = "email"
+let USER_TYPE: String = "userType"
+let FULL_NAME: String = "fullName"
+let PHONE_NUMBER: String = "phoneNumber"
+let PHONE_NUMBER_VERIFIED: String = "phoneNumberVerified"
+let PASSWPRD: String = "password"
+let BUSINESS_NAME: String = "businessName"
+let BUSINESS_TYPE: String = "businessType"
+let BUSINESS_DESC: String = "businessDesc"
+let BUSINESS_WEBSITE: String = "businessWebsite"
+let BUSINESS_HOURS: String = "businessHours"
+let BUSINESS_LOCATION: String = "businessLocation"
+let PROFILE_PIC_LOCATION: String = "userProfilePicLocation"
+
+//CHILD NODES
+let FIR_CHILD_USERS = "Users"
+let FIR_CHILD_USER_CHANNELS = "User-Channels"
+let FIR_CHILD_CHANNELS = "Channels"
+let FIR_CHILD_MESSAGES = "Messages"
+let FIR_CHILD_RESERVATIONS = "Reservations"
+
+let FIR_CHILD_CUSTOMER_FOLLOWERS = "Customer-Followers"
+let FIR_CHILD_BUSINESS_FOLLOWERS = "Business-Followers"
+let FIR_CHILD_CUSTOMER_RESERVATIONS = "Customer-Reservations"
+let FIR_CHILD_BUSINESS_RESERVATIONS = "Business-Reservations"
+
+
+//STORAGE NODES
+let FIR_STORAGE_CHILD_USER_PROFILE_PICS = "Profile-Pictures"

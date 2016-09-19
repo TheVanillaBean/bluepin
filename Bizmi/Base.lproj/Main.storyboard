@@ -524,6 +524,7 @@
                         <outlet property="passwordTextField" destination="ga9-nh-A9b" id="34Z-Zf-CXG"/>
                         <outlet property="phoneNumberTextField" destination="4C9-MA-5g5" id="NSF-Cn-c82"/>
                         <outlet property="scrollView" destination="yUb-qM-bnM" id="fAK-1t-rKV"/>
+                        <outlet property="submitBtn" destination="eae-QT-aUh" id="4OB-Mn-IAb"/>
                         <segue destination="T0f-PA-Fo3" kind="show" identifier="verifyPhoneNumber" id="rmP-4e-Kox"/>
                     </connections>
                 </viewController>
@@ -3204,10 +3205,10 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="FGg-yl-dWi"/>
-        <segue reference="BNX-ez-XnG"/>
-        <segue reference="6Nl-8j-bEw"/>
-        <segue reference="LO6-Gd-Omv"/>
         <segue reference="eTq-fk-HST"/>
+        <segue reference="6Nl-8j-bEw"/>
+        <segue reference="BNX-ez-XnG"/>
+        <segue reference="rmP-4e-Kox"/>
         <segue reference="tG9-lc-vj1"/>
     </inferredMetricsTieBreakers>
 </document>

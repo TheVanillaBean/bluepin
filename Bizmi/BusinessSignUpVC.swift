@@ -9,6 +9,7 @@
 import UIKit
 import DeviceKit
 import Toast_Swift
+import FirebaseAuth
 
 class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
 
@@ -69,61 +70,60 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
     @IBAction func signUpBtnPressed(sender: AnyObject) {
         
         if let businessName = businessNameTextField.text, businessType = businessTypeTextField.text, email = emailTextField.text, password = passwordTextField.text  {
-        
-            let user = User(email: email, password: password, userType: USER_BUSINESS_TYPE)
+            
+            passwordTextField.text = ""
+            
+            let user = NewUser(email: email, password: password, userType: USER_CUSTOMER_TYPE)
             user.businessName = businessName
             user.businessType = businessType
             
-            appDelegate.backendless.userService.registering(user,
-                response: { (registeredUser : BackendlessUser!) -> () in
-                    
-                    self.appDelegate.backendless.userService.setStayLoggedIn(true)
-                    self.appDelegate.backendless.userService.login(
-                        email, password: password,
-                        response: { ( user : BackendlessUser!) -> () in
-
-                            //Cast BackendlessUser object to Bizmi User object
-                            let userObj: User = User()
-                            userObj.populateUserData(user)
-                            
-                            let properties = [
-                                "userObjectID" : user.objectId
-                            ]
-                            
-                            self.appDelegate.backendless.userService.currentUser.updateProperties( properties )
-                            self.appDelegate.backendless.userService.update(self.appDelegate.backendless.userService.currentUser,
-                                response: { ( updatedUser : BackendlessUser!) -> () in
-                                    self.view.hideToastActivity()
-                                    
-                                    self.performSegueWithIdentifier("businessSignUp", sender: nil)
-
-                                },
-                                
-                                error: { ( fault : Fault!) -> () in
-                                    print("Server reported an error (2): \(fault.message)")
-                            })
-                            
-
-                            
-                            
-                        },
-                        error: { ( fault : Fault!) -> () in
-                            Messages.displayLoginErrorMessage(self.view, errorMsg: fault.faultCode)
-                        }
-                    )
-                    
-                    
-                },
-                error: { ( fault : Fault!) -> () in
-                    Messages.displaySignUpErrorMessage(self.view, errorMsg: fault.faultCode)
-    
-                } 
-            )
-
+            signUpUser(user)
+            
+        }else{
+            Messages.showAlertDialog("Error", msgAlert: "One or More Fields are Empty")
         }
         
     }
     
+    func userProperties(uuid: String!, name: String!, businessType: String!, email: String!) -> Dictionary<String, AnyObject>  {
+        
+        let profile: Dictionary<String, AnyObject> = [UUID: uuid, EMAIL: email, BUSINESS_NAME: name, BUSINESS_TYPE: businessType, USER_TYPE: USER_BUSINESS_TYPE]
+        
+        return profile
+        
+    }
+    
+    func signUpUser(userObj: NewUser?){
+        
+        if let user = userObj{
+            
+            AuthService.instance.signUp(user.email, password: user.password, onComplete: { (errMsg, data) in
+                
+                user.password = ""
+                
+                guard errMsg == nil else {
+                    Messages.showAlertDialog("Authentication Error", msgAlert: errMsg)
+                    return
+                }
+                
+                let firUser = data as? FIRUser
+                
+                let properties = self.userProperties(firUser?.uid, name: user.businessName, businessType: user.businessType, email: user.email)
+                
+                FBDataService.instance.saveUser(firUser?.uid, propertes: properties, onComplete: { (errMsg, data) in
+                    
+                    if errMsg == nil {
+                        self.view.hideToastActivity()
+                        self.performSegueWithIdentifier("businessSignUp", sender: nil)
+                    }
+                    
+                })
+                
+            })
+            
+        }
+        
+    }
     
 }
 
