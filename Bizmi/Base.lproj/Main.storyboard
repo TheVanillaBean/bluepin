@@ -2109,12 +2109,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="130" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SSU-WB-7TH">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="130" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SSU-WB-7TH">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ViewBusinessesCell" rowHeight="130" id="ued-F7-by9" customClass="ViewBusinessesCell" customModule="Bizmi" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="600" height="130"/>
+                                        <rect key="frame" x="0.0" y="28" width="600" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ued-F7-by9" id="vE8-Uk-YJz">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="130"/>
@@ -3008,7 +3008,7 @@
                                         <rect key="frame" x="0.0" y="14" width="600" height="297"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessProfileCell" rowHeight="50" id="fIQ-vJ-MIg" customClass="BusinessProfileCell" customModule="Bizmi" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomerProfileCell" rowHeight="50" id="fIQ-vJ-MIg" customClass="CustomerProfileCell" customModule="Bizmi" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="600" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fIQ-vJ-MIg" id="51x-jh-sjk">
@@ -3204,11 +3204,11 @@
         <image name="Website_Blue" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FGg-yl-dWi"/>
         <segue reference="eTq-fk-HST"/>
-        <segue reference="6Nl-8j-bEw"/>
+        <segue reference="30D-hv-PDd"/>
         <segue reference="BNX-ez-XnG"/>
-        <segue reference="rmP-4e-Kox"/>
         <segue reference="tG9-lc-vj1"/>
+        <segue reference="rmP-4e-Kox"/>
+        <segue reference="FGg-yl-dWi"/>
     </inferredMetricsTieBreakers>
 </document>

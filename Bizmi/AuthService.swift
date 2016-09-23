@@ -56,6 +56,9 @@ class AuthService {
         })
 
     }
+  
+    j
+   
     
     func handleFirebaseError(error: NSError, onComplete: AuthCompletion?) {
         print(error.debugDescription)

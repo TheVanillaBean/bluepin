@@ -36,11 +36,11 @@ class CustomerViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomerViewMessagesVC.onUniqueChannelsRetrived), name: "uniqueChannelsRetrieved", object: nil)
+       // NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomerViewMessagesVC.onUniqueChannelsRetrived), name: "uniqueChannelsRetrieved", object: nil)
         
         showActivityIndicator()
         
-        DataService.instance.subscribeToInboundChannel()
+       // DataService.instance.subscribeToInboundChannel()
 
     }
     

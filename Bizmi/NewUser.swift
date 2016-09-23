@@ -70,7 +70,11 @@ class NewUser{
     
     var userType: String {
         get{
-            return _userType
+            if let type = _userType{
+                return type
+            }else{
+                return ""
+            }
         }
         
         set(newUserType){
@@ -83,7 +87,11 @@ class NewUser{
     
     var fullName: String {
         get{
-            return _fullName
+            if let name = _fullName{
+                return name
+            }else{
+                return ""
+            }
         }
         
         set(newName){
@@ -96,7 +104,11 @@ class NewUser{
     
     var phoneNumber: String {
         get{
-            return _phoneNumber
+            if let num = _phoneNumber{
+                return num
+            }else{
+                return ""
+            }
         }
         
         set(newPhoneNumber){
@@ -109,7 +121,11 @@ class NewUser{
     
     var businessName: String {
         get{
-            return _businessName
+            if let name = _businessName{
+                return name
+            }else{
+                return ""
+            }
         }
         
         set(newBusinessName){
@@ -122,7 +138,11 @@ class NewUser{
     
     var businessType: String {
         get{
-            return _businessType
+            if let type = _businessType{
+                return type
+            }else{
+                return ""
+            }
         }
         
         set(newBusinessType){
@@ -135,7 +155,11 @@ class NewUser{
     
     var phoneNumberVerified: String {
         get{
-            return _phoneNumberVerified
+            if let verif = _phoneNumberVerified{
+                return verif
+            }else{
+                return ""
+            }
         }
         
         set(newPhoneNumberVerified){
@@ -148,8 +172,11 @@ class NewUser{
     
     var businessDesc: String {
         get{
-            return _businessDesc
-        }
+            if let desc = _businessDesc{
+                return desc
+            }else{
+                return ""
+            }        }
         
         set(newBusinessDesc){
             
@@ -161,7 +188,11 @@ class NewUser{
     
     var businessWebsite: String {
         get{
-            return _businessWebsite
+            if let website = _businessWebsite{
+                return website
+            }else{
+                return ""
+            }
         }
         
         set(newBusinessWebsite){
@@ -174,7 +205,11 @@ class NewUser{
     
     var businessHours: String {
         get{
-            return _businessHours
+            if let hours = _businessHours{
+                return hours
+            }else{
+                return ""
+            }
         }
         
         set(newBusinessHours){
@@ -187,7 +222,11 @@ class NewUser{
     
     var userProfilePicLocation: String {
         get{
-            return _userProfilePicLocation
+            if let loc = _userProfilePicLocation{
+                return loc
+            }else{
+                return ""
+            }
         }
         
         set(newUserProfilePicLocation){
@@ -200,7 +239,11 @@ class NewUser{
     
     var businessLocation: String {
         get{
-            return _businessLocation
+            if let loc = _businessLocation{
+                return loc
+            }else{
+                return ""
+            }
         }
         
         set(newBusinessLocation){
@@ -239,7 +282,7 @@ class NewUser{
             }
             if let type = userDict[USER_TYPE] as? String{
                 self.userType = type
-                print(type)
+               // print(type)
             }
             if let bName = userDict[BUSINESS_NAME] as? String{
                 self.businessName = bName

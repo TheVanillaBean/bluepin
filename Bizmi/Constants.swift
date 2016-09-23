@@ -43,6 +43,8 @@ let PROFILE_PIC_LOCATION: String = "userProfilePicLocation"
 
 //CHILD NODES
 let FIR_CHILD_USERS = "Users"
+let FIR_CHILD_USERS_BUSINESS = "Business-Users"
+let FIR_CHILD_USERS_CUSTOMER = "Customer-Users"
 let FIR_CHILD_USER_CHANNELS = "User-Channels"
 let FIR_CHILD_CHANNELS = "Channels"
 let FIR_CHILD_MESSAGES = "Messages"

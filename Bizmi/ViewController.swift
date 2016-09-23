@@ -62,7 +62,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidDisappear(animated: Bool) {
-        FIRAuth.auth()?.removeAuthStateDidChangeListener(authListener)
+      //  FIRAuth.auth()?.removeAuthStateDidChangeListener(authListener)
     }
     
     override func viewWillDisappear(animated: Bool){
@@ -104,14 +104,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
             AuthService.instance.login(email, password: password, onComplete: { (errMsg, data) in
                 
-                let firUser = data as? FIRUser
-                let newUser = NewUser()
-                newUser.castUser(firUser!.uid, onComplete: { (errMsg) in
-                    if errMsg == nil {
-                        self.navigateToTabBarVC(newUser)
+                if errMsg == nil{
+                    if let firUser = data as? FIRUser{
+                        let newUser = NewUser()
+                        newUser.castUser(firUser.uid, onComplete: { (errMsg) in
+                            if errMsg == nil {
+                                self.navigateToTabBarVC(newUser)
+                            }
+                        })
                     }
-                })
-
+                }else{
+                    Messages.showAlertDialog("Error", msgAlert: "There was an error authenticating")
+                }
             })
         
         }else{

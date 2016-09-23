@@ -110,11 +110,11 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
                 
                 let properties = self.userProperties(firUser?.uid, name: user.businessName, businessType: user.businessType, email: user.email)
                 
-                FBDataService.instance.saveUser(firUser?.uid, propertes: properties, onComplete: { (errMsg, data) in
+                FBDataService.instance.saveUser(firUser?.uid, isCustomer: false, propertes: properties, onComplete: { (errMsg, data) in
                     
                     if errMsg == nil {
                         self.view.hideToastActivity()
-                        self.performSegueWithIdentifier("businessSignUp", sender: nil)
+                        //self.performSegueWithIdentifier("businessSignUp", sender: nil)
                     }
                     
                 })

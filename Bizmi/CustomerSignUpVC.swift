@@ -141,7 +141,7 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
                 
                 let properties = self.userProperties(firUser?.uid, name: user.fullName, number: user.phoneNumber, email: user.email)
                 
-                FBDataService.instance.saveUser(firUser?.uid, propertes: properties, onComplete: { (errMsg, data) in
+                FBDataService.instance.saveUser(firUser?.uid, isCustomer: true, propertes: properties, onComplete: { (errMsg, data) in
                     
                         self.toggleSubmit(true)
 

@@ -10,6 +10,8 @@ import UIKit
 import ALCameraViewController
 import AlamofireImage
 import PhoneNumberKit
+import FirebaseStorage
+import FirebaseAuth
 
 class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     
@@ -18,12 +20,8 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     @IBOutlet weak var tableView: UITableView!
 
     @IBOutlet weak var loadingPicLbl: UILabel!
-
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
-    var currentBackendlessUser: BackendlessUser!
-    
-    let user = User() //Used for Global Casting Purposes
+    let castedUser = NewUser() //Used for Global Casting Purposes
     
     var tField: UITextField! //Used for alertView when TableView row is tapped
     
@@ -48,55 +46,61 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.delegate = self
         tableView.dataSource = self
         
-        subscribeToNofications()
+        castUser()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomerProfileVC.onUploadProgressChanged), name: "uploadProgressFB", object: nil)
         
     }
+  
     
-    func subscribeToNofications(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessProfileVC.onCurrentUserUpdated), name: "userUpdated", object: nil)
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessProfileVC.onFileUploaded), name: "fileUploaded", object: nil)
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessProfileVC.onUserLoggedOut), name: "userLoggedOut", object: nil)
+    func castUser(){
+        //Casting
+        castedUser.castUser((FBDataService.instance.currentUser?.uid)!) { (errMsg) in
+            print("Alex: \((FBDataService.instance.currentUser?.uid)!)")
+                self.loadCustomerProfileInfo()
+        }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(true)
+    func onUploadProgressChanged(){
+        self.loadingPicLbl.text = "\(FBDataService.instance.uploadProgress.roundToPlaces(1))%"
+    }
+    
+    func loadProfilePic(){
         
-        loadCustomerProfileInfo()
+        let ref = FIRStorage.storage().referenceForURL(castedUser.userProfilePicLocation)
+        ref.dataWithMaxSize(20 * 1024 * 1024, completion: { (data, error) in
+            if error != nil {
+                print("JESS: Unable to download image from Firebase storage")
+                print(error)
+                let placeholderImage = UIImage(named: "Placeholder")!
+                self.userProfileImg.image = placeholderImage
+            } else {
+                print("JESS: Image downloaded from Firebase storage")
+                if let imgData = data {
+                    if let img = UIImage(data: imgData) {
+                        self.userProfileImg.image = img
+                    }
+                }
+            }
+        })
+        
+        print(castedUser.userProfilePicLocation)
+
         
     }
     
     func loadCustomerProfileInfo(){
-        
-        //Casting
-        currentBackendlessUser = self.appDelegate.backendless.userService.currentUser
-        user.populateUserData(currentBackendlessUser)
-        
-        let URL = NSURL(string: "\(user.userProfilePicLocation)")!
-        let placeholderImage = UIImage(named: "Placeholder")!
-        
-        userProfileImg.af_setImageWithURL(URL, placeholderImage: placeholderImage)
-        
-        print(user.userProfilePicLocation)
-        
+  
+        loadProfilePic()
+        print("Alex: \(castedUser.fullName)")
+
         profileTextItems = [
-            user.fullName,
-            user.userEmail,
+            castedUser.fullName,
+            castedUser.email,
             "Change Password" //Because users password should not be displayed
         ]
-    }
-    
-    func clearImageFromCache(URL: NSURL) {
-        let URLRequest = NSURLRequest(URL: URL)
         
-        let imageDownloader = UIImageView.af_sharedImageDownloader
-        
-        // Clear the URLRequest from the in-memory cache
-        imageDownloader.imageCache?.removeImageForRequest(URLRequest, withAdditionalIdentifier: nil)
-        
-        // Clear the URLRequest from the on-disk cache
-        imageDownloader.sessionManager.session.configuration.URLCache?.removeCachedResponseForRequest(URLRequest)
+        tableView.reloadData()
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -108,15 +112,15 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         let textItem = profileTextItems[indexPath.row]
         let iconItem = profileIconItems[indexPath.row]
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier("BusinessProfileCell") as? BusinessProfileCell {
-            
+        if let cell = tableView.dequeueReusableCellWithIdentifier("CustomerProfileCell") as? CustomerProfileCell {
+            print(iconItem)
             cell.configureCell(iconItem, text: textItem)
             
             return cell
             
         }else{
             
-            let cell = BusinessProfileCell()
+            let cell = CustomerProfileCell()
             
             cell.configureCell(iconItem, text: textItem)
             
@@ -143,8 +147,9 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                 
                 let properties = self.updateProperties(indexPath)
                                 
-                DataService.instance.updateUser(properties)
-                
+                FBDataService.instance.updateUser(self.castedUser.uuid, propertes: properties, onComplete: { (errMsg, data) in
+                    self.castUser()
+                })
             }))
             
             self.presentViewController(alert, animated: true, completion: nil)
@@ -186,9 +191,9 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             
             switch indexPath.row {
             case 0:
-                properties.updateValue(textInput, forKey: "fullName")
+                properties.updateValue(textInput, forKey: FULL_NAME)
             case 1:
-                properties.updateValue(textInput, forKey: "email")
+                properties.updateValue(textInput, forKey: EMAIL)
             default:
                 break
             }
@@ -207,31 +212,17 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
     
-    func onFileUploaded(notification: NSNotification){
-        
-        if let fileDict = notification.object as? [String:AnyObject] {
-            if let file = fileDict["uploadedFile"] as? BackendlessFile {
+    func onFileUploaded(url: NSURL){
+     
+        let properties = [PROFILE_PIC_LOCATION: url.absoluteString]
                 
-                let properties = [
-                    "userProfilePicLocation": file.fileURL
-                ]
-                
-                let URL = NSURL(string: "\(user.userProfilePicLocation)")!
-                clearImageFromCache(URL)
-                
-                DataService.instance.updateUser(properties) //Will call onCurrentUserUpdates when finished
-                
+        FBDataService.instance.updateUser(castedUser.uuid, propertes: properties) { (errMsg, data) in
+            if errMsg == nil{
+                self.castUser()
             }
-            
         }
-        
     }
-    
-    func onUserLoggedOut(){
-        self.performSegueWithIdentifier("customerLoggedOut", sender: nil)
-    }
-    
-    
+
     func showPasswordAlertDialog(){
         
         // Initialize Alert Controller
@@ -239,7 +230,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
         // Initialize Actions
         let yesAction = UIAlertAction(title: "Yes", style: .Default) { (action) -> Void in
-            DataService.instance.requestUserPasswordChange(self.currentBackendlessUser.email, uiVIew: self.view)
+          //  DataService.instance.requestUserPasswordChange(self.currentBackendlessUser.email, uiVIew: self.view)
         }
         
         let noAction = UIAlertAction(title: "No", style: .Default) { (action) -> Void in
@@ -263,13 +254,23 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                 
                 self?.userProfileImg.image = image?.correctlyOrientedImage()
                 
-                let imageData: NSData = UIImagePNGRepresentation(image!.correctlyOrientedImage())!
+                let imageData: NSData = UIImageJPEGRepresentation(image!.correctlyOrientedImage(), 0.5)!
                 
-                let filePath = "profilePics/\(self!.currentBackendlessUser.objectId)"
+                let filePath: FIRStorageReference = FBDataService.instance.profilePicsStorageRef.child("\(self!.castedUser.uuid).png")
+                
+                let metadata = FIRStorageMetadata()
+                metadata.contentType = "image/jpg"
                 
                 self!.loadingPicLbl.text = "Loading..."
                 
-                DataService.instance.uploadFile(filePath, content: imageData, overwrite: true)
+                FBDataService.instance.uploadFile(filePath, data: imageData, metadata: metadata, onComplete: { (errMsg, data) in
+                    if errMsg != nil {
+                        Messages.showAlertDialog("Upload Issue", msgAlert: errMsg)
+                    }else{
+                        self!.loadingPicLbl.text = ""
+                        self!.onFileUploaded((data?.downloadURL())!)
+                    }
+                })
                 
             }
             self?.dismissViewControllerAnimated(true, completion: nil)
@@ -280,7 +281,9 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     @IBAction func logoutBtnPressed(sender: AnyObject) {
-        DataService.instance.logoutUser()
+        try! FIRAuth.auth()!.signOut()
+        self.performSegueWithIdentifier("customerLoggedOut", sender: nil)
+
     }
     
     
