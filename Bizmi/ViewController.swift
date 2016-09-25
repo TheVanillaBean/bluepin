@@ -8,7 +8,7 @@
 
 import UIKit
 import Toast_Swift
-import SinchVerification
+//import SinchVerification
 import FirebaseAuth
 
 class ViewController: UIViewController, UITextFieldDelegate {

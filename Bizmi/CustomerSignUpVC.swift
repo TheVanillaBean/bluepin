@@ -10,7 +10,7 @@ import UIKit
 import DeviceKit
 import Toast_Swift
 import PhoneNumberKit
-import SinchVerification
+//import SinchVerification
 import FirebaseAuth
 
 class CustomerSignUpVC: UIViewController, UITextFieldDelegate {

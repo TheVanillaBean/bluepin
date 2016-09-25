@@ -216,7 +216,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
      
         let properties = [PROFILE_PIC_LOCATION: url.absoluteString]
                 
-        FBDataService.instance.updateUser(castedUser.uuid, propertes: properties) { (errMsg, data) in
+        FBDataService.instance.updateUser(castedUser.uuid, propertes: properties as Dictionary<String, AnyObject>) { (errMsg, data) in
             if errMsg == nil{
                 self.castUser()
             }

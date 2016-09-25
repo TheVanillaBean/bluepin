@@ -158,7 +158,7 @@ class ViewMessageThreadVC: JSQMessagesViewController, PNObjectEventListener {
     
     func publishMessage(_ messageItem: MessageItem) {
         
-        let message : [String : AnyObject] = ["uuid" : messageItem.uuid as AnyObject, "message" : messageItem.message as AnyObject, "channelName" : messageItem.channelName as AnyObject, "senderDisplayName" : messageItem.senderDisplayName as AnyObject, "recipientID" : messageItem.recipientID as AnyObject, "recipientProfilePictureLocation" : messageItem.recipientProfilePictureLocation as AnyObject, "recipientDisplayName" : messageItem.recipientDisplayName as AnyObject, "senderProfilePictureLocation" : messageItem.senderProfilePictureLocation]
+        let message : [String : AnyObject] = ["uuid" : messageItem.uuid as AnyObject, "message" : messageItem.message as AnyObject, "channelName" : messageItem.channelName as AnyObject, "senderDisplayName" : messageItem.senderDisplayName as AnyObject, "recipientID" : messageItem.recipientID as AnyObject, "recipientProfilePictureLocation" : messageItem.recipientProfilePictureLocation as AnyObject, "recipientDisplayName" : messageItem.recipientDisplayName as AnyObject, "senderProfilePictureLocation" : messageItem.senderProfilePictureLocation as AnyObject]
         appDelegate.client.publish(message, toChannel: mainChannelName, withCompletion: nil)
         appDelegate.client.publish(message, toChannel: currentUserID, withCompletion: nil)
         appDelegate.client.publish(message, toChannel: otherUserID, withCompletion: nil)

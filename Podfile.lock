@@ -14,7 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - Alamofire (4.0.0)
+  - Alamofire (4.0.1)
   - AlamofireImage (3.0.0):
     - Alamofire (~> 4.0)
   - ALCameraViewController (1.2.5)
@@ -109,7 +109,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  Alamofire: fef59f00388f267e52d9b432aa5d93dc97190f14
+  Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
   AlamofireImage: 6594aa1139a67dcd36cde6da79ea4e5b318e60fb
   ALCameraViewController: 3ce731eed0b58f2791ce7404f9d039d10f2235c3
   Backendless-ios-SDK: f651996f5c7a85ee227ac88490598c8e41d2747a
@@ -132,6 +132,6 @@ SPEC CHECKSUMS:
   Toast-Swift: 25c3d98db42dc70d9a77b5006ee000e0becb458e
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: ccc5aed2a3cbb9633f6188722569fad26a831cf9
+PODFILE CHECKSUM: 7558eec915a57c072cc9d7c31803e8cdd88b30af
 
 COCOAPODS: 1.1.0.rc.2
