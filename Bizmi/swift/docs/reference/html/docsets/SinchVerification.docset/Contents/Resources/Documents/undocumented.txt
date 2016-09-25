@@ -1,0 +1,16 @@
+SinchVerification.swift
+	case E164
+	case International
+	case National
+	case InvalidCountryCode
+	case NotANumber
+	case TooShortAfterIDD
+	case TooShortNSN
+	case TooLongNSN
+	case InvalidCountryCode
+	case NotANumber
+	case TooShort
+	case TooLong
+	public var textField: UITextField?
+	public var countryCode: String
+	public class DeviceRegion

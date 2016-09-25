@@ -1,0 +1,31 @@
+<h1 id="swiftbindingsforsinchverificationiossdk">Swift bindings for Sinch Verification iOS SDK</h1>
+
+<p>This project contains Swift bindings for the <a href="https://www.sinch.com/products/verification/">Sinch Verification iOS SDK</a>. See the <a href="https://www.sinch.com/docs/verification/ios/">Sinch Verification User Guide</a> for complete documentation on how to use the SDK.</p>
+
+<p><em>IMPORTANT</em>: If you are integrating the Sinch Swift Verification SDK by adding the <em>SinchVerification.framework</em> to &#8220;Embedded Binaries&#8221; in your application target, you must also setup the <code>strip-frameworks.sh</code> to run as part of an Xcode &#8220;Run Script Phase&#8221; defined in your application target&#8217;s <em>&#8220;Build Phases&#8221;</em> section. See the online User Guide for details on how to do this.</p>
+
+<h2 id="example">Example</h2>
+
+<pre><code>import SinchVerification;
+
+let isoCountryCode = DeviceRegion.currentCountryCode();
+
+let phoneNumber = try PhoneNumberUtil().parse(&quot;&lt;user input&gt;&quot;,
+                                              defaultRegion:isoCountryCode);
+
+let phoneNumberE164 = PhoneNumberUtil().format(phoneNumber,
+                                               format: PhoneNumberFormat.E164);
+
+let verification = SMSVerification(applicationKey:&quot;&lt;APP KEY&gt;&quot;, phoneNumber: phoneNumberE164);
+
+verification.initiate { (success: Bool, error: NSError?) -&gt; Void in
+    // handle outcome
+}
+
+
+let code = &quot;&lt;user input code from SMS&gt;&quot;
+
+verification.verify(code, completion: { (success: Bool, error:NSError?) -&gt; Void in
+    // handle outcome
+})
+</code></pre>
