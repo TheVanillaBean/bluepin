@@ -10,11 +10,11 @@ import Foundation
 import FirebaseDatabase
 import FirebaseStorage
 import FirebaseAuth
-typealias DataCompletion = (errMsg: String?, data: AnyObject?) -> Void
+typealias DataCompletion = (_ errMsg: String?, _ data: AnyObject?) -> Void
 
 
 class FBDataService {
-    private static let _instance = FBDataService()
+    fileprivate static let _instance = FBDataService()
     
     static var instance: FBDataService {
         return _instance
@@ -66,7 +66,7 @@ class FBDataService {
         }
     }
     
-    func saveUser(uid: String!, isCustomer: Bool?, propertes: Dictionary<String, AnyObject>, onComplete: DataCompletion?) {
+    func saveUser(_ uid: String!, isCustomer: Bool?, propertes: Dictionary<String, AnyObject>, onComplete: DataCompletion?) {
         
         usersRef.child(uid).setValue(propertes)
         
@@ -78,47 +78,47 @@ class FBDataService {
         
         print("iscustomer done")
         
-        onComplete?(errMsg: nil, data: nil)
+        onComplete?(nil, nil)
 
     }
     
-    func updateUser(uid: String!, propertes: Dictionary<String, AnyObject>, onComplete: DataCompletion?) {
+    func updateUser(_ uid: String!, propertes: Dictionary<String, AnyObject>, onComplete: DataCompletion?) {
         
         mainRef.child(FIR_CHILD_USERS).child(uid).updateChildValues(propertes)
-        onComplete?(errMsg: nil, data: nil)
+        onComplete?(nil, nil)
         
     }
     
-    func uploadFile(filePath: FIRStorageReference!, data: NSData!, metadata: FIRStorageMetadata!, onComplete: DataCompletion?){
+    func uploadFile(_ filePath: FIRStorageReference!, data: Data!, metadata: FIRStorageMetadata!, onComplete: DataCompletion?){
        
-        let uploadTask = filePath.putData(data, metadata: metadata);
+        let uploadTask = filePath.put(data, metadata: metadata);
 
-        uploadTask.observeStatus(.Progress) { snapshot in
+        uploadTask.observe(.progress) { snapshot in
             // Upload reported progress
             if let progress = snapshot.progress {
                 let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
                 self._uploadProgress = percentComplete
                 print(percentComplete)
-                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "uploadProgressFB", object: nil))
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "uploadProgressFB"), object: nil))
             }
         }
         
-        uploadTask.observeStatus(.Success) { snapshot in
+        uploadTask.observe(.success) { snapshot in
             print("success upload -------")
             uploadTask.removeAllObservers()
         
-            onComplete?(errMsg: nil, data: snapshot.metadata)
+            onComplete?(nil, snapshot.metadata)
             
         }
         
         // Errors only occur in the "Failure" case
-        uploadTask.observeStatus(.Failure) { snapshot in
+        uploadTask.observe(.failure) { snapshot in
             guard let storageError = snapshot.error else { return }
             guard let errorCode = FIRStorageErrorCode(rawValue: storageError.code) else { return }
             uploadTask.removeAllObservers()
             
             print("\(errorCode) -- upload error")
-            onComplete?(errMsg: "There was an upload error. Check your connection.", data: nil)
+            onComplete?("There was an upload error. Check your connection.", nil)
         
         }
     }

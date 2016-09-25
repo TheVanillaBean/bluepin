@@ -13,13 +13,13 @@ class ForgotPasswordVC: UIViewController {
 
     @IBOutlet weak var emailTextField: MaterialTextField!
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     override func viewDidLoad() {
         self.navigationItem.title = "Forgot Password"
     }
     
-    @IBAction func sendEmailBtnPressed(sender: AnyObject) {
+    @IBAction func sendEmailBtnPressed(_ sender: AnyObject) {
         
         if let email = emailTextField.text {
             

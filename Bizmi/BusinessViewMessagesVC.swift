@@ -10,9 +10,9 @@ import UIKit
 
 class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
 
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(0,0, 50, 50)) as UIActivityIndicatorView
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -23,14 +23,14 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
         let titleView = UIImageView(image: UIImage(named: "Nav_Img"))
         self.tabBarController?.navigationItem.titleView = titleView
         
-        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(BusinessViewMessagesVC.onNewReservationBtnPressed))
+        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(BusinessViewMessagesVC.onNewReservationBtnPressed))
 
         self.tabBarController?.navigationItem.rightBarButtonItem = button
 
         tableView.delegate = self
         tableView.dataSource = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessViewMessagesVC.onUniqueChannelsRetrived), name: "uniqueChannelsRetrieved", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewMessagesVC.onUniqueChannelsRetrived), name: NSNotification.Name(rawValue: "uniqueChannelsRetrieved"), object: nil)
         
         showActivityIndicator()
         
@@ -40,7 +40,7 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
     
     func onNewReservationBtnPressed(){
         
-        performSegueWithIdentifier("NewReservationFromTab", sender: nil)
+        performSegue(withIdentifier: "NewReservationFromTab", sender: nil)
         
         print("pressed VC")
     
@@ -58,7 +58,7 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
     func showActivityIndicator() {
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
     }
@@ -66,17 +66,17 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
     
     //Setup Tableview
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let channel = DataService.instance.allUniqueChannels[indexPath.row]
+        let channel = DataService.instance.allUniqueChannels[(indexPath as NSIndexPath).row]
         
         print(channel)
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier("BusinessChannelsCell") as? BusinessMessageChannelsCell{
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessChannelsCell") as? BusinessMessageChannelsCell{
             
             cell.configureCell(channel)
             
@@ -90,29 +90,29 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataService.instance.allUniqueChannels.count
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true) //So tableview row doesn't stay highlighted
+        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
         
-        channel = DataService.instance.allUniqueChannels[indexPath.row]
-        performSegueWithIdentifier("ViewMessageThreadFromBusiness", sender: nil)
+        channel = DataService.instance.allUniqueChannels[(indexPath as NSIndexPath).row]
+        performSegue(withIdentifier: "ViewMessageThreadFromBusiness", sender: nil)
         
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         
     if segue.identifier != "NewReservationFromTab" {
         
-            let navVc = segue.destinationViewController as! UINavigationController
+            let navVc = segue.destination as! UINavigationController
             let messageVC = navVc.viewControllers.first as! ViewMessageThreadVC
             
             let currentUser = appDelegate.backendless.userService.currentUser

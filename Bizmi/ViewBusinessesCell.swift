@@ -27,14 +27,14 @@ class ViewBusinessesCell: UITableViewCell {
         
         businessBGImage.layer.cornerRadius = 1
         businessBGImage.clipsToBounds = true
-        businessNameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.Top
-        businessDesclbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.Top
+        businessNameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
+        businessDesclbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
         
     }
     
-    func configureCell(user: User!){
+    func configureCell(_ user: User!){
         
-        let URL = NSURL(string: "\(user.userProfilePicLocation)")!
+        let URL = Foundation.URL(string: "\(user.userProfilePicLocation)")!
         let placeholderImage = UIImage(named: "Placeholder")!
         
         reverseGeoLocate(user.businessLocation)
@@ -46,7 +46,7 @@ class ViewBusinessesCell: UITableViewCell {
         
     }
     
-    func reverseGeoLocate(location: GeoPoint){
+    func reverseGeoLocate(_ location: GeoPoint){
         
         if location.latitude != 0 && location.longitude != 0{
             
@@ -54,7 +54,7 @@ class ViewBusinessesCell: UITableViewCell {
             
             CLGeocoder().reverseGeocodeLocation(loc, completionHandler: {(placemarks, error) -> Void in
                 
-                if let marks = placemarks where marks.count > 0 {
+                if let marks = placemarks , marks.count > 0 {
                     
                     let pm = marks[0] as CLPlacemark
                     

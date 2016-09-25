@@ -15,10 +15,18 @@
 #pragma mark General information constants
 
 // Stores client library version number
-static NSString * const kPNLibraryVersion = @"4.3.3";
+static NSString * const kPNLibraryVersion = @"4.5.2";
 
 // Stores information about SDK codebase
-static NSString * const kPNCommit = @"2123b8a9ea9b35ba486c5f4987cd25216f85544a";
+static NSString * const kPNCommit = @"2c8d262e86b400142310a6c37db80f71dc41e497";
+
+/**
+ @brief  Stores reference on unique identifier which is used to identify \b PubNub client among other 
+         \b PubNub products.
+ 
+ @since 4.5.0
+ */
+static NSString * const kPNClientIdentifier = @"com.pubnub.pubnub-objc";
 
 #if TARGET_OS_WATCH
     static NSString * const kPNClientName = @"ObjC-watchOS";
@@ -41,5 +49,9 @@ static PNHeartbeatNotificationOptions const kPNDefaultHeartbeatNotificationOptio
 static BOOL const kPNDefaultShouldKeepTimeTokenOnListChange = YES;
 static BOOL const kPNDefaultShouldRestoreSubscription = YES;
 static BOOL const kPNDefaultShouldTryCatchUpOnSubscriptionRestore = YES;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED && !TARGET_OS_WATCH
+static BOOL const kPNDefaultShouldCompleteRequestsBeforeSuspension = YES;
+#endif // __IPHONE_OS_VERSION_MIN_REQUIRED && !TARGET_OS_WATCH
+static BOOL const kPNDefaultShouldStripMobilePayload = YES;
 
 #endif // PNConstants_h

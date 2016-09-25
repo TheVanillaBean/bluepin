@@ -19,23 +19,23 @@ class CustomerViewBusinessesVC: UIViewController, UITableViewDelegate, UITableVi
         
         DataService.instance.loadAllBusinesses()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomerViewBusinessesVC.onBusinessesLoaded), name: "allBusinessesLoaded", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomerViewBusinessesVC.onBusinessesLoaded), name: NSNotification.Name(rawValue: "allBusinessesLoaded"), object: nil)
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let business = DataService.instance.allBusinesses[indexPath.row]
+        let business = DataService.instance.allBusinesses[(indexPath as NSIndexPath).row]
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier("ViewBusinessesCell") as? ViewBusinessesCell{
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "ViewBusinessesCell") as? ViewBusinessesCell{
             
             cell.configureCell(business)
             
@@ -49,20 +49,20 @@ class CustomerViewBusinessesVC: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataService.instance.allBusinesses.count
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true) //So tableview row doesn't stay highlighted
+        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
         
-        let business = DataService.instance.allBusinesses[indexPath.row]
-        performSegueWithIdentifier("ViewSingleBusiness", sender: business)
+        let business = DataService.instance.allBusinesses[(indexPath as NSIndexPath).row]
+        performSegue(withIdentifier: "ViewSingleBusiness", sender: business)
         
     }
     
@@ -70,9 +70,9 @@ class CustomerViewBusinessesVC: UIViewController, UITableViewDelegate, UITableVi
         tableView.reloadData()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ViewSingleBusiness" {
-            if let viewBusinessVC = segue.destinationViewController as? ViewBusinessVC{
+            if let viewBusinessVC = segue.destination as? ViewBusinessVC{
                 if let business = sender as? BackendlessUser {
                     viewBusinessVC.backendlessUser = business
                 }

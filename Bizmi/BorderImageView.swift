@@ -14,7 +14,7 @@ class BorderImageView: UIImageView {
         layer.cornerRadius = 10.0
         clipsToBounds = true;
         layer.borderWidth = 3.0
-        layer.borderColor = ACCENT_COLOR.CGColor
+        layer.borderColor = ACCENT_COLOR.cgColor
     }
     
     

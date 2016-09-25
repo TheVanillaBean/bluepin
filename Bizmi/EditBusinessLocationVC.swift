@@ -29,23 +29,23 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
         super.viewDidLoad()
         
         self.navigationItem.title = "Adjust Location"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(donePressed))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
    
-         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditBusinessLocationVC.onCurrentUserUpdated), name: "userUpdated", object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(EditBusinessLocationVC.onCurrentUserUpdated), name: NSNotification.Name(rawValue: "userUpdated"), object: nil)
         
         map.delegate = self
         searchBar.delegate = self
-        searchBar.returnKeyType = UIReturnKeyType.Done
+        searchBar.returnKeyType = UIReturnKeyType.done
        
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         locationAuthStatus()
     }
 
     func onCurrentUserUpdated(){
         //Dismiss VC
-        self.navigationController?.popViewControllerAnimated(true);
+        self.navigationController?.popViewController(animated: true);
     }
     
     func donePressed(){
@@ -71,7 +71,7 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
  
     func locationAuthStatus() {
     
-        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             
             if !isCentered{ //Only needs to hapen once
                 if location?.latitude != 0 && location?.longitude != 0{
@@ -92,14 +92,14 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
         
     }
     
-    func centerMapOnLocation(location: CLLocation, scaleFactor: Double) {
+    func centerMapOnLocation(_ location: CLLocation, scaleFactor: Double) {
         
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * scaleFactor, regionRadius * scaleFactor)
         map.setRegion(coordinateRegion, animated: true)
         isCentered = true
     }
     
-    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         
         if !isCentered && (location?.latitude == 0 && location?.longitude == 0){ //Only needs to hapen once
             if let loc = userLocation.location {
@@ -108,7 +108,7 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
         }
     }
     
-    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
        
         if isCentered{
             centerCoordinates = mapView.centerCoordinate
@@ -116,7 +116,7 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
       
     }
  
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
         
         if let address = searchBar.text{
@@ -141,11 +141,11 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
 //
 //    }
     
-    func getPlacemarkFromAddress(address: String) {
+    func getPlacemarkFromAddress(_ address: String) {
     
         CLGeocoder().geocodeAddressString(address) { ( placemarks: [CLPlacemark]?, error: NSError?) in
             
-            if let marks = placemarks where marks.count > 0{
+            if let marks = placemarks , marks.count > 0{
                 if let loc = marks[0].location {
 
                     self.centerMapOnLocation(loc, scaleFactor: 10)
@@ -159,7 +159,7 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
             }
             
             
-        }
+        } as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler
     
     }
     

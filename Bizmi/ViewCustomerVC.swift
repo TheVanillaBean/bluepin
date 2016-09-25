@@ -20,7 +20,7 @@ class ViewCustomerVC: UIViewController {
     
     @IBOutlet weak var appointmentsMadeLbl: UILabel!
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var backendlessUser: BackendlessUser!
     
@@ -28,16 +28,16 @@ class ViewCustomerVC: UIViewController {
     
     var followingDate: String!
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
         populateDataFields()
         
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-        self.navigationController?.navigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     func populateDataFields(){
@@ -49,7 +49,7 @@ class ViewCustomerVC: UIViewController {
             
             self.navigationItem.title = "\(customer.fullName)"
             
-            let URL = NSURL(string: "\(customer.userProfilePicLocation)")!
+            let URL = Foundation.URL(string: "\(customer.userProfilePicLocation)")!
             let placeholderImage = UIImage(named: "Placeholder")!
             
             customerProfilePicImg.af_setImageWithURL(URL, placeholderImage: placeholderImage)
@@ -71,21 +71,21 @@ class ViewCustomerVC: UIViewController {
     }
    
     
-    @IBAction func cancelBtnPressed(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelBtnPressed(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func messageCustomerBtnPressed(sender: AnyObject) {
+    @IBAction func messageCustomerBtnPressed(_ sender: AnyObject) {
         
-        performSegueWithIdentifier("ViewMessageThreadFromViewCustomerVC", sender: nil)
+        performSegue(withIdentifier: "ViewMessageThreadFromViewCustomerVC", sender: nil)
         
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "ViewMessageThreadFromViewCustomerVC" {
             
-            let navVc = segue.destinationViewController as! UINavigationController
+            let navVc = segue.destination as! UINavigationController
             let messageVC = navVc.viewControllers.first as! ViewMessageThreadVC
             
             let currentUser = self.appDelegate.backendless.userService.currentUser

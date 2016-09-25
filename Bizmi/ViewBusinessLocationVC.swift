@@ -33,13 +33,13 @@ class ViewBusinessLocationVC: UIViewController, MKMapViewDelegate {
         map.delegate = self
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         locationAuthStatus()
     }
     
     func locationAuthStatus() {
         
-        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             
             if location?.latitude != 0 && location?.longitude != 0{
                 
@@ -59,20 +59,20 @@ class ViewBusinessLocationVC: UIViewController, MKMapViewDelegate {
         
     }
     
-    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
     
         centerMapOnLocation(2)
         isCentered = true
         
     }
     
-    func centerMapOnLocation(scaleFactor: Double) {
+    func centerMapOnLocation(_ scaleFactor: Double) {
         
         if !isCentered {
     
             let userLoc = map.userLocation
             
-            newDistance = CLLocation(latitude: userLoc.coordinate.latitude, longitude: userLoc.coordinate.longitude).distanceFromLocation(CLLocation(latitude: loc.coordinate.latitude, longitude: loc.coordinate.longitude))
+            newDistance = CLLocation(latitude: userLoc.coordinate.latitude, longitude: userLoc.coordinate.longitude).distance(from: CLLocation(latitude: loc.coordinate.latitude, longitude: loc.coordinate.longitude))
 
             let region = MKCoordinateRegionMakeWithDistance(userLoc.coordinate,scaleFactor * newDistance, scaleFactor * newDistance)
             let adjustRegion = map.regionThatFits(region)
@@ -86,17 +86,17 @@ class ViewBusinessLocationVC: UIViewController, MKMapViewDelegate {
         let coordinates = CLLocationCoordinate2DMake(loc.coordinate.latitude, loc.coordinate.longitude)
         let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, newDistance, newDistance)
         let options = [
-            MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
-            MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
+            MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+            MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
         ]
         let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
         let mapItem = MKMapItem(placemark: placemark)
         mapItem.name = "\(businessName): \(address)"
-        mapItem.openInMapsWithLaunchOptions(options)
+        mapItem.openInMaps(launchOptions: options)
         
     }
     
-    func createAnnotationForLocation(location: CLLocation){
+    func createAnnotationForLocation(_ location: CLLocation){
 
         let business = BusinessAnnotation(coordinate: location.coordinate, title: "\(businessName)", subtitle: "")
         business.coordinate = location.coordinate
@@ -104,22 +104,22 @@ class ViewBusinessLocationVC: UIViewController, MKMapViewDelegate {
     
     }
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // Don't want to show a custom image if the annotation is the user's location.
-        guard !annotation.isKindOfClass(MKUserLocation) else {
+        guard !annotation.isKind(of: MKUserLocation.self) else {
             return nil
         }
         
         let annotationIdentifier = "BusinessPin"
         
         var annotationView: MKAnnotationView?
-        if let dequeuedAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(annotationIdentifier) {
+        if let dequeuedAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) {
             annotationView = dequeuedAnnotationView
             annotationView?.annotation = annotation
         }
         else {
             let av = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            av.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+            av.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
             annotationView = av
         }
         
@@ -132,13 +132,13 @@ class ViewBusinessLocationVC: UIViewController, MKMapViewDelegate {
         return annotationView
     }
     
-    @IBAction func getDirectionsBtnPressed(sender: AnyObject) {
+    @IBAction func getDirectionsBtnPressed(_ sender: AnyObject) {
         openMapForPlace()
     }
     
     
-    @IBAction func cancelBtnPressed(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelBtnPressed(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     

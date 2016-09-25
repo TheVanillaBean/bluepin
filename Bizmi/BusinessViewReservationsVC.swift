@@ -10,9 +10,9 @@ import UIKit
 
 class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(0,0, 50, 50)) as UIActivityIndicatorView
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
     
     var selectedReservation: Reservation!
     
@@ -31,20 +31,20 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
         let currentUser = appDelegate.backendless.userService.currentUser
         user.populateUserData(currentUser)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessViewReservationsVC.onReservationsRecieved), name: "findBusinessReservations", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewReservationsVC.onReservationsRecieved), name: NSNotification.Name(rawValue: "findBusinessReservations"), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessViewReservationsVC.onReservationUpdated), name: "removeReservation", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewReservationsVC.onReservationUpdated), name: NSNotification.Name(rawValue: "removeReservation"), object: nil)
         
         showActivityIndicator()
         DataService.instance.findBusinessReservations(user.userObjectID)
         
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(CustomerViewReservationsVC.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(CustomerViewReservationsVC.refresh(_:)), for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl) // not required when using UITableViewController
     }
     
-    func refresh(sender:AnyObject) {
+    func refresh(_ sender:AnyObject) {
         showActivityIndicator()
         DataService.instance.clearCustomerReservation()
         DataService.instance.findBusinessReservations(user.userObjectID)
@@ -67,15 +67,15 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
     
     //Setup Tableview
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let reservation = DataService.instance.allBusinessReservations[indexPath.row]
+        let reservation = DataService.instance.allBusinessReservations[(indexPath as NSIndexPath).row]
                 
-        if let cell = tableView.dequeueReusableCellWithIdentifier("BusinessReservationCell") as? BusinessReservationCell{
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessReservationCell") as? BusinessReservationCell{
             
             cell.configureCell(reservation)
             
@@ -89,19 +89,19 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataService.instance.allBusinessReservations.count
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true) //So 
+        tableView.deselectRow(at: indexPath, animated: true) //So 
         
-        selectedReservation = DataService.instance.allBusinessReservations[indexPath.row]
+        selectedReservation = DataService.instance.allBusinessReservations[(indexPath as NSIndexPath).row]
         
         if selectedReservation.Status == DataService.statusType.PENDING.rawValue{
             showAlertDialog()
@@ -113,14 +113,14 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
     func showAlertDialog(){
         
         // Initialize Alert Controller
-        let alertController = UIAlertController(title: "Remove Reservation", message: "Do you want to delete this reservation for \(selectedReservation.Leader!)?", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "Remove Reservation", message: "Do you want to delete this reservation for \(selectedReservation.Leader!)?", preferredStyle: .alert)
         
         // Initialize Actions
-        let yesAction = UIAlertAction(title: "Accept", style: .Default) { (action) -> Void in
+        let yesAction = UIAlertAction(title: "Accept", style: .default) { (action) -> Void in
             DataService.instance.removeReservation(self.selectedReservation)
         }
         
-        let noAction = UIAlertAction(title: "Decline", style: .Default) { (action) -> Void in
+        let noAction = UIAlertAction(title: "Decline", style: .default) { (action) -> Void in
         }
         
         // Add Actions
@@ -128,7 +128,7 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
         alertController.addAction(noAction)
         
         // Present Alert Controller
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
         
     }
     
@@ -136,7 +136,7 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
     func showActivityIndicator() {
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
     }

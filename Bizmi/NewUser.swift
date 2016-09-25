@@ -8,25 +8,25 @@
 
 import Foundation
 
-typealias UserCompletion = (errMsg: String?) -> Void
+typealias UserCompletion = (_ errMsg: String?) -> Void
 
 class NewUser{
     
-    private var _uuid: String!
-    private var _email: String!
-    private var _userType: String!
-    private var _fullName: String!
-    private var _phoneNumber: String!
-    private var _phoneNumberVerified: String!
-    private var _password: String!
+    fileprivate var _uuid: String!
+    fileprivate var _email: String!
+    fileprivate var _userType: String!
+    fileprivate var _fullName: String!
+    fileprivate var _phoneNumber: String!
+    fileprivate var _phoneNumberVerified: String!
+    fileprivate var _password: String!
     
-    private var _businessName: String!
-    private var _businessType: String!
-    private var _businessDesc: String!
-    private var _businessWebsite: String!
-    private var _businessHours: String!
-    private var _userProfilePicLocation: String!
-    private var _businessLocation: String!
+    fileprivate var _businessName: String!
+    fileprivate var _businessType: String!
+    fileprivate var _businessDesc: String!
+    fileprivate var _businessWebsite: String!
+    fileprivate var _businessHours: String!
+    fileprivate var _userProfilePicLocation: String!
+    fileprivate var _businessLocation: String!
     
     var uuid: String {
         get{
@@ -257,7 +257,7 @@ class NewUser{
     
     init(email: String?, password: String?, userType: String?){
         
-        if let userEmail = email, userPassword = password, type = userType {
+        if let userEmail = email, let userPassword = password, let type = userType {
             self.email = userEmail
             self.password = userPassword
             self.userType = type
@@ -269,9 +269,9 @@ class NewUser{
     
     }
     
-    func castUser(uuid: String, onComplete: UserCompletion?){
+    func castUser(_ uuid: String, onComplete: UserCompletion?){
         
-        FBDataService.instance.usersRef.child(uuid).observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        FBDataService.instance.usersRef.child(uuid).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             let userDict = snapshot.value as! [String : AnyObject]
             
@@ -322,11 +322,11 @@ class NewUser{
                 self.businessLocation = loc
             }
             
-            onComplete?(errMsg: nil)
+            onComplete?(nil)
             
         }) { (error) in
             
-            onComplete?(errMsg: error.localizedDescription)
+            onComplete?(error.localizedDescription)
 
             print(error.localizedDescription)
         }

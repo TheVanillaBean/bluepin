@@ -12,13 +12,13 @@ import UIKit
 extension UIImage {
     
     public func correctlyOrientedImage() -> UIImage {
-        if self.imageOrientation == UIImageOrientation.Up {
+        if self.imageOrientation == UIImageOrientation.up {
             return self
         }
         
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
-        self.drawInRect(CGRectMake(0, 0, self.size.width, self.size.height))
-        let normalizedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext();
+        self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+        let normalizedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
         UIGraphicsEndImageContext();
         
         return normalizedImage;
@@ -28,11 +28,11 @@ extension UIImage {
 
 extension CALayer {
     func borderUIColor() -> UIColor? {
-        return borderColor != nil ? UIColor(CGColor: borderColor!) : nil
+        return borderColor != nil ? UIColor(cgColor: borderColor!) : nil
     }
     
-    func setBorderUIColor(color: UIColor) {
-        borderColor = color.CGColor
+    func setBorderUIColor(_ color: UIColor) {
+        borderColor = color.cgColor
     }
 }
 
@@ -49,7 +49,7 @@ extension UIViewController {
 
 extension Double {
     /// Rounds the double to decimal places value
-    func roundToPlaces(places:Int) -> Double {
+    func roundToPlaces(_ places:Int) -> Double {
         let divisor = pow(10.0, Double(places))
         return round(self * divisor) / divisor
     }

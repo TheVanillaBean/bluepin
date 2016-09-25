@@ -20,28 +20,28 @@ class ViewBusinessWebsiteVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UIApplication.sharedApplication().statusBarStyle = .Default
+        UIApplication.shared.statusBarStyle = .default
         
         webView = WKWebView()
         container.addSubview(webView)
         
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        UIApplication.sharedApplication().statusBarStyle = .LightContent
+        UIApplication.shared.statusBarStyle = .lightContent
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
        
-        let frame = CGRectMake(0, 0, container.bounds.width, container.bounds.height)
+        let frame = CGRect(x: 0, y: 0, width: container.bounds.width, height: container.bounds.height)
         webView.frame = frame
 
-        if let urlString = URL, url = NSURL(string: urlString) where UIApplication.sharedApplication().canOpenURL(url) {
+        if let urlString = URL, let url = Foundation.URL(string: urlString) , UIApplication.shared.canOpenURL(url) {
             print(urlString)
-            let request = NSURLRequest(URL: url)
-            webView.loadRequest(request)
+            let request = URLRequest(url: url)
+            webView.load(request)
             
         }else{
             Messages.displayToastMessage(self.view, msg: "Cannot Display Webpage...")
@@ -49,17 +49,17 @@ class ViewBusinessWebsiteVC: UIViewController {
         
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+    override var preferredStatusBarStyle : UIStatusBarStyle {
         
         print("default")
         
-        return UIStatusBarStyle.Default
+        return UIStatusBarStyle.default
        
     }
     
-    @IBAction func cancelBtnPressed(sender: AnyObject) {
+    @IBAction func cancelBtnPressed(_ sender: AnyObject) {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
     

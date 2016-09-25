@@ -13,7 +13,7 @@
     #include <net/if.h>
     #include <net/if_dl.h>
 #endif // __MAC_OS_X_VERSION_MIN_REQUIRED
-#import "PNConfiguration+Private.h"
+#import "PNConfiguration.h"
 #import "PNConstants.h"
 #import "PNKeychain.h"
 
@@ -103,6 +103,18 @@ NS_ASSUME_NONNULL_END
 @implementation PNConfiguration
 
 
+#pragma mark - Information
+
+- (void)setPresenceHeartbeatValue:(NSInteger)presenceHeartbeatValue {
+    
+    _presenceHeartbeatValue = presenceHeartbeatValue;
+    if (self.presenceHeartbeatInterval == 0) { 
+        
+        _presenceHeartbeatInterval = (NSInteger)(_presenceHeartbeatValue * 0.5f);
+    }
+}
+
+
 #pragma mark - Initialization and Configuration
 
 + (instancetype)configurationWithPublishKey:(NSString *)publishKey subscribeKey:(NSString *)subscribeKey {
@@ -136,6 +148,10 @@ NS_ASSUME_NONNULL_END
         _keepTimeTokenOnListChange = kPNDefaultShouldKeepTimeTokenOnListChange;
         _restoreSubscription = kPNDefaultShouldRestoreSubscription;
         _catchUpOnSubscriptionRestore = kPNDefaultShouldTryCatchUpOnSubscriptionRestore;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED && !TARGET_OS_WATCH
+        _completeRequestsBeforeSuspension = kPNDefaultShouldCompleteRequestsBeforeSuspension;
+#endif // __IPHONE_OS_VERSION_MIN_REQUIRED && !TARGET_OS_WATCH
+        _stripMobilePayload = kPNDefaultShouldStripMobilePayload;
     }
     
     return self;
@@ -160,6 +176,10 @@ NS_ASSUME_NONNULL_END
     configuration.keepTimeTokenOnListChange = self.shouldKeepTimeTokenOnListChange;
     configuration.restoreSubscription = self.shouldRestoreSubscription;
     configuration.catchUpOnSubscriptionRestore = self.shouldTryCatchUpOnSubscriptionRestore;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED && !TARGET_OS_WATCH
+    configuration.completeRequestsBeforeSuspension = self.shouldCompleteRequestsBeforeSuspension;
+#endif // __IPHONE_OS_VERSION_MIN_REQUIRED && !TARGET_OS_WATCH
+    configuration.stripMobilePayload = self.shouldStripMobilePayload;
     
     return configuration;
 }
@@ -167,7 +187,7 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Misc
 
-- (nullable NSString *)uniqueDeviceIdentifier {
+- (NSString *)uniqueDeviceIdentifier {
     
     __block NSString *identifier = nil;
     [PNKeychain valueForKey:kPNConfigurationDeviceIDKey withCompletionBlock:^(id value) {
@@ -184,7 +204,7 @@ NS_ASSUME_NONNULL_END
     return identifier;
 }
 
-- (nullable NSString *)generateUniqueDeviceIdentifier {
+- (NSString *)generateUniqueDeviceIdentifier {
     
     NSString *identifier = nil;
 #if __IPHONE_OS_VERSION_MIN_REQUIRED && !TARGET_OS_WATCH
@@ -197,7 +217,7 @@ NS_ASSUME_NONNULL_END
 }
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED
-- (nullable NSString *)serialNumber {
+- (NSString *)serialNumber {
     
     NSString *serialNumber = nil;
     io_service_t service = IOServiceGetMatchingService(kIOMasterPortDefault,
@@ -217,7 +237,7 @@ NS_ASSUME_NONNULL_END
     return serialNumber;
 }
 
-- (nullable NSString *)macAddress {
+- (NSString *)macAddress {
     
     NSString *macAddress = nil;
     size_t length = 0;

@@ -19,7 +19,7 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     @IBOutlet weak var loadingPicLbl: UILabel!
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     var currentBackendlessUser: BackendlessUser!
     
@@ -66,14 +66,14 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func subscribeToNofications(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessProfileVC.onCurrentUserUpdated), name: "userUpdated", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BusinessProfileVC.onCurrentUserUpdated), name: NSNotification.Name(rawValue: "userUpdated"), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessProfileVC.onFileUploaded), name: "fileUploaded", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BusinessProfileVC.onFileUploaded), name: NSNotification.Name(rawValue: "fileUploaded"), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessProfileVC.onUserLoggedOut), name: "userLoggedOut", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BusinessProfileVC.onUserLoggedOut), name: NSNotification.Name(rawValue: "userLoggedOut"), object: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
     
         loadBusinesssProfileInfo()
@@ -86,7 +86,7 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         currentBackendlessUser = self.appDelegate.backendless.userService.currentUser
         user.populateUserData(currentBackendlessUser)
         
-        let URL = NSURL(string: "\(user.userProfilePicLocation)")!
+        let URL = URL(string: "\(user.userProfilePicLocation)")!
         let placeholderImage = UIImage(named: "Placeholder")!
         
         userProfileImg.af_setImageWithURL(URL, placeholderImage: placeholderImage)
@@ -106,8 +106,8 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         ]
     }
     
-    func clearImageFromCache(URL: NSURL) {
-        let URLRequest = NSURLRequest(URL: URL)
+    func clearImageFromCache(_ URL: Foundation.URL) {
+        let URLRequest = Foundation.URLRequest(url: URL)
         
         let imageDownloader = UIImageView.af_sharedImageDownloader
         
@@ -115,19 +115,19 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         imageDownloader.imageCache?.removeImageForRequest(URLRequest, withAdditionalIdentifier: nil)
         
         // Clear the URLRequest from the on-disk cache
-        imageDownloader.sessionManager.session.configuration.URLCache?.removeCachedResponseForRequest(URLRequest)
+        imageDownloader.sessionManager.session.configuration.urlCache?.removeCachedResponse(for: URLRequest)
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let textItem = profileTextItems[indexPath.row]
-        let iconItem = profileIconItems[indexPath.row]
+        let textItem = profileTextItems[(indexPath as NSIndexPath).row]
+        let iconItem = profileIconItems[(indexPath as NSIndexPath).row]
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier("BusinessProfileCell") as? BusinessProfileCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessProfileCell") as? BusinessProfileCell {
             
             cell.configureCell(iconItem, text: textItem)
             
@@ -146,32 +146,32 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.row <= 6 {
+        if (indexPath as NSIndexPath).row <= 6 {
             
             keyboardType = keyboardType(indexPath)
         
-            let alert = UIAlertController(title: alertTitles[indexPath.row], message: "", preferredStyle: .Alert)
+            let alert = UIAlertController(title: alertTitles[(indexPath as NSIndexPath).row], message: "", preferredStyle: .alert)
             
-            alertPlaceHolder = profileTextItems[indexPath.row]
+            alertPlaceHolder = profileTextItems[(indexPath as NSIndexPath).row]
 
-            alert.addTextFieldWithConfigurationHandler(configurationTextField)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:handleCancel))
-            alert.addAction(UIAlertAction(title: "Done", style: .Default, handler:{ (UIAlertAction) in
+            alert.addTextField(configurationHandler: configurationTextField)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:handleCancel))
+            alert.addAction(UIAlertAction(title: "Done", style: .default, handler:{ (UIAlertAction) in
 
                 let properties = self.updateProperties(indexPath)
                 
                 DataService.instance.updateUser(properties)
             
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
             
-        }else if indexPath.row == 7 {
+        }else if (indexPath as NSIndexPath).row == 7 {
         
-            performSegueWithIdentifier("EditBusinessLocation", sender: nil)
+            performSegue(withIdentifier: "EditBusinessLocation", sender: nil)
         
         }else {
             
@@ -182,16 +182,16 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50.0
     }
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return profileTextItems.count
     }
     
-    func configurationTextField(textField: UITextField!){
+    func configurationTextField(_ textField: UITextField!){
         print("generating the TextField")
         textField.text = alertPlaceHolder
         textField.keyboardType = keyboardType
@@ -199,42 +199,42 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
     
-    func handleCancel(alertView: UIAlertAction!){
+    func handleCancel(_ alertView: UIAlertAction!){
         print("Cancelled !!")
     }
     
-    func keyboardType(indexPath: NSIndexPath) -> UIKeyboardType{
+    func keyboardType(_ indexPath: IndexPath) -> UIKeyboardType{
     
-        if indexPath.row == 4 { // Phone Number requires number pad
-            return UIKeyboardType.NumberPad
+        if (indexPath as NSIndexPath).row == 4 { // Phone Number requires number pad
+            return UIKeyboardType.numberPad
         }
         
-        return UIKeyboardType.Default
+        return UIKeyboardType.default
         
     }
     
     
-    func updateProperties(indexPath: NSIndexPath) -> [String: AnyObject]{
+    func updateProperties(_ indexPath: IndexPath) -> [String: AnyObject]{
         
         var properties = [String: AnyObject]()
         
         if let textInput = self.tField.text {
             
-            switch indexPath.row {
+            switch (indexPath as NSIndexPath).row {
             case 0:
-                properties.updateValue(textInput, forKey: "businessName")
+                properties.updateValue(textInput as AnyObject, forKey: "businessName")
             case 1:
-                properties.updateValue(textInput, forKey: "businessType")
+                properties.updateValue(textInput as AnyObject, forKey: "businessType")
             case 2:
-                properties.updateValue(textInput, forKey: "businessHours")
+                properties.updateValue(textInput as AnyObject, forKey: "businessHours")
             case 3:
-                properties.updateValue(textInput, forKey: "businessDesc")
+                properties.updateValue(textInput as AnyObject, forKey: "businessDesc")
             case 4:
-                properties.updateValue(formatPhoneNumber(textInput), forKey: "phoneNumber")
+                properties.updateValue(formatPhoneNumber(textInput) as AnyObject, forKey: "phoneNumber")
             case 5:
-                properties.updateValue(textInput, forKey: "businessWebsite")
+                properties.updateValue(textInput as AnyObject, forKey: "businessWebsite")
             case 6:
-                properties.updateValue(textInput, forKey: "email")
+                properties.updateValue(textInput as AnyObject, forKey: "email")
             default:
                 break
             }
@@ -244,7 +244,7 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
     
-    func formatPhoneNumber(rawPhoneNumber: String?) -> String {
+    func formatPhoneNumber(_ rawPhoneNumber: String?) -> String {
         
         if let rawNumber = rawPhoneNumber{
             
@@ -270,7 +270,7 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.reloadData()
     }
     
-    func onFileUploaded(notification: NSNotification){
+    func onFileUploaded(_ notification: Notification){
 
         if let fileDict = notification.object as? [String:AnyObject] {
             if let file = fileDict["uploadedFile"] as? BackendlessFile {
@@ -279,7 +279,7 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                     "userProfilePicLocation" : file.fileURL
                 ]
                 
-                let URL = NSURL(string: "\(user.userProfilePicLocation)")!
+                let URL = URL(string: "\(user.userProfilePicLocation)")!
                 clearImageFromCache(URL)
                 
                 DataService.instance.updateUser(properties)
@@ -291,21 +291,21 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func onUserLoggedOut(){
-        self.performSegueWithIdentifier("businessLoggedOut", sender: nil)
+        self.performSegue(withIdentifier: "businessLoggedOut", sender: nil)
     }
 
     
     func showPasswordAlertDialog(){
         
         // Initialize Alert Controller
-        let alertController = UIAlertController(title: "New Password", message: "Are you sure you want a new password?", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "New Password", message: "Are you sure you want a new password?", preferredStyle: .alert)
         
         // Initialize Actions
         let yesAction = UIAlertAction(title: "Yes", style: .Default) { (action) -> Void in
             DataService.instance.requestUserPasswordChange(self.currentBackendlessUser.email, uiVIew: self.view)
         }
         
-        let noAction = UIAlertAction(title: "No", style: .Default) { (action) -> Void in
+        let noAction = UIAlertAction(title: "No", style: .default) { (action) -> Void in
         }
         
         // Add Actions
@@ -313,12 +313,12 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         alertController.addAction(noAction)
         
         // Present Alert Controller
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
         
     }
     
     
-    @IBAction func pencilBtnPressed(sender: AnyObject) {
+    @IBAction func pencilBtnPressed(_ sender: AnyObject) {
         
         let cameraViewController = CameraViewController(croppingEnabled: true, allowsLibraryAccess: true) { [weak self] image, asset in
             
@@ -326,7 +326,7 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             
                     self?.userProfileImg.image = image?.correctlyOrientedImage()
 
-                    let imageData: NSData = UIImagePNGRepresentation(image!.correctlyOrientedImage())!
+                    let imageData: Data = UIImagePNGRepresentation(image!.correctlyOrientedImage())!
                 
                     let filePath = "profilePics/\(self!.currentBackendlessUser.objectId)"
                 
@@ -335,24 +335,24 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                     DataService.instance.uploadFile(filePath, content: imageData, overwrite: true)
                 
             }
-            self?.dismissViewControllerAnimated(true, completion: nil)
+            self?.dismiss(animated: true, completion: nil)
         }
         
-        presentViewController(cameraViewController, animated: true, completion: nil)
+        present(cameraViewController, animated: true, completion: nil)
         
     }
     
-    @IBAction func logoutBtnPressed(sender: AnyObject) {
+    @IBAction func logoutBtnPressed(_ sender: AnyObject) {
         DataService.instance.logoutUser()
     }
     
-    @IBAction func analyticsBtnPressed(sender: AnyObject) {
+    @IBAction func analyticsBtnPressed(_ sender: AnyObject) {
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "EditBusinessLocation" {
-            if let locationVC = segue.destinationViewController as? EditBusinessLocationVC{
+            if let locationVC = segue.destination as? EditBusinessLocationVC{
                 
                     let loc = user.businessLocation
                     locationVC.location = loc

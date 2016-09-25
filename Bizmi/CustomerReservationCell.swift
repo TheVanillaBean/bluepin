@@ -24,15 +24,15 @@ class CustomerReservationCell: UITableViewCell {
         businessProfilePic.layer.cornerRadius = 5
         businessProfilePic.clipsToBounds = true
         
-        businessNameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.Top
+        businessNameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
         
-        appointmentLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.Top
+        appointmentLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
    
     }
     
-    func configureCell(reservation: Reservation!){
+    func configureCell(_ reservation: Reservation!){
         
-        let URL = NSURL(string: "\(profilePicLocation(reservation.BusinessID!))")!
+        let URL = Foundation.URL(string: "\(profilePicLocation(reservation.BusinessID!))")!
         let placeholderImage = UIImage(named: "Placeholder")!
         
         businessProfilePic.af_setImageWithURL(URL, placeholderImage: placeholderImage)
@@ -44,22 +44,22 @@ class CustomerReservationCell: UITableViewCell {
 
     }
     
-    func profilePicLocation(userID: String) -> String{
+    func profilePicLocation(_ userID: String) -> String{
         
         return "https://api.backendless.com/127af0a5-6fb8-985e-ff8c-2ee5ffb8ff00/v1/files/profilePics/\(userID)"
         
     }
     
-    func setStatusColor(status: String!){
+    func setStatusColor(_ status: String!){
         
         if status == DataService.statusType.PENDING.rawValue{
-            statusLbl.textColor = UIColor.orangeColor()
+            statusLbl.textColor = UIColor.orange
         }else if status == DataService.statusType.ACTIVE.rawValue{
-            statusLbl.textColor = UIColor.greenColor()
+            statusLbl.textColor = UIColor.green
         }else if status == DataService.statusType.INACTIVE.rawValue{
-            statusLbl.textColor = UIColor.redColor()
+            statusLbl.textColor = UIColor.red
         }else if status == DataService.statusType.DECLINED.rawValue{
-            statusLbl.textColor = UIColor.redColor()
+            statusLbl.textColor = UIColor.red
         }
         
     }

@@ -23,32 +23,32 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var passwordTextField: MaterialTextField!
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
     override func viewDidLoad() {
         self.navigationItem.title = "New Business"
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         
        applySmartScrolling(textField)
        
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         // -64 because the height of the navigation bar and status bar equals 64 units -- This is the true (0,0)
-        scrollView.setContentOffset(CGPointMake(0, -64), animated: true)
+        scrollView.setContentOffset(CGPoint(x: 0, y: -64), animated: true)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    func applySmartScrolling(textField: UITextField){
+    func applySmartScrolling(_ textField: UITextField){
     
         let device = Device()
-        let groupOfAllowedDevices: [Device] = [.iPhone4s, .iPhone5, .iPhone5c, .iPhone5s, .Simulator(.iPhone5), .Simulator(.iPhone4s)]
+        let groupOfAllowedDevices: [Device] = [.iPhone4s, .iPhone5, .iPhone5c, .iPhone5s, .simulator(.iPhone5), .simulator(.iPhone4s)]
         
         if device.isPhone {
             
@@ -56,20 +56,20 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
             if device.isOneOf(groupOfAllowedDevices) {
                 
                 if textField == passwordTextField || textField == businessTypeTextField {
-                    scrollView.setContentOffset(CGPointMake(0, 80), animated: true)
+                    scrollView.setContentOffset(CGPoint(x: 0, y: 80), animated: true)
                 }else if textField == businessNameTextField{
-                    scrollView.setContentOffset(CGPointMake(0, 50), animated: true)
+                    scrollView.setContentOffset(CGPoint(x: 0, y: 50), animated: true)
                 }else{
-                    scrollView.setContentOffset(CGPointMake(0, -64), animated: true)
+                    scrollView.setContentOffset(CGPoint(x: 0, y: -64), animated: true)
                 }
                 
             }
         }
     }
     
-    @IBAction func signUpBtnPressed(sender: AnyObject) {
+    @IBAction func signUpBtnPressed(_ sender: AnyObject) {
         
-        if let businessName = businessNameTextField.text, businessType = businessTypeTextField.text, email = emailTextField.text, password = passwordTextField.text  {
+        if let businessName = businessNameTextField.text, let businessType = businessTypeTextField.text, let email = emailTextField.text, let password = passwordTextField.text  {
             
             passwordTextField.text = ""
             
@@ -85,15 +85,15 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    func userProperties(uuid: String!, name: String!, businessType: String!, email: String!) -> Dictionary<String, AnyObject>  {
+    func userProperties(_ uuid: String!, name: String!, businessType: String!, email: String!) -> Dictionary<String, AnyObject>  {
         
-        let profile: Dictionary<String, AnyObject> = [UUID: uuid, EMAIL: email, BUSINESS_NAME: name, BUSINESS_TYPE: businessType, USER_TYPE: USER_BUSINESS_TYPE]
+        let profile: Dictionary<String, AnyObject> = [UUID: uuid as AnyObject, EMAIL: email as AnyObject, BUSINESS_NAME: name as AnyObject, BUSINESS_TYPE: businessType as AnyObject, USER_TYPE: USER_BUSINESS_TYPE as AnyObject]
         
         return profile
         
     }
     
-    func signUpUser(userObj: NewUser?){
+    func signUpUser(_ userObj: NewUser?){
         
         if let user = userObj{
             

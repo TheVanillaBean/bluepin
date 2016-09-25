@@ -272,7 +272,7 @@ class User: BackendlessUser{
         }
     }
     
-    func populateUserData(backendlessUser: BackendlessUser?){
+    func populateUserData(_ backendlessUser: BackendlessUser?){
         
         if let user = backendlessUser{
             
@@ -347,7 +347,7 @@ class User: BackendlessUser{
     init(email: String?, password: String?, userType: String?){
         super.init()
         
-        if let userEmail = email, userPassword = password, type = userType {
+        if let userEmail = email, let userPassword = password, let type = userType {
             self.userEmail = userEmail
             self.userPassword = userPassword
             self.userType = type

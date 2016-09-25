@@ -17,7 +17,7 @@ class ViewFollowersCell: UITableViewCell {
     
     @IBOutlet weak var followingDate: TTTAttributedLabel!
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,16 +25,16 @@ class ViewFollowersCell: UITableViewCell {
         profileImg.layer.cornerRadius = 1
         profileImg.clipsToBounds = true
         
-        nameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.Top
-        followingDate.verticalAlignment = TTTAttributedLabelVerticalAlignment.Top
+        nameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
+        followingDate.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewFollowersCell.onFollowingDateRetrieved), name: "subscriptionStatus", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewFollowersCell.onFollowingDateRetrieved), name: NSNotification.Name(rawValue: "subscriptionStatus"), object: nil)
         
     }
     
-    func configureCell(user: User){
+    func configureCell(_ user: User){
         
-        let URL = NSURL(string: "\(user.userProfilePicLocation)")!
+        let URL = Foundation.URL(string: "\(user.userProfilePicLocation)")!
         let placeholderImage = UIImage(named: "Placeholder")!
         
         //TODO: Change Cell from stack view to basic autolayout
@@ -46,7 +46,7 @@ class ViewFollowersCell: UITableViewCell {
         DataService.instance.findCustomerSubscriptionStatus(user.userObjectID, To: currentUser.objectId)
     }
     
-    func onFollowingDateRetrieved(notification: NSNotification){
+    func onFollowingDateRetrieved(_ notification: Notification){
 
         if let responseDict = notification.object as? [String:AnyObject] {
             if let date = responseDict["date"] as? String {

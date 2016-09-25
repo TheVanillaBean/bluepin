@@ -23,18 +23,18 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
         DataService.instance.clearAllFollowers()
         DataService.instance.loadAllFollowers()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessViewCustomersVC.onFollowersLoaded), name: "allFollowersLoaded", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewCustomersVC.onFollowersLoaded), name: NSNotification.Name(rawValue: "allFollowersLoaded"), object: nil)
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let user = DataService.instance.allFollowers[indexPath.row]
+        let user = DataService.instance.allFollowers[(indexPath as NSIndexPath).row]
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier("ChooseFollowerCell") as? ChoosePartyLeaderCell{
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "ChooseFollowerCell") as? ChoosePartyLeaderCell{
             
             cell.configureCell(user)
             
@@ -48,17 +48,17 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataService.instance.allFollowers.count
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true) //So tableview row doesn't stay highlighted
+        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
         
         customer = DataService.instance.allFollowers[indexPath.row]
         
@@ -68,7 +68,7 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
         DataService.instance.appointmentLeaderName = user.fullName
         DataService.instance.appointmentLeaderID = user.userObjectID
         
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func onFollowersLoaded(){

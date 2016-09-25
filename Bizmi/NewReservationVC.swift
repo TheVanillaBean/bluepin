@@ -25,17 +25,17 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
     
     var partySize: String!
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
-        scrollView.setContentOffset(CGPointMake(0, 65), animated: true)
+        scrollView.setContentOffset(CGPoint(x: 0, y: 65), animated: true)
         
-        dateDialog.minimumDate = NSDate()
+        dateDialog.minimumDate = Date()
         self.hideKeyboardWhenTappedAround()
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         fillInFields()
     }
     
@@ -45,13 +45,13 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
         customerID = DataService.instance.appointmentLeaderID
         
         if customerID != "Select Customer"{
-            self.partyLeaderField.setTitle(customerName, forState: .Normal)
+            self.partyLeaderField.setTitle(customerName, for: UIControlState())
             print(customerID)
         }
     
     }
     
-    @IBAction func onPartySizeFieldChanged(sender: UITextField) {
+    @IBAction func onPartySizeFieldChanged(_ sender: UITextField) {
         
         
         if Int(sender.text!)! == 0{
@@ -67,22 +67,22 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
         }
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.text = partySize
     }
     
-    @IBAction func onDateChanged(sender: UIDatePicker) {
+    @IBAction func onDateChanged(_ sender: UIDatePicker) {
         
         partySizeField.resignFirstResponder()
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, d MMM yyyy hh:mm a"
-        let strDate = dateFormatter.stringFromDate(sender.date)
+        let strDate = dateFormatter.string(from: sender.date)
         self.reservationTimeLbl.text = strDate
         
     }
     
-    @IBAction func onCreateBtnPressed(sender: AnyObject) {
+    @IBAction func onCreateBtnPressed(_ sender: AnyObject) {
         
         print("\(partyLeaderField.titleLabel?.text) - \(partySizeField.text) - \(reservationTimeLbl.text)")
         
@@ -128,8 +128,8 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
         }
     }
 
-    @IBAction func onPartyLeaderBtnPressed(sender: AnyObject) {
-        performSegueWithIdentifier("ChoosePartyLeaderVC", sender: nil)
+    @IBAction func onPartyLeaderBtnPressed(_ sender: AnyObject) {
+        performSegue(withIdentifier: "ChoosePartyLeaderVC", sender: nil)
     }
     
     func fieldsAreValid() -> Bool{
@@ -157,7 +157,7 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
     }
 
     func clearFields(){
-        self.partyLeaderField.setTitle("Select Customer", forState: .Normal)
+        self.partyLeaderField.setTitle("Select Customer", for: UIControlState())
         self.partySizeField.text = ""
         self.reservationTimeLbl.text = "Time"
     }

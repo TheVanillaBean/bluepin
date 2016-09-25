@@ -1,16 +1,15 @@
 #import "PubNub+Core.h"
+#import "PNPublishSequence.h"
 #import "PNStateListener.h"
 #import "PNClientState.h"
 #import "PNSubscriber.h"
 #import "PNHeartbeat.h"
 #import "PNLogMacro.h"
-#import "PNLog.h"
 
 
 #pragma mark Class forward
 
-@class PNRequestParameters, PNConfiguration, PNClientState, PNStateListener, PNSubscriber,
-       PNHeartbeat, PNResult, PNStatus;
+@class PNRequestParameters, PNConfiguration, PNResult, PNStatus;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -46,6 +45,13 @@ NS_ASSUME_NONNULL_BEGIN
  @since 4.0
  */
 @property (nonatomic, readonly, strong) PNSubscriber *subscriberManager;
+
+/**
+ @brief  Stores reference on instance which manage currently published message sequence number.
+ 
+ @since 4.5.2
+ */
+@property (nonatomic, readonly, strong) PNPublishSequence *sequenceManager;
 
 /**
  @brief  Stores reference on instance which is responsible for cached client state management.
@@ -84,29 +90,6 @@ NS_ASSUME_NONNULL_BEGIN
  @since 4.0
  */
 @property (nonatomic, readonly, strong) dispatch_queue_t callbackQueue;
-
-
-///------------------------------------------------
-/// @name Logger
-///------------------------------------------------
-
-/**
-@brief  Called by Cocoa Lumberjack during initialization.
-
-@return Desired logger level for \b PubNub client main class.
-
-@since 4.0
-*/
-+ (DDLogLevel)ddLogLevel;
-
-/**
-@brief  Allow modify logger level used by Cocoa Lumberjack with logging macros.
-
-@param logLevel New log level which should be used by logger.
-
-@since 4.0
-*/
-+ (void)ddSetLogLevel:(DDLogLevel)logLevel;
 
 
 ///------------------------------------------------

@@ -48,7 +48,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
         castUser()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomerProfileVC.onUploadProgressChanged), name: "uploadProgressFB", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomerProfileVC.onUploadProgressChanged), name: NSNotification.Name(rawValue: "uploadProgressFB"), object: nil)
         
     }
   
@@ -67,8 +67,8 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func loadProfilePic(){
         
-        let ref = FIRStorage.storage().referenceForURL(castedUser.userProfilePicLocation)
-        ref.dataWithMaxSize(20 * 1024 * 1024, completion: { (data, error) in
+        let ref = FIRStorage.storage().reference(forURL: castedUser.userProfilePicLocation)
+        ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
             if error != nil {
                 print("JESS: Unable to download image from Firebase storage")
                 print(error)
@@ -103,16 +103,16 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.reloadData()
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let textItem = profileTextItems[indexPath.row]
-        let iconItem = profileIconItems[indexPath.row]
+        let textItem = profileTextItems[(indexPath as NSIndexPath).row]
+        let iconItem = profileIconItems[(indexPath as NSIndexPath).row]
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier("CustomerProfileCell") as? CustomerProfileCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "CustomerProfileCell") as? CustomerProfileCell {
             print(iconItem)
             cell.configureCell(iconItem, text: textItem)
             
@@ -131,19 +131,19 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true) //So tableview row doesn't stay highlighted
+        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
         
-        if indexPath.row <= 1 { //Password change requires different functionality
+        if (indexPath as NSIndexPath).row <= 1 { //Password change requires different functionality
             
-            let alert = UIAlertController(title: alertTitles[indexPath.row], message: "", preferredStyle: .Alert)
+            let alert = UIAlertController(title: alertTitles[(indexPath as NSIndexPath).row], message: "", preferredStyle: .alert)
             
-            alertPlaceHolder = profileTextItems[indexPath.row]
+            alertPlaceHolder = profileTextItems[(indexPath as NSIndexPath).row]
             
-            alert.addTextFieldWithConfigurationHandler(configurationTextField)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:handleCancel))
-            alert.addAction(UIAlertAction(title: "Done", style: .Default, handler:{ (UIAlertAction) in
+            alert.addTextField(configurationHandler: configurationTextField)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:handleCancel))
+            alert.addAction(UIAlertAction(title: "Done", style: .default, handler:{ (UIAlertAction) in
                 
                 let properties = self.updateProperties(indexPath)
                                 
@@ -152,7 +152,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                 })
             }))
             
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
             
         }else {
             
@@ -163,37 +163,37 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50.0
     }
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return profileTextItems.count
     }
     
-    func configurationTextField(textField: UITextField!){
+    func configurationTextField(_ textField: UITextField!){
         print("generating the TextField")
         textField.text = alertPlaceHolder
         tField = textField
         
     }
     
-    func handleCancel(alertView: UIAlertAction!){
+    func handleCancel(_ alertView: UIAlertAction!){
         print("Cancelled !!")
     }
  
-    func updateProperties(indexPath: NSIndexPath) -> [String: AnyObject]{
+    func updateProperties(_ indexPath: IndexPath) -> [String: AnyObject]{
         
         var properties = [String: AnyObject]()
         
         if let textInput = self.tField.text {
             
-            switch indexPath.row {
+            switch (indexPath as NSIndexPath).row {
             case 0:
-                properties.updateValue(textInput, forKey: FULL_NAME)
+                properties.updateValue(textInput as AnyObject, forKey: FULL_NAME)
             case 1:
-                properties.updateValue(textInput, forKey: EMAIL)
+                properties.updateValue(textInput as AnyObject, forKey: EMAIL)
             default:
                 break
             }
@@ -212,7 +212,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
     
-    func onFileUploaded(url: NSURL){
+    func onFileUploaded(_ url: URL){
      
         let properties = [PROFILE_PIC_LOCATION: url.absoluteString]
                 
@@ -226,14 +226,14 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     func showPasswordAlertDialog(){
         
         // Initialize Alert Controller
-        let alertController = UIAlertController(title: "New Password", message: "Are you sure you want a new password?", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "New Password", message: "Are you sure you want a new password?", preferredStyle: .alert)
         
         // Initialize Actions
-        let yesAction = UIAlertAction(title: "Yes", style: .Default) { (action) -> Void in
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { (action) -> Void in
           //  DataService.instance.requestUserPasswordChange(self.currentBackendlessUser.email, uiVIew: self.view)
         }
         
-        let noAction = UIAlertAction(title: "No", style: .Default) { (action) -> Void in
+        let noAction = UIAlertAction(title: "No", style: .default) { (action) -> Void in
         }
         
         // Add Actions
@@ -241,12 +241,12 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         alertController.addAction(noAction)
         
         // Present Alert Controller
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
         
     }
     
     
-    @IBAction func pencilBtnPressed(sender: AnyObject) {
+    @IBAction func pencilBtnPressed(_ sender: AnyObject) {
         
         let cameraViewController = CameraViewController(croppingEnabled: true, allowsLibraryAccess: true) { [weak self] image, asset in
             
@@ -254,7 +254,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                 
                 self?.userProfileImg.image = image?.correctlyOrientedImage()
                 
-                let imageData: NSData = UIImageJPEGRepresentation(image!.correctlyOrientedImage(), 0.5)!
+                let imageData: Data = UIImageJPEGRepresentation(image!.correctlyOrientedImage(), 0.5)!
                 
                 let filePath: FIRStorageReference = FBDataService.instance.profilePicsStorageRef.child("\(self!.castedUser.uuid).png")
                 
@@ -273,16 +273,16 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                 })
                 
             }
-            self?.dismissViewControllerAnimated(true, completion: nil)
+            self?.dismiss(animated: true, completion: nil)
         }
         
-        presentViewController(cameraViewController, animated: true, completion: nil)
+        present(cameraViewController, animated: true, completion: nil)
         
     }
     
-    @IBAction func logoutBtnPressed(sender: AnyObject) {
+    @IBAction func logoutBtnPressed(_ sender: AnyObject) {
         try! FIRAuth.auth()!.signOut()
-        self.performSegueWithIdentifier("customerLoggedOut", sender: nil)
+        self.performSegue(withIdentifier: "customerLoggedOut", sender: nil)
 
     }
     

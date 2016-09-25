@@ -24,32 +24,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
     
     lazy var client: PubNub = {
         let config = PNConfiguration(publishKey: "pub-c-62a2e0d2-c6d4-405a-9446-e2d18166e536", subscribeKey: "sub-c-6b67ad2e-64b9-11e6-8de8-02ee2ddab7fe")
-        let pub = PubNub.clientWithConfiguration(config)
+        let pub = PubNub.client(with: config)
         return pub
     }()
     
     override init() {
         super.init()
-        client.addListener(self)
+        client.add(self)
     }
     
-    func client(client: PubNub, didReceiveStatus status: PNStatus) {
-        if status.error {
-            showAlert(status.error.description)
+    func client(_ client: PubNub, didReceive status: PNStatus) {
+        if status.isError {
+            showAlert(status.isError.description)
         }
     }
     
     //Dialogue showing error
-    func showAlert(error: String) {
-        let alertController = UIAlertController(title: "Error", message: error, preferredStyle: .Alert)
-        let OKAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+    func showAlert(_ error: String) {
+        let alertController = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(OKAction)
-        self.window?.rootViewController?.presentViewController(alertController, animated: true, completion:nil)
+        self.window?.rootViewController?.present(alertController, animated: true, completion:nil)
     }
     
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         FIRApp.configure()
@@ -64,42 +64,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
     
     func customizeNavigationBar(){
         
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         
         // Set navigation bar tint / background colour
         UINavigationBar.appearance().barTintColor = DARK_PRIMARY_COLOR
         
         // Set Navigation bar Title colour
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
         
         // Set navigation bar ItemButton tint colour
         //UIBarButtonItem.appearance().tintColor = UIColor.yellowColor()
         
         //Set navigation bar Back button tint colour
-        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().tintColor = UIColor.white
         
         
     }
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 

@@ -19,7 +19,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var passwordTextField: MaterialTextField!
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     //Sinch Phone # Verification
     var verification: Verification!
@@ -31,9 +31,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
         
         validateUserToken()
         
@@ -42,7 +42,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func validateUserToken() {
         
-        authListener = FIRAuth.auth()?.addAuthStateDidChangeListener { auth, user in
+        authListener = FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             if let user = user {
                 // User is signed in.
                print(user.uid)
@@ -61,46 +61,46 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
       //  FIRAuth.auth()?.removeAuthStateDidChangeListener(authListener)
     }
     
-    override func viewWillDisappear(animated: Bool){
+    override func viewWillDisappear(_ animated: Bool){
         super.viewWillDisappear(animated)
-        self.navigationController?.navigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = false
     }
    
 
-    func textFieldDidBeginEditing(textField: UITextField) {
-        scrollView.setContentOffset(CGPointMake(0, 130), animated: true)
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        scrollView.setContentOffset(CGPoint(x: 0, y: 130), animated: true)
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
-        scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         textField.resignFirstResponder()
         
         return true
     }
 
-    @IBAction func forgotPasswordBtnPressed(sender: AnyObject) {
+    @IBAction func forgotPasswordBtnPressed(_ sender: AnyObject) {
         
-        performSegueWithIdentifier("forgotPassword", sender: nil)
+        performSegue(withIdentifier: "forgotPassword", sender: nil)
         
     }
     
-    @IBAction func signUpBtnPressed(sender: AnyObject) {
+    @IBAction func signUpBtnPressed(_ sender: AnyObject) {
         
        showAlertDialog()
         
     }
     
-    @IBAction func loginBtnPressed(sender: AnyObject) {
+    @IBAction func loginBtnPressed(_ sender: AnyObject) {
         
-        if let email = emailTextField.text, password = passwordTextField.text{
+        if let email = emailTextField.text, let password = passwordTextField.text{
             
             AuthService.instance.login(email, password: password, onComplete: { (errMsg, data) in
                 
@@ -124,16 +124,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func navigateToTabBarVC(user: NewUser?){
+    func navigateToTabBarVC(_ user: NewUser?){
     
         if let userObj = user {
             
             if userObj.userType == USER_BUSINESS_TYPE{
-                self.performSegueWithIdentifier("businessLogin", sender: nil)
+                self.performSegue(withIdentifier: "businessLogin", sender: nil)
             }else {
                 
                 if userObj.phoneNumberVerified == "true"{
-                    self.performSegueWithIdentifier("customerLogin", sender: nil)
+                    self.performSegue(withIdentifier: "customerLogin", sender: nil)
                 }else {
                     self.initiateVerificationProcess(userObj.phoneNumber)
                 }
@@ -146,15 +146,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func showAlertDialog(){
     
         // Initialize Alert Controller
-        let alertController = UIAlertController(title: "New User", message: "What type of user are you?", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "New User", message: "What type of user are you?", preferredStyle: .alert)
         
         // Initialize Actions
-        let yesAction = UIAlertAction(title: "Business", style: .Default) { (action) -> Void in
-            self.performSegueWithIdentifier("businessSignUp", sender: nil)
+        let yesAction = UIAlertAction(title: "Business", style: .default) { (action) -> Void in
+            self.performSegue(withIdentifier: "businessSignUp", sender: nil)
         }
         
-        let noAction = UIAlertAction(title: "Customer", style: .Default) { (action) -> Void in
-            self.performSegueWithIdentifier("customerSignUp", sender: nil)
+        let noAction = UIAlertAction(title: "Customer", style: .default) { (action) -> Void in
+            self.performSegue(withIdentifier: "customerSignUp", sender: nil)
         }
         
         // Add Actions
@@ -162,18 +162,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
         alertController.addAction(noAction)
         
         // Present Alert Controller
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
         
     }
     
-    func initiateVerificationProcess(phoneNumber: String){
+    func initiateVerificationProcess(_ phoneNumber: String){
         
         self.verification =
             SMSVerification(applicationKey: sinchApplicationKey,
                             phoneNumber: phoneNumber)
         self.verification.initiate { (success:Bool, error: NSError?) -> Void in
             if (success){
-                self.performSegueWithIdentifier("phoneNotVerified", sender: nil);
+                self.performSegue(withIdentifier: "phoneNotVerified", sender: nil);
             } else {
                 Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error?.description)!)
             }
@@ -182,10 +182,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "phoneNotVerified" {
-            if let verifyVC = segue.destinationViewController as? VerifyPhoneNumberVC{
+            if let verifyVC = segue.destination as? VerifyPhoneNumberVC{
                 verifyVC.verification = self.verification
             }
         }

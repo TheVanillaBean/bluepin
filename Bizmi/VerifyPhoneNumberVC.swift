@@ -17,27 +17,27 @@ class VerifyPhoneNumberVC: UIViewController {
     
     var verification: Verification!
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     override func viewDidLoad() {
         self.navigationItem.hidesBackButton = true
         self.navigationItem.title = "Verify Phone Number"
     }
     
-    @IBAction func verifyBtnPressed(sender: AnyObject) {
+    @IBAction func verifyBtnPressed(_ sender: AnyObject) {
         
         if let pinCode = verifyTextField.text {
 
-            self.verifyBtn.enabled = false
+            self.verifyBtn.isEnabled = false
             self.verifyTextField.text = ""
             
             verification.verify(pinCode,
                 completion: { (success:Bool, error:NSError?) -> Void in
-                    self.verifyBtn.enabled = true
+                    self.verifyBtn.isEnabled = true
                     if (success) {
                         
                         Messages.displayToastMessage(self.view, msg: "Verification Successful! Please wait...")
-                        self.view.makeToastActivity(.Center)
+                        self.view.makeToastActivity(.center)
                         
                         let properties = [PHONE_NUMBER_VERIFIED : "true"]
                         
@@ -46,7 +46,7 @@ class VerifyPhoneNumberVC: UIViewController {
                         FBDataService.instance.updateUser(currentUserID, propertes: properties, onComplete: { (errMsg, data) in
                             
                             if errMsg == nil {
-                                self.performSegueWithIdentifier("customerSignUp", sender: nil)
+                                self.performSegue(withIdentifier: "customerSignUp", sender: nil)
                             }
                             
                         })

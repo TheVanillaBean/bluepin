@@ -10,9 +10,9 @@ import UIKit
 
 class CustomerViewReservationsVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
 
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(0,0, 50, 50)) as UIActivityIndicatorView
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
     
     let user: User = User()
     
@@ -30,20 +30,20 @@ class CustomerViewReservationsVC: UIViewController, UITableViewDelegate, UITable
         let currentUser = appDelegate.backendless.userService.currentUser
         user.populateUserData(currentUser)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomerViewReservationsVC.onReservationsRecieved), name: "findCustomerReservations", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomerViewReservationsVC.onReservationsRecieved), name: NSNotification.Name(rawValue: "findCustomerReservations"), object: nil)
         
-       NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomerViewReservationsVC.onReservationUpdated), name: "updateCustomerReservation", object: nil)
+       NotificationCenter.default.addObserver(self, selector: #selector(CustomerViewReservationsVC.onReservationUpdated), name: NSNotification.Name(rawValue: "updateCustomerReservation"), object: nil)
        
         showActivityIndicator()
         DataService.instance.findCustomerReservations(user.userObjectID, status: DataService.statusType.PENDING.rawValue)
         
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(CustomerViewReservationsVC.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(CustomerViewReservationsVC.refresh(_:)), for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl) // not required when using UITableViewController
     }
     
-    func refresh(sender:AnyObject) {
+    func refresh(_ sender:AnyObject) {
         showActivityIndicator()
         DataService.instance.clearCustomerReservation()
         DataService.instance.findCustomerReservations(user.userObjectID, status: DataService.statusType.PENDING.rawValue)
@@ -67,15 +67,15 @@ class CustomerViewReservationsVC: UIViewController, UITableViewDelegate, UITable
     
     //Setup Tableview
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let reservation = DataService.instance.allCustomerReservations[indexPath.row]
+        let reservation = DataService.instance.allCustomerReservations[(indexPath as NSIndexPath).row]
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier("ReservationCell") as? CustomerReservationCell{
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "ReservationCell") as? CustomerReservationCell{
             
             cell.configureCell(reservation)
             
@@ -89,19 +89,19 @@ class CustomerViewReservationsVC: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataService.instance.allCustomerReservations.count
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true) //So tableview row doesn't stay highlighted
+        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
         
-        selectedReservation = DataService.instance.allCustomerReservations[indexPath.row]
+        selectedReservation = DataService.instance.allCustomerReservations[(indexPath as NSIndexPath).row]
         
         if selectedReservation.Status == DataService.statusType.PENDING.rawValue{
             showAlertDialog()
@@ -111,14 +111,14 @@ class CustomerViewReservationsVC: UIViewController, UITableViewDelegate, UITable
     func showAlertDialog(){
         
         // Initialize Alert Controller
-        let alertController = UIAlertController(title: "New Reservation", message: "Do you want to accept this pending reservation from \(selectedReservation.BusinessName!)?", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "New Reservation", message: "Do you want to accept this pending reservation from \(selectedReservation.BusinessName!)?", preferredStyle: .alert)
         
         // Initialize Actions
-        let yesAction = UIAlertAction(title: "Accept", style: .Default) { (action) -> Void in
+        let yesAction = UIAlertAction(title: "Accept", style: .default) { (action) -> Void in
             DataService.instance.updateReservation(self.selectedReservation, status: "Active")
         }
         
-        let noAction = UIAlertAction(title: "Decline", style: .Default) { (action) -> Void in
+        let noAction = UIAlertAction(title: "Decline", style: .default) { (action) -> Void in
             DataService.instance.updateReservation(self.selectedReservation, status: "Declined")
         }
         
@@ -127,21 +127,21 @@ class CustomerViewReservationsVC: UIViewController, UITableViewDelegate, UITable
         alertController.addAction(noAction)
         
         // Present Alert Controller
-        self.presentViewController(alertController, animated: true, completion:{
-            alertController.view.superview?.userInteractionEnabled = true
+        self.present(alertController, animated: true, completion:{
+            alertController.view.superview?.isUserInteractionEnabled = true
             alertController.view.superview?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertControllerBackgroundTapped)))
             })
     }
     
     func alertControllerBackgroundTapped(){
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     //Spinning indicator when loading request
     func showActivityIndicator() {
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
     }

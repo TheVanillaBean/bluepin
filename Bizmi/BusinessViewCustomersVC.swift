@@ -22,24 +22,24 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
         
         DataService.instance.loadAllFollowers()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BusinessViewCustomersVC.onFollowersLoaded), name: "allFollowersLoaded", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewCustomersVC.onFollowersLoaded), name: NSNotification.Name(rawValue: "allFollowersLoaded"), object: nil)
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let user = DataService.instance.allFollowers[indexPath.row]
+        let user = DataService.instance.allFollowers[(indexPath as NSIndexPath).row]
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier("viewFollowersCell") as? ViewFollowersCell{
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "viewFollowersCell") as? ViewFollowersCell{
             
             cell.configureCell(user)
             
@@ -53,24 +53,24 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataService.instance.allFollowers.count
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true) //So tableview row doesn't stay highlighted
+        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
         
-        let currentCell = tableView.cellForRowAtIndexPath(indexPath)! as! ViewFollowersCell
+        let currentCell = tableView.cellForRow(at: indexPath)! as! ViewFollowersCell
         
         let date = currentCell.followingDate.text! as String
         
         customerUser = DataService.instance.allFollowers[indexPath.row]
-        performSegueWithIdentifier("ViewSingleCustomer", sender: date)
+        performSegue(withIdentifier: "ViewSingleCustomer", sender: date)
             
     }
     
@@ -78,9 +78,9 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
         tableView.reloadData()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ViewSingleCustomer" {
-            if let viewCustomerVC = segue.destinationViewController as? ViewCustomerVC{
+            if let viewCustomerVC = segue.destination as? ViewCustomerVC{
                 if let date = sender as? String {
                     viewCustomerVC.backendlessUser = customerUser
                     viewCustomerVC.followingDate = date

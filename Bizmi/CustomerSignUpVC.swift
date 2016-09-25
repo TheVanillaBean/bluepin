@@ -27,7 +27,7 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var submitBtn: UIButton!
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     //Sinch Phone # Verification
     var verification: Verification!;
@@ -37,26 +37,26 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
         self.navigationItem.title = "New Customer"
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         
         applySmartScrolling(textField)
         
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         // -64 because the height of the navigation bar and status bar equals 64 units -- This is the true (0,0)
-        scrollView.setContentOffset(CGPointMake(0, -64), animated: true)
+        scrollView.setContentOffset(CGPoint(x: 0, y: -64), animated: true)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    func applySmartScrolling(textField: UITextField){
+    func applySmartScrolling(_ textField: UITextField){
         
         let device = Device()
-        let groupOfAllowedDevices: [Device] = [.iPhone4s, .iPhone5, .iPhone5c, .iPhone5s, .Simulator(.iPhone5), .Simulator(.iPhone4s)]
+        let groupOfAllowedDevices: [Device] = [.iPhone4s, .iPhone5, .iPhone5c, .iPhone5s, .simulator(.iPhone5), .simulator(.iPhone4s)]
         
         if device.isPhone {
             
@@ -64,11 +64,11 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
             if device.isOneOf(groupOfAllowedDevices) {
                 
                 if textField == passwordTextField || textField == phoneNumberTextField {
-                    scrollView.setContentOffset(CGPointMake(0, 40), animated: true)
+                    scrollView.setContentOffset(CGPoint(x: 0, y: 40), animated: true)
                 }else if textField == fullNameTextField{
-                    scrollView.setContentOffset(CGPointMake(0, 30), animated: true)
+                    scrollView.setContentOffset(CGPoint(x: 0, y: 30), animated: true)
                 }else{
-                    scrollView.setContentOffset(CGPointMake(0, -64), animated: true)
+                    scrollView.setContentOffset(CGPoint(x: 0, y: -64), animated: true)
                 }
                 
             }
@@ -76,15 +76,15 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    func toggleSubmit(enable: Bool){
-        submitBtn.enabled = enable
+    func toggleSubmit(_ enable: Bool){
+        submitBtn.isEnabled = enable
     }
     
-    @IBAction func signUpBtnPressed(sender: AnyObject) {
+    @IBAction func signUpBtnPressed(_ sender: AnyObject) {
         
         toggleSubmit(false)
         
-        if let customerName = fullNameTextField.text, phoneNumber = phoneNumberTextField.text, email = emailTextField.text, password = passwordTextField.text  {
+        if let customerName = fullNameTextField.text, let phoneNumber = phoneNumberTextField.text, let email = emailTextField.text, let password = passwordTextField.text  {
             
             passwordTextField.text = ""
 
@@ -101,22 +101,22 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func userProperties(uuid: String!, name: String!, number: String!, email: String!) -> Dictionary<String, AnyObject>  {
+    func userProperties(_ uuid: String!, name: String!, number: String!, email: String!) -> Dictionary<String, AnyObject>  {
     
-        let profile: Dictionary<String, AnyObject> = [UUID: uuid, EMAIL: email, FULL_NAME: name, PHONE_NUMBER: number, USER_TYPE: USER_CUSTOMER_TYPE, PHONE_NUMBER_VERIFIED: "true"]
+        let profile: Dictionary<String, AnyObject> = [UUID: uuid as AnyObject, EMAIL: email as AnyObject, FULL_NAME: name as AnyObject, PHONE_NUMBER: number as AnyObject, USER_TYPE: USER_CUSTOMER_TYPE as AnyObject, PHONE_NUMBER_VERIFIED: "true" as AnyObject]
     
         return profile
     
     }
     
-    func initiateVerificationProcess(phoneNumber: String){
+    func initiateVerificationProcess(_ phoneNumber: String){
     
         self.verification =
             SMSVerification(applicationKey: sinchApplicationKey,
                             phoneNumber: phoneNumber)
         self.verification.initiate { (success:Bool, error: NSError?) -> Void in
             if (success){
-                self.performSegueWithIdentifier("verifyPhoneNumber", sender: nil);
+                self.performSegue(withIdentifier: "verifyPhoneNumber", sender: nil);
             } else {
                 Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error?.description)!)
             }
@@ -124,7 +124,7 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    func signUpUser(userObj: NewUser?){
+    func signUpUser(_ userObj: NewUser?){
         
         if let user = userObj{
        
@@ -157,10 +157,10 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "verifyPhoneNumber" {
-            if let verifyVC = segue.destinationViewController as? VerifyPhoneNumberVC{
+            if let verifyVC = segue.destination as? VerifyPhoneNumberVC{
                 verifyVC.verification = self.verification
             }
         }

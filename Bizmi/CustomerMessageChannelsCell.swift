@@ -13,7 +13,7 @@ import TTTAttributedLabel
 
 class CustomerMessageChannelsCell: UITableViewCell {
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet weak var businessProfilePic: UIImageView!
     
@@ -28,12 +28,12 @@ class CustomerMessageChannelsCell: UITableViewCell {
         businessProfilePic.clipsToBounds = true
         
         
-        businessNameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.Top
-        lastMessageLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.Top
+        businessNameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
+        lastMessageLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
         
     }
     
-    func configureCell(message: MessageItem){
+    func configureCell(_ message: MessageItem){
 
         let currentUser = appDelegate.backendless.userService.currentUser
         let user = User()
@@ -44,13 +44,13 @@ class CustomerMessageChannelsCell: UITableViewCell {
 
         if user.userObjectID == message.uuid{ //Current User was last sender
         
-            let URL = NSURL(string: "\(message.recipientProfilePictureLocation)")!
+            let URL = Foundation.URL(string: "\(message.recipientProfilePictureLocation)")!
             
             businessProfilePic.af_setImageWithURL(URL, placeholderImage: placeholderImage)
             businessNameLbl.text = message.recipientDisplayName
             
         }else{ // Current User was not last sender in convo
-            let URL = NSURL(string: "\(message.senderProfilePictureLocation)")!
+            let URL = Foundation.URL(string: "\(message.senderProfilePictureLocation)")!
             
             businessProfilePic.af_setImageWithURL(URL, placeholderImage: placeholderImage)
             businessNameLbl.text = message.senderDisplayName

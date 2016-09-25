@@ -17,15 +17,15 @@ class ViewBusinessHoursVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        hoursLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.Top
+        hoursLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         hoursLbl.text = hours
     }
     
-    @IBAction func cancelBtnPressed(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelBtnPressed(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
     
 }

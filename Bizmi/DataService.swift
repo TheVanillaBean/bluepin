@@ -9,19 +9,30 @@
 import Foundation
 import UIKit
 import JSQMessagesViewController
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class DataService: NSObject{
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    let serialQueue: dispatch_queue_t = dispatch_queue_create("pageHistoryQueue", DISPATCH_QUEUE_SERIAL)
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let serialQueue: DispatchQueue = DispatchQueue(label: "pageHistoryQueue", attributes: [])
 
-    private static let _instance = DataService()
+    fileprivate static let _instance = DataService()
 
     static var instance: DataService {
         return _instance
     }
     
-    private var _allUsers = [User]()
+    fileprivate var _allUsers = [User]()
     
     var allUsers: [User] {
         
@@ -29,7 +40,7 @@ class DataService: NSObject{
         
     }
     
-    private var _allBusinesses = [User]()
+    fileprivate var _allBusinesses = [User]()
     
     var allBusinesses: [User] {
         
@@ -37,7 +48,7 @@ class DataService: NSObject{
         
     }
     
-    private var _allFollowers = [User]()
+    fileprivate var _allFollowers = [User]()
     
     var allFollowers: [User] {
         
@@ -53,7 +64,7 @@ class DataService: NSObject{
         return user
     }
     
-    private var _allCustomerReservations: [Reservation] = []
+    fileprivate var _allCustomerReservations: [Reservation] = []
     
     var allCustomerReservations: [Reservation] {
         
@@ -61,7 +72,7 @@ class DataService: NSObject{
     
     }
     
-    private var _allBusinessReservations: [Reservation] = []
+    fileprivate var _allBusinessReservations: [Reservation] = []
     
     var allBusinessReservations: [Reservation] {
         
@@ -69,11 +80,11 @@ class DataService: NSObject{
     
     }
     
-    private var _allInboundMessageItems: [MessageItem] = [] //From Pubnub
+    fileprivate var _allInboundMessageItems: [MessageItem] = [] //From Pubnub
     
-    private var _allUniqueChannelNames: [String] = []
+    fileprivate var _allUniqueChannelNames: [String] = []
     
-    private var _allUniqueChannels: [MessageItem] = [] //Queried from _allInboundMessageItems
+    fileprivate var _allUniqueChannels: [MessageItem] = [] //Queried from _allInboundMessageItems
     
     var allUniqueChannels: [MessageItem] {
         
@@ -93,7 +104,7 @@ class DataService: NSObject{
         
     }
     
-    private var _newPubNubMessage: MessageItem!
+    fileprivate var _newPubNubMessage: MessageItem!
     
     var newPubNubMessage: MessageItem {
         
@@ -106,8 +117,8 @@ class DataService: NSObject{
         }
     }
     
-    private var _allMessageItemsInChat: [MessageItem] = []
-    private var _allJSQMessagesInChat: [JSQMessage] = []
+    fileprivate var _allMessageItemsInChat: [MessageItem] = []
+    fileprivate var _allJSQMessagesInChat: [JSQMessage] = []
     
     var allJSQMessagesInChat: [JSQMessage] {
        
@@ -117,7 +128,7 @@ class DataService: NSObject{
         
     }
     
-    private var _appointmentLeaderName: String?
+    fileprivate var _appointmentLeaderName: String?
     
     var appointmentLeaderName: String {
         
@@ -135,7 +146,7 @@ class DataService: NSObject{
         }
     }
     
-    private var _appointmentLeaderID: String?
+    fileprivate var _appointmentLeaderID: String?
     
     var appointmentLeaderID: String {
         
@@ -159,11 +170,11 @@ class DataService: NSObject{
         case DECLINED = "Declined"
     }
 
-    func appendMessageToAllJSQMessages(newMessage: MessageItem){
+    func appendMessageToAllJSQMessages(_ newMessage: MessageItem){
         
         let newJSQMessage = JSQMessage(senderId: newMessage.uuid, displayName: "", text: newMessage.message)
         
-        _allJSQMessagesInChat.append(newJSQMessage)
+        _allJSQMessagesInChat.append(newJSQMessage!)
         _allMessageItemsInChat.append(newMessage)
         
     }
@@ -326,7 +337,7 @@ class DataService: NSObject{
      There is an odd error: if the user enters an email that is taken, they get fault code 3018; but for some odd reason the next time they try to update their profile, the server returns the same error. There is a reference to the current users email, newEmail, that is called before the update is made and is used to refresh the user if they get fault code 3018.
      */
     
-    func updateUser(properties: [String: AnyObject]){
+    func updateUser(_ properties: [String: AnyObject]){
         
         let currentUser = self.appDelegate.backendless.userService.currentUser
         
@@ -356,7 +367,7 @@ class DataService: NSObject{
     }
 
     
-    func requestUserPasswordChange(email: String, uiVIew: UIView!) {
+    func requestUserPasswordChange(_ email: String, uiVIew: UIView!) {
         
         appDelegate.backendless.userService.restorePassword(email,
              response:{ ( result : AnyObject!) -> () in
@@ -394,7 +405,7 @@ class DataService: NSObject{
     
     }
 
-    func uploadFile(filePath: String, content: NSData, overwrite: Bool){
+    func uploadFile(_ filePath: String, content: Data, overwrite: Bool){
         
         appDelegate.backendless.fileService.upload(
             filePath,
@@ -412,7 +423,7 @@ class DataService: NSObject{
 
     }
     
-    func subscribeToBusiness(From: String, To: String){
+    func subscribeToBusiness(_ From: String, To: String){
     
         let dataStore = appDelegate.self.backendless.persistenceService.of(Follow.ofClass())
         
@@ -472,7 +483,7 @@ class DataService: NSObject{
     }
     
     
-    func findCustomerSubscriptionStatus(From: String, To: String){
+    func findCustomerSubscriptionStatus(_ From: String, To: String){
         
         let dataStore = appDelegate.self.backendless.persistenceService.of(Follow.ofClass())
         
@@ -512,27 +523,27 @@ class DataService: NSObject{
         )
     }
     
-    func convertDateToString(followDate: String) -> String {
+    func convertDateToString(_ followDate: String) -> String {
     
         
-        let followDateSubstring = followDate[followDate.startIndex.advancedBy(0)...followDate.startIndex.advancedBy(10)]
+        let followDateSubstring = followDate[followDate.characters.index(followDate.startIndex, offsetBy: 0)...followDate.characters.index(followDate.startIndex, offsetBy: 10)]
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.locale = NSLocale.currentLocale()
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.current
         
-        let dateStringFormatter = NSDateFormatter()
+        let dateStringFormatter = DateFormatter()
         dateStringFormatter.dateFormat = "yyyy-MM-dd"
-        let date: NSDate = dateStringFormatter.dateFromString(followDateSubstring)!
+        let date: Date = dateStringFormatter.date(from: followDateSubstring)!
         
         
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        let convertedDate = dateFormatter.stringFromDate(date)
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        let convertedDate = dateFormatter.string(from: date)
         
         return convertedDate
     
     }
     
-    func findCustomerReservations(customerID: String!, status: String){
+    func findCustomerReservations(_ customerID: String!, status: String){
         
         let dataStore = appDelegate.self.backendless.persistenceService.of(Reservation.ofClass())
         
@@ -578,7 +589,7 @@ class DataService: NSObject{
         self._allBusinessReservations.removeAll()
     }
     
-    func findBusinessReservations(businessID: String!){
+    func findBusinessReservations(_ businessID: String!){
         
         self._allBusinessReservations.removeAll()
         
@@ -609,7 +620,7 @@ class DataService: NSObject{
         
     }
     
-    func updateReservation(reservation: Reservation, status: String){
+    func updateReservation(_ reservation: Reservation, status: String){
      
         let dataStore = Backendless.sharedInstance().data.of(Reservation.ofClass())
         
@@ -631,14 +642,14 @@ class DataService: NSObject{
         
     }
     
-    func removeReservation(reservation: Reservation){
+    func removeReservation(_ reservation: Reservation){
         
         let dataStore = Backendless.sharedInstance().data.of(Reservation.ofClass())
         
         dataStore.remove(
             reservation,
             response: { (result: AnyObject!) -> Void in
-                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "removeReservation", object: nil))
+                NotificationCenter.defaultCenter().postNotification(Notification(name: "removeReservation", object: nil))
             },
             error: { (fault: Fault!) -> Void in
                 print("Server reported an error (2): \(fault)")
@@ -660,8 +671,8 @@ class DataService: NSObject{
         
     }
     
-    func getInboundChannelHistory(channelName: String){
-        dispatch_async(serialQueue) { [unowned self] () -> Void in
+    func getInboundChannelHistory(_ channelName: String){
+        serialQueue.async { [unowned self] () -> Void in
             self._allInboundMessageItems = self.pageHistory(channelName)
             self._allUniqueChannels = self.findUniqueChannels(self._allInboundMessageItems)
             print(self._allInboundMessageItems)
@@ -670,11 +681,11 @@ class DataService: NSObject{
     
     }
 
-    func findUniqueChannels(allMessageItems: [MessageItem]) -> [MessageItem]{
+    func findUniqueChannels(_ allMessageItems: [MessageItem]) -> [MessageItem]{
         
         var uniqueMessages = [MessageItem]()
         
-        for message in allMessageItems.reverse() { //Because we want the latest messages to show up in inbound box not the first
+        for message in allMessageItems.reversed() { //Because we want the latest messages to show up in inbound box not the first
             
             if !_allUniqueChannelNames.contains(message.channelName){
             
@@ -691,16 +702,16 @@ class DataService: NSObject{
     func sendUniqueChannelsRetrievedNotification(){
         
         //Update UI on main thread
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "uniqueChannelsRetrieved", object: nil))
+        DispatchQueue.main.async(execute: { () -> Void in
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "uniqueChannelsRetrieved"), object: nil))
         })
         
     }
     
     
-    func getAllMessagesInChat(channelName: String){
+    func getAllMessagesInChat(_ channelName: String){
     
-        dispatch_async(serialQueue) { [unowned self] () -> Void in
+        serialQueue.async { [unowned self] () -> Void in
             self._allMessageItemsInChat = self.pageHistory(channelName)
             self._allJSQMessagesInChat = self.updateMessages(self._allMessageItemsInChat)
             self.sendChatMessagesRecievedNotification()
@@ -708,7 +719,7 @@ class DataService: NSObject{
         
     }
     
-    func updateMessages(allMessageItems: [MessageItem]) -> [JSQMessage]{
+    func updateMessages(_ allMessageItems: [MessageItem]) -> [JSQMessage]{
         
         var updatedMessagesList = [JSQMessage]()
         
@@ -716,7 +727,7 @@ class DataService: NSObject{
             
             let newJSQMessage = JSQMessage(senderId: message.uuid, displayName: "", text: message.message)
             
-            updatedMessagesList.append(newJSQMessage)
+            updatedMessagesList.append(newJSQMessage!)
             
         }
         
@@ -726,23 +737,23 @@ class DataService: NSObject{
     func sendChatMessagesRecievedNotification(){
         
         //Update UI on main thread
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "chatMessagesRecieved", object: nil))
+        DispatchQueue.main.async(execute: { () -> Void in
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "chatMessagesRecieved"), object: nil))
         })
         
     }
     
     //Page history of specified channel using semaphore and return array with history task items
-    func pageHistory(channelName: String) -> [MessageItem] {
+    func pageHistory(_ channelName: String) -> [MessageItem] {
         
         var uuidArray: [MessageItem] = []
         var shouldStop: Bool = false
         var isPaging: Bool = false
         var startTimeToken: NSNumber = 0
         let itemLimit: Int = 100
-        let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(0)
+        let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
         
-        self.appDelegate.client.historyForChannel(channelName, start: nil, end: nil, limit: 100, reverse: true, includeTimeToken: true, withCompletion: { (result, status) in
+        self.appDelegate.client.history(forChannel: channelName, start: nil, end: nil, limit: 100, reverse: true, includeTimeToken: true, withCompletion: { (result, status) in
             
             //Check status isnt nil
             
@@ -759,13 +770,13 @@ class DataService: NSObject{
             if result?.data.messages.count == itemLimit {
                 isPaging = true
             }
-            dispatch_semaphore_signal(semaphore)
+            semaphore.signal()
         })
         
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        semaphore.wait(timeout: DispatchTime.distantFuture)
         
         while isPaging && !shouldStop {
-            self.appDelegate.client.historyForChannel(channelName, start: startTimeToken, end: nil, limit: 100, reverse: true, includeTimeToken: true, withCompletion: { (result, status) in
+            self.appDelegate.client.history(forChannel: channelName, start: startTimeToken, end: nil, limit: 100, reverse: true, includeTimeToken: true, withCompletion: { (result, status) in
                 for message in (result?.data.messages)! {
                     if let resultMessage = message["message"] {
                    
@@ -781,9 +792,9 @@ class DataService: NSObject{
                 if result?.data.messages.count < itemLimit {
                     shouldStop = true
                 }
-                dispatch_semaphore_signal(semaphore)
+                semaphore.signal()
             })
-            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+            semaphore.wait(timeout: DispatchTime.distantFuture)
         }
         return uuidArray
     }

@@ -24,7 +24,7 @@ class CustomerProfileCell: UITableViewCell {
         
     }
     
-    func configureCell(icon: UIImage!, text: String!){
+    func configureCell(_ icon: UIImage!, text: String!){
         
         iconImg.image = icon
         itemLbl.text = text

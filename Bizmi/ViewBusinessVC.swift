@@ -38,7 +38,7 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var subscribeBtn: UIButton!
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var backendlessUser: BackendlessUser!
     
@@ -55,51 +55,51 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scrollView.setContentOffset(CGPointMake(0, 65), animated: true)
+        scrollView.setContentOffset(CGPoint(x: 0, y: 65), animated: true)
         map.delegate = self
         
-        businessDescLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.Top
+        businessDescLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
         
         subscribeToNofications()
         
     }
     
     func subscribeToNofications(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewBusinessVC.onSubscribedToBusiness), name: "subscribedToBusiness", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewBusinessVC.onSubscribedToBusiness), name: NSNotification.Name(rawValue: "subscribedToBusiness"), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewBusinessVC.onSubscriptionStatusRetrieved), name: "subscriptionStatus", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewBusinessVC.onSubscriptionStatusRetrieved), name: NSNotification.Name(rawValue: "subscriptionStatus"), object: nil)
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
         disableBtns()
         populateDataFields()
         
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-        self.navigationController?.navigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = false
     }
 
     func disableBtns(){
     
-        phoneNumberBtn.enabled = false
-        messageBtn.enabled = false
-        websiteBtn.enabled = false
-        hoursBtn.enabled = false
-        subscribeBtn.enabled = false
+        phoneNumberBtn.isEnabled = false
+        messageBtn.isEnabled = false
+        websiteBtn.isEnabled = false
+        hoursBtn.isEnabled = false
+        subscribeBtn.isEnabled = false
 
     }
     
     func enableBtns(){
         
-        phoneNumberBtn.enabled = true
-        messageBtn.enabled = true
-        websiteBtn.enabled = true
-        hoursBtn.enabled = true
-        subscribeBtn.enabled = true
+        phoneNumberBtn.isEnabled = true
+        messageBtn.isEnabled = true
+        websiteBtn.isEnabled = true
+        hoursBtn.isEnabled = true
+        subscribeBtn.isEnabled = true
         
     }
 
@@ -112,7 +112,7 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
             
             self.navigationItem.title = "\(business.businessName)"
 
-            let URL = NSURL(string: "\(business.userProfilePicLocation)")!
+            let URL = Foundation.URL(string: "\(business.userProfilePicLocation)")!
             let placeholderImage = UIImage(named: "Placeholder")!
             
             let currentuser = appDelegate.backendless.userService.currentUser
@@ -122,7 +122,7 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
             businessTypeLbl.text = business.businessType
             businessDescLbl.text = business.businessDesc
             aboutBusinessLbl.text = "About \(business.businessName)"
-            phoneNumberBtn.setTitle("\(business.phoneNumber)", forState: .Normal)
+            phoneNumberBtn.setTitle("\(business.phoneNumber)", for: UIControlState())
             DataService.instance.findCustomerSubscriptionStatus(currentuser.objectId, To: business.userObjectID)
             
             location = business.businessLocation
@@ -140,7 +140,7 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
     
     func locationAuthStatus() {
         
-        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             
             if !isCentered{ //Only needs to hapen once
                 if location?.latitude != 0 && location?.longitude != 0{
@@ -168,14 +168,14 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         
     }
     
-    func centerMapOnLocation(location: CLLocation, scaleFactor: Double) {
+    func centerMapOnLocation(_ location: CLLocation, scaleFactor: Double) {
         
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * scaleFactor, regionRadius * scaleFactor)
         map.setRegion(coordinateRegion, animated: true)
         isCentered = true
     }
     
-    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         
         if !isCentered && (location?.latitude == 0 && location?.longitude == 0){ //Only needs to hapen once
             if let loc = userLocation.location {
@@ -184,7 +184,7 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func createAnnotationForLocation(location: CLLocation){
+    func createAnnotationForLocation(_ location: CLLocation){
 
         let businessAnnotation = BusinessAnnotation(coordinate: location.coordinate, title: "\(business.businessName)", subtitle: "\(business.businessType)")
         businessAnnotation.coordinate = location.coordinate
@@ -192,22 +192,22 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
     
     }
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // Don't want to show a custom image if the annotation is the user's location.
-        guard !annotation.isKindOfClass(MKUserLocation) else {
+        guard !annotation.isKind(of: MKUserLocation.self) else {
             return nil
         }
         
         let annotationIdentifier = "BusinessPin"
         
         var annotationView: MKAnnotationView?
-        if let dequeuedAnnotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(annotationIdentifier) {
+        if let dequeuedAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) {
             annotationView = dequeuedAnnotationView
             annotationView?.annotation = annotation
         }
         else {
             let av = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            av.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+            av.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
             annotationView = av
         }
         
@@ -220,16 +220,16 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         return annotationView
     }
     
-    func reverseGeoLocate(location: CLLocation){
+    func reverseGeoLocate(_ location: CLLocation){
  
         CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
             
-            if let marks = placemarks where marks.count > 0 {
+            if let marks = placemarks , marks.count > 0 {
                 
                 let pm = marks[0] as CLPlacemark
                 
-                    if let street = pm.name,locality = pm.locality, state = pm.administrativeArea, zip = pm.postalCode{
-                        self.locationBtn.setTitle("\(street), \(locality), \(state) \(zip)", forState: .Normal)
+                    if let street = pm.name,let locality = pm.locality, let state = pm.administrativeArea, let zip = pm.postalCode{
+                        self.locationBtn.setTitle("\(street), \(locality), \(state) \(zip)", for: UIControlState())
                     }
         
             }else {
@@ -242,35 +242,35 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
 
 //---------------------------End MapView Setup
     
-    @IBAction func onMessageBtnPressed(sender: AnyObject) {
-        performSegueWithIdentifier("ViewMessageThread", sender: nil)
+    @IBAction func onMessageBtnPressed(_ sender: AnyObject) {
+        performSegue(withIdentifier: "ViewMessageThread", sender: nil)
     }
     
-    @IBAction func onSubscribeBtnPressed(sender: AnyObject) {
+    @IBAction func onSubscribeBtnPressed(_ sender: AnyObject) {
         
         let currentuser = appDelegate.backendless.userService.currentUser
  
         DataService.instance.subscribeToBusiness(currentuser.objectId, To: business.userObjectID)
         
-        self.subscribeBtn.setTitle("Loading...", forState: .Normal)
-        self.subscribeBtn.enabled = false
+        self.subscribeBtn.setTitle("Loading...", for: UIControlState())
+        self.subscribeBtn.isEnabled = false
     }
     
-    func onSubscribedToBusiness(notification: NSNotification){
+    func onSubscribedToBusiness(_ notification: Notification){
     
         if let responseDict = notification.object as? [String:AnyObject] {
             if let response = responseDict["response"] as? String {
                 
-                self.subscribeBtn.enabled = true
+                self.subscribeBtn.isEnabled = true
 
                 if response == "Subscribed" {
                     
-                    self.subscribeBtn.setTitle("Unsubscribe from Business", forState: .Normal)
+                    self.subscribeBtn.setTitle("Unsubscribe from Business", for: UIControlState())
                     self.subscribeBtn.backgroundColor = ACCENT_COLOR
                     
                 }else{
                     
-                    self.subscribeBtn.setTitle("Subscribe to Business", forState: .Normal)
+                    self.subscribeBtn.setTitle("Subscribe to Business", for: UIControlState())
                     self.subscribeBtn.backgroundColor = DARK_PRIMARY_COLOR
                     
                 }
@@ -282,19 +282,19 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
     }
     
     
-    func onSubscriptionStatusRetrieved(notification: NSNotification){
+    func onSubscriptionStatusRetrieved(_ notification: Notification){
         
         if let responseDict = notification.object as? [String:AnyObject] {
             if let response = responseDict["response"] as? String {
                 
                 if response == "Subscribed" {
                     
-                    self.subscribeBtn.setTitle("Unsubscribe from Business", forState: .Normal)
+                    self.subscribeBtn.setTitle("Unsubscribe from Business", for: UIControlState())
                     self.subscribeBtn.backgroundColor = ACCENT_COLOR
                     
                 }else{
                     
-                    self.subscribeBtn.setTitle("Subscribe to Business", forState: .Normal)
+                    self.subscribeBtn.setTitle("Subscribe to Business", for: UIControlState())
                     self.subscribeBtn.backgroundColor = DARK_PRIMARY_COLOR
                     
                 }
@@ -305,51 +305,51 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         
     }
     
-    @IBAction func cancelBtnPressed(sender: AnyObject) {
+    @IBAction func cancelBtnPressed(_ sender: AnyObject) {
         //Dismiss VC
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func locationBtnPressed(sender: UIButton) {
+    @IBAction func locationBtnPressed(_ sender: UIButton) {
         
         if let title = sender.titleLabel?.text {
-            performSegueWithIdentifier("ViewBusinessLocation", sender: title)
+            performSegue(withIdentifier: "ViewBusinessLocation", sender: title)
         }
         
     }
     
-    @IBAction func phoneNumberBtnPressed(sender: AnyObject) {
+    @IBAction func phoneNumberBtnPressed(_ sender: AnyObject) {
         
-        let stringArray = business.phoneNumber.componentsSeparatedByCharactersInSet(
-            NSCharacterSet.decimalDigitCharacterSet().invertedSet)
-        let phoneNumber = stringArray.joinWithSeparator("")
+        let stringArray = business.phoneNumber.components(
+            separatedBy: CharacterSet.decimalDigits.inverted)
+        let phoneNumber = stringArray.joined(separator: "")
         
         callNumber(phoneNumber)
         
     }
     
-    @IBAction func businessWebsiteBtnPressed(sender: AnyObject) {
-        performSegueWithIdentifier("ViewBusinessWebsite", sender: nil)
+    @IBAction func businessWebsiteBtnPressed(_ sender: AnyObject) {
+        performSegue(withIdentifier: "ViewBusinessWebsite", sender: nil)
     }
 
-    @IBAction func hoursBtnPressed(sender: AnyObject) {
-        performSegueWithIdentifier("ViewBusinessHours", sender: nil)
+    @IBAction func hoursBtnPressed(_ sender: AnyObject) {
+        performSegue(withIdentifier: "ViewBusinessHours", sender: nil)
     }
     
-    private func callNumber(phoneNumber:String) {
-        if let phoneCallURL:NSURL = NSURL(string: "tel://\(phoneNumber)") {
-            let application:UIApplication = UIApplication.sharedApplication()
+    fileprivate func callNumber(_ phoneNumber:String) {
+        if let phoneCallURL:URL = URL(string: "tel://\(phoneNumber)") {
+            let application:UIApplication = UIApplication.shared
             if (application.canOpenURL(phoneCallURL)) {
                 application.openURL(phoneCallURL);
             }
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        super.prepareForSegue(segue, sender: sender)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
 
         if segue.identifier == "ViewBusinessLocation" {
-            if let viewLocationVC = segue.destinationViewController as? ViewBusinessLocationVC{
+            if let viewLocationVC = segue.destination as? ViewBusinessLocationVC{
                 
                 viewLocationVC.location = location
                 
@@ -363,14 +363,14 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         }
         
         if segue.identifier == "ViewBusinessWebsite" {
-            if let websiteVC = segue.destinationViewController as? ViewBusinessWebsiteVC{
+            if let websiteVC = segue.destination as? ViewBusinessWebsiteVC{
                 websiteVC.URL = business.businessWebsite
             }
             
         }
         
         if segue.identifier == "ViewBusinessHours" {
-            if let hoursVC = segue.destinationViewController as? ViewBusinessHoursVC{
+            if let hoursVC = segue.destination as? ViewBusinessHoursVC{
                 hoursVC.hours = business.businessHours
             }
             
@@ -379,7 +379,7 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         
         if segue.identifier == "ViewMessageThread" {
             
-            let navVc = segue.destinationViewController as! UINavigationController
+            let navVc = segue.destination as! UINavigationController
             let messageVC = navVc.viewControllers.first as! ViewMessageThreadVC
         
             let currentUser = self.appDelegate.backendless.userService.currentUser
