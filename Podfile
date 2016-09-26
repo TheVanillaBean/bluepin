@@ -1,4 +1,4 @@
-platform :ios, ’10.0’
+platform :ios, ’9.0’
 
 target 'Bizmi' do
 
@@ -12,6 +12,7 @@ target 'Bizmi' do
 	:git => "https://github.com/marmelroy/PhoneNumberKit.git", 
 	:branch => ‘swift3.0’
   pod 'Backendless-ios-SDK'
+  pod 'SinchVerification-Swift'
   pod 'ALCameraViewController'
   pod 'AlamofireImage', '~> 3.0'
   pod 'TTTAttributedLabel'

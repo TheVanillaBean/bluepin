@@ -69,6 +69,7 @@ PODS:
   - PubNub (4.5.2):
     - PubNub/Core (= 4.5.2)
   - PubNub/Core (4.5.2)
+  - SinchVerification-Swift (1.4.7)
   - Toast-Swift (1.3.0)
   - TTTAttributedLabel (2.0.0)
 
@@ -86,6 +87,7 @@ DEPENDENCIES:
   - JSQMessagesViewController
   - PhoneNumberKit (from `https://github.com/marmelroy/PhoneNumberKit.git`, branch `swift3.0`)
   - PubNub
+  - SinchVerification-Swift
   - Toast-Swift (from `https://github.com/scalessec/Toast-Swift.git`, branch `feature/swift-3.0`)
   - TTTAttributedLabel
 
@@ -126,9 +128,10 @@ SPEC CHECKSUMS:
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   PhoneNumberKit: 5668a7af19d2e566d92831a632ee80f5047eff75
   PubNub: 1b6da1bb6a971214ab9fb42e40aed23f77438d26
+  SinchVerification-Swift: b22f50bebfa9d685655781bb6d8244560c64e1a5
   Toast-Swift: 25c3d98db42dc70d9a77b5006ee000e0becb458e
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: b76069f4d53c84049f259e1bf39c34472eba5163
+PODFILE CHECKSUM: c782eb42532a8a4e4851edf1514bf20e7c6cbdab
 
 COCOAPODS: 1.1.0.rc.2
