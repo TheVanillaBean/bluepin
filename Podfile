@@ -11,14 +11,12 @@ target 'Bizmi' do
   pod 'PhoneNumberKit',
 	:git => "https://github.com/marmelroy/PhoneNumberKit.git", 
 	:branch => ‘swift3.0’
-  pod 'Backendless-ios-SDK'
   pod 'SinchVerification-Swift'
   pod 'ALCameraViewController'
   pod 'AlamofireImage', '~> 3.0'
   pod 'TTTAttributedLabel'
   pod 'AFNetworking', '~> 3.0'
   pod 'JSQMessagesViewController'
-  pod ‘PubNub’
   pod ‘Firebase’
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
