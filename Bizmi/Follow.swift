@@ -8,9 +8,9 @@
 
 import Foundation
 
-class Follow : NSObject {
-    
-    var From : String?
-    var To: String?
-    
-}
+//class Follow : NSObject {
+//    
+//    var From : String?
+//    var To: String?
+//    
+//}

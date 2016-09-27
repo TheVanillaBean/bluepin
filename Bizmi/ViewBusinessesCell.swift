@@ -32,45 +32,45 @@ class ViewBusinessesCell: UITableViewCell {
         
     }
     
-    func configureCell(_ user: User!){
-        
-        let URL = Foundation.URL(string: "\(user.userProfilePicLocation)")!
-        let placeholderImage = UIImage(named: "Placeholder")!
-        
-        reverseGeoLocate(user.businessLocation)
-        businessBGImage.af_setImageWithURL(URL, placeholderImage: placeholderImage)
-        businessNameLbl.text = user.businessName
-        businessTypeLbl.text = user.businessType
-        businessDesclbl.text = user.businessDesc
-        
-        
-    }
-    
-    func reverseGeoLocate(_ location: GeoPoint){
-        
-        if location.latitude != 0 && location.longitude != 0{
-            
-            let loc = CLLocation(latitude: Double(location.latitude), longitude: Double(location.longitude) )
-            
-            CLGeocoder().reverseGeocodeLocation(loc, completionHandler: {(placemarks, error) -> Void in
-                
-                if let marks = placemarks , marks.count > 0 {
-                    
-                    let pm = marks[0] as CLPlacemark
-                    
-                    if let locality = pm.locality{
-                        self.businessLocationLbl.text = "\(locality)"
-                    }
-                    
-                }else {
-                    print("there was an error no location")
-                }
-                
-            })
-            
-        }
-      
-    }
+//    func configureCell(_ user: User!){
+//        
+//        let URL = Foundation.URL(string: "\(user.userProfilePicLocation)")!
+//        let placeholderImage = UIImage(named: "Placeholder")!
+//        
+//        reverseGeoLocate(user.businessLocation)
+//        businessBGImage.af_setImageWithURL(URL, placeholderImage: placeholderImage)
+//        businessNameLbl.text = user.businessName
+//        businessTypeLbl.text = user.businessType
+//        businessDesclbl.text = user.businessDesc
+//        
+//        
+//    }
+//    
+//    func reverseGeoLocate(_ location: GeoPoint){
+//        
+//        if location.latitude != 0 && location.longitude != 0{
+//            
+//            let loc = CLLocation(latitude: Double(location.latitude), longitude: Double(location.longitude) )
+//            
+//            CLGeocoder().reverseGeocodeLocation(loc, completionHandler: {(placemarks, error) -> Void in
+//                
+//                if let marks = placemarks , marks.count > 0 {
+//                    
+//                    let pm = marks[0] as CLPlacemark
+//                    
+//                    if let locality = pm.locality{
+//                        self.businessLocationLbl.text = "\(locality)"
+//                    }
+//                    
+//                }else {
+//                    print("there was an error no location")
+//                }
+//                
+//            })
+//            
+//        }
+//      
+//    }
     
 
 }

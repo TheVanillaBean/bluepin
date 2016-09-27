@@ -114,7 +114,7 @@ class FBDataService {
         // Errors only occur in the "Failure" case
         uploadTask.observe(.failure) { snapshot in
             guard let storageError = snapshot.error else { return }
-            guard let errorCode = FIRStorageErrorCode(rawValue: storageError.code) else { return }
+            guard let errorCode = FIRStorageErrorCode(rawValue: storageError._code) else { return }
             uploadTask.removeAllObservers()
             
             print("\(errorCode) -- upload error")

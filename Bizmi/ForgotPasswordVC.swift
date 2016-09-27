@@ -21,13 +21,13 @@ class ForgotPasswordVC: UIViewController {
     
     @IBAction func sendEmailBtnPressed(_ sender: AnyObject) {
         
-        if let email = emailTextField.text {
-            
-             self.emailTextField.text = ""
-             DataService.instance.requestUserPasswordChange(email, uiVIew: self.view)
-            
-        }
-        
+//        if let email = emailTextField.text {
+//            
+//             self.emailTextField.text = ""
+//          //   DataService.instance.requestUserPasswordChange(email, uiVIew: self.view)
+//            
+//        }
+//        
     }
     
 }

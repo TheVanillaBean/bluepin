@@ -9,7 +9,7 @@
 import UIKit
 import PhoneNumberKit
 
-class MaterialPhoneNumberTextView: PhoneNumberTextField {
+class MaterialPhoneNumberTextView: UITextField {
 
     override func awakeFromNib() {
         super.awakeFromNib()

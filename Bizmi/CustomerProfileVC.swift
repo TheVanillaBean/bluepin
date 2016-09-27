@@ -62,7 +62,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func onUploadProgressChanged(){
-        self.loadingPicLbl.text = "\(FBDataService.instance.uploadProgress.roundToPlaces(1))%"
+        self.loadingPicLbl.text = "\(FBDataService.instance.uploadProgress.roundTo(places: 1))%"
     }
     
     func loadProfilePic(){

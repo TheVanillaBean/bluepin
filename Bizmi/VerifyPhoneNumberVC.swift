@@ -43,7 +43,7 @@ class VerifyPhoneNumberVC: UIViewController {
                         
                         let currentUserID = FBDataService.instance.currentUser?.uid
                         
-                        FBDataService.instance.updateUser(currentUserID, propertes: properties, onComplete: { (errMsg, data) in
+                        FBDataService.instance.updateUser(currentUserID, propertes: properties as Dictionary<String, AnyObject>, onComplete: { (errMsg, data) in
                             
                             if errMsg == nil {
                                 self.performSegue(withIdentifier: "customerSignUp", sender: nil)
@@ -56,7 +56,7 @@ class VerifyPhoneNumberVC: UIViewController {
                     } else {
                         Messages.displayToastMessage(self.view, msg: "Verification Unsuccessful...")
                     }
-            })
+            } as! (Bool, Error?) -> Void)
             
         }
                                                             

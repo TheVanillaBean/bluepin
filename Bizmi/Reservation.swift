@@ -8,15 +8,15 @@
 
 import Foundation
 
-class Reservation : NSObject {
-    
-    var objectId : String?
-    var Leader: String?
-    var Size: String?
-    var ReservationTime: String?
-    var PartyLeaderID: String?
-    var BusinessID: String?
-    var BusinessName: String?
-    var Status: String?
-    
-}
+//class Reservation : NSObject {
+//    
+//    var objectId : String?
+//    var Leader: String?
+//    var Size: String?
+//    var ReservationTime: String?
+//    var PartyLeaderID: String?
+//    var BusinessID: String?
+//    var BusinessName: String?
+//    var Status: String?
+//    
+//}

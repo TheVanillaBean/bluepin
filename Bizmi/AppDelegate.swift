@@ -7,46 +7,46 @@
 //
 
 import UIKit
-import PubNub
+//import PubNub
 import Firebase
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let BACKENDLESS_APP_ID = "127AF0A5-6FB8-985E-FF8C-2EE5FFB8FF00"
     let BACKENDLESS_SECRET_KEY = "29070F55-9D89-30A2-FF34-0550B9057200"
     let BACKENDLESS_VERSION_NUM = "v1"
     
     
-    var backendless = Backendless.sharedInstance()
+  //  var backendless = Backendless.sharedInstance()
         
     var window: UIWindow?
     
-    lazy var client: PubNub = {
-        let config = PNConfiguration(publishKey: "pub-c-62a2e0d2-c6d4-405a-9446-e2d18166e536", subscribeKey: "sub-c-6b67ad2e-64b9-11e6-8de8-02ee2ddab7fe")
-        let pub = PubNub.client(with: config)
-        return pub
-    }()
+//    lazy var client: PubNub = {
+//        let config = PNConfiguration(publishKey: "pub-c-62a2e0d2-c6d4-405a-9446-e2d18166e536", subscribeKey: "sub-c-6b67ad2e-64b9-11e6-8de8-02ee2ddab7fe")
+//        let pub = PubNub.client(with: config)
+//        return pub
+//    }()
     
     override init() {
         super.init()
-        client.add(self)
+      //  client.add(self)
     }
     
-    func client(_ client: PubNub, didReceive status: PNStatus) {
-        if status.isError {
-            showAlert(status.isError.description)
-        }
-    }
+//    func client(_ client: PubNub, didReceive status: PNStatus) {
+//        if status.isError {
+//            showAlert(status.isError.description)
+//        }
+//    }
     
     //Dialogue showing error
-    func showAlert(_ error: String) {
-        let alertController = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
-        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(OKAction)
-        self.window?.rootViewController?.present(alertController, animated: true, completion:nil)
-    }
-    
+//    func showAlert(_ error: String) {
+//        let alertController = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+//        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+//        alertController.addAction(OKAction)
+//        self.window?.rootViewController?.present(alertController, animated: true, completion:nil)
+//    }
+//    
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         
         FIRApp.configure()
         
-        backendless.initApp(BACKENDLESS_APP_ID, secret:BACKENDLESS_SECRET_KEY, version:BACKENDLESS_VERSION_NUM)
+      //  backendless.initApp(BACKENDLESS_APP_ID, secret:BACKENDLESS_SECRET_KEY, version:BACKENDLESS_VERSION_NUM)
         
         customizeNavigationBar()
                         

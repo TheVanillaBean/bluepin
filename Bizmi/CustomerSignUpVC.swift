@@ -10,7 +10,7 @@ import UIKit
 import DeviceKit
 import Toast_Swift
 import PhoneNumberKit
-//import SinchVerification
+import SinchVerification
 import FirebaseAuth
 
 class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
@@ -112,16 +112,17 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     func initiateVerificationProcess(_ phoneNumber: String){
     
         self.verification =
-            SMSVerification(applicationKey: sinchApplicationKey,
+            SMSVerification(sinchApplicationKey,
                             phoneNumber: phoneNumber)
-        self.verification.initiate { (success:Bool, error: NSError?) -> Void in
+        self.verification.initiate { (success:Bool, error: Error?) -> Void in
             if (success){
-                self.performSegue(withIdentifier: "verifyPhoneNumber", sender: nil);
+                self.performSegue(withIdentifier: "phoneNotVerified", sender: nil);
             } else {
-                Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error?.description)!)
+                Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error.debugDescription))
             }
         }
         
+
     }
     
     func signUpUser(_ userObj: NewUser?){

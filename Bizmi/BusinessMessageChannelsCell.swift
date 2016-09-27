@@ -31,29 +31,29 @@ class BusinessMessageChannelsCell: UITableViewCell {
 
     }
     
-    func configureCell(_ message: MessageItem){
+//    func configureCell(_ message: MessageItem){
         
-        let currentUser = appDelegate.backendless.userService.currentUser
-        let user = User()
-        user.populateUserData(currentUser)
+//        let currentUser = appDelegate.backendless.userService.currentUser
+//        let user = User()
+//        user.populateUserData(currentUser)
+//        
+//        let placeholderImage = UIImage(named: "Placeholder")!
+//        lastMessageLbl.text = message.message
+//        
+//        if user.userObjectID == message.uuid{ //Current User was last sender
+//            
+//            let URL = Foundation.URL(string: "\(message.recipientProfilePictureLocation)")!
+//            
+//            businessProfilePic.af_setImageWithURL(URL, placeholderImage: placeholderImage)
+//            businessNameLbl.text = message.recipientDisplayName
+//            
+//        }else{ // Current User was not last sender in convo
+//            let URL = Foundation.URL(string: "\(message.senderProfilePictureLocation)")!
+//            
+//            businessProfilePic.af_setImageWithURL(URL, placeholderImage: placeholderImage)
+//            businessNameLbl.text = message.senderDisplayName
+//        }
         
-        let placeholderImage = UIImage(named: "Placeholder")!
-        lastMessageLbl.text = message.message
-        
-        if user.userObjectID == message.uuid{ //Current User was last sender
-            
-            let URL = Foundation.URL(string: "\(message.recipientProfilePictureLocation)")!
-            
-            businessProfilePic.af_setImageWithURL(URL, placeholderImage: placeholderImage)
-            businessNameLbl.text = message.recipientDisplayName
-            
-        }else{ // Current User was not last sender in convo
-            let URL = Foundation.URL(string: "\(message.senderProfilePictureLocation)")!
-            
-            businessProfilePic.af_setImageWithURL(URL, placeholderImage: placeholderImage)
-            businessNameLbl.text = message.senderDisplayName
-        }
-        
-    }
+ //   }
     
 }

@@ -12,18 +12,18 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
 
     @IBOutlet weak var tableView: UITableView!
    
-    var customer: BackendlessUser!
+//    var customer: BackendlessUser!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        DataService.instance.clearAllFollowers()
-        DataService.instance.loadAllFollowers()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewCustomersVC.onFollowersLoaded), name: NSNotification.Name(rawValue: "allFollowersLoaded"), object: nil)
+//        
+//        DataService.instance.clearAllFollowers()
+//        DataService.instance.loadAllFollowers()
+//        
+//        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewCustomersVC.onFollowersLoaded), name: NSNotification.Name(rawValue: "allFollowersLoaded"), object: nil)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -32,20 +32,20 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let user = DataService.instance.allFollowers[(indexPath as NSIndexPath).row]
+//        let user = DataService.instance.allFollowers[(indexPath as NSIndexPath).row]
+//        
+//        if let cell = tableView.dequeueReusableCell(withIdentifier: "ChooseFollowerCell") as? ChoosePartyLeaderCell{
+//            
+//            cell.configureCell(user)
+//            
+//            return cell
+//        }else {
+//            
+//            let cell = ViewFollowersCell()
+//            cell.configureCell(user)
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "ChooseFollowerCell") as? ChoosePartyLeaderCell{
-            
-            cell.configureCell(user)
-            
-            return cell
-        }else {
-            
-            let cell = ViewFollowersCell()
-            cell.configureCell(user)
-            
             return ViewFollowersCell()
-        }
+      //  }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -53,22 +53,23 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DataService.instance.allFollowers.count
+//        return DataService.instance.allFollowers.count
+        return 0
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
-        
-        customer = DataService.instance.allFollowers[indexPath.row]
-        
-        let user = User()
-        user.populateUserData(customer)
-        
-        DataService.instance.appointmentLeaderName = user.fullName
-        DataService.instance.appointmentLeaderID = user.userObjectID
-        
-        self.navigationController?.popViewController(animated: true)
+//        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
+//        
+//        customer = DataService.instance.allFollowers[indexPath.row]
+//        
+//        let user = User()
+//        user.populateUserData(customer)
+//        
+//        DataService.instance.appointmentLeaderName = user.fullName
+//        DataService.instance.appointmentLeaderID = user.userObjectID
+//        
+//        self.navigationController?.popViewController(animated: true)
     }
     
     func onFollowersLoaded(){
