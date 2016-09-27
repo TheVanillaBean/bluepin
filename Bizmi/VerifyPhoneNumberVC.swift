@@ -15,7 +15,7 @@ class VerifyPhoneNumberVC: UIViewController {
     @IBOutlet weak var verifyTextField: MaterialTextField!
     @IBOutlet weak var verifyBtn: UIButton!
     
-    var verification: Verification!
+   var verification: Verification!
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
