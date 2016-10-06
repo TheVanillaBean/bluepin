@@ -69,6 +69,7 @@
 		5AF845B81D56E2D400F4A727 /* ViewBusinessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF845B71D56E2D400F4A727 /* ViewBusinessVC.swift */; };
 		5AFB6F3C1D497174008E332B /* VerifyPhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB6F3B1D497174008E332B /* VerifyPhoneNumberVC.swift */; };
 		5AFC0F7E1D7BD14A00CAE39A /* BusinessReservationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFC0F7D1D7BD14A00CAE39A /* BusinessReservationCell.swift */; };
+		5AFE32921DA1C53700A2D820 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFE32911DA1C53700A2D820 /* Message.swift */; };
 		F444B6F11D1851099142F997 /* Pods_Bizmi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907A8472BDDF650214013686 /* Pods_Bizmi.framework */; };
 /* End PBXBuildFile section */
 
@@ -148,6 +149,7 @@
 		5AF845B71D56E2D400F4A727 /* ViewBusinessVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessVC.swift; sourceTree = "<group>"; };
 		5AFB6F3B1D497174008E332B /* VerifyPhoneNumberVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyPhoneNumberVC.swift; sourceTree = "<group>"; };
 		5AFC0F7D1D7BD14A00CAE39A /* BusinessReservationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessReservationCell.swift; sourceTree = "<group>"; };
+		5AFE32911DA1C53700A2D820 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8645C214E14E20DB58C1F663 /* Pods-Bizmi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizmi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bizmi/Pods-Bizmi.release.xcconfig"; sourceTree = "<group>"; };
 		907A8472BDDF650214013686 /* Pods_Bizmi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bizmi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F0D574491D1769EE46A7BE /* Pods-Bizmi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizmi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bizmi/Pods-Bizmi.debug.xcconfig"; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				5A3026BF1D5C582700B3E382 /* Follow.swift */,
 				5AF4093D1D73C3C300814B65 /* Reservation.swift */,
 				5AC190A81D8F681500DB2431 /* NewUser.swift */,
+				5AFE32911DA1C53700A2D820 /* Message.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				5A025DCC1D403CBE0060791D /* CustomerSignUpVC.swift in Sources */,
 				5A4D3A201D57FE72003C1CC1 /* EditBusinessLocationVC.swift in Sources */,
 				5AFC0F7E1D7BD14A00CAE39A /* BusinessReservationCell.swift in Sources */,
+				5AFE32921DA1C53700A2D820 /* Message.swift in Sources */,
 				5A3026BE1D5C534000B3E382 /* ViewBusinessHoursVC.swift in Sources */,
 				5A129BFA1D49C85500FE5126 /* BusinessViewMessagesVC.swift in Sources */,
 				5A773C0D1D93C05300D14519 /* GeoFire.m in Sources */,

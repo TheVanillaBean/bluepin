@@ -66,27 +66,28 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func loadProfilePic(){
-        
-        let ref = FIRStorage.storage().reference(forURL: castedUser.userProfilePicLocation)
-        ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
-            if error != nil {
-                print("JESS: Unable to download image from Firebase storage")
-                print(error)
-                let placeholderImage = UIImage(named: "Placeholder")!
-                self.userProfileImg.image = placeholderImage
-            } else {
-                print("JESS: Image downloaded from Firebase storage")
-                if let imgData = data {
-                    if let img = UIImage(data: imgData) {
-                        self.userProfileImg.image = img
+       
+        if castedUser.userProfilePicLocation != "" {
+            
+            let ref = FIRStorage.storage().reference(forURL: castedUser.userProfilePicLocation)
+            ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
+                if error != nil {
+                    print("Unable to download image from Firebase storage")
+                    print(error)
+                    let placeholderImage = UIImage(named: "Placeholder")!
+                    self.userProfileImg.image = placeholderImage
+                } else {
+                    print("Image downloaded from Firebase storage")
+                    if let imgData = data {
+                        if let img = UIImage(data: imgData) {
+                            self.userProfileImg.image = img
+                        }
                     }
                 }
-            }
-        })
-        
+            })
+        }
         print(castedUser.userProfilePicLocation)
 
-        
     }
     
     func loadCustomerProfileInfo(){
@@ -113,6 +114,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         let iconItem = profileIconItems[(indexPath as NSIndexPath).row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "CustomerProfileCell") as? CustomerProfileCell {
+            
             print(iconItem)
             cell.configureCell(iconItem, text: textItem)
             
@@ -202,15 +204,6 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         return properties
         
     }
- 
-    func onCurrentUserUpdated(){
-        print("User Updated!")
-        
-        loadCustomerProfileInfo()
-        self.loadingPicLbl.text = ""
-        tableView.reloadData()
-        
-    }
     
     func onFileUploaded(_ url: URL){
      
@@ -230,7 +223,16 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
         // Initialize Actions
         let yesAction = UIAlertAction(title: "Yes", style: .default) { (action) -> Void in
-          //  DataService.instance.requestUserPasswordChange(self.currentBackendlessUser.email, uiVIew: self.view)
+            
+            FBDataService.instance.resetPassword(self.castedUser.email, onComplete: { (errMsg, data) in
+                
+                if errMsg == nil{
+                    Messages.showAlertDialog("Email Sent", msgAlert: "An email has been sent to \(self.castedUser.email) with a reset link.")
+                }else{
+                    Messages.showAlertDialog("Error", msgAlert: errMsg)
+                }
+            })
+            
         }
         
         let noAction = UIAlertAction(title: "No", style: .default) { (action) -> Void in

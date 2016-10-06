@@ -23,146 +23,164 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
     
     var isCentered = false
     
-  //  var location: GeoPoint?
+    var geoFire: GeoFire!
+    
+    var uuid: String!
+    
+    var location: CLLocation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.title = "Adjust Location"
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
    
-//         NotificationCenter.default.addObserver(self, selector: #selector(EditBusinessLocationVC.onCurrentUserUpdated), name: NSNotification.Name(rawValue: "userUpdated"), object: nil)
+        self.geoFire = GeoFire(firebaseRef: FBDataService.instance.usersRef.child(uuid))
         
         map.delegate = self
         searchBar.delegate = self
         searchBar.returnKeyType = UIReturnKeyType.done
+        
        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        locationAuthStatus()
+    
+        geoFire.getLocationForKey(BUSINESS_LOCATION, withCallback: { (loc, error) in
+                if (error != nil) {
+                    
+                    print("Error")
+                    
+                }else if (loc != nil) {
+                    self.location = loc
+                    print("Location for \"firebase-hq\" is [\(self.location.coordinate.latitude), \(self.location.coordinate.longitude)]")
+                    self.locationAuthStatus()
+                } else {
+                    print("GeoFire does not contain a location for \"firebase-hq\"")
+                    self.location = CLLocation(latitude: 0, longitude: 0)
+                    self.locationAuthStatus()
+                }
+            })
     }
 
-//    func onCurrentUserUpdated(){
-//        //Dismiss VC
-//        self.navigationController?.popViewController(animated: true);
-//    }
-//    
-//    func donePressed(){
-//    
-//        if let center = centerCoordinates {
-//            
-//            let mapLatitude = center.latitude
-//            let mapLongitude = center.longitude
-//            let geoPoint = GeoPoint.geoPoint(GEO_POINT(latitude: mapLatitude, longitude: mapLongitude)) as! GeoPoint
-//            
-//            let center = "Latitude: \(geoPoint.latitude) Longitude: \(geoPoint.longitude)"
-//            print(center)
-//
-//            let properties = [
-//                "businessLocation" : geoPoint
-//            ]
-//            
-//            DataService.instance.updateUser(properties)
-//            
-//        }
-//    
-//    }
-// 
+
+    func donePressed(){
+    
+        if let center = centerCoordinates {
+            
+            let mapLatitude = center.latitude
+            let mapLongitude = center.longitude
+            location = CLLocation(latitude: mapLatitude, longitude: mapLongitude)
+            
+            geoFire.setLocation(location, forKey: BUSINESS_LOCATION) { (error) in
+                if (error != nil) {
+                    print("An error occured: \(error)")
+                } else {
+                    print("Saved location successfully!")
+                    _ = self.navigationController?.popViewController(animated: true)
+                }
+            }
+
+            let center = "Latitude: \(location.coordinate.latitude) Longitude: \(location.coordinate.longitude)"
+            
+            print(center)
+            
+        }
+    
+    }
+ 
     func locationAuthStatus() {
-//    
-//        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-//            
-//            if !isCentered{ //Only needs to hapen once
-//                if location?.latitude != 0 && location?.longitude != 0{
-//                    
-//                    let loc = CLLocation(latitude: Double(location!.latitude), longitude: Double(location!.longitude) )
-//                    
-//                    centerMapOnLocation(loc, scaleFactor: 1)
-//                }
-//            }
-//            
-//            map.showsUserLocation = true
-//            
-//        }else {
-//        
-//            locationManager.requestWhenInUseAuthorization()
-//            
-//        }
-//        
+    
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            
+            if !isCentered{ //Only needs to hapen once
+                if location.coordinate.latitude != 0 && location?.coordinate.longitude != 0{
+                    
+                    centerMapOnLocation(location, scaleFactor: 1)
+                    
+                }
+            }
+            
+            map.showsUserLocation = true
+            
+        }else {
+        
+            locationManager.requestWhenInUseAuthorization()
+            
+        }
+
     }
     
     func centerMapOnLocation(_ location: CLLocation, scaleFactor: Double) {
         
-//        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * scaleFactor, regionRadius * scaleFactor)
-//        map.setRegion(coordinateRegion, animated: true)
-//        isCentered = true
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * scaleFactor, regionRadius * scaleFactor)
+        map.setRegion(coordinateRegion, animated: true)
+        isCentered = true
     }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-//        
-//        if !isCentered && (location?.latitude == 0 && location?.longitude == 0){ //Only needs to hapen once
-//            if let loc = userLocation.location {
-//                centerMapOnLocation(loc, scaleFactor: 10)
-//            }
-//        }
+        
+        if !isCentered && (location.coordinate.latitude == 0 && location.coordinate.longitude == 0){ //Only needs to hapen once
+            if let loc = userLocation.location {
+                centerMapOnLocation(loc, scaleFactor: 10)
+            }
+        }
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
        
-//        if isCentered{
-//            centerCoordinates = mapView.centerCoordinate
-//        }
+        if isCentered{
+            centerCoordinates = mapView.centerCoordinate
+        }
       
     }
  
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
         
-//        if let address = searchBar.text{
-//            getPlacemarkFromAddress(address)
-//        }
+        if let address = searchBar.text{
+            getPlacemarkFromAddress(address)
+        }
     }
     
-//    func createAnnotationForLocation(location: CLLocation){
-//    
-//        let business = BusinessAnnotation(coordinate: location.coordinate)
-//        business.coordinate = map.centerCoordinate
-//        map.addAnnotation(business)
-//    
-//    }
-//    
-//    func updateAnnotationToCenter(){
-//        
-//        // Add new annotation
-//        let annotation = BusinessAnnotation()
-//        annotation.coordinate = map.centerCoordinate
-//        map.addAnnotation(annotation)
-//
-//    }
+    func createAnnotationForLocation(location: CLLocation){
     
-//    func getPlacemarkFromAddress(_ address: String) {
-//    
-//        CLGeocoder().geocodeAddressString(address) { ( placemarks: [CLPlacemark]?, error: NSError?) in
-//            
-//            if let marks = placemarks , marks.count > 0{
-//                if let loc = marks[0].location {
-//
-//                    self.centerMapOnLocation(loc, scaleFactor: 10)
-//                  //  self.createAnnotationForLocation(loc)
-//                
-//                }else{
-//                    Messages.displayToastMessage(self.view, msg: "Did not retrieve location...")
-//                }
-//            }else{
-//                Messages.displayToastMessage(self.view, msg: "Did not retrieve location...")
-//            }
-//            
-//            
-//        } as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler as! CLGeocodeCompletionHandler
-//    
-//    }
-//
+        let business = BusinessAnnotation(coordinate: location.coordinate)
+        business.coordinate = map.centerCoordinate
+        map.addAnnotation(business)
+    
+    }
+    
+    func updateAnnotationToCenter(){
+        
+        // Add new annotation
+        let annotation = BusinessAnnotation()
+        annotation.coordinate = map.centerCoordinate
+        map.addAnnotation(annotation)
+
+    }
+    
+    func getPlacemarkFromAddress(_ address: String) {
+    
+        CLGeocoder().geocodeAddressString(address) { ( placemarks: [CLPlacemark]?, error: Error?) in
+            
+            if let marks = placemarks , marks.count > 0{
+                if let loc = marks[0].location {
+
+                    self.centerMapOnLocation(loc, scaleFactor: 10)
+                  //  self.createAnnotationForLocation(loc)
+                
+                }else{
+                    Messages.displayToastMessage(self.view, msg: "Did not retrieve location...")
+                }
+            }else{
+                Messages.displayToastMessage(self.view, msg: "Did not retrieve location...")
+            }
+            
+            
+        }
+    }
+
 }
 
 

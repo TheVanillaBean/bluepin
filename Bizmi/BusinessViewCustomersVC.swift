@@ -12,7 +12,7 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
 
     @IBOutlet weak var tableView: UITableView!
     
- //   var customerUser: BackendlessUser!
+    var customerID: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,9 +20,9 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
         tableView.delegate = self
         tableView.dataSource = self
         
-//        DataService.instance.loadAllFollowers()
-//        
-//        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewCustomersVC.onFollowersLoaded), name: NSNotification.Name(rawValue: "allFollowersLoaded"), object: nil)
+        FBDataService.instance.retriveAllFollowers(businessID: (FBDataService.instance.currentUser?.uid)!) { (errMsg, data) in
+            self.tableView.reloadData()
+        }
         
     }
     
@@ -36,21 +36,22 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        
-//        let user = DataService.instance.allFollowers[(indexPath as NSIndexPath).row]
-//        
-//        if let cell = tableView.dequeueReusableCell(withIdentifier: "viewFollowersCell") as? ViewFollowersCell{
-//            
-//            cell.configureCell(user)
-//            
-//            return cell
-//        }else {
-//            
-//            let cell = ViewFollowersCell()
-//            cell.configureCell(user)
         
-            return ViewFollowersCell()
-   //     }
+        let follower = FBDataService.instance.allFollowers[(indexPath as NSIndexPath).row]
+        let timestamp: Double = FBDataService.instance.allFollowersTime[(indexPath as NSIndexPath).row]
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "viewFollowersCell") as? ViewFollowersCell{
+            
+            cell.configureCell(follower, timestamp: timestamp)
+            
+            return cell
+        }else {
+            
+            let cell = ViewFollowersCell()
+            cell.configureCell(follower, timestamp: timestamp)
+        
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -58,37 +59,33 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-     //   return DataService.instance.allFollowers.count
-        return 0
+        return FBDataService.instance.allFollowers.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-//        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
-//        
-//        let currentCell = tableView.cellForRow(at: indexPath)! as! ViewFollowersCell
-//        
-//        let date = currentCell.followingDate.text! as String
-//        
-//        customerUser = DataService.instance.allFollowers[indexPath.row]
-//        performSegue(withIdentifier: "ViewSingleCustomer", sender: date)
+        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
+        
+        let currentCell = tableView.cellForRow(at: indexPath)! as! ViewFollowersCell
+        
+        let date = currentCell.followingDate.text! as String
+        
+        customerID = FBDataService.instance.allFollowers[indexPath.row]
+        performSegue(withIdentifier: "ViewSingleCustomer", sender: date)
         
     }
+ 
     
-//    func onFollowersLoaded(){
-//        tableView.reloadData()
-//    }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "ViewSingleCustomer" {
-//            if let viewCustomerVC = segue.destination as? ViewCustomerVC{
-//                if let date = sender as? String {
-//                    viewCustomerVC.backendlessUser = customerUser
-//                    viewCustomerVC.followingDate = date
-//                }
-//            }
-//            
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ViewSingleCustomer" {
+            if let viewCustomerVC = segue.destination as? ViewCustomerVC{
+                if let date = sender as? String {
+                    viewCustomerVC.customerID = customerID
+                    viewCustomerVC.followingDate = date
+                }
+            }
+            
+        }
+    }
     
 }

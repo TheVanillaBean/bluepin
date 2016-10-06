@@ -55,3 +55,23 @@ extension Double {
     }
 }
 
+//typealias UnixTime = Int
+//
+//extension UnixTime {
+//    private func formatType(form: String) -> DateFormatter {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.locale = NSLocale(localeIdentifier: "en_US") as Locale!
+//        dateFormatter.dateFormat = form
+//        return dateFormatter
+//    }
+//    var dateFull: NSDate {
+//        return NSDate(timeIntervalSince1970: Double(self))
+//    }
+//    var toHour: String {
+//        return formatType(form: "HH:mm").stringFromDate(dateFull)
+//    }
+//    var toDay: String {
+//        return formatType(form: "MM/dd/yyyy").stringFromDate(dateFull)
+//    }
+//}
+

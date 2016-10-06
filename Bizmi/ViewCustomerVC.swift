@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class ViewCustomerVC: UIViewController {
     
@@ -22,17 +23,24 @@ class ViewCustomerVC: UIViewController {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-//    var backendlessUser: BackendlessUser!
+    var castedCustomer: NewUser!
     
- //   var customer: User!
+    var customerID: String!
     
     var followingDate: String!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.navigationController?.isNavigationBarHidden = true
-     //   populateDataFields()
-      
+        
+        //Casting
+        let castedUser = NewUser()
+        castedUser.castUser(customerID) { (errMsg) in
+            self.castedCustomer = castedUser
+            self.populateDataFields()
+            
+        }
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -40,36 +48,54 @@ class ViewCustomerVC: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
     }
     
-//    func populateDataFields(){
-//        
-//        if let customerUser = backendlessUser{
-//            
-//            customer = User()
-//            customer.populateUserData(customerUser)
-//            
-//            self.navigationItem.title = "\(customer.fullName)"
-//            
-//            let URL = Foundation.URL(string: "\(customer.userProfilePicLocation)")!
-//            let placeholderImage = UIImage(named: "Placeholder")!
-//            
-//            customerProfilePicImg.af_setImageWithURL(URL, placeholderImage: placeholderImage)
-//            customerNameLbl.text = customer.fullName
-//            followingDateLbl.text = followingDate
-//            messagesSentLbl.text = calculateMessagesSent()
-//            appointmentsMadeLbl.text = calculateAppointmentsMade()
-//            
-//        }
-//        
-//    }
-//    
-//    func calculateMessagesSent() -> String{
-//        return "5309"
-//    }
-//    
-//    func calculateAppointmentsMade() -> String{
-//        return "67"
-//    }
-//   
+    func populateDataFields(){
+            
+        self.navigationItem.title = "\(castedCustomer.fullName)"
+        
+        loadProfilePic()
+        
+        customerNameLbl.text = castedCustomer.fullName
+        followingDateLbl.text = followingDate
+        messagesSentLbl.text = calculateMessagesSent()
+        appointmentsMadeLbl.text = calculateAppointmentsMade()
+        
+        
+    }
+    
+    
+    func loadProfilePic(){
+        
+        if castedCustomer.userProfilePicLocation != "" {
+            
+            let ref = FIRStorage.storage().reference(forURL: castedCustomer.userProfilePicLocation)
+            ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
+                if error != nil {
+                    print("Unable to download image from Firebase storage")
+                    print(error)
+                    let placeholderImage = UIImage(named: "Placeholder")!
+                    self.customerProfilePicImg.image = placeholderImage
+                } else {
+                    print("Image downloaded from Firebase storage")
+                    if let imgData = data {
+                        if let img = UIImage(data: imgData) {
+                            self.customerProfilePicImg.image = img
+                        }
+                    }
+                }
+            })
+            
+            print(castedCustomer.userProfilePicLocation)
+        }
+    }
+    
+    func calculateMessagesSent() -> String{
+        return "5309"
+    }
+    
+    func calculateAppointmentsMade() -> String{
+        return "67"
+    }
+   
     
     @IBAction func cancelBtnPressed(_ sender: AnyObject) {
         self.dismiss(animated: true, completion: nil)

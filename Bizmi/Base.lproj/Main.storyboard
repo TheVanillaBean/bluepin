@@ -41,8 +41,7 @@
                                                 <frame key="frameInset" minX="8" minY="162" width="584" height="218"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Tnc-YY-wgW">
-                                                <frame key="frameInset" minX="16" minY="170" width="343" height="125"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Tnc-YY-wgW">
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="00t-1w-0Ax" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -98,8 +97,7 @@
                                                     <action selector="loginBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="v6G-XW-2kk"/>
                                                 </connections>
                                             </button>
-                                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="uLP-xB-Kvc">
-                                                <frame key="frameInset" minY="388" width="375" height="64"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="uLP-xB-Kvc">
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbF-l2-c5t">
                                                         <constraints>
@@ -243,8 +241,7 @@
                                                 <frame key="frameInset" minX="8" minY="32" width="584" height="126"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Whz-WU-He6">
-                                                <frame key="frameInset" minX="16" minY="40" width="343" height="50"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Whz-WU-He6">
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dpU-wv-pAO" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -700,8 +697,7 @@
                                                 <frame key="frameInset" minX="8" minY="16" width="584" height="317"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="RmU-Ix-9nw">
-                                                <frame key="frameInset" minX="16" minY="24" width="343" height="224"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="RmU-Ix-9nw">
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QTQ-cd-WjK" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -847,7 +843,7 @@
             <objects>
                 <navigationController storyboardIdentifier="InitialNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="iRc-sB-ktC" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="UfG-7J-otQ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="UfG-7J-otQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -874,6 +870,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="VfL-zT-dk7" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="po3-5U-mo9">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
@@ -1073,7 +1070,7 @@
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                                 <inset key="contentEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="Message Business" image="Message_Blue">
+                                                <state key="normal" title="Message Customer" image="Message_Blue">
                                                     <color key="titleColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -1154,12 +1151,12 @@
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="16o-sH-0l6"/>
                                                 <exclude reference="5ab-Ds-dEx"/>
                                                 <exclude reference="FOO-Cc-y5u"/>
                                                 <exclude reference="LvP-xf-ah5"/>
                                                 <exclude reference="PXe-yI-Egm"/>
                                                 <exclude reference="Pc1-2L-fn3"/>
+                                                <exclude reference="16o-sH-0l6"/>
                                                 <exclude reference="0db-Ai-2wR"/>
                                                 <exclude reference="LzY-GQ-DeP"/>
                                                 <exclude reference="Mtj-Sd-fBU"/>
@@ -1659,7 +1656,7 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jHf-Hb-ETh">
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessProfileCell" rowHeight="50" id="stv-4z-whE" customClass="BusinessProfileCell" customModule="Bizmi" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessProfileCell" rowHeight="50" id="stv-4z-whE" customClass="BusinessProfileCell" customModule="Bizmi" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="stv-4z-whE" id="qrm-03-kd8">
@@ -2432,12 +2429,12 @@
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="2ta-b6-7Cz"/>
-                                                <exclude reference="FoU-V0-wMT"/>
-                                                <exclude reference="ehj-Vc-wfl"/>
                                                 <exclude reference="TEA-qn-qTs"/>
                                                 <exclude reference="eDq-8F-DPV"/>
                                                 <exclude reference="qw5-fv-Ao1"/>
+                                                <exclude reference="2ta-b6-7Cz"/>
+                                                <exclude reference="FoU-V0-wMT"/>
+                                                <exclude reference="ehj-Vc-wfl"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -2885,7 +2882,7 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="D8S-AO-MC9">
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomerProfileCell" rowHeight="50" id="fIQ-vJ-MIg" customClass="CustomerProfileCell" customModule="Bizmi" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomerProfileCell" rowHeight="50" id="fIQ-vJ-MIg" customClass="CustomerProfileCell" customModule="Bizmi" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fIQ-vJ-MIg" id="51x-jh-sjk">
@@ -3024,6 +3021,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="6qH-9c-EPt" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="XBF-VO-X5a">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
@@ -3079,11 +3077,11 @@
         <image name="Website_Blue" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FGg-yl-dWi"/>
-        <segue reference="BNX-ez-XnG"/>
-        <segue reference="30D-hv-PDd"/>
         <segue reference="Oao-ec-MQi"/>
+        <segue reference="30D-hv-PDd"/>
+        <segue reference="BNX-ez-XnG"/>
         <segue reference="rmP-4e-Kox"/>
-        <segue reference="tG9-lc-vj1"/>
+        <segue reference="7tV-Ep-cNg"/>
+        <segue reference="FGg-yl-dWi"/>
     </inferredMetricsTieBreakers>
 </document>

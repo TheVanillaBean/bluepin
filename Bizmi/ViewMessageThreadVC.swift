@@ -7,7 +7,8 @@
 //
 
 import UIKit
-//import PubNub
+import FirebaseStorage
+import FirebaseDatabase
 import JSQMessagesViewController
 
 class ViewMessageThreadVC: JSQMessagesViewController{
@@ -17,47 +18,67 @@ class ViewMessageThreadVC: JSQMessagesViewController{
     var otherUserName: String = ""
     var otherUserID: String = ""
     var otherUserProfilePictureLocation: String = ""
-  //  var currentUser: BackendlessUser!
-  //  var user = User()
 
+    var currentUser: NewUser!
+    
+    var iterator: Int  = 0
+    
     var outgoingBubbleImageView: JSQMessagesBubbleImage!
     var incomingBubbleImageView: JSQMessagesBubbleImage!
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
     
+    var newMessageHandler: FirebaseHandle!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = otherUserName
-//        appDelegate.client.add(self)
-//        
-//        appDelegate.client.subscribe(toChannels: [currentUserID], withPresence: false)
-        
-//        setupBubbles()
-        
-//        setUpBackButton()
+        setupBubbles()
+        setUpBackButton()
         
         // No avatars
         collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
         
-//        currentUser = appDelegate.backendless.userService.currentUser
-//        user.populateUserData(currentUser)
-//        
-//        NotificationCenter.default.addObserver(self, selector: #selector(ViewMessageThreadVC.onChatMessagesRetrived), name: NSNotification.Name(rawValue: "chatMessagesRecieved"), object: nil)
-//        
-//        
-//        NotificationCenter.default.addObserver(self, selector: #selector(ViewMessageThreadVC.onNewChatMessageRecieved), name: NSNotification.Name(rawValue: "newPubNubMessageRecieved"), object: nil)
-//
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewMessageThreadVC.onChatMessagesRecieved), name: NSNotification.Name(rawValue: "chatMessagesRecieved"), object: nil)
+        
+         NotificationCenter.default.addObserver(self, selector: #selector(ViewMessageThreadVC.onNewChatMessageConverted), name: NSNotification.Name(rawValue: "newChatMessageConverted"), object: nil)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         showActivityIndicator()
         
-//        DataService.instance.clearAllMessagesInChat()
-//        DataService.instance.getAllMessagesInChat(mainChannelName)
+        self.observeNewMessages()
+       // FBDataService.instance.retrieveAllJSQMessagesInChat(channelName: mainChannelName)
+        
+    }
+    
+    func onNewChatMessageConverted(){
+        self.collectionView?.reloadData()
+    }
+    
+    func onChatMessagesRecieved(notification: NSNotification){
+        
+        //self.organizeMessages()
+        self.collectionView?.reloadData()
+       // self.observeNewMessages()
+
+       // self.observeNewMessages()
+        
+//        let dict = notification.object as! NSDictionary
+//        
+//        let errMsg = dict["errMsg"]
+//        
+//        if errMsg == nil{
+//            self.collectionView?.reloadData()
+//            self.observeNewMessages()
+//        }else{
+//            print("noooooo")
+//        }
     }
     
     func setUpBackButton(){
@@ -77,11 +98,6 @@ class ViewMessageThreadVC: JSQMessagesViewController{
         self.dismiss(animated: true, completion: nil)
     }
     
-    func onChatMessagesRetrived(){
-
-//        self.reloadMessagesView()
-        
-    }
 //    
 //    func onNewChatMessageRecieved(){
 //        
@@ -112,36 +128,33 @@ class ViewMessageThreadVC: JSQMessagesViewController{
     }
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
-       var _allJSQMessagesInChat: [JSQMessage] = []
-        return _allJSQMessagesInChat[indexPath.item]
-     //   return 0
+        return FBDataService.instance.allJSQMessagesInChat[indexPath.item]
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-     //   return DataService.instance.allJSQMessagesInChat.count
-        return 0
+        return FBDataService.instance.allJSQMessagesInChat.count
     }
     
-//    override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
-//        
-////        let message = DataService.instance.allJSQMessagesInChat[indexPath.item] // 1
-////        if message.senderId == senderId { // 2
-////            return outgoingBubbleImageView
-////        } else { // 3
-////            return incomingBubbleImageView
-////        }
-//    }
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
+        
+        let message = FBDataService.instance.allJSQMessagesInChat[indexPath.item] // 1
+        if message.senderId == senderId { // 2
+            return outgoingBubbleImageView
+        } else { // 3
+            return incomingBubbleImageView
+        }
+    }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
-//        
-//        let message = DataService.instance.allJSQMessagesInChat[(indexPath as NSIndexPath).item] // 1
-//        
-//        if message.senderId == senderId { // 1
-//            cell.textView!.textColor = UIColor.white // 2
-//        } else {
-//            cell.textView!.textColor = UIColor.black // 3
-//        }
+        
+        let message = FBDataService.instance.allJSQMessagesInChat[(indexPath as NSIndexPath).item] // 1
+        
+        if message.senderId == senderId { // 1
+            cell.textView!.textColor = UIColor.white // 2
+        } else {
+            cell.textView!.textColor = UIColor.black // 3
+        }
         
         return cell
     }
@@ -152,19 +165,38 @@ class ViewMessageThreadVC: JSQMessagesViewController{
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
 
-//        let message = MessageItem(uuid: senderId, message: text, channelName: self.mainChannelName, senderDisplayName: senderDisplayName, recipientID: otherUserID, recipientProfilePictureLocation: otherUserProfilePictureLocation, recipientDisplayName: otherUserName, senderProfilePictureLocation: user.userProfilePicLocation)
-//        publishMessage(message)
+        let message = Message(messageType: MESSAGE_TEXT_TYPE, messageData: text, senderUID: senderId, recipientUID: otherUserID, channelName: self.mainChannelName, senderName: senderDisplayName, recName: otherUserName)
+
+        publishMessage(message)
+        
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
   
     }
     
-    func publishMessage(_ messageItem: MessageItem) {
+    func publishMessage(_ messageItem: Message) {
+     
+        showActivityIndicator()
         
-//        let message : [String : AnyObject] = ["uuid" : messageItem.uuid as AnyObject, "message" : messageItem.message as AnyObject, "channelName" : messageItem.channelName as AnyObject, "senderDisplayName" : messageItem.senderDisplayName as AnyObject, "recipientID" : messageItem.recipientID as AnyObject, "recipientProfilePictureLocation" : messageItem.recipientProfilePictureLocation as AnyObject, "recipientDisplayName" : messageItem.recipientDisplayName as AnyObject, "senderProfilePictureLocation" : messageItem.senderProfilePictureLocation as AnyObject]
-////        appDelegate.client.publish(message, toChannel: mainChannelName, withCompletion: nil)
-////        appDelegate.client.publish(message, toChannel: currentUserID, withCompletion: nil)
-////        appDelegate.client.publish(message, toChannel: otherUserID, withCompletion: nil)
-//        showActivityIndicator()
+        let FBMessage = FBDataService.instance.messagesRef.childByAutoId()
+        
+        let message: Dictionary<String, AnyObject> = [MESSAGE_TYPE: messageItem.messageType as AnyObject, MESSAGE_LOCATION: FBMessage.key as AnyObject, MESSAGE_SENDERID: messageItem.senderUID as AnyObject, MESSAGE_RECIPIENTID: messageItem.recipientUID as AnyObject, MESSAGE_TIMESTAMP: FIRServerValue.timestamp() as AnyObject, MESSAGE_CHANNEL_NAME: messageItem.channelName as AnyObject, MESSAGE_SENDER_NAME: messageItem.senderDisplayName as AnyObject, MESSAGE_RECIPIENT_NAME: messageItem.recipientDisplayName as AnyObject]
+        
+        FBMessage.setValue(message)
+    
+
+        let messageStorageRef = FBDataService.instance.messagesStorageRef.child(FBMessage.key)
+        let data = messageItem.messageData.data(using: .utf8)
+        
+        // Upload the file to the path "images/rivers.jpg"
+        _ = messageStorageRef.put(data!, metadata: nil) { metadata, error in
+            if (error != nil) {
+                // Uh-oh, an error occurred!
+            } else {
+                print("upload sussess")
+                FBDataService.instance.channelsRef.child(self.mainChannelName).child(FBMessage.key).setValue(FIRServerValue.timestamp())
+                FBDataService.instance.userChannelsRef.child(self.currentUser.uuid).child(self.mainChannelName).setValue(FIRServerValue.timestamp())
+            }
+        }
 
     }
     
@@ -185,12 +217,12 @@ class ViewMessageThreadVC: JSQMessagesViewController{
 //        })
 //    }
 //    
-//    fileprivate func setupBubbles() {
-//        let bubbleImageFactory = JSQMessagesBubbleImageFactory()
-//        outgoingBubbleImageView = bubbleImageFactory?.outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
-//        incomingBubbleImageView = bubbleImageFactory?.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
-//    }
-//    
+    fileprivate func setupBubbles() {
+        let bubbleImageFactory = JSQMessagesBubbleImageFactory()
+        outgoingBubbleImageView = bubbleImageFactory?.outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
+        incomingBubbleImageView = bubbleImageFactory?.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
+    }
+//
     override func didPressAccessoryButton(_ sender: UIButton!) {
 //        if user.userType == "Business"{
 //            DataService.instance.appointmentLeaderName = otherUserName
@@ -223,90 +255,50 @@ class ViewMessageThreadVC: JSQMessagesViewController{
 //        
 //    }
 //    
+    override func viewWillDisappear(_ animated: Bool) {
+       // FBDataService.instance.mainRef.removeObserver(withHandle: self.newMessageHandler)
+        FBDataService.instance.mainRef.removeAllObservers()
+        FBDataService.instance._allMessageIDSInChat.removeAll()
+        FBDataService.instance._allMessagesInChat.removeAll()
+        FBDataService.instance._allJSQMessagesInChat.removeAll()
+    }
     
-    
-    
-//    
-//    // Handle subscription status change.
-//    func client(_ client: PubNub, didReceive status: PNStatus) {
-//        
-//        if status.operation == .subscribeOperation {
-//            
-//            // Check whether received information about successful subscription or restore.
-//            if status.category == .PNConnectedCategory || status.category == .PNReconnectedCategory {
-//                
-//                let subscribeStatus: PNSubscribeStatus = status as! PNSubscribeStatus
-//                if subscribeStatus.category == .PNConnectedCategory {
-//                    
-//                    // This is expected for a subscribe, this means there is no error or issue whatsoever.
-//                    print("successfuly subscribed")
-//                }
-//                else {
-//                    
-//                    /**
-//                     This usually occurs if subscribe temporarily fails but reconnects. This means there was
-//                     an error but there is no longer any issue.
-//                     */
-//                    print("successful subscribed after there was errror")
-//
-//                }
-//            }
-//                // Looks like some kind of issues happened while client tried to subscribe or disconnected from
-//                // network.
-//            else {
-//                
-//                let errorStatus: PNErrorStatus = status as! PNErrorStatus
-//                if errorStatus.category == .PNAccessDeniedCategory {
-//                    
-//                    /**
-//                     This means that PAM does allow this client to subscribe to this channel and channel group
-//                     configuration. This is another explicit error.
-//                     */
-//                    print("pam ")
-//
-//                }
-//                else if errorStatus.category == .PNUnexpectedDisconnectCategory {
-//                    
-//                    /**
-//                     This is usually an issue with the internet connection, this is an error, handle
-//                     appropriately retry will be called automatically.
-//                     */
-//                    print("internet")
-//
-//                }
-//                else {
-//                    
-//                    /**
-//                     More errors can be directly specified by creating explicit cases for other error categories
-//                     of `PNStatusCategory` such as `PNTimeoutCategory` or `PNMalformedFilterExpressionCategory` or
-//                     `PNDecryptionErrorCategory`
-//                     */
-//                    print("more errors")
-//
-//                }
-//            }
-//        }
-//        else if status.operation == .unsubscribeOperation {
-//            
-//            if status.category == .PNDisconnectedCategory {
-//                
-//                /**
-//                 This is the expected category for an unsubscribe. This means there was no error in
-//                 unsubscribing from everything.
-//                 */
-//            }
-//        }
-//        else if status.operation == .heartbeatOperation {
-//            
-//            /**
-//             Heartbeat operations can in fact have errors, so it is important to check first for an error.
-//             For more information on how to configure heartbeat notifications through the status
-//             PNObjectEventListener callback, consult http://www.pubnub.com/docs/ios-objective-c/api-reference-sdk-v4#configuration_basic_usage
-//             */
-//            
-//            if !status.isError { /* Heartbeat operation was successful. */ }
-//            else { /* There was an error with the heartbeat operation, handle here. */ }
-//        }
-//    }
+    func observeNewMessages(){
+        print("observe message")
+        newMessageHandler = FBDataService.instance.channelsRef.child(self.mainChannelName).queryLimited(toLast: 30).observe(FIRDataEventType.childAdded, with: { (snapshot) in
+            
+            //if currentchannnelname from singleton is equal to this channel name, then dont update code, if not then change name deleted jsqmessages and reload
+            
+            print("handler")
+            print("incoming \(snapshot.key)")
+
+            self.iterator = self.iterator + 1
+            
+            let firstGroup = DispatchGroup()
+            
+          //  if FBDataService.instance.allMessageIDSInChat.count < self.iterator{
+            
+                print("yep \(self.iterator)")
+            
+            firstGroup.enter()
+            
+             FBDataService.instance.convertMessageIDToMessageModel(messageID: snapshot.key, onComplete: { (errMsg, data) in
+                FBDataService.instance.organizeMessages()
+                firstGroup.leave()
+             })
+         
+            
+            firstGroup.notify(queue: DispatchQueue.main, execute: {
+                print("All Done and Processed, so load data now")
+                self.collectionView?.reloadData()
+            })
+            
+          //  }
+            
+        })
+    }
+
+
+   
     
 }

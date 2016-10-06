@@ -23,6 +23,12 @@ class BusinessAnnotation: NSObject, MKAnnotation {
         self.subtitle = subtitle
     }
     
+    init(coordinate: CLLocationCoordinate2D){
+        self.coordinate = coordinate
+        self.title = ""
+        self.subtitle = ""
+    }
+    
     override init() {
         
     }

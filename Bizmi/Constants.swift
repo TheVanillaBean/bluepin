@@ -41,6 +41,19 @@ let BUSINESS_HOURS: String = "businessHours"
 let BUSINESS_LOCATION: String = "businessLocation"
 let PROFILE_PIC_LOCATION: String = "userProfilePicLocation"
 
+let MESSAGE_TYPE: String = "messageType"
+let MESSAGE_LOCATION: String = "messageLocation"
+let MESSAGE_DATA: String = "messageData"
+let MESSAGE_SENDERID: String = "senderUID"
+let MESSAGE_RECIPIENTID: String = "recipientUID"
+let MESSAGE_TIMESTAMP: String = "timeStamp"
+let MESSAGE_CHANNEL_NAME: String = "channelName"
+let MESSAGE_RECIPIENT_NAME: String = "recipientName"
+let MESSAGE_SENDER_NAME: String = "senderName"
+
+let MESSAGE_TEXT_TYPE: String = "type/text"
+
+
 //CHILD NODES
 let FIR_CHILD_USERS = "Users"
 let FIR_CHILD_USERS_BUSINESS = "Business-Users"
@@ -58,3 +71,8 @@ let FIR_CHILD_BUSINESS_RESERVATIONS = "Business-Reservations"
 
 //STORAGE NODES
 let FIR_STORAGE_CHILD_USER_PROFILE_PICS = "Profile-Pictures"
+let FIR_STORAGE_CHILD_MESSAGES = "Messages"
+
+
+
+
