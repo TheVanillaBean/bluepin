@@ -10,7 +10,7 @@
 		5A025DCA1D403B530060791D /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A025DC91D403B530060791D /* ForgotPasswordVC.swift */; };
 		5A025DCC1D403CBE0060791D /* CustomerSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A025DCB1D403CBE0060791D /* CustomerSignUpVC.swift */; };
 		5A025DCE1D403D050060791D /* BusinessSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A025DCD1D403D050060791D /* BusinessSignUpVC.swift */; };
-		5A129BF21D49C77E00FE5126 /* CustomerViewMessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BF11D49C77E00FE5126 /* CustomerViewMessagesVC.swift */; };
+		5A129BF21D49C77E00FE5126 /* CustomerViewMessageChannelsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BF11D49C77E00FE5126 /* CustomerViewMessageChannelsVC.swift */; };
 		5A129BF41D49C7BC00FE5126 /* CustomerViewBusinessesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BF31D49C7BC00FE5126 /* CustomerViewBusinessesVC.swift */; };
 		5A129BF61D49C81200FE5126 /* CustomerViewReservationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BF51D49C81200FE5126 /* CustomerViewReservationsVC.swift */; };
 		5A129BF81D49C83000FE5126 /* CustomerProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A129BF71D49C83000FE5126 /* CustomerProfileVC.swift */; };
@@ -77,7 +77,7 @@
 		5A025DC91D403B530060791D /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
 		5A025DCB1D403CBE0060791D /* CustomerSignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerSignUpVC.swift; sourceTree = "<group>"; };
 		5A025DCD1D403D050060791D /* BusinessSignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessSignUpVC.swift; sourceTree = "<group>"; };
-		5A129BF11D49C77E00FE5126 /* CustomerViewMessagesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerViewMessagesVC.swift; sourceTree = "<group>"; };
+		5A129BF11D49C77E00FE5126 /* CustomerViewMessageChannelsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerViewMessageChannelsVC.swift; sourceTree = "<group>"; };
 		5A129BF31D49C7BC00FE5126 /* CustomerViewBusinessesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerViewBusinessesVC.swift; sourceTree = "<group>"; };
 		5A129BF51D49C81200FE5126 /* CustomerViewReservationsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerViewReservationsVC.swift; sourceTree = "<group>"; };
 		5A129BF71D49C83000FE5126 /* CustomerProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerProfileVC.swift; sourceTree = "<group>"; };
@@ -170,7 +170,7 @@
 		5A129BEF1D49C74500FE5126 /* Customer Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
-				5A129BF11D49C77E00FE5126 /* CustomerViewMessagesVC.swift */,
+				5A129BF11D49C77E00FE5126 /* CustomerViewMessageChannelsVC.swift */,
 				5A129BF31D49C7BC00FE5126 /* CustomerViewBusinessesVC.swift */,
 				5A129BF51D49C81200FE5126 /* CustomerViewReservationsVC.swift */,
 				5A129BF71D49C83000FE5126 /* CustomerProfileVC.swift */,
@@ -514,7 +514,7 @@
 				5A3026BE1D5C534000B3E382 /* ViewBusinessHoursVC.swift in Sources */,
 				5A129BFA1D49C85500FE5126 /* BusinessViewMessagesVC.swift in Sources */,
 				5A773C0D1D93C05300D14519 /* GeoFire.m in Sources */,
-				5A129BF21D49C77E00FE5126 /* CustomerViewMessagesVC.swift in Sources */,
+				5A129BF21D49C77E00FE5126 /* CustomerViewMessageChannelsVC.swift in Sources */,
 				5A3026BC1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift in Sources */,
 				5A129C001D49C8D100FE5126 /* BusinessProfileVC.swift in Sources */,
 				5A4C526C1D4B31530052E49B /* DataService.swift in Sources */,

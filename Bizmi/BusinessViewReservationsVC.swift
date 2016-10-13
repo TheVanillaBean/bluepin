@@ -14,11 +14,7 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
     
-//    var selectedReservation: Reservation!
-//    
-//    let user: User = User()
-//    
-//    var refreshControl: UIRefreshControl!
+    var selectedReservation: Reservation!
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -31,8 +27,10 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
 //        let currentUser = appDelegate.backendless.userService.currentUser
 //        user.populateUserData(currentUser)
 //        
-//        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewReservationsVC.onReservationsRecieved), name: NSNotification.Name(rawValue: "findBusinessReservations"), object: nil)
-//        
+        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewReservationsVC.onReservationsRecieved), name: NSNotification.Name(rawValue: "reservationRetrieved"), object: nil)
+        
+        FBDataService.instance.observeReservationsAddedForUser(FBDataService.instance.currentUser?.uid)
+//
 //        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewReservationsVC.onReservationUpdated), name: NSNotification.Name(rawValue: "removeReservation"), object: nil)
         
         showActivityIndicator()
@@ -50,15 +48,14 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
 //        DataService.instance.findBusinessReservations(user.userObjectID)
 //    }
 //    
-//    func onReservationsRecieved(){
-//        
-//        activityIndicator.stopAnimating()
-//        
-//        tableView.reloadData()
-//        
-//        refreshControl.endRefreshing()
-//    }
-//    
+    func onReservationsRecieved(){
+        
+        activityIndicator.stopAnimating()
+        
+        tableView.reloadData()
+        
+    }
+//
 //    func onReservationUpdated(){
 //        
 //        DataService.instance.findBusinessReservations(user.userObjectID)
@@ -73,21 +70,20 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-//        let reservation = DataService.instance.allBusinessReservations[(indexPath as NSIndexPath).row]
-//                
-//        if let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessReservationCell") as? BusinessReservationCell{
-//            
-//            cell.configureCell(reservation)
-//            
-//            return cell
-//        }else {
-//            
-//            let cell = BusinessReservationCell()
-//            cell.configureCell(reservation)
-//            
-//            return cell
-//        }
-        return BusinessReservationCell()
+        let reservation = FBDataService.instance.allReservations[(indexPath as NSIndexPath).row]
+                
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessReservationCell") as? BusinessReservationCell{
+            
+            cell.configureCell(reservation)
+            
+            return cell
+        }else {
+            
+            let cell = BusinessReservationCell()
+            cell.configureCell(reservation)
+            
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -95,45 +91,44 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    //    return DataService.instance.allBusinessReservations.count
-        return 0
+        return FBDataService.instance.allReservations.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        
-//        tableView.deselectRow(at: indexPath, animated: true) //So 
-//        
-//        selectedReservation = DataService.instance.allBusinessReservations[(indexPath as NSIndexPath).row]
-//        
-//        if selectedReservation.Status == DataService.statusType.PENDING.rawValue{
-//            showAlertDialog()
-//        }
+        
+        tableView.deselectRow(at: indexPath, animated: true) //So 
+        
+        selectedReservation = FBDataService.instance.allReservations[(indexPath as NSIndexPath).row]
+        
+        if selectedReservation.status == PENDING_STATUS{
+            showAlertDialog()
+        }
         
     }
-//    
-//    
-//    func showAlertDialog(){
-//        
-//        // Initialize Alert Controller
-//        let alertController = UIAlertController(title: "Remove Reservation", message: "Do you want to delete this reservation for \(selectedReservation.Leader!)?", preferredStyle: .alert)
-//        
-//        // Initialize Actions
-//        let yesAction = UIAlertAction(title: "Accept", style: .default) { (action) -> Void in
-//            DataService.instance.removeReservation(self.selectedReservation)
-//        }
-//        
-//        let noAction = UIAlertAction(title: "Decline", style: .default) { (action) -> Void in
-//        }
-//        
-//        // Add Actions
-//        alertController.addAction(yesAction)
-//        alertController.addAction(noAction)
-//        
-//        // Present Alert Controller
-//        self.present(alertController, animated: true, completion: nil)
-//        
-//    }
-//    
+    
+    
+    func showAlertDialog(){
+        
+        // Initialize Alert Controller
+        let alertController = UIAlertController(title: "Remove Reservation", message: "Do you want to delete this reservation for \(selectedReservation.customerName)?", preferredStyle: .alert)
+        
+        // Initialize Actions
+        let yesAction = UIAlertAction(title: "Accept", style: .default) { (action) -> Void in
+           // DataService.instance.removeReservation(self.selectedReservation)
+        }
+        
+        let noAction = UIAlertAction(title: "Decline", style: .default) { (action) -> Void in
+        }
+        
+        // Add Actions
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+        
+        // Present Alert Controller
+        self.present(alertController, animated: true, completion: nil)
+        
+    }
+    
     //Spinning indicator when loading request
     func showActivityIndicator() {
         activityIndicator.center = self.view.center

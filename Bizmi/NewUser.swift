@@ -275,7 +275,7 @@ class NewUser{
             // Get user value
             let userDict = snapshot.value as! [String : AnyObject]
             
-            print(userDict)
+            //print(userDict)
             
             if let id = userDict[UUID] as? String{
                 self.uuid = id

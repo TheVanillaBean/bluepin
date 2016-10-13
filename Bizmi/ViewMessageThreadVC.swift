@@ -34,6 +34,7 @@ class ViewMessageThreadVC: JSQMessagesViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         self.title = otherUserName
         setupBubbles()
         setUpBackButton()
@@ -41,44 +42,14 @@ class ViewMessageThreadVC: JSQMessagesViewController{
         // No avatars
         collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewMessageThreadVC.onChatMessagesRecieved), name: NSNotification.Name(rawValue: "chatMessagesRecieved"), object: nil)
-        
-         NotificationCenter.default.addObserver(self, selector: #selector(ViewMessageThreadVC.onNewChatMessageConverted), name: NSNotification.Name(rawValue: "newChatMessageConverted"), object: nil)
 
+        self.observeNewMessages()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-        showActivityIndicator()
         
-        self.observeNewMessages()
-       // FBDataService.instance.retrieveAllJSQMessagesInChat(channelName: mainChannelName)
-        
-    }
-    
-    func onNewChatMessageConverted(){
-        self.collectionView?.reloadData()
-    }
-    
-    func onChatMessagesRecieved(notification: NSNotification){
-        
-        //self.organizeMessages()
-        self.collectionView?.reloadData()
-       // self.observeNewMessages()
-
-       // self.observeNewMessages()
-        
-//        let dict = notification.object as! NSDictionary
-//        
-//        let errMsg = dict["errMsg"]
-//        
-//        if errMsg == nil{
-//            self.collectionView?.reloadData()
-//            self.observeNewMessages()
-//        }else{
-//            print("noooooo")
-//        }
     }
     
     func setUpBackButton(){
@@ -165,7 +136,7 @@ class ViewMessageThreadVC: JSQMessagesViewController{
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
 
-        let message = Message(messageType: MESSAGE_TEXT_TYPE, messageData: text, senderUID: senderId, recipientUID: otherUserID, channelName: self.mainChannelName, senderName: senderDisplayName, recName: otherUserName)
+        let message = Message(messageType: MESSAGE_TEXT_TYPE, messageData: text, senderUID: senderId, recipientUID: otherUserID, channelName: self.mainChannelName)
 
         publishMessage(message)
         
@@ -179,10 +150,9 @@ class ViewMessageThreadVC: JSQMessagesViewController{
         
         let FBMessage = FBDataService.instance.messagesRef.childByAutoId()
         
-        let message: Dictionary<String, AnyObject> = [MESSAGE_TYPE: messageItem.messageType as AnyObject, MESSAGE_LOCATION: FBMessage.key as AnyObject, MESSAGE_SENDERID: messageItem.senderUID as AnyObject, MESSAGE_RECIPIENTID: messageItem.recipientUID as AnyObject, MESSAGE_TIMESTAMP: FIRServerValue.timestamp() as AnyObject, MESSAGE_CHANNEL_NAME: messageItem.channelName as AnyObject, MESSAGE_SENDER_NAME: messageItem.senderDisplayName as AnyObject, MESSAGE_RECIPIENT_NAME: messageItem.recipientDisplayName as AnyObject]
+        let message: Dictionary<String, AnyObject> = [MESSAGE_TYPE: messageItem.messageType as AnyObject, MESSAGE_LOCATION: FBMessage.key as AnyObject, MESSAGE_SENDERID: messageItem.senderUID as AnyObject, MESSAGE_RECIPIENTID: messageItem.recipientUID as AnyObject, MESSAGE_TIMESTAMP: FIRServerValue.timestamp() as AnyObject, MESSAGE_CHANNEL_NAME: messageItem.channelName as AnyObject]
         
         FBMessage.setValue(message)
-    
 
         let messageStorageRef = FBDataService.instance.messagesStorageRef.child(FBMessage.key)
         let data = messageItem.messageData.data(using: .utf8)
@@ -193,8 +163,10 @@ class ViewMessageThreadVC: JSQMessagesViewController{
                 // Uh-oh, an error occurred!
             } else {
                 print("upload sussess")
-                FBDataService.instance.channelsRef.child(self.mainChannelName).child(FBMessage.key).setValue(FIRServerValue.timestamp())
-                FBDataService.instance.userChannelsRef.child(self.currentUser.uuid).child(self.mainChannelName).setValue(FIRServerValue.timestamp())
+                    FBDataService.instance.channelsRef.child(self.mainChannelName).child(FBMessage.key).setValue(FIRServerValue.timestamp())
+                    FBDataService.instance.userChannelsRef.child(self.currentUser.uuid).child(self.mainChannelName).setValue(FIRServerValue.timestamp())
+                    FBDataService.instance.userChannelsRef.child(self.otherUserID).child(self.mainChannelName).setValue(FIRServerValue.timestamp())
+
             }
         }
 
@@ -242,22 +214,8 @@ class ViewMessageThreadVC: JSQMessagesViewController{
 //    }
     
   
-//    func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
-//        print("Data Service new message \( message.data.message)")
-//
-////        let newMessage = MessageItem(uuid: message.data.message!["uuid"] as! String, message: message.data.message!["message"] as! String, channelName: message.data.message!["channelName"] as! String, senderDisplayName: message.data.message!["senderDisplayName"] as! String, recipientID : message.data.message!["recipientID"] as! String, recipientProfilePictureLocation: message.data.message!["recipientProfilePictureLocation"] as! String, recipientDisplayName: message.data.message!["recipientDisplayName"] as! String, senderProfilePictureLocation: message.data.message!["senderProfilePictureLocation"] as! String)
-////        
-////            DataService.instance.newPubNubMessage = newMessage
-//            
-////            print("Data Service new message \( DataService.instance.newPubNubMessage)")
-////            
-////            onNewChatMessageRecieved()
-//        
-//    }
-//    
     override func viewWillDisappear(_ animated: Bool) {
-       // FBDataService.instance.mainRef.removeObserver(withHandle: self.newMessageHandler)
-        FBDataService.instance.mainRef.removeAllObservers()
+        FBDataService.instance.channelsRef.child(self.mainChannelName).removeObserver(withHandle: newMessageHandler)
         FBDataService.instance._allMessageIDSInChat.removeAll()
         FBDataService.instance._allMessagesInChat.removeAll()
         FBDataService.instance._allJSQMessagesInChat.removeAll()
@@ -265,35 +223,35 @@ class ViewMessageThreadVC: JSQMessagesViewController{
     
     func observeNewMessages(){
         print("observe message")
-        newMessageHandler = FBDataService.instance.channelsRef.child(self.mainChannelName).queryLimited(toLast: 30).observe(FIRDataEventType.childAdded, with: { (snapshot) in
+        
+        let firstGroup = DispatchGroup()
+        
+        newMessageHandler = FBDataService.instance.channelsRef.child(self.mainChannelName).queryLimited(toLast: 20).observe(FIRDataEventType.childAdded, with: { (snapshot) in
             
             //if currentchannnelname from singleton is equal to this channel name, then dont update code, if not then change name deleted jsqmessages and reload
             
-            print("handler")
-            print("incoming \(snapshot.key)")
-
-            self.iterator = self.iterator + 1
-            
-            let firstGroup = DispatchGroup()
-            
-          //  if FBDataService.instance.allMessageIDSInChat.count < self.iterator{
-            
-                print("yep \(self.iterator)")
+            self.showActivityIndicator()
             
             firstGroup.enter()
             
-             FBDataService.instance.convertMessageIDToMessageModel(messageID: snapshot.key, onComplete: { (errMsg, data) in
+            FBDataService.instance.convertMessageIDToMessageModel(messageID: snapshot.key, onComplete: { (errMsg, data) in
                 FBDataService.instance.organizeMessages()
                 firstGroup.leave()
-             })
-         
-            
-            firstGroup.notify(queue: DispatchQueue.main, execute: {
-                print("All Done and Processed, so load data now")
-                self.collectionView?.reloadData()
             })
             
-          //  }
+            firstGroup.notify(queue: DispatchQueue.main, execute: {
+                
+                let newMessage = FBDataService.instance.newJSQMessage
+                
+                if newMessage.senderId != self.currentUserID{
+                    self.finishReceivingMessage()
+                }else {
+                    self.finishSendingMessage()
+                }
+
+               // self.collectionView?.reloadData()
+                self.activityIndicator.stopAnimating()
+            })
             
         })
     }

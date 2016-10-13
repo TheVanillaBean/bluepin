@@ -20,8 +20,8 @@ class Message{
     fileprivate var _timeStamp: Double!
     fileprivate var _messageLocation: String!
     
-    fileprivate var _senderDisplayName: String!
-    fileprivate var _recipientDisplayName: String!
+    fileprivate var _senderUserObj: NewUser!
+    fileprivate var _recipientuserObj: NewUser!
 
     var messageLocation: String {
         get{
@@ -36,29 +36,27 @@ class Message{
         }
     }
     
-    var senderDisplayName: String {
+    var senderUserObj: NewUser {
         get{
-            return _senderDisplayName
+            return _senderUserObj
         }
         
-        set(senderDisplayName){
+        set(senderUser){
             
-            if senderDisplayName != ""{
-                _senderDisplayName = senderDisplayName
-            }
+            _senderUserObj = senderUser
+            
         }
     }
     
-    var recipientDisplayName: String {
+    var recipientUserObj: NewUser {
         get{
-            return _recipientDisplayName
+            return _recipientuserObj
         }
         
-        set(recipientDisplayName){
+        set(recipientUser){
             
-            if recipientDisplayName != ""{
-                _recipientDisplayName = recipientDisplayName
-            }
+            _recipientuserObj = recipientUser
+            
         }
     }
     
@@ -143,21 +141,19 @@ class Message{
         
     }
     
-    init(messageType: String, messageData: String, senderUID: String, recipientUID: String, channelName: String, senderName: String, recName: String){
+    init(messageType: String, messageData: String, senderUID: String, recipientUID: String, channelName: String){
     
         self.messageType = messageType
         self.messageData = messageData
         self.senderUID = senderUID
         self.recipientUID = recipientUID
         self.channelName = channelName
-        self.senderDisplayName = senderName
-        self.recipientDisplayName = recName
         
     }
     
     func castMessage(_ uuid: String, onComplete: MessageCompletion?){
         
-        print("casted Message------")
+        //print("casted Message------")
         
         //Perhaps the message isnt finished uploading by the time the update happens
         
@@ -165,7 +161,7 @@ class Message{
             // Get user value
             let messageDict = snapshot.value as! [String : AnyObject]
             
-            print("snapshot Message------")
+            //print("snapshot Message------")
 
             if let type = messageDict[MESSAGE_TYPE] as? String{
                 self.messageType = type
@@ -197,13 +193,29 @@ class Message{
                     } else {
                         if self.messageType == MESSAGE_TEXT_TYPE{
                             self.messageData = String(data: data!, encoding: String.Encoding.utf8)!
-                            onComplete?(nil)
+                            
+                            self._senderUserObj = NewUser()
+                            self.senderUserObj.castUser(self.senderUID, onComplete: { (errMsg) in
+                                if errMsg == nil{
+                                
+                                    self._recipientuserObj = NewUser()
+                                    self.recipientUserObj.castUser(self.recipientUID, onComplete: { (errMsg) in
+                                        if errMsg == nil{
+                                            onComplete?(nil)
+                                        }
+                                    })
+                                    
+                                }
+                            })
+                            
                         }
                         
                     }
                 }
                 
             }
+            
+            
             
             
         }) { (error) in

@@ -26,15 +26,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var authListener: FIRAuthStateDidChangeListenerHandle!
     
+    var verifyCalled: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        //validateUserToken()
+        
+       // print("view controller called twice")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.navigationController?.isNavigationBarHidden = true
         
+       // print("validate called twice")
         validateUserToken()
         
     }
@@ -45,10 +51,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         authListener = FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             if let user = user {
                 // User is signed in.
-               print(user.uid)
+               //print(user.uid)
                let newUser = NewUser()
                newUser.castUser(user.uid, onComplete: { (errMsg) in
                     if errMsg == nil {
+                        print("login")
                         self.navigateToTabBarVC(newUser)
                     }else{
                         Messages.showAlertDialog("Error", msgAlert: errMsg)
@@ -62,7 +69,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-      //  FIRAuth.auth()?.removeAuthStateDidChangeListener(authListener)
+        FIRAuth.auth()?.removeStateDidChangeListener(authListener)
     }
     
     override func viewWillDisappear(_ animated: Bool){
@@ -125,22 +132,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func navigateToTabBarVC(_ user: NewUser?){
-    
-        if let userObj = user {
-            
-            if userObj.userType == USER_BUSINESS_TYPE{
-                self.performSegue(withIdentifier: "businessLogin", sender: nil)
-            }else {
-                
-                if userObj.phoneNumberVerified == "true"{
-                    self.performSegue(withIdentifier: "customerLogin", sender: nil)
+        
+        if !verifyCalled{
+            if let userObj = user {
+                verifyCalled = true
+                if userObj.userType == USER_BUSINESS_TYPE{
+                    self.performSegue(withIdentifier: "businessLogin", sender: nil)
                 }else {
-                    self.initiateVerificationProcess(userObj.phoneNumber)
+                    
+                    if userObj.phoneNumberVerified == "true"{
+                        print("login vc--------")
+                        self.performSegue(withIdentifier: "customerLogin", sender: nil)
+                        
+                    }else {
+                        self.initiateVerificationProcess(userObj.phoneNumber)
+                    }
+                    
                 }
-                
             }
         }
-        
     }
     
     func showAlertDialog(){
@@ -183,6 +193,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+       // print("segue called")
         
         if segue.identifier == "phoneNotVerified" {
             if let verifyVC = segue.destination as? VerifyPhoneNumberVC{

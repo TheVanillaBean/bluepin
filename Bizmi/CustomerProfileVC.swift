@@ -283,6 +283,11 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     @IBAction func logoutBtnPressed(_ sender: AnyObject) {
+        
+        FBDataService.instance.businessUserRef.removeAllObservers()
+        FBDataService.instance.businessFollowersRef.removeAllObservers()
+        FBDataService.instance.userChannelsRef.child(self.castedUser.uuid).removeAllObservers()
+
         try! FIRAuth.auth()!.signOut()
         self.performSegue(withIdentifier: "customerLoggedOut", sender: nil)
 

@@ -1,5 +1,5 @@
 //
-//  BusinessViewMessages.swift
+//  CustomerMessages.swift
 //  Bizmi
 //
 //  Created by Alex on 7/27/16.
@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
-class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
+class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -17,7 +18,7 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var tableView: UITableView!
     
     var lastMessage: Message!
-    
+        
     var castedUser: NewUser!
     
     override func viewDidLoad() {
@@ -31,32 +32,20 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
         //Create UniqueChannelMessages Array that holds Message Struct Items
         //Create allMessagesObject
         //Loop through all Messages from History and add Message to Array if it doesn’t exist in the array already
-        
+    
         
         self.tabBarController?.navigationItem.hidesBackButton = true
         let titleView = UIImageView(image: UIImage(named: "Nav_Img"))
         self.tabBarController?.navigationItem.titleView = titleView
         
-        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(BusinessViewMessagesVC.onNewReservationBtnPressed))
-        
-        self.tabBarController?.navigationItem.rightBarButtonItem = button
-        
         tableView.delegate = self
         tableView.dataSource = self
         
         castUser()
-        
+
         showActivityIndicator()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewMessagesVC.onChannelsRetrieved), name: NSNotification.Name(rawValue: "channelRetrieved"), object: nil)
-        
-    }
-    
-    func onNewReservationBtnPressed(){
-        
-        performSegue(withIdentifier: "NewReservationFromTab", sender: nil)
-        
-        print("pressed VC")
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomerViewMessageChannelsVC.onChannelsRetrieved), name: NSNotification.Name(rawValue: "channelRetrieved"), object: nil)
         
     }
     
@@ -82,7 +71,6 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
             }
         }
     }
-
     
     //Spinning indicator when loading request
     func showActivityIndicator() {
@@ -92,8 +80,7 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
     }
-    
-    
+ 
     //Setup Tableview
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -103,21 +90,19 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let channel = FBDataService.instance.allLastMessages[(indexPath as NSIndexPath).row]
-                
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessChannelsCell") as? BusinessMessageChannelsCell{
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "CustomerChannelsCell") as? CustomerMessageChannelsCell{
             
             cell.configureCell(channel)
             
             return cell
         }else {
             
-            let cell = BusinessMessageChannelsCell()
+            let cell = CustomerMessageChannelsCell()
             cell.configureCell(channel)
             
             return cell
         }
-        
-
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -131,52 +116,50 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
-        
+    
         lastMessage = FBDataService.instance.allLastMessages[indexPath.row]
-        performSegue(withIdentifier: "ViewMessageThreadFromBusiness", sender: nil)
+        performSegue(withIdentifier: "ViewMessageThreadFromCustomer", sender: nil)
         
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-       if segue.identifier != "NewReservationFromTab" {
-            let navVc = segue.destination as! UINavigationController
-            let messageVC = navVc.viewControllers.first as! ViewMessageThreadVC
-            
-            messageVC.mainChannelName = lastMessage.channelName
-            messageVC.currentUserID = castedUser.uuid
-            messageVC.currentUser = self.castedUser
-            
-            if castedUser.uuid == lastMessage.senderUID{ //Current User was last sender
-                
-                messageVC.senderId =  lastMessage.senderUID // 3
-                messageVC.senderDisplayName = lastMessage.senderUserObj.businessName // 4
-                messageVC.otherUserName = lastMessage.recipientUserObj.fullName
-                messageVC.otherUserID = lastMessage.recipientUID
-                messageVC.otherUserProfilePictureLocation = lastMessage.recipientUserObj.userProfilePicLocation
-                
-                
-            }else{ // Current User was not last sender in convo
-                
-                messageVC.senderId =  lastMessage.recipientUID // 3
-                messageVC.senderDisplayName = lastMessage.recipientUserObj.businessName // 4
-                messageVC.otherUserName = lastMessage.senderUserObj.fullName
-                messageVC.otherUserID = lastMessage.senderUID
-                messageVC.otherUserProfilePictureLocation = lastMessage.senderUserObj.userProfilePicLocation
-                
-            }
-        }
         
+        let navVc = segue.destination as! UINavigationController
+        let messageVC = navVc.viewControllers.first as! ViewMessageThreadVC
+
+        messageVC.mainChannelName = lastMessage.channelName
+        messageVC.currentUserID = castedUser.uuid
+        messageVC.currentUser = self.castedUser
+        
+        if castedUser.uuid == lastMessage.senderUID{ //Current User was last sender
+          
+            messageVC.senderId =  lastMessage.senderUID // 3
+            messageVC.senderDisplayName = lastMessage.senderUserObj.fullName // 4
+            messageVC.otherUserName = lastMessage.recipientUserObj.businessName
+            messageVC.otherUserID = lastMessage.recipientUID
+            messageVC.otherUserProfilePictureLocation = lastMessage.recipientUserObj.userProfilePicLocation
+            
+            
+        }else{ // Current User was not last sender in convo
+     
+            messageVC.senderId =  lastMessage.recipientUID // 3
+            messageVC.senderDisplayName = lastMessage.recipientUserObj.fullName // 4
+            messageVC.otherUserName = lastMessage.senderUserObj.businessName
+            messageVC.otherUserID = lastMessage.senderUID
+            messageVC.otherUserProfilePictureLocation = lastMessage.senderUserObj.userProfilePicLocation
+            
+        }
+
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        // print("\(castedUser.uuid) id------")
+       // print("\(castedUser.uuid) id------")
         //FBDataService.instance.userChannelsRef.child(castedUser.uuid).removeAllObservers()
         //FBDataService.instance._allLastMessages.removeAll()
         //FBDataService.instance._allChannelNames.removeAll()
-        // self.showActivityIndicator()
-        // self.tableView.reloadData()
+       // self.showActivityIndicator()
+       // self.tableView.reloadData()
     }
- 
-}
     
-
+}

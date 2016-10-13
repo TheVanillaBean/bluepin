@@ -15,7 +15,10 @@ import JSQMessagesViewController
 typealias DataCompletion = (_ errMsg: String?, _ data: AnyObject?) -> Void
 
 class FBDataService {
+    
     fileprivate static let _instance = FBDataService()
+    
+    //-----------------Database References------------------//
     
     static var instance: FBDataService {
         return _instance
@@ -57,6 +60,19 @@ class FBDataService {
         return mainRef.child(FIR_CHILD_MESSAGES)
     }
     
+    var userReservationsRef: FIRDatabaseReference {
+        return mainRef.child(FIR_CHILD_USER_RESERVATIONS)
+    }
+    
+    var reservationsRef: FIRDatabaseReference {
+        return mainRef.child(FIR_CHILD_RESERVATIONS)
+    }
+    
+    //-----------------Database References------------------//
+    
+
+    //-----------------Current User--------------------//
+
     var currentUser: FIRUser? {
         
         if let user = FIRAuth.auth()?.currentUser {
@@ -68,6 +84,13 @@ class FBDataService {
         }
         
     }
+    
+    //-----------------End Current User--------------------//
+    
+
+    
+    //-----------------Storage Refrences--------------------//
+
     
     var mainStorageRef: FIRStorageReference {
         return FIRStorage.storage().reference()
@@ -81,6 +104,10 @@ class FBDataService {
         return mainStorageRef.child(FIR_STORAGE_CHILD_MESSAGES)
     }
     
+    //-----------------End Storage Refrences--------------------//
+
+    //Used When Uploading Files
+    
     var _uploadProgress: Double?
     
     var uploadProgress: Double{
@@ -90,6 +117,7 @@ class FBDataService {
             return 0.0
         }
     }
+    
     
     var _allBusinesses: [String] = []
     
@@ -145,6 +173,37 @@ class FBDataService {
         return _allJSQMessagesInChat
     }
     
+    var _newJSQMessage: JSQMessage?
+    
+    var newJSQMessage: JSQMessage{
+        return _newJSQMessage!
+    }
+    
+    var _allReservationIDS: [String] = []
+    
+    var _allReservations: [Reservation] = []
+    
+    var allReservations: [Reservation]{
+        return _allReservations
+    }
+    
+    //-------------Firebase Observer Handlers-----------//
+    
+    var channelAddedHandler: FirebaseHandle!
+    var channelChangedHandler: FirebaseHandle!
+
+    var reservationAddedHandler: FirebaseHandle!
+    var reservationChangedHandler: FirebaseHandle!
+
+    //-------------End Firebase Observer Handlers-----------//
+
+    
+    var dataChanged: Bool = false
+    
+    //For Reservations
+    var appointmentLeaderID: String = "Select Customer"
+    var appointmentLeaderName: String!
+
     func saveUser(_ uid: String!, isCustomer: Bool?, propertes: Dictionary<String, AnyObject>, onComplete: DataCompletion?) {
         
         usersRef.child(uid).setValue(propertes)
@@ -222,7 +281,7 @@ class FBDataService {
     //Load Businesses
     func retriveAllBusinesses(onComplete: DataCompletion?) {
        
-        _ = businessUserRef.observe(FIRDataEventType.value, with: { (snapshot) in
+        _ = businessUserRef.observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
             let businessDict = snapshot.value as! [String : AnyObject]
 
             for businessObj in businessDict{
@@ -238,7 +297,7 @@ class FBDataService {
     //Load Followers
     func retriveAllFollowers(businessID: String, onComplete: DataCompletion?) {
         
-        _ = businessFollowersRef.child(businessID).observe(FIRDataEventType.value, with: { (snapshot) in
+        _ = businessFollowersRef.child(businessID).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
             
             let followersDict = snapshot.value as! [String : AnyObject]
             
@@ -257,33 +316,23 @@ class FBDataService {
     //Subscribe To Business
     func subscribeToBusiness(businessID: String, customerID: String, onComplete: DataCompletion?) {
         
-        print("sub to business ------------")
-        
         retrieveAllBusinessesFollowed(customerID: customerID) { (errMsg, data) in
             if errMsg == nil {
                 if self.allBusinessesFollowed.count > 0{
                     
-                    print("greather than 0----------------------")
-                
                     if self.isSubscribed(businessID: businessID){
                         self.businessFollowersRef.child(businessID).child(customerID).removeValue()
                         self.customerFollowersRef.child(customerID).child(businessID).removeValue()
                         onComplete?(nil, false as AnyObject?)
-                        print("true----------------------")
-
                     }else{
                         self.businessFollowersRef.child(businessID).child(customerID).setValue(FIRServerValue.timestamp())
                         self.customerFollowersRef.child(customerID).child(businessID).setValue(FIRServerValue.timestamp())
                         onComplete?(nil, true as AnyObject?)
-                        
-                        print("false----------------------")
-
                     }
                     
                     self._allBusinessesFollowed.removeAll()
 
                 }else{
-                    print("all businesses 0 when subscribing")
                     self.businessFollowersRef.child(businessID).child(customerID).setValue(FIRServerValue.timestamp())
                     self.customerFollowersRef.child(customerID).child(businessID).setValue(FIRServerValue.timestamp())
                     onComplete?(nil, true as AnyObject?)
@@ -381,8 +430,10 @@ class FBDataService {
                         let channelName = channelNameObj.key
                         self._allChannelNames.append(channelName)
                     }
-                    
+                   // print("channel name")
+                    //print(self.allChannelNames)
                     self.retrieveAllLastMessages(iterator: 0, onComplete: { (errMsg, data) in
+                        print("inside channel")
                         if errMsg == nil{
                             onComplete?(nil, nil)
                         }else{
@@ -430,6 +481,7 @@ class FBDataService {
                 }
             })
         }else{
+            print("\(self.allChannelNames.count) ----oncomplete")
             onComplete?(nil, nil)
         }
     }
@@ -455,7 +507,7 @@ class FBDataService {
                     
                     }
                     
-                print(self.allMessageIDSInChat)
+               // print(self.allMessageIDSInChat)
                     
                 self.convertMessageIDSToMessageModel(iterator: 0)
     
@@ -489,7 +541,7 @@ class FBDataService {
                 if errMsg == nil{
                     self._allMessagesInChat.append(message)
                     print(iterator)
-                    print(message.messageData)
+                    //print(message.messageData)
                     self.convertMessageIDSToMessageModel(iterator: iterator + 1)
                 }else{
                     self.onMessagesConverted(errMsg: "Error finding messages...")
@@ -535,13 +587,40 @@ class FBDataService {
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "chatMessagesRecieved"), object: notifDict))
             
             print("-no error convert messages --")
-            print(self.allJSQMessagesInChat)
+            //print(self.allJSQMessagesInChat)
         }else{
             let notifDict: Dictionary<String, AnyObject?> = ["errMsg": "there was an error" as Optional<AnyObject>, "data": nil]
             
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "chatMessagesRecieved"), object: notifDict))
         }
     }
+    
+    func convertLastMessageToMessageModel(channelName: String, onComplete: DataCompletion?){
+        
+        self._allChannelNames.append(channelName)
+        
+        _ = channelsRef.child(channelName).queryLimited(toLast: 1).observeSingleEvent(of: .childAdded, with: { (snapshot) in
+            if snapshot.value != nil{
+                
+                let messageID = snapshot.key
+        
+                let message = Message()
+                message.castMessage(messageID, onComplete: { (errMsg) in
+                    if errMsg == nil{
+                        self._allLastMessages.append(message)
+                        onComplete?(nil, nil)
+                    }else{
+                        print("error updaating list")
+                    }
+                })
+            
+            }else{
+                onComplete?("No Messages for User", nil)
+            }
+        })
+        
+    }
+
     
     func convertMessageIDToMessageModel(messageID: String, onComplete: DataCompletion?){
         
@@ -550,7 +629,7 @@ class FBDataService {
         //Peraps you could just append the message to allIDS and then create a recursive function that will iterator over all the messages 
         //kinda like puting a hold to the cycle and slowing it down like a funle
 
-        print("new message -----\(messageID)")
+        //print("new message -----\(messageID)")
         
         let message = Message()
         message.castMessage(messageID, onComplete: { (errMsg) in
@@ -558,7 +637,7 @@ class FBDataService {
                 FBDataService.instance._allMessagesInChat.append(message)
                 FBDataService.instance._allJSQMessagesInChat.append(self.convertMessageToJSQMessage(message: message))
                 //self.organizeMessages()
-                print("\(message.messageData) ----\(messageID)")
+               // print("\(message.messageData) ----\(messageID)")
 //                for message in FBDataService.instance._allJSQMessagesInChat{
 //                    print(message.text)
 //                }
@@ -567,12 +646,44 @@ class FBDataService {
                 
                // NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "newChatMessageConverted"), object: nil))
                 
+                self._newJSQMessage = self.convertMessageToJSQMessage(message: message)
+                
                 onComplete?(nil, nil)
                 
             }else{
                 print("error updaating list")
             }
         })
+        
+    }
+    
+    func castMessageID(messageID: String, onComplete: DataCompletion?){
+    
+        let message = Message()
+        message.castMessage(messageID, onComplete: { (errMsg) in
+            if errMsg == nil{
+                FBDataService.instance._allMessagesInChat.append(message)
+                FBDataService.instance._allJSQMessagesInChat.append(self.convertMessageToJSQMessage(message: message))
+                //self.organizeMessages()
+                //print("\(message.messageData) ----\(messageID)")
+                //                for message in FBDataService.instance._allJSQMessagesInChat{
+                //                    print(message.text)
+                //                }
+                
+                //self.organizeMessages()
+                
+                // NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "newChatMessageConverted"), object: nil))
+                
+                self._newJSQMessage = self.convertMessageToJSQMessage(message: message)
+                
+                onComplete?(nil, nil)
+                
+            }else{
+                print("error updaating list")
+            }
+        })
+        
+
         
     }
     
@@ -584,6 +695,85 @@ class FBDataService {
         return newJSQMessage!
         
     }
+    
+    
+    func observeChannelsAddedForUser(_ uuid: String!){
+    
+        self.channelAddedHandler = self.userChannelsRef.child(uuid).observe(FIRDataEventType.childAdded, with: { (snapshot) in
+            if snapshot.value != nil{
+                
+                let channelName = snapshot.key
+                FBDataService.instance.convertLastMessageToMessageModel(channelName: channelName, onComplete: { (errMsg, data) in
+                    print("loaded -------added")
+                    NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "channelRetrieved"), object: nil))
+                })
+            }
+        })
 
+    }
+    
+    
+    func observeChannelsChangedForUser(_ uuid: String!){
+        
+        self.channelChangedHandler = self.userChannelsRef.child(uuid).observe(FIRDataEventType.childChanged, with: { (snapshot) in
+            if snapshot.value != nil{
+                
+                if !self.dataChanged{
+                    self.dataChanged = true
+                    let channelName = snapshot.key
+                    
+                    self._allChannelNames = self._allChannelNames.filter { $0 != channelName }
+                    self._allLastMessages = self._allLastMessages.filter { $0.channelName != channelName }
+
+                    print("\(self.allChannelNames) ----------channelNames")
+                    FBDataService.instance.convertLastMessageToMessageModel(channelName: channelName, onComplete: { (errMsg, data) in
+                        print("loaded")
+                        print(self._allChannelNames)
+                        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "channelRetrieved"), object: nil))
+                    })
+                }else{
+                    self.dataChanged = false
+                }
+            }
+        })
+        
+    }
+    
+    func convertReservationIDToModel(_ reservationID: String, onComplete: DataCompletion?){
+        
+        self._allReservationIDS.append(reservationID)
+        
+        let reservation = Reservation()
+        reservation.castReservation(reservationID) { (errMsg) in
+            if errMsg == nil{
+                self._allReservations.append(reservation)
+                onComplete?(nil, nil)
+            }else{
+                print("error updaating list")
+            }
+        }
+        
+        
+    }
+    
+    func observeReservationsAddedForUser(_ uuid: String!){
+        
+        self.reservationAddedHandler = self.userReservationsRef.child(uuid).observe(FIRDataEventType.childAdded, with: { (snapshot) in
+            if snapshot.value != nil{
+                
+                let reservationID = snapshot.key
+                self.convertReservationIDToModel(reservationID, onComplete: { (errMsg, data) in
+                    if errMsg == nil{
+                        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "reservationRetrieved"), object: nil))
+                    }
+                })
+               
+            }
+        })
+        
+    }
+    
+    
+    
     
 }

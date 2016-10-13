@@ -53,12 +53,9 @@ class ViewFollowersCell: UITableViewCell {
             
         }
 
-
     }
     
- 
 
-    
     func loadProfilePic(){
         
         if castedUser.userProfilePicLocation != "" {

@@ -209,10 +209,10 @@
                         <outlet property="scrollView" destination="yML-LP-tcx" id="Lrs-4N-i02"/>
                         <segue destination="gp4-cn-0RD" kind="show" identifier="businessSignUp" id="wjQ-8U-OVX"/>
                         <segue destination="Vw4-2y-9GI" kind="show" identifier="customerSignUp" id="Eo5-wU-uVk"/>
-                        <segue destination="VfL-zT-dk7" kind="show" identifier="businessLogin" id="eTq-fk-HST"/>
                         <segue destination="6qH-9c-EPt" kind="show" identifier="customerLogin" id="BNX-ez-XnG"/>
                         <segue destination="HFK-N6-VuZ" kind="show" identifier="forgotPassword" id="4kh-DY-HhY"/>
                         <segue destination="T0f-PA-Fo3" kind="show" identifier="phoneNotVerified" id="LO6-Gd-Omv"/>
+                        <segue destination="VfL-zT-dk7" kind="show" identifier="businessLogin" id="aFy-Kg-L8m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -589,7 +589,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessChannelsCell" rowHeight="100" id="GcD-Yl-Sgw" customClass="BusinessMessageChannelsCell" customModule="Bizmi" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="100"/>
+                                        <rect key="frame" x="0.0" y="92" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GcD-Yl-Sgw" id="ayM-F2-JKy">
                                             <frame key="frameInset" width="600" height="100"/>
@@ -843,7 +843,7 @@
             <objects>
                 <navigationController storyboardIdentifier="InitialNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="iRc-sB-ktC" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="UfG-7J-otQ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="UfG-7J-otQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -902,7 +902,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="viewFollowersCell" rowHeight="100" id="Eay-E0-kLC" customClass="ViewFollowersCell" customModule="Bizmi" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="100"/>
+                                        <rect key="frame" x="0.0" y="92" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eay-E0-kLC" id="frj-Ui-d1A">
                                             <frame key="frameInset" width="600" height="100"/>
@@ -1213,7 +1213,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessReservationCell" rowHeight="100" id="Rsn-h9-2sg" customClass="BusinessReservationCell" customModule="Bizmi" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="100"/>
+                                        <rect key="frame" x="0.0" y="92" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rsn-h9-2sg" id="jRY-jy-auH">
                                             <frame key="frameInset" width="600" height="100"/>
@@ -1634,8 +1634,7 @@
                                 <frame key="frameInset" minY="240" width="600" height="311"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="6mS-Rw-85R">
-                                <frame key="frameInset" minY="240" width="375" height="471"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="6mS-Rw-85R">
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   My Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="007-4w-8II">
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1892,7 +1891,7 @@
         <!--Messages-->
         <scene sceneID="1jf-3L-Xgj">
             <objects>
-                <viewController storyboardIdentifier="CustomerMessagesVC" id="Jhl-c6-lBE" customClass="CustomerViewMessagesVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CustomerViewMessageChannelsVC" id="Jhl-c6-lBE" customClass="CustomerViewMessageChannelsVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hQH-ey-R9O"/>
                         <viewControllerLayoutGuide type="bottom" id="HJb-fv-p9Q"/>
@@ -1906,7 +1905,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomerChannelsCell" rowHeight="100" id="Ijb-Ha-x11" customClass="CustomerMessageChannelsCell" customModule="Bizmi" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="100"/>
+                                        <rect key="frame" x="0.0" y="92" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ijb-Ha-x11" id="qw9-wb-4gw">
                                             <frame key="frameInset" width="600" height="100"/>
@@ -2704,7 +2703,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReservationCell" rowHeight="100" id="qhS-XF-uzY" customClass="CustomerReservationCell" customModule="Bizmi" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="100"/>
+                                        <rect key="frame" x="0.0" y="92" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qhS-XF-uzY" id="mdG-J2-abd">
                                             <frame key="frameInset" width="600" height="100"/>
@@ -2860,8 +2859,7 @@
                                 <frame key="frameInset" minY="240" width="600" height="311"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="l6q-LF-5sy">
-                                <frame key="frameInset" minY="240" width="375" height="471"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="l6q-LF-5sy">
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   My Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bcL-RL-jwb">
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3077,11 +3075,11 @@
         <image name="Website_Blue" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Oao-ec-MQi"/>
-        <segue reference="30D-hv-PDd"/>
         <segue reference="BNX-ez-XnG"/>
-        <segue reference="rmP-4e-Kox"/>
-        <segue reference="7tV-Ep-cNg"/>
-        <segue reference="FGg-yl-dWi"/>
+        <segue reference="cGt-Dy-qoS"/>
+        <segue reference="aFy-Kg-L8m"/>
+        <segue reference="jHS-lt-QyH"/>
+        <segue reference="K5r-g0-qDs"/>
+        <segue reference="LO6-Gd-Omv"/>
     </inferredMetricsTieBreakers>
 </document>

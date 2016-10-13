@@ -12,18 +12,20 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
 
     @IBOutlet weak var tableView: UITableView!
    
-//    var customer: BackendlessUser!
+    var customerID: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
-//        
-//        DataService.instance.clearAllFollowers()
-//        DataService.instance.loadAllFollowers()
-//        
-//        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewCustomersVC.onFollowersLoaded), name: NSNotification.Name(rawValue: "allFollowersLoaded"), object: nil)
+        
+        FBDataService.instance.retriveAllFollowers(businessID: (FBDataService.instance.currentUser?.uid)!) { (errMsg, data) in
+            if errMsg == nil{
+                self.tableView.reloadData()
+            }
+        }
+
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -32,20 +34,21 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-//        let user = DataService.instance.allFollowers[(indexPath as NSIndexPath).row]
-//        
-//        if let cell = tableView.dequeueReusableCell(withIdentifier: "ChooseFollowerCell") as? ChoosePartyLeaderCell{
-//            
-//            cell.configureCell(user)
-//            
-//            return cell
-//        }else {
-//            
-//            let cell = ViewFollowersCell()
-//            cell.configureCell(user)
+        let follower = FBDataService.instance.allFollowers[(indexPath as NSIndexPath).row]
+        let timestamp: Double = FBDataService.instance.allFollowersTime[(indexPath as NSIndexPath).row]
         
-            return ViewFollowersCell()
-      //  }
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "ChooseFollowerCell") as? ChoosePartyLeaderCell{
+            
+            cell.configureCell(follower, timestamp: timestamp)
+            
+            return cell
+        }else {
+            
+            let cell = ViewFollowersCell()
+            cell.configureCell(follower, timestamp: timestamp)
+        
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -53,43 +56,25 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return DataService.instance.allFollowers.count
-        return 0
+        return FBDataService.instance.allFollowers.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-//        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
-//        
-//        customer = DataService.instance.allFollowers[indexPath.row]
-//        
-//        let user = User()
-//        user.populateUserData(customer)
-//        
-//        DataService.instance.appointmentLeaderName = user.fullName
-//        DataService.instance.appointmentLeaderID = user.userObjectID
-//        
-//        self.navigationController?.popViewController(animated: true)
+        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
+        
+        customerID = FBDataService.instance.allFollowers[indexPath.row]
+        
+        let castedUser = NewUser()
+        castedUser.castUser(customerID) { (errMsg) in
+            if errMsg == nil{
+                FBDataService.instance.appointmentLeaderName = castedUser.fullName
+                FBDataService.instance.appointmentLeaderID = self.customerID
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+        
     }
-    
-    func onFollowersLoaded(){
-        tableView.reloadData()
-    }
-    
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if segue.identifier == "GoBackToNewReservationVC" {
-//            if let newReservationVC = segue.destinationViewController as? NewReservationVC{
-//                if let customer = sender as? User {
-//                    newReservationVC.customerName = customer.fullName
-//                    newReservationVC.customerID = customer.userObjectID
-//                    
-//                    var navArray:Array = (self.navigationController?.viewControllers)!
-//                    navArray.removeAtIndex(navArray.count-2)
-//                    self.navigationController?.viewControllers = navArray
-//                }
-//            }
-//            
-//        }
-//    }
+
     
 }

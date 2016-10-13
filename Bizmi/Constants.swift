@@ -26,6 +26,8 @@ let USER_BUSINESS_TYPE: String = "Business"
 let USER_CUSTOMER_TYPE: String = "Customer"
 
 //KEYS
+
+//Users
 let UUID: String = "uuid"
 let EMAIL: String = "email"
 let USER_TYPE: String = "userType"
@@ -41,6 +43,8 @@ let BUSINESS_HOURS: String = "businessHours"
 let BUSINESS_LOCATION: String = "businessLocation"
 let PROFILE_PIC_LOCATION: String = "userProfilePicLocation"
 
+//Messages
+
 let MESSAGE_TYPE: String = "messageType"
 let MESSAGE_LOCATION: String = "messageLocation"
 let MESSAGE_DATA: String = "messageData"
@@ -53,6 +57,19 @@ let MESSAGE_SENDER_NAME: String = "senderName"
 
 let MESSAGE_TEXT_TYPE: String = "type/text"
 
+//Reservations
+let RESERVATION_UID = "uuid"
+let RESERVATION_STATUS = "status"
+let RESERVATION_TIMESTAMP = "timestamp"
+let RESERVATION_SIZE = "partySize"
+let RESERVATION_SCHEDULED_TIME = "scheduledTime"
+let RESERVATION_PARTY_LEADER_ID = "leaderID"
+let RESERVATION_BUSINESS_ID = "businessID"
+
+let PENDING_STATUS = "pending"
+let ACTIVE_STATUS = "active"
+let INACTIVE_STATUS = "inactive"
+let DECLINED_STATUS = "declined"
 
 //CHILD NODES
 let FIR_CHILD_USERS = "Users"
@@ -65,8 +82,7 @@ let FIR_CHILD_RESERVATIONS = "Reservations"
 
 let FIR_CHILD_CUSTOMER_FOLLOWERS = "Customer-Followers"
 let FIR_CHILD_BUSINESS_FOLLOWERS = "Business-Followers"
-let FIR_CHILD_CUSTOMER_RESERVATIONS = "Customer-Reservations"
-let FIR_CHILD_BUSINESS_RESERVATIONS = "Business-Reservations"
+let FIR_CHILD_USER_RESERVATIONS = "User-Reservations"
 
 
 //STORAGE NODES

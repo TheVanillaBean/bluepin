@@ -8,6 +8,7 @@
 
 import UIKit
 import TTTAttributedLabel
+import FirebaseStorage
 
 class ChoosePartyLeaderCell: UITableViewCell {
     
@@ -17,7 +18,7 @@ class ChoosePartyLeaderCell: UITableViewCell {
     
     @IBOutlet weak var followingDate: TTTAttributedLabel!
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var castedUser: NewUser!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,32 +28,57 @@ class ChoosePartyLeaderCell: UITableViewCell {
         
         nameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
         followingDate.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
+    
+    }
+    
+    func configureCell(_ uuid: String, timestamp: Double){
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(ChoosePartyLeaderCell.onFollowingDateRetrieved), name: NSNotification.Name(rawValue: "subscriptionStatus"), object: nil)
+        //Casting
+        castedUser = NewUser()
+        castedUser.castUser(uuid) { (errMsg) in
+            print("Alex: \(uuid)")
+            
+            self.nameLbl.text = self.castedUser.fullName
+            
+            let date = NSDate(timeIntervalSince1970: timestamp/1000)
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM dd yyyy "
+            let dateString = dateFormatter.string(from: date as Date)
+            
+            self.followingDate.text = "Follower since: \(dateString)"
+            
+            self.loadProfilePic()
+            
+        }
         
     }
-//    
-//    func configureCell(_ user: User){
-//        
-//        let URL = Foundation.URL(string: "\(user.userProfilePicLocation)")!
-//        let placeholderImage = UIImage(named: "Placeholder")!
-//        
-//        //TODO: Change Cell from stack view to basic autolayout
-//        
-//        profileImg.af_setImageWithURL(URL, placeholderImage: placeholderImage)
-//        nameLbl.text = user.fullName
-//        
-//        let currentUser = appDelegate.backendless.userService.currentUser
-//        DataService.instance.findCustomerSubscriptionStatus(user.userObjectID, To: currentUser.objectId)
-//    }
-//    
-//    func onFollowingDateRetrieved(_ notification: Notification){
-//        
-//        if let responseDict = notification.object as? [String:AnyObject] {
-//            if let date = responseDict["date"] as? String {
-//                self.followingDate.text = "Follower Since \(date)"
-//            }
-//        }
-//    }
+    
+    
+    func loadProfilePic(){
+        
+        if castedUser.userProfilePicLocation != "" {
+            
+            let ref = FIRStorage.storage().reference(forURL: castedUser.userProfilePicLocation)
+            ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
+                if error != nil {
+                    print("Unable to download image from Firebase storage")
+                    print(error)
+                    let placeholderImage = UIImage(named: "Placeholder")!
+                    self.profileImg.image = placeholderImage
+                } else {
+                    print("Image downloaded from Firebase storage")
+                    if let imgData = data {
+                        if let img = UIImage(data: imgData) {
+                            self.profileImg.image = img
+                        }
+                    }
+                }
+            })
+        }
+        print(castedUser.userProfilePicLocation)
+        
+    }
+    
     
 }

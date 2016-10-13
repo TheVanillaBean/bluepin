@@ -8,6 +8,7 @@
 
 import UIKit
 import AlamofireImage
+import FirebaseStorage
 import TTTAttributedLabel
 
 class BusinessMessageChannelsCell: UITableViewCell {
@@ -31,29 +32,59 @@ class BusinessMessageChannelsCell: UITableViewCell {
 
     }
     
-//    func configureCell(_ message: MessageItem){
+    func configureCell(_ message: Message){
         
-//        let currentUser = appDelegate.backendless.userService.currentUser
-//        let user = User()
-//        user.populateUserData(currentUser)
-//        
-//        let placeholderImage = UIImage(named: "Placeholder")!
-//        lastMessageLbl.text = message.message
-//        
-//        if user.userObjectID == message.uuid{ //Current User was last sender
-//            
-//            let URL = Foundation.URL(string: "\(message.recipientProfilePictureLocation)")!
-//            
-//            businessProfilePic.af_setImageWithURL(URL, placeholderImage: placeholderImage)
-//            businessNameLbl.text = message.recipientDisplayName
-//            
-//        }else{ // Current User was not last sender in convo
-//            let URL = Foundation.URL(string: "\(message.senderProfilePictureLocation)")!
-//            
-//            businessProfilePic.af_setImageWithURL(URL, placeholderImage: placeholderImage)
-//            businessNameLbl.text = message.senderDisplayName
-//        }
+        //let placeholderImage = UIImage(named: "Placeholder")!
+        lastMessageLbl.text = message.messageData
         
- //   }
+        if FBDataService.instance.currentUser?.uid == message.senderUID{ //Current User was last sender
+            
+            self.loadUserDisplayName(message.recipientUID)
+            
+        }else{ // Current User was not last sender in convo
+            self.loadUserDisplayName(message.senderUID)
+        }
+        
+    }
+    
+    func loadUserDisplayName(_ uid: String!){
+        let user = NewUser()
+        user.castUser(uid) { (errMsg) in
+            if errMsg == nil{
+                
+                if user.userType == "Business"{
+                    self.businessNameLbl.text = user.businessName
+                }else{
+                    self.businessNameLbl.text = user.fullName
+                }
+                
+                self.loadProfilePic(location: user.userProfilePicLocation)
+                
+            }else{
+                self.businessNameLbl.text = "No User Name to Display..."
+            }
+        }
+    }
+    
+    func loadProfilePic(location: String!){
+        
+        let ref = FIRStorage.storage().reference(forURL: location)
+        ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
+            if error != nil {
+                print("Unable to download image from Firebase storage")
+                print(error)
+                let placeholderImage = UIImage(named: "Placeholder")!
+                self.businessProfilePic.image = placeholderImage
+            } else {
+                print("Image downloaded from Firebase storage")
+                if let imgData = data {
+                    if let img = UIImage(data: imgData) {
+                        self.businessProfilePic.image = img
+                    }
+                }
+            }
+        })
+        
+    }
     
 }
