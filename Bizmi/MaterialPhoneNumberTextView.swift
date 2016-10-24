@@ -20,12 +20,10 @@ class MaterialPhoneNumberTextView: PhoneNumberTextField {
         
     }
     
-    //For Placholder
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.insetBy(dx: 10, dy: 0)
     }
     
-    //For Editable Text
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.insetBy(dx: 10, dy: 0)
     }

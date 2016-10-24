@@ -23,17 +23,7 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //print("called to many times")
-        
-        //Subscribe To Channel with ID equaivalent to currentUserID
-        //Get message History From Newest to Oldest of user B Messages
-        
-        //Create UniqueChannelMessages Array that holds Message Struct Items
-        //Create allMessagesObject
-        //Loop through all Messages from History and add Message to Array if it doesn’t exist in the array already
-        
-        
+   
         self.tabBarController?.navigationItem.hidesBackButton = true
         let titleView = UIImageView(image: UIImage(named: "Nav_Img"))
         self.tabBarController?.navigationItem.titleView = titleView
@@ -70,9 +60,7 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
     }
     
     func onNewReservationBtnPressed(){
-        
         performSegue(withIdentifier: "NewReservationFromTab", sender: nil)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,8 +85,6 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
         }
     }
 
-    
-    //Spinning indicator when loading request
     func showActivityIndicator() {
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -107,9 +93,7 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
         activityIndicator.startAnimating()
     }
     
-    
-    //Setup Tableview
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -144,7 +128,7 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
+        tableView.deselectRow(at: indexPath, animated: true)
         
         lastMessage = FBDataService.instance.allLastMessages[ FBDataService.instance.allChannelNames[(indexPath as NSIndexPath).row] ]
         performSegue(withIdentifier: "ViewMessageThreadFromBusiness", sender: nil)
@@ -160,19 +144,19 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
             messageVC.currentUserID = castedUser.uuid
             messageVC.currentUser = self.castedUser
             
-            if castedUser.uuid == lastMessage.senderUID{ //Current User was last sender
+            if castedUser.uuid == lastMessage.senderUID{
                 
-                messageVC.senderId =  lastMessage.senderUID // 3
-                messageVC.senderDisplayName = lastMessage.senderUserObj.businessName // 4
+                messageVC.senderId =  lastMessage.senderUID
+                messageVC.senderDisplayName = lastMessage.senderUserObj.businessName
                 messageVC.otherUserName = lastMessage.recipientUserObj.fullName
                 messageVC.otherUserID = lastMessage.recipientUID
                 messageVC.otherUserProfilePictureLocation = lastMessage.recipientUserObj.userProfilePicLocation
                 
                 
-            }else{ // Current User was not last sender in convo
+            }else{
                 
-                messageVC.senderId =  lastMessage.recipientUID // 3
-                messageVC.senderDisplayName = lastMessage.recipientUserObj.businessName // 4
+                messageVC.senderId =  lastMessage.recipientUID
+                messageVC.senderDisplayName = lastMessage.recipientUserObj.businessName
                 messageVC.otherUserName = lastMessage.senderUserObj.fullName
                 messageVC.otherUserID = lastMessage.senderUID
                 messageVC.otherUserProfilePictureLocation = lastMessage.senderUserObj.userProfilePicLocation

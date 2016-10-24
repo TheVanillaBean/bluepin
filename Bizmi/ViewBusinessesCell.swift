@@ -41,20 +41,14 @@ class ViewBusinessesCell: UITableViewCell {
     
     func configureCell(_ uuid: String){
         
-        //Casting
         self.geoFire = GeoFire(firebaseRef: FBDataService.instance.usersRef.child(uuid))
         
         castedUser = NewUser()
         castedUser.castUser(uuid) { (errMsg) in
-            print("Alex: \(uuid)")
             
             self.geoFire.getLocationForKey(BUSINESS_LOCATION, withCallback: { (loc, error) in
-                if (error != nil) {
-                    print("Error")
-                }else if (loc != nil) {
+                if (error == nil) {
                     self.reverseGeoLocate(loc!)
-                } else {
-                   print("no loc")
                 }
             })
             
@@ -74,12 +68,9 @@ class ViewBusinessesCell: UITableViewCell {
             let ref = FIRStorage.storage().reference(forURL: castedUser.userProfilePicLocation)
             ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
-                    print("Unable to download image from Firebase storage")
-                    print(error)
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.businessBGImage.image = placeholderImage
                 } else {
-                    print("Image downloaded from Firebase storage")
                     if let imgData = data {
                         if let img = UIImage(data: imgData) {
                             self.businessBGImage.image = img
@@ -106,8 +97,6 @@ class ViewBusinessesCell: UITableViewCell {
                         self.businessLocationLbl.text = "\(locality)"
                     }
                     
-                }else {
-                    print("there was an error no location")
                 }
                 
             })

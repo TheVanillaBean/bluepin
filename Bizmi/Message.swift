@@ -183,15 +183,13 @@ class Message{
     
     func castMessage(_ uuid: String, onComplete: MessageCompletion?){
         
-        //print("casted Message------")
-        
-        //Perhaps the message isnt finished uploading by the time the update happens
-        
         FBDataService.instance.messagesRef.child(uuid).observeSingleEvent(of: .value, with: { (snapshot) in
-            // Get user value
-            let messageDict = snapshot.value as! [String : AnyObject]
+
+            guard snapshot.exists() else{
+                return
+            }
             
-            //print("snapshot Message------")
+            let messageDict = snapshot.value as! [String : AnyObject]
             
             if let id = messageDict[MESSAGE_UID] as? String{
                 print(id)
@@ -231,7 +229,7 @@ class Message{
                 
                 FBDataService.instance.messagesStorageRef.child(loc).data(withMaxSize: 10 * 1024 * 1024) { (data, error) -> Void in
                     if (error != nil) {
-                        // Uh-oh, an error occurred!
+                        onComplete?(error?.localizedDescription)
                     } else {
                         if self.messageType == MESSAGE_TEXT_TYPE{
                             self.messageData = String(data: data!, encoding: String.Encoding.utf8)!
@@ -260,16 +258,11 @@ class Message{
             
             
             
-        }) { (error) in
-            
-            print(error.localizedDescription)
-            
+        }){ (error) in
             onComplete?(error.localizedDescription)
-            
         }
         
     }
-    
 }
 
 

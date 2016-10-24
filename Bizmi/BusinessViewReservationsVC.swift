@@ -57,8 +57,6 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
         return NSAttributedString(string: str, attributes: attrs)
     }
     
-    //Setup Tableview
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

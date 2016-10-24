@@ -29,7 +29,6 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    //Sinch Phone # Verification
     var verification: Verification!;
     
     override func viewDidLoad() {
@@ -44,7 +43,6 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        // -64 because the height of the navigation bar and status bar equals 64 units -- This is the true (0,0)
         scrollView.setContentOffset(CGPoint(x: 0, y: -64), animated: true)
     }
     
@@ -60,7 +58,6 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
         
         if device.isPhone {
             
-            //Only apply smart scrolling to iphone 4 and iphone 5 because they are smaller
             if device.isOneOf(groupOfAllowedDevices) {
                 
                 if textField == passwordTextField || textField == phoneNumberTextField {
@@ -121,7 +118,6 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
                 Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error.debugDescription))
             }
         }
-        
 
     }
     
@@ -165,9 +161,7 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
                 verifyVC.verification = self.verification
             }
         }
-        
     }
-
     
     @IBAction func termsBtnPressed(_ sender: AnyObject) {
         Hotline.sharedInstance().showFAQs(self)

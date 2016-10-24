@@ -24,7 +24,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    //Sinch Phone # Verification
     var verification: Verification!
     
     var authListener: FIRAuthStateDidChangeListenerHandle!
@@ -33,22 +32,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        //validateUserToken()
-        
-       // print("view controller called twice")
-       // FIRMessaging.messaging().subscribe(toTopic: "/topics/user")
-
-
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.navigationController?.isNavigationBarHidden = true
-        
-       // print("validate called twice")
-          validateUserToken()
-        
+        validateUserToken()
     }
   
     
@@ -57,12 +47,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         authListener = FIRAuth.auth()?.addStateDidChangeListener { auth, user in
             
             if let user = user {
-                // User is signed in.
                print(user.uid)
                let newUser = NewUser()
                newUser.castUser(user.uid, onComplete: { (errMsg) in
                     if errMsg == nil {
-                        print("login")
                         self.navigateToTabBarVC(newUser)
                     }else{
                         Messages.showAlertDialog("Error", msgAlert: errMsg)
@@ -128,7 +116,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         })
                     }
                 }else{
-                    Messages.showAlertDialog("Error", msgAlert: "There was an error authenticating")
+                    Messages.showAlertDialog("Error", msgAlert: errMsg)
                 }
             })
         
@@ -165,10 +153,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func showAlertDialog(){
     
-        // Initialize Alert Controller
         let alertController = UIAlertController(title: "New User", message: "What type of user are you?", preferredStyle: .alert)
         
-        // Initialize Actions
         let yesAction = UIAlertAction(title: "Business", style: .default) { (action) -> Void in
             self.performSegue(withIdentifier: "businessSignUp", sender: nil)
         }
@@ -177,11 +163,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.performSegue(withIdentifier: "customerSignUp", sender: nil)
         }
         
-        // Add Actions
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
         
-        // Present Alert Controller
         self.present(alertController, animated: true, completion: nil)
         
     }
@@ -203,9 +187,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-       // print("segue called")
-        
+                
         if segue.identifier == "phoneNotVerified" {
             if let verifyVC = segue.destination as? VerifyPhoneNumberVC{
                 verifyVC.verification = self.verification

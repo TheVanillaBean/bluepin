@@ -30,7 +30,6 @@ class CustomerViewBusinessesVC: UIViewController, UITableViewDelegate, UITableVi
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing Data ...", attributes: nil)
         refreshControl.addTarget(self, action: #selector(CustomerViewBusinessesVC.refresh(sender:)), for: .valueChanged)
         
-        // Add to Table View
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
         } else {
@@ -93,7 +92,7 @@ class CustomerViewBusinessesVC: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
+        tableView.deselectRow(at: indexPath, animated: true)
         
         let business = FBDataService.instance.allBusinesses[(indexPath as NSIndexPath).row]
         

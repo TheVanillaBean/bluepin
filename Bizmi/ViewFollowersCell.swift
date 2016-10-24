@@ -28,16 +28,12 @@ class ViewFollowersCell: UITableViewCell {
         nameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
         followingDate.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
 
-        
     }
     
     func configureCell(_ uuid: String, timestamp: Double){
         
-        
-        //Casting
         castedUser = NewUser()
         castedUser.castUser(uuid) { (errMsg) in
-            print("Alex: \(uuid)")
             
             self.nameLbl.text = self.castedUser.fullName
             
@@ -63,12 +59,9 @@ class ViewFollowersCell: UITableViewCell {
             let ref = FIRStorage.storage().reference(forURL: castedUser.userProfilePicLocation)
             ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
-                    print("Unable to download image from Firebase storage")
-                    print(error)
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.profileImg.image = placeholderImage
                 } else {
-                    print("Image downloaded from Firebase storage")
                     if let imgData = data {
                         if let img = UIImage(data: imgData) {
                             self.profileImg.image = img
@@ -77,8 +70,6 @@ class ViewFollowersCell: UITableViewCell {
                 }
             })
         }
-        print(castedUser.userProfilePicLocation)
-        
     }
     
    

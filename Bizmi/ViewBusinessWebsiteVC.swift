@@ -39,10 +39,8 @@ class ViewBusinessWebsiteVC: UIViewController {
         webView.frame = frame
 
         if let urlString = URL, let url = Foundation.URL(string: urlString) , UIApplication.shared.canOpenURL(url) {
-            print(urlString)
             let request = URLRequest(url: url)
             webView.load(request)
-            
         }else{
             Messages.displayToastMessage(self.view, msg: "Cannot Display Webpage...")
         }
@@ -50,8 +48,6 @@ class ViewBusinessWebsiteVC: UIViewController {
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
-        
-        print("default")
         
         return UIStatusBarStyle.default
        
@@ -62,9 +58,5 @@ class ViewBusinessWebsiteVC: UIViewController {
         self.dismiss(animated: true, completion: nil)
         
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
+  
 }

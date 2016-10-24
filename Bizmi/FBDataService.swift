@@ -236,11 +236,8 @@ class FBDataService {
         
         FIRAuth.auth()?.sendPasswordReset(withEmail: email) { error in
             if let error = error {
-                // An error happened.
                 onComplete?("An error occured... \(error)", nil)
-
             } else {
-                // Password reset email sent.
                 onComplete?(nil, nil)
             }
         }
@@ -253,9 +250,7 @@ class FBDataService {
         
         user?.updateEmail(email) { error in
             if let error = error {
-                
                 onComplete?(error.localizedDescription, nil)
-                
             } else {
                 onComplete?(nil, nil)
             }
@@ -263,42 +258,14 @@ class FBDataService {
         
     }
     
-    
-    func handleFirebaseError(_ error: NSError, onComplete: DataCompletion?) {
-        print(error.debugDescription)
-        if let errorCode = FIRAuthErrorCode(rawValue: error.code) {
-            switch (errorCode) {
-            case .errorCodeInvalidEmail:
-                onComplete?("Invalid email address", nil)
-                break
-            case .errorCodeWrongPassword:
-                onComplete?("Invalid password", nil)
-                break
-            case .errorCodeEmailAlreadyInUse, .errorCodeAccountExistsWithDifferentCredential:
-                onComplete?("Could not create account. Email already in use", nil)
-                break
-            case .errorCodeUserDisabled:
-                onComplete?("Account Temporally Disabled. Contact Support to get issue resolved", nil)
-            case .errorCodeWeakPassword:
-                onComplete?("Weak Password. Password must be greater than six characters", nil)
-            default:
-                onComplete?("There was a problem authenticating. Try again.", nil)
-            }
-        }
-    }
-    
-    
-    
     func uploadFile(_ filePath: FIRStorageReference!, data: Data!, metadata: FIRStorageMetadata!, onComplete: DataCompletion?){
        
         let uploadTask = filePath.put(data, metadata: metadata);
 
         uploadTask.observe(.progress) { snapshot in
-            // Upload reported progress
             if let progress = snapshot.progress {
                 let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
                 self._uploadProgress = percentComplete
-                print(percentComplete)
                 NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "uploadProgressFB"), object: nil))
             }
         }
@@ -308,7 +275,6 @@ class FBDataService {
             onComplete?(nil, snapshot.metadata)
         }
         
-        // Errors only occur in the "Failure" case
         uploadTask.observe(.failure) { snapshot in
             guard let storageError = snapshot.error else { return }
             guard FIRStorageErrorCode(rawValue: storageError._code) != nil else { return }
@@ -334,7 +300,6 @@ class FBDataService {
                 }
             
             }else{
-                
                 onComplete?("No businesses were retrieved...", nil)
             }
         })
@@ -389,7 +354,6 @@ class FBDataService {
                     onComplete?(nil, true as AnyObject?)
                 }
             }else{
-                print("error subscribing")
             }
         }
     }
@@ -444,11 +408,7 @@ class FBDataService {
                             onComplete?(nil, false as AnyObject?)
                         }
                         
-                    }else{
-                        print("all businesses 0 when retirving status")
                     }
-                }else{
-                    print("error retriving status")
                 }
             }
             
@@ -481,8 +441,6 @@ class FBDataService {
                     if errMsg == nil{
                         self._allLastMessages[channelName] = message
                         onComplete?(nil, nil)
-                    }else{
-                        print("error updaating list")
                     }
                 })
                 
@@ -490,9 +448,7 @@ class FBDataService {
                 onComplete?("No Messages for User", nil)
             }
         })
-        
     }
-    
     
     func observeChannelsAddedForUser(_ uuid: String!){
         
@@ -547,8 +503,6 @@ class FBDataService {
                 FBDataService.instance._allJSQMessagesInChat.append(convertedMessage)
                 self._newJSQMessage = convertedMessage
                 onComplete?(nil, nil)
-            }else{
-                print("error updaating list")
             }
         })
         
@@ -588,8 +542,6 @@ class FBDataService {
                 }
                 
                 onComplete?(nil, nil)
-            }else{
-                print("error updaating list")
             }
         }
         
@@ -644,7 +596,6 @@ class FBDataService {
                 self._allReservations.removeValue(forKey: reservationID)
                 
                 NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "reservationRetrieved"), object: nil))
-                
                 
             }
         })

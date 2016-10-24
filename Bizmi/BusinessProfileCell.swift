@@ -10,7 +10,6 @@ import UIKit
 
 class BusinessProfileCell: UITableViewCell {
     
-    
     @IBOutlet weak var iconImg: UIImageView!
     
     @IBOutlet weak var itemLbl: UILabel!

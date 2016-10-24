@@ -289,14 +289,10 @@ class NewUser{
         FBDataService.instance.usersRef.child(uuid).observeSingleEvent(of: .value, with: { (snapshot) in
             
             guard snapshot.exists() else{
-                print("User doesn't exist")
                 return
             }
             
-            // Get user value
             let userDict = snapshot.value as! [String : AnyObject]
-            
-            //print(userDict)
             
             if let id = userDict[UUID] as? String{
                 self.uuid = id
@@ -353,7 +349,6 @@ class NewUser{
             
             onComplete?(error.localizedDescription)
 
-            print(error.localizedDescription)
         }
         
     }

@@ -35,7 +35,6 @@ class ViewCustomerVC: UIViewController {
         super.viewWillAppear(true)
         self.navigationController?.isNavigationBarHidden = true
         
-        //Casting
         let castedUser = NewUser()
         castedUser.castUser(customerID) { (errMsg) in
             self.castedCustomer = castedUser
@@ -78,12 +77,9 @@ class ViewCustomerVC: UIViewController {
             let ref = FIRStorage.storage().reference(forURL: castedCustomer.userProfilePicLocation)
             ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
-                    print("Unable to download image from Firebase storage")
-                    print(error)
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.customerProfilePicImg.image = placeholderImage
                 } else {
-                    print("Image downloaded from Firebase storage")
                     if let imgData = data {
                         if let img = UIImage(data: imgData) {
                             self.customerProfilePicImg.image = img
@@ -91,14 +87,11 @@ class ViewCustomerVC: UIViewController {
                     }
                 }
             })
-            
-            print(castedCustomer.userProfilePicLocation)
         }
     }
     
     func calculateMessagesSent() -> String{
         return "5309"
-        //Work Here Next
     }
     
     func calculateAppointmentsMade() -> String{
@@ -117,10 +110,9 @@ class ViewCustomerVC: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       
         let navVc = segue.destination as! UINavigationController
         let messageVC = navVc.viewControllers.first as! ViewMessageThreadVC
-        
-        //Check if Channel Already Exists
         
         let currentUserUID = self.currentUser.uuid
         
@@ -129,25 +121,18 @@ class ViewCustomerVC: UIViewController {
         let potentialChannelNameOne = "\(currentUserUID)-\(castedCustomer.uuid)"
         let potentialChannelNameTwo = "\(castedCustomer.uuid)-\(currentUserUID)"
         
-        print(potentialChannelNameTwo)
         channelName = potentialChannelNameOne
         
         for channelNameObj in FBDataService.instance.allChannelNames {
             
             if channelNameObj == potentialChannelNameOne || channelNameObj == potentialChannelNameTwo{
                 
-                //Channel already exists
-                
                 channelName = channelNameObj
-                
                 break
             }
             
         }
         
-        //Later on create function that checks if channel name of uniquechannelnames has the businessID in it
-        
-        //create two potentially chanel names - 1 where currentuser id is first and another where its second. if any of those exits, channel already exists then
         
         messageVC.currentUser = self.currentUser
         messageVC.mainChannelName = channelName!

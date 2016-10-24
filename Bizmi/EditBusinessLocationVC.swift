@@ -48,15 +48,10 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
     
         geoFire.getLocationForKey(BUSINESS_LOCATION, withCallback: { (loc, error) in
                 if (error != nil) {
-                    
-                    print("Error")
-                    
                 }else if (loc != nil) {
                     self.location = loc
-                    print("Location for \"firebase-hq\" is [\(self.location.coordinate.latitude), \(self.location.coordinate.longitude)]")
                     self.locationAuthStatus()
                 } else {
-                    print("GeoFire does not contain a location for \"firebase-hq\"")
                     self.location = CLLocation(latitude: 0, longitude: 0)
                     self.locationAuthStatus()
                 }
@@ -74,16 +69,10 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
             
             geoFire.setLocation(location, forKey: BUSINESS_LOCATION) { (error) in
                 if (error != nil) {
-                    print("An error occured: \(error)")
                 } else {
-                    print("Saved location successfully!")
                     _ = self.navigationController?.popViewController(animated: true)
                 }
             }
-
-            let center = "Latitude: \(location.coordinate.latitude) Longitude: \(location.coordinate.longitude)"
-            
-            print(center)
             
         }
     
@@ -93,20 +82,14 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
     
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             
-            if !isCentered{ //Only needs to hapen once
+            if !isCentered{
                 if location.coordinate.latitude != 0 && location?.coordinate.longitude != 0{
-                    
                     centerMapOnLocation(location, scaleFactor: 1)
-                    
                 }
             }
-            
             map.showsUserLocation = true
-            
         }else {
-        
             locationManager.requestWhenInUseAuthorization()
-            
         }
 
     }
@@ -120,7 +103,7 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         
-        if !isCentered && (location.coordinate.latitude == 0 && location.coordinate.longitude == 0){ //Only needs to hapen once
+        if !isCentered && (location.coordinate.latitude == 0 && location.coordinate.longitude == 0){
             if let loc = userLocation.location {
                 centerMapOnLocation(loc, scaleFactor: 10)
             }
@@ -153,7 +136,6 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
     
     func updateAnnotationToCenter(){
         
-        // Add new annotation
         let annotation = BusinessAnnotation()
         annotation.coordinate = map.centerCoordinate
         map.addAnnotation(annotation)
@@ -166,10 +148,7 @@ class EditBusinessLocationVC: UIViewController, MKMapViewDelegate, UISearchBarDe
             
             if let marks = placemarks , marks.count > 0{
                 if let loc = marks[0].location {
-
                     self.centerMapOnLocation(loc, scaleFactor: 10)
-                  //  self.createAnnotationForLocation(loc)
-                
                 }else{
                     Messages.displayToastMessage(self.view, msg: "Did not retrieve location...")
                 }

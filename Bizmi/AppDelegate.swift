@@ -24,14 +24,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     public var deviceTokenString: String!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
  
         let config = HotlineConfig.init(appID: HOTLINE_API_ID, andAppKey: HOTLINE_API_KEY)
-        config?.voiceMessagingEnabled = true // set NO to disable voice messaging
-        config?.pictureMessagingEnabled = true // set NO to disable picture messaging (pictures from gallery/new images from camera)
-        config?.cameraCaptureEnabled = true // set to NO for only pictures from the gallery (turn off the camera capture option)
-        config?.agentAvatarEnabled = true // set to NO to turn of showing an avatar for agents. to customize the avatar shown, use the theme file
-        config?.showNotificationBanner = true // set to NO if you don't want to show the in-app notification banner upon receiving a new message while the app is open
+        config?.voiceMessagingEnabled = true
+        config?.pictureMessagingEnabled = true
+        config?.cameraCaptureEnabled = true
+        config?.agentAvatarEnabled = true
+        config?.showNotificationBanner = true
         config?.notificationSoundEnabled = true
         Hotline.sharedInstance().initWith(config)
         
@@ -41,9 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 options: authOptions,
                 completionHandler: {_,_ in })
             
-            // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
-            // For iOS 10 data message (sent via FCM)
             FIRMessaging.messaging().remoteMessageDelegate = self
             
         } else {
@@ -54,11 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.registerForRemoteNotifications()
         
-        // [END register_for_notifications]
-        
         FIRApp.configure()
         
-        // Add observer for InstanceID token refresh callback.
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.tokenRefreshNotification),
                                                name: .firInstanceIDTokenRefresh,
@@ -78,18 +72,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         
-        // Set navigation bar tint / background colour
         UINavigationBar.appearance().barTintColor = DARK_PRIMARY_COLOR
         
-        // Set Navigation bar Title colour
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
         
-        // Set navigation bar ItemButton tint colour
-        //UIBarButtonItem.appearance().tintColor = UIColor.yellowColor()
-        
-        //Set navigation bar Back button tint colour
         UINavigationBar.appearance().tintColor = UIColor.white
-        
         
     }
 
@@ -125,7 +112,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-        print("Hooray! I'm registered!")
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -149,7 +135,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if Hotline.sharedInstance().isHotlineNotification(userInfo){
             Hotline.sharedInstance().handleRemoteNotification(userInfo, andAppstate: application.applicationState)
-        
         }else{
             
             if let info = userInfo["aps"] as? Dictionary<String, AnyObject> {
@@ -174,22 +159,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        
     }
 
 
-    // [START refresh_token]
     func tokenRefreshNotification(_ notification: Notification) {
         if let refreshedToken = FIRInstanceID.instanceID().token() {
-            print("InstanceID token: \(refreshedToken)")
         }
         
-        // Connect to FCM since connection may have failed when attempted before having a token.
         connectToFcm()
     }
-    // [END refresh_token]
     
-    // [START connect_to_fcm]
     func connectToFcm() {
         FIRMessaging.messaging().connect { (error) in
             if (error != nil) {
@@ -204,15 +183,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 @available(iOS 10.0, *)
 func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    print("Handle push from background or closed" );
-    print("%@", response.notification.request.content.userInfo);
 }
 
-// [START ios_10_message_handling]
 @available(iOS 10, *)
 extension AppDelegate : UNUserNotificationCenterDelegate {
     
-    // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -232,11 +207,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 }
 
 extension AppDelegate : FIRMessagingDelegate {
-    // Receive data message on iOS 10 devices.
     func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
-        print("%@", remoteMessage.appData)
     }
 }
-
-// [END ios_10_message_handling]
 

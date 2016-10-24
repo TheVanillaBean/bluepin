@@ -36,7 +36,6 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        // -64 because the height of the navigation bar and status bar equals 64 units -- This is the true (0,0)
         scrollView.setContentOffset(CGPoint(x: 0, y: -64), animated: true)
     }
     
@@ -52,7 +51,6 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
         
         if device.isPhone {
             
-            //Only apply smart scrolling to iphone 4 and iphone 5 because they are smaller
             if device.isOneOf(groupOfAllowedDevices) {
                 
                 if textField == passwordTextField || textField == businessTypeTextField {

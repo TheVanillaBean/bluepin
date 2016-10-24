@@ -63,8 +63,6 @@ class CustomerViewReservationsVC: UIViewController, UITableViewDelegate, UITable
         return NSAttributedString(string: str, attributes: attrs)
     }
     
-    //Setup Tableview
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -111,20 +109,17 @@ class CustomerViewReservationsVC: UIViewController, UITableViewDelegate, UITable
     
     func showAlertDialog(){
         
-        // Initialize Alert Controller
         let alertController = UIAlertController(title: "New Reservation", message: "Do you want to accept this pending reservation from \(selectedReservation.businessName)?", preferredStyle: .alert)
         
         let notification = FBDataService.instance.notificationsRef.childByAutoId()
         
         var notificationRequest: Dictionary<String, AnyObject> = [String: AnyObject]()
         
-        // Initialize Actions
         let yesAction = UIAlertAction(title: "Accept", style: .default) { (action) -> Void in
             FBDataService.instance.updateReservationForUser(self.selectedReservation.uuid, status: ACTIVE_STATUS, businessID: self.selectedReservation.businessID, customerID: self.selectedReservation.leaderID)
             
             notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: self.currentUser.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.selectedReservation.businessID as AnyObject, REQUEST_MESSAGE: ACCEPTED_RESERVATION_NOTIF as AnyObject, REQUEST_SENDER_NAME: self.currentUser.fullName as AnyObject]
 
-            print("new request customer")
             notification.setValue(notificationRequest)
         }
         
@@ -133,17 +128,14 @@ class CustomerViewReservationsVC: UIViewController, UITableViewDelegate, UITable
             
              notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: self.currentUser.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.selectedReservation.businessID as AnyObject, REQUEST_MESSAGE: DECLINED_RESERVATION_NOTIF as AnyObject, REQUEST_SENDER_NAME: self.currentUser.fullName as AnyObject]
             
-            print("new request customer")
             notification.setValue(notificationRequest)
             
         }
         
         
-        // Add Actions
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
         
-        // Present Alert Controller
         self.present(alertController, animated: true, completion:{
             alertController.view.superview?.isUserInteractionEnabled = true
             alertController.view.superview?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertControllerBackgroundTapped)))
@@ -154,7 +146,6 @@ class CustomerViewReservationsVC: UIViewController, UITableViewDelegate, UITable
         self.dismiss(animated: true, completion: nil)
     }
     
-    //Spinning indicator when loading request
     func showActivityIndicator() {
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true

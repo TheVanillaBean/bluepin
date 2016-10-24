@@ -151,7 +151,11 @@ class Reservation{
     func castReservation(_ uuid: String, onComplete: ReservationCompletion?){
         
         FBDataService.instance.reservationsRef.child(uuid).observeSingleEvent(of: .value, with: { (snapshot) in
-            // Get user value
+
+            guard snapshot.exists() else{
+                return
+            }
+            
             let resDict = snapshot.value as! [String : AnyObject]
             
             if let id = resDict[RESERVATION_UID] as? String{
@@ -197,7 +201,6 @@ class Reservation{
             
             onComplete?(error.localizedDescription)
             
-            print(error.localizedDescription)
         }
         
     }

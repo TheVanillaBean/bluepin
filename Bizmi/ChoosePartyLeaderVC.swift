@@ -78,5 +78,4 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
         
     }
 
-    
 }

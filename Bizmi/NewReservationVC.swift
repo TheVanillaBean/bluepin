@@ -27,6 +27,8 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
     
     var partySize: String!
     
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
+    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
@@ -49,7 +51,6 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
         
         if customerID != "Select Customer"{
             self.partyLeaderField.setTitle(customerName, for: UIControlState())
-            print(customerID)
         }
     
     }
@@ -86,20 +87,20 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
     
     @IBAction func onCreateBtnPressed(_ sender: AnyObject) {
         
-        print("\(partyLeaderField.titleLabel?.text) - \(partySizeField.text) - \(reservationTimeLbl.text)")
+        self.showActivityIndicator()
         
         if fieldsAreValid(){
         
             let reservationTime = reservationTimeLbl.text!
             let currentUserID = (FBDataService.instance.currentUser?.uid)!
             
+            self.clearFields()
+
             let user = NewUser()
             user.castUser(currentUserID, onComplete: { (errMsg) in
                 if errMsg == nil{
                    
                     let FBReservation = FBDataService.instance.reservationsRef.childByAutoId()
-                    
-                    print(reservationTime)
                     
                     let res: Dictionary<String, AnyObject> = [RESERVATION_UID: FBReservation.key as AnyObject, RESERVATION_STATUS: PENDING_STATUS as AnyObject, RESERVATION_TIMESTAMP: FIRServerValue.timestamp() as AnyObject, RESERVATION_SIZE: self.partySize as AnyObject, RESERVATION_SCHEDULED_TIME: reservationTime as AnyObject, RESERVATION_PARTY_LEADER_ID: self.customerID! as AnyObject, RESERVATION_BUSINESS_ID: user.uuid as AnyObject]
                     
@@ -113,18 +114,16 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
                     
                     notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: user.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.customerID! as AnyObject, REQUEST_MESSAGE: NEW_RESERVATION_NOTIF as AnyObject, REQUEST_SENDER_NAME: user.businessName as AnyObject]
                     
-                    print(notificationRequest)
-                    
                     notification.setValue(notificationRequest)
-
                     
-                    self.clearFields()
+                    self.activityIndicator.stopAnimating()
+                    
                     self.navigationController?.popViewController(animated: true)
                 }
             })
             
-        
-
+        }else{
+            self.activityIndicator.stopAnimating()
         }
     }
 
@@ -136,20 +135,17 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
         if self.partyLeaderField.titleLabel?.text == "Select Customer"{
             
             Messages.showAlertDialog("Invalid Field", msgAlert: "Please Select a Customer.")
-            
             return false
         }
         
         if self.partySizeField.text == ""{
             
             Messages.showAlertDialog("Invalid Field", msgAlert: "Please Enter a Valid Party Size.")
-
             return false
         }
         if reservationTimeLbl.text == "Time"{
             
             Messages.showAlertDialog("Invalid Field", msgAlert: "Please Enter a Valid Reservation Time.")
-
             return false
         }
         
@@ -160,6 +156,14 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
         self.partyLeaderField.setTitle("Select Customer", for: UIControlState())
         self.partySizeField.text = ""
         self.reservationTimeLbl.text = "Time"
+    }
+    
+    func showActivityIndicator() {
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
     }
     
 }

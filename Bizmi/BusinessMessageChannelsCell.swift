@@ -29,7 +29,6 @@ class BusinessMessageChannelsCell: UITableViewCell {
         
         businessProfilePic.layer.cornerRadius = 10
         businessProfilePic.clipsToBounds = true
-        
         businessNameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
         lastMessageLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
 
@@ -37,15 +36,12 @@ class BusinessMessageChannelsCell: UITableViewCell {
     
     func configureCell(_ message: Message){
         
-        //let placeholderImage = UIImage(named: "Placeholder")!
         lastMessageLbl.text = message.messageData
         timestampLbl.text = message.timeStamp
         
-        if FBDataService.instance.currentUser?.uid == message.senderUID{ //Current User was last sender
-            
+        if FBDataService.instance.currentUser?.uid == message.senderUID{
             self.loadUserDisplayName(message.recipientUID)
-            
-        }else{ // Current User was not last sender in convo
+        }else{
             self.loadUserDisplayName(message.senderUID)
         }
         
@@ -65,7 +61,7 @@ class BusinessMessageChannelsCell: UITableViewCell {
                 self.loadProfilePic(location: user.userProfilePicLocation)
                 
             }else{
-                self.businessNameLbl.text = "No User Name to Display..."
+                self.businessNameLbl.text = "No Username to Display..."
             }
         }
     }
@@ -76,12 +72,9 @@ class BusinessMessageChannelsCell: UITableViewCell {
             let ref = FIRStorage.storage().reference(forURL: location)
             ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
-                    print("Unable to download image from Firebase storage")
-                    print(error)
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.businessProfilePic.image = placeholderImage
                 } else {
-                    print("Image downloaded from Firebase storage")
                     if let imgData = data {
                         if let img = UIImage(data: imgData) {
                             self.businessProfilePic.image = img

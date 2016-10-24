@@ -25,7 +25,6 @@ class AuthService {
             if error != nil {
                 self.handleFirebaseError(error! as NSError, onComplete: onComplete)
             }else {
-                //Successfully logged in
                 onComplete?(nil, user)
             }
             
@@ -45,7 +44,6 @@ class AuthService {
                         if error != nil {
                             self.handleFirebaseError(error! as NSError, onComplete: onComplete)
                         } else {
-                            //Successfully logged in
                             onComplete?(nil, user)
                         }
                         

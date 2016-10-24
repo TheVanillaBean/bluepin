@@ -25,10 +25,7 @@
 		5A3026B81D5BFD7A00B3E382 /* ViewBusinessLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3026B71D5BFD7A00B3E382 /* ViewBusinessLocationVC.swift */; };
 		5A3026BC1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3026BB1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift */; };
 		5A3026BE1D5C534000B3E382 /* ViewBusinessHoursVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3026BD1D5C534000B3E382 /* ViewBusinessHoursVC.swift */; };
-		5A3026C01D5C582700B3E382 /* Follow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3026BF1D5C582700B3E382 /* Follow.swift */; };
 		5A33FF981D41007D00498EC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A33FF971D41007D00498EC2 /* Assets.xcassets */; };
-		5A3F13F41D4098AF0028E428 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3F13F31D4098AF0028E428 /* User.swift */; };
-		5A4C526C1D4B31530052E49B /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4C526B1D4B31530052E49B /* DataService.swift */; };
 		5A4D3A201D57FE72003C1CC1 /* EditBusinessLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4D3A1F1D57FE72003C1CC1 /* EditBusinessLocationVC.swift */; };
 		5A4D3A221D580CEB003C1CC1 /* BusinessAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4D3A211D580CEB003C1CC1 /* BusinessAnnotation.swift */; };
 		5A575A731D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A575A721D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift */; };
@@ -50,7 +47,6 @@
 		5AC190A91D8F681500DB2431 /* NewUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC190A81D8F681500DB2431 /* NewUser.swift */; };
 		5AC6D5761DB42C8100F76B7A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5AC6D5751DB42C8100F76B7A /* GoogleService-Info.plist */; };
 		5ACA47CA1D725AF400583632 /* ViewCustomerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACA47C91D725AF400583632 /* ViewCustomerVC.swift */; };
-		5ACF9D051D69354800ED25F7 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF9D041D69354800ED25F7 /* Structs.swift */; };
 		5ACF9D071D69B2E700ED25F7 /* CustomerMessageChannelsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF9D061D69B2E700ED25F7 /* CustomerMessageChannelsCell.swift */; };
 		5ACF9D091D6A857100ED25F7 /* BusinessMessageChannelsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF9D081D6A857100ED25F7 /* BusinessMessageChannelsCell.swift */; };
 		5ADD362F1D3E3C3300394637 /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ADD362B1D3E3C3300394637 /* NotoSans-Bold.ttf */; };
@@ -93,10 +89,7 @@
 		5A3026B71D5BFD7A00B3E382 /* ViewBusinessLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessLocationVC.swift; sourceTree = "<group>"; };
 		5A3026BB1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessWebsiteVC.swift; sourceTree = "<group>"; };
 		5A3026BD1D5C534000B3E382 /* ViewBusinessHoursVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessHoursVC.swift; sourceTree = "<group>"; };
-		5A3026BF1D5C582700B3E382 /* Follow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Follow.swift; sourceTree = "<group>"; };
 		5A33FF971D41007D00498EC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5A3F13F31D4098AF0028E428 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		5A4C526B1D4B31530052E49B /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		5A4D3A1F1D57FE72003C1CC1 /* EditBusinessLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBusinessLocationVC.swift; sourceTree = "<group>"; };
 		5A4D3A211D580CEB003C1CC1 /* BusinessAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessAnnotation.swift; sourceTree = "<group>"; };
 		5A575A721D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialPhoneNumberTextView.swift; sourceTree = "<group>"; };
@@ -133,7 +126,6 @@
 		5AC6D5751DB42C8100F76B7A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "GeoFire/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5AC6D5771DB42F9600F76B7A /* Bizmi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bizmi.entitlements; sourceTree = "<group>"; };
 		5ACA47C91D725AF400583632 /* ViewCustomerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewCustomerVC.swift; sourceTree = "<group>"; };
-		5ACF9D041D69354800ED25F7 /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
 		5ACF9D061D69B2E700ED25F7 /* CustomerMessageChannelsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerMessageChannelsCell.swift; sourceTree = "<group>"; };
 		5ACF9D081D6A857100ED25F7 /* BusinessMessageChannelsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessMessageChannelsCell.swift; sourceTree = "<group>"; };
 		5ADD362B1D3E3C3300394637 /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -277,9 +269,7 @@
 			children = (
 				5ADD36331D3E3CD400394637 /* Constants.swift */,
 				5AF71CB81D488A9B009B6951 /* Messages.swift */,
-				5A4C526B1D4B31530052E49B /* DataService.swift */,
 				5AF0B1211D547A4700C14BC4 /* Extensions.swift */,
-				5ACF9D041D69354800ED25F7 /* Structs.swift */,
 				5AC190A41D8F4A0900DB2431 /* AuthService.swift */,
 				5AC190A61D8F631000DB2431 /* FBDataService.swift */,
 			);
@@ -300,8 +290,6 @@
 		5ADD36281D3E3BC600394637 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5A3F13F31D4098AF0028E428 /* User.swift */,
-				5A3026BF1D5C582700B3E382 /* Follow.swift */,
 				5AF4093D1D73C3C300814B65 /* Reservation.swift */,
 				5AC190A81D8F681500DB2431 /* NewUser.swift */,
 				5AFE32911DA1C53700A2D820 /* Message.swift */,
@@ -512,7 +500,6 @@
 				5AB5281D1D91F8D500A81954 /* CustomerProfileCell.swift in Sources */,
 				5AC190A71D8F631000DB2431 /* FBDataService.swift in Sources */,
 				5AC190A91D8F681500DB2431 /* NewUser.swift in Sources */,
-				5ACF9D051D69354800ED25F7 /* Structs.swift in Sources */,
 				5AC190A51D8F4A0900DB2431 /* AuthService.swift in Sources */,
 				5AF412871D52A83200F184C0 /* BusinessProfileCell.swift in Sources */,
 				5A9BC2DB1DBD6CB400817A9E /* UIScrollView+EmptyDataSet.m in Sources */,
@@ -534,7 +521,6 @@
 				5A129BF21D49C77E00FE5126 /* CustomerViewMessageChannelsVC.swift in Sources */,
 				5A3026BC1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift in Sources */,
 				5A129C001D49C8D100FE5126 /* BusinessProfileVC.swift in Sources */,
-				5A4C526C1D4B31530052E49B /* DataService.swift in Sources */,
 				5ACA47CA1D725AF400583632 /* ViewCustomerVC.swift in Sources */,
 				5A7880FF1D3E261400F168AE /* ViewController.swift in Sources */,
 				5A129BF41D49C7BC00FE5126 /* CustomerViewBusinessesVC.swift in Sources */,
@@ -547,8 +533,6 @@
 				5A129BFC1D49C88000FE5126 /* BusinessViewCustomersVC.swift in Sources */,
 				5A773C0F1D93C05300D14519 /* GFGeoHash.m in Sources */,
 				5A025DCE1D403D050060791D /* BusinessSignUpVC.swift in Sources */,
-				5A3F13F41D4098AF0028E428 /* User.swift in Sources */,
-				5A3026C01D5C582700B3E382 /* Follow.swift in Sources */,
 				5AF2DA0B1D73EB0900C55BEB /* ChoosePartyLeaderCell.swift in Sources */,
 				5A773C0E1D93C05300D14519 /* GFBase32Utils.m in Sources */,
 				5A129BFE1D49C8B400FE5126 /* BusinessViewReservationsVC.swift in Sources */,

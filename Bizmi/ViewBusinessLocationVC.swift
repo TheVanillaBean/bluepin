@@ -105,7 +105,6 @@ class ViewBusinessLocationVC: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        // Don't want to show a custom image if the annotation is the user's location.
         guard !annotation.isKind(of: MKUserLocation.self) else {
             return nil
         }
@@ -124,7 +123,6 @@ class ViewBusinessLocationVC: UIViewController, MKMapViewDelegate {
         }
         
         if let annotationView = annotationView {
-            // Configure your annotation view here
             annotationView.canShowCallout = true
             annotationView.image = UIImage(named: "Marker_Large")
         }

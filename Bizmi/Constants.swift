@@ -25,7 +25,7 @@ let DIVIDER_COLOR: UIColor = UIColor(red: 182.0/255.0, green: 182.0/255.0, blue:
 let USER_BUSINESS_TYPE: String = "Business"
 let USER_CUSTOMER_TYPE: String = "Customer"
 
-//KEYS
+//Firebase KEYS
 
 //Users
 let UUID: String = "uuid"
@@ -44,7 +44,7 @@ let BUSINESS_LOCATION: String = "businessLocation"
 let PROFILE_PIC_LOCATION: String = "userProfilePicLocation"
 let DEVICE_TOKEN: String = "deviceToken"
 
-//Messages
+//Firebase Messages
 
 let MESSAGE_UID: String = "messageID"
 let MESSAGE_TYPE: String = "messageType"
@@ -59,23 +59,20 @@ let MESSAGE_SENDER_NAME: String = "senderName"
 
 let MESSAGE_TEXT_TYPE: String = "type/text"
 
-//Notification Requests
+//Firebase Notification Requests
 let REQUEST_ID: String = "requestID"
 let REQUEST_SENDER_ID: String = "senderID"
 let REQUEST_RECIPIENT_ID: String = "recipientID"
 let REQUEST_SENDER_NAME: String = "senderName"
 let REQUEST_MESSAGE: String = "message"
 
-//let NOTIF_MESSAGE: String = "You have a new message from "
-//let NOTIF_RESERVATION: String = "You have a new reservation from "
-//let NOTIF_RESERVATION_ACCEPTED: String = "Your reservation request has been accepted by "
-//let NOTIF_RESERVATION_DECLINED: String = "Your reservation request has been cancled by "
+
 let MESSAGE_NOTIF = "Message"
 let NEW_RESERVATION_NOTIF = "Reservation"
 let ACCEPTED_RESERVATION_NOTIF = "AcceptedRes"
 let DECLINED_RESERVATION_NOTIF = "DeclinedRes"
 
-//Reservations
+//Firebase Reservations
 let RESERVATION_UID = "uuid"
 let RESERVATION_STATUS = "status"
 let RESERVATION_TIMESTAMP = "timestamp"
@@ -97,21 +94,16 @@ let FIR_CHILD_USER_CHANNELS = "User-Channels"
 let FIR_CHILD_CHANNELS = "Channels"
 let FIR_CHILD_MESSAGES = "Messages"
 let FIR_CHILD_RESERVATIONS = "Reservations"
-
 let FIR_CHILD_NOTIFICATIONS = "notificationRequests"
-
-
 let FIR_CHILD_CUSTOMER_FOLLOWERS = "Customer-Followers"
 let FIR_CHILD_BUSINESS_FOLLOWERS = "Business-Followers"
 let FIR_CHILD_USER_RESERVATIONS = "User-Reservations"
-
 
 //STORAGE NODES
 let FIR_STORAGE_CHILD_USER_PROFILE_PICS = "Profile-Pictures"
 let FIR_STORAGE_CHILD_MESSAGES = "Messages"
 
 //EMPTY DATA SETS
-
 let EMPTY_DATA_WELCOME = "Welcome"
 let EMPTY_MESSAGES_DATA_SET_BUSINESS = "You do not have any messages yet. Whenever a customer messages you, the conversation will be here."
 let EMPTY_FOLLOWERS_DATA_SET_BUSINESS = "You do not have any followers yet. Tell your customers to follow you on Bizmi so you can view them here."

@@ -21,15 +21,15 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
 
     @IBOutlet weak var loadingPicLbl: UILabel!
     
-    let castedUser = NewUser() //Used for Global Casting Purposes
+    let castedUser = NewUser()
     
-    var tField: UITextField! //Used for alertView when TableView row is tapped
+    var tField: UITextField!
     
-    var alertPlaceHolder: String! //PlaceHolder for text input in alertView
+    var alertPlaceHolder: String!
     
-    var profileTextItems: [String] = [] // fill in tableView with currentUser profile properties
+    var profileTextItems: [String] = []
     
-    let profileIconItems: [UIImage] = [ //For Tableview
+    let profileIconItems: [UIImage] = [
         UIImage(named: "Profile_Blue")!,
         UIImage(named: "Email_Blue")!,
         UIImage(named: "Password_Blue")!,
@@ -37,7 +37,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
 
     ]
     
-    var alertTitles: [String] = [ //For tableview
+    var alertTitles: [String] = [ 
         "Edit Full Name",
         "Edit Email",
         "Change Password",
@@ -57,7 +57,6 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
   
     
     func castUser(){
-        //Casting
         castedUser.castUser((FBDataService.instance.currentUser?.uid)!) { (errMsg) in
             print("Alex: \((FBDataService.instance.currentUser?.uid)!)")
                 self.loadCustomerProfileInfo()
@@ -75,12 +74,9 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             let ref = FIRStorage.storage().reference(forURL: castedUser.userProfilePicLocation)
             ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
-                    print("Unable to download image from Firebase storage")
-                    print(error)
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.userProfileImg.image = placeholderImage
                 } else {
-                    print("Image downloaded from Firebase storage")
                     if let imgData = data {
                         if let img = UIImage(data: imgData) {
                             self.userProfileImg.image = img
@@ -89,19 +85,16 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                 }
             })
         }
-        print(castedUser.userProfilePicLocation)
-
     }
     
     func loadCustomerProfileInfo(){
   
         loadProfilePic()
-        print("Alex: \(castedUser.fullName)")
 
         profileTextItems = [
             castedUser.fullName,
             castedUser.email,
-            "Change Password", //Because users password should not be displayed
+            "Change Password",
             "Contact Bizmi Support"
         ]
         
@@ -127,11 +120,8 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         }else{
             
             let cell = CustomerProfileCell()
-            
             cell.configureCell(iconItem, text: textItem)
-            
             return cell
-            
         }
         
         
@@ -139,9 +129,9 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        if (indexPath as NSIndexPath).row < 2 { //Password change requires different functionality
+        if (indexPath as NSIndexPath).row < 2 {
             
             let alert = UIAlertController(title: alertTitles[(indexPath as NSIndexPath).row], message: "", preferredStyle: .alert)
             
@@ -173,10 +163,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             
             Hotline.sharedInstance().showConversations(self)
         }else {
-            
-            print("Change Password")
             self.showPasswordAlertDialog()
-            
         }
         
     }
@@ -191,14 +178,12 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func configurationTextField(_ textField: UITextField!){
-        print("generating the TextField")
         textField.text = alertPlaceHolder
         tField = textField
         
     }
     
     func handleCancel(_ alertView: UIAlertAction!){
-        print("Cancelled !!")
     }
  
     func updateProperties(_ indexPath: IndexPath) -> [String: AnyObject]{
@@ -243,10 +228,8 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
 
     func showPasswordAlertDialog(){
         
-        // Initialize Alert Controller
         let alertController = UIAlertController(title: "New Password", message: "Are you sure you want a new password?", preferredStyle: .alert)
         
-        // Initialize Actions
         let yesAction = UIAlertAction(title: "Yes", style: .default) { (action) -> Void in
             
             FBDataService.instance.resetPassword(self.castedUser.email, onComplete: { (errMsg, data) in
@@ -263,11 +246,9 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         let noAction = UIAlertAction(title: "No", style: .default) { (action) -> Void in
         }
         
-        // Add Actions
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
         
-        // Present Alert Controller
         self.present(alertController, animated: true, completion: nil)
         
     }

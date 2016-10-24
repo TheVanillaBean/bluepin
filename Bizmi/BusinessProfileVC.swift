@@ -23,15 +23,15 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
-    let castedUser = NewUser() //Used for Global Casting Purposes
+    let castedUser = NewUser()
     
-    var tField: UITextField! //Used for alertView when TableView row is tapped
+    var tField: UITextField!
     
-    var keyboardType: UIKeyboardType! //alertView text input keyboard type
+    var keyboardType: UIKeyboardType!
 
-    var alertPlaceHolder: String! //PlaceHolder for text input in alertView
+    var alertPlaceHolder: String!
     
-    var profileTextItems: [String] = [] // fill in tableView with currentUser profile properties
+    var profileTextItems: [String] = []
     
     let profileIconItems: [UIImage] = [
         UIImage(named: "Business_Name_Blue")!,
@@ -69,9 +69,7 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     
     func castUser(){
-        //Casting
         castedUser.castUser((FBDataService.instance.currentUser?.uid)!) { (errMsg) in
-            print("Alex: \((FBDataService.instance.currentUser?.uid)!)")
             self.loadBusinesssProfileInfo()
         }
     }
@@ -87,12 +85,9 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             let ref = FIRStorage.storage().reference(forURL: castedUser.userProfilePicLocation)
             ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
-                    print("Unable to download image from Firebase storage")
-                    print(error)
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.userProfileImg.image = placeholderImage
                 } else {
-                    print("Image downloaded from Firebase storage")
                     if let imgData = data {
                         if let img = UIImage(data: imgData) {
                             self.userProfileImg.image = img
@@ -100,15 +95,12 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                     }
                 }
             })
-            
-            print(castedUser.userProfilePicLocation)
         }
     }
     
     func loadBusinesssProfileInfo(){
         
         loadProfilePic()
-        print("Alex: \(castedUser.businessName)")
         
         profileTextItems = [
             castedUser.businessName,
@@ -119,7 +111,7 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             castedUser.businessWebsite,
             castedUser.email,
             "Change Location",
-            "Change Password", //Because users password should not be displayed
+            "Change Password", 
             "Contact Bizmi Support"
         ]
 
@@ -157,9 +149,9 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        if (indexPath as NSIndexPath).row <= 6 { //Password change requires different functionality
+        if (indexPath as NSIndexPath).row <= 6 {
             
             keyboardType = keyboardType(indexPath)
             
@@ -197,10 +189,7 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             
             Hotline.sharedInstance().showConversations(self)
         }else{
-            
-            print("Change Password")
             self.showPasswordAlertDialog()
-            
         }
         
     }
@@ -215,20 +204,17 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func configurationTextField(_ textField: UITextField!){
-        print("generating the TextField")
         textField.text = alertPlaceHolder
         textField.keyboardType = keyboardType
         tField = textField
-        
     }
     
     func handleCancel(_ alertView: UIAlertAction!){
-        print("Cancelled !!")
     }
     
     func keyboardType(_ indexPath: IndexPath) -> UIKeyboardType{
     
-        if (indexPath as NSIndexPath).row == 4 { // Phone Number requires number pad
+        if (indexPath as NSIndexPath).row == 4 {
             return UIKeyboardType.numberPad
         }
         
@@ -288,12 +274,11 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                 return phoneNumberString
             }
             catch {
-                print("Generic parser error")
+                return rawNumber
             }
-            
         }
         
-        return castedUser.phoneNumber //Doesnt update property if value is empty
+        return castedUser.phoneNumber
         
     }
 
@@ -312,10 +297,8 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func showPasswordAlertDialog(){
         
-        // Initialize Alert Controller
         let alertController = UIAlertController(title: "New Password", message: "Are you sure you want a new password?", preferredStyle: .alert)
         
-        // Initialize Actions
         let yesAction = UIAlertAction(title: "Yes", style: .default) { (action) -> Void in
 
             FBDataService.instance.resetPassword(self.castedUser.email, onComplete: { (errMsg, data) in
@@ -332,11 +315,9 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         let noAction = UIAlertAction(title: "No", style: .default) { (action) -> Void in
         }
         
-        // Add Actions
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
         
-        // Present Alert Controller
         self.present(alertController, animated: true, completion: nil)
         
     }

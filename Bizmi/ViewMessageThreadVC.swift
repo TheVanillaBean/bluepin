@@ -40,7 +40,6 @@ class ViewMessageThreadVC: JSQMessagesViewController{
         setupBubbles()
         setUpBackButton()
         
-        // No avatars
         collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
         
@@ -101,10 +100,10 @@ class ViewMessageThreadVC: JSQMessagesViewController{
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
         
-        let message = FBDataService.instance.allJSQMessagesInChat[indexPath.item] // 1
-        if message.senderId == senderId { // 2
+        let message = FBDataService.instance.allJSQMessagesInChat[indexPath.item]
+        if message.senderId == senderId {
             return outgoingBubbleImageView
-        } else { // 3
+        } else {
             return incomingBubbleImageView
         }
     }
@@ -114,10 +113,10 @@ class ViewMessageThreadVC: JSQMessagesViewController{
         
         let message = FBDataService.instance.allJSQMessagesInChat[(indexPath as NSIndexPath).item] // 1
         
-        if message.senderId == senderId { // 1
-            cell.textView!.textColor = UIColor.white // 2
+        if message.senderId == senderId {
+            cell.textView!.textColor = UIColor.white
         } else {
-            cell.textView!.textColor = UIColor.black // 3
+            cell.textView!.textColor = UIColor.black
         }
         
         return cell
@@ -229,10 +228,8 @@ class ViewMessageThreadVC: JSQMessagesViewController{
         let messageStorageRef = FBDataService.instance.messagesStorageRef.child(FBMessage.key)
         let data = messageItem.messageData.data(using: .utf8)
         
-        // Upload the file to the path "images/rivers.jpg"
         _ = messageStorageRef.put(data!, metadata: nil) { metadata, error in
             if (error != nil) {
-                // Uh-oh, an error occurred!
             } else {
                     FBDataService.instance.channelsRef.child(self.mainChannelName).child(FBMessage.key).setValue(FIRServerValue.timestamp())
                     FBDataService.instance.userChannelsRef.child(self.currentUser.uuid).child(self.mainChannelName).setValue(FIRServerValue.timestamp())
@@ -258,7 +255,6 @@ class ViewMessageThreadVC: JSQMessagesViewController{
 
     }
     
-    //Spinning indicator when loading request
     func showActivityIndicator() {
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -284,7 +280,6 @@ class ViewMessageThreadVC: JSQMessagesViewController{
 
     }
     
-  
     override func viewWillDisappear(_ animated: Bool) {
         FBDataService.instance.channelsRef.child(self.mainChannelName).removeObserver(withHandle: newMessageHandler)
         FBDataService.instance._allMessageIDSInChat.removeAll()
@@ -296,7 +291,7 @@ class ViewMessageThreadVC: JSQMessagesViewController{
         
         let firstGroup = DispatchGroup()
         
-        newMessageHandler = FBDataService.instance.channelsRef.child(self.mainChannelName).queryLimited(toLast: 20).observe(FIRDataEventType.childAdded, with: { (snapshot) in
+        newMessageHandler = FBDataService.instance.channelsRef.child(self.mainChannelName).queryLimited(toLast: 5).observe(FIRDataEventType.childAdded, with: { (snapshot) in
             
             if !FBDataService.instance.allMessageIDSInChat.contains(snapshot.key){
                 self.showActivityIndicator()
@@ -318,7 +313,6 @@ class ViewMessageThreadVC: JSQMessagesViewController{
                         self.finishSendingMessage()
                     }
                     
-                    // self.collectionView?.reloadData()
                     self.activityIndicator.stopAnimating()
                 })
             }
@@ -330,14 +324,12 @@ class ViewMessageThreadVC: JSQMessagesViewController{
         
         _ = FBDataService.instance.channelsRef.child(self.mainChannelName).queryOrderedByValue().observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
             
-            
                 for snap in snapshot.children.allObjects as! [FIRDataSnapshot]{
                     
                     FBDataService.instance._allMessageIDSInChat.append(snap.key)
                 }
                 
                 onComplete?(nil, nil)
-
         
         })
     }
@@ -368,7 +360,6 @@ class ViewMessageThreadVC: JSQMessagesViewController{
                 if iteratorEnd < 1{
                     iteratorEnd = 0
                 }
-                
             }
             
             FBDataService.instance.convertMessageIDToMessageModel(messageID: messageID, onComplete: { (errMsg, data) in

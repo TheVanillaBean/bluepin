@@ -26,7 +26,6 @@ class BusinessReservationCell: UITableViewCell {
         customerProfilePic.clipsToBounds = true
         
         customerNamelbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
-        
         appointmentLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
         
     }
@@ -54,12 +53,9 @@ class BusinessReservationCell: UITableViewCell {
             let ref = FIRStorage.storage().reference(forURL: location)
             ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
-                    print("Unable to download image from Firebase storage")
-                    print(error)
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.customerProfilePic.image = placeholderImage
                 } else {
-                    print("Image downloaded from Firebase storage")
                     if let imgData = data {
                         if let img = UIImage(data: imgData) {
                             self.customerProfilePic.image = img

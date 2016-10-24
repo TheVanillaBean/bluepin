@@ -33,7 +33,6 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing Data ...", attributes: nil)
         refreshControl.addTarget(self, action: #selector(CustomerViewBusinessesVC.refresh(sender:)), for: .valueChanged)
         
-        // Add to Table View
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
         } else {
@@ -99,7 +98,7 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
+        tableView.deselectRow(at: indexPath, animated: true) 
         
         let currentCell = tableView.cellForRow(at: indexPath)! as! ViewFollowersCell
         

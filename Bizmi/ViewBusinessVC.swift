@@ -75,8 +75,6 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         self.navigationController?.isNavigationBarHidden = true
         disableBtns()
         
-        
-        //Casting
         let castedUser = NewUser()
         castedUser.castUser(businessID) { (errMsg) in
             
@@ -157,18 +155,14 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         
         self.geoFire.getLocationForKey(BUSINESS_LOCATION, withCallback: { (loc, error) in
             if (error != nil) {
-                print("Error VC")
             }else if (loc != nil) {
                 self.location = loc
-                print("Alex: llllll\(loc)")
                 self.locationAuthStatus()
             } else {
-                print("no loc VC")
                 self.location = CLLocation(latitude: 0, longitude: 0)
                 self.locationAuthStatus()
             }
         })
-        
         
     }
     
@@ -179,12 +173,9 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
             let ref = FIRStorage.storage().reference(forURL: castedBusiness.userProfilePicLocation)
             ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
-                    print("Unable to download image from Firebase storage")
-                    print(error)
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.businessProfileImg.image = placeholderImage
                 } else {
-                    print("Image downloaded from Firebase storage")
                     if let imgData = data {
                         if let img = UIImage(data: imgData) {
                             self.businessProfileImg.image = img
@@ -193,7 +184,6 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
                 }
             })
             
-            print(castedBusiness.userProfilePicLocation)
         }
     }
     
@@ -206,17 +196,13 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         if location != nil{
             
             if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-                if !isCentered{ //Only needs to hapen once
+                if !isCentered{
                     if location!.coordinate.latitude != 0 && location!.coordinate.longitude != 0{
                         
                         let loc = CLLocation(latitude: Double(location!.coordinate.latitude), longitude: Double(location!.coordinate.longitude) )
                         
-                        print(loc)
-                        
                         reverseGeoLocate(loc)
-
                         centerMapOnLocation(loc, scaleFactor: 3)
-                        
                         createAnnotationForLocation(loc)
                         
                     }
@@ -241,7 +227,7 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         
-        if !isCentered && (location!.coordinate.latitude == 0 && location!.coordinate.longitude == 0){ //Only needs to hapen once
+        if !isCentered && (location!.coordinate.latitude == 0 && location!.coordinate.longitude == 0){
             if let loc = userLocation.location {
                 centerMapOnLocation(loc, scaleFactor: 10)
             }
@@ -257,7 +243,6 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        // Don't want to show a custom image if the annotation is the user's location.
         guard !annotation.isKind(of: MKUserLocation.self) else {
             return nil
         }
@@ -276,7 +261,6 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         }
         
         if let annotationView = annotationView {
-            // Configure your annotation view here
             annotationView.canShowCallout = true
             annotationView.image = UIImage(named: "Marker_Large")
         }
@@ -296,8 +280,6 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
                         self.locationBtn.setTitle("\(street), \(locality), \(state) \(zip)", for: UIControlState())
                     }
         
-            }else {
-                print("there was an error no location")
             }
       
         })
@@ -330,11 +312,8 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
                     
                     self.subscribeBtn.setTitle("Subscribe to Business", for: UIControlState())
                     self.subscribeBtn.backgroundColor = DARK_PRIMARY_COLOR
-                    
                 }
                 
-            }else{
-                print("errMsg nil subscribed pressed")
             }
 
             self.subscribeBtn.isEnabled = true
@@ -346,7 +325,6 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
 
     
     @IBAction func cancelBtnPressed(_ sender: AnyObject) {
-        //Dismiss VC
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -397,15 +375,12 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
                     viewLocationVC.address = address
                     viewLocationVC.businessName = castedBusiness.businessName
                 }
-                
             }
-        
         }
         
         if segue.identifier == "ViewBusinessWebsite" {
             if let websiteVC = segue.destination as? ViewBusinessWebsiteVC{
                 websiteVC.URL = castedBusiness.businessWebsite
-                print(castedBusiness.businessWebsite)
             }
     
         }
@@ -414,7 +389,6 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
             if let hoursVC = segue.destination as? ViewBusinessHoursVC{
                 hoursVC.hours = castedBusiness.businessHours
             }
-    
         }
         
         
@@ -422,8 +396,6 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
             
             let navVc = segue.destination as! UINavigationController
             let messageVC = navVc.viewControllers.first as! ViewMessageThreadVC
-
-            //Check if Channel Already Exists
             
             let currentUserUID = self.currentUser.uuid
         
@@ -433,30 +405,21 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
             let potentialChannelNameTwo = "\(castedBusiness.uuid) - \(currentUserUID)"
             
             channelName = potentialChannelNameOne
-            print("\(channelName!) ---channelname")
 
             for channelNameObj in FBDataService.instance.allChannelNames {
                 
                 if channelNameObj == potentialChannelNameOne || channelNameObj == potentialChannelNameTwo{
                     
-                    //Channel already exists
-                    
                     channelName = channelNameObj
-                    print("\(channelName) --------")
-
                     break
                 }
                
             }
-            
-            //Later on create function that checks if channel name of uniquechannelnames has the businessID in it
-            
-            //create two potentially chanel names - 1 where currentuser id is first and another where its second. if any of those exits, channel already exists then
         
             messageVC.currentUser = self.currentUser
             messageVC.mainChannelName = channelName!
-            messageVC.senderId =  currentUserUID // 3
-            messageVC.senderDisplayName = self.currentUser.fullName // 4
+            messageVC.senderId =  currentUserUID
+            messageVC.senderDisplayName = self.currentUser.fullName //
             messageVC.currentUserID = currentUserUID
             messageVC.otherUserName = self.castedBusiness.businessName
             messageVC.otherUserID = self.castedBusiness.uuid
@@ -467,14 +430,4 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
     }
     
 }
-
-
-
-
-
-
-
-
-
-
 

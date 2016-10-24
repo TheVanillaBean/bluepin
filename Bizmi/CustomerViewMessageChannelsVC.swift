@@ -25,16 +25,6 @@ class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //print("called to many times")
-        
-        //Subscribe To Channel with ID equaivalent to currentUserID
-        //Get message History From Newest to Oldest of user B Messages
-        
-        //Create UniqueChannelMessages Array that holds Message Struct Items
-        //Create allMessagesObject
-        //Loop through all Messages from History and add Message to Array if it doesn’t exist in the array already
-    
-        
         self.tabBarController?.navigationItem.hidesBackButton = true
         let titleView = UIImageView(image: UIImage(named: "Nav_Img"))
         self.tabBarController?.navigationItem.titleView = titleView
@@ -84,12 +74,10 @@ class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITa
             if FBDataService.instance.channelChangedHandler == nil{
                 FBDataService.instance.observeChannelsAddedForUser(userID)
                 FBDataService.instance.observeChannelsChangedForUser(userID)
-
             }
         }
     }
     
-    //Spinning indicator when loading request
     func showActivityIndicator() {
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -97,8 +85,6 @@ class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITa
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
     }
- 
-    //Setup Tableview
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -132,7 +118,7 @@ class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
+        tableView.deselectRow(at: indexPath, animated: true)
     
         lastMessage = FBDataService.instance.allLastMessages[ FBDataService.instance.allChannelNames[(indexPath as NSIndexPath).row] ]
         performSegue(withIdentifier: "ViewMessageThreadFromCustomer", sender: nil)
@@ -148,7 +134,7 @@ class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITa
         messageVC.currentUserID = castedUser.uuid
         messageVC.currentUser = self.castedUser
         
-        if castedUser.uuid == lastMessage.senderUID{ //Current User was last sender
+        if castedUser.uuid == lastMessage.senderUID{
           
             messageVC.senderId =  lastMessage.senderUID // 3
             messageVC.senderDisplayName = lastMessage.senderUserObj.fullName // 4
@@ -157,7 +143,7 @@ class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITa
             messageVC.otherUserProfilePictureLocation = lastMessage.recipientUserObj.userProfilePicLocation
             
             
-        }else{ // Current User was not last sender in convo
+        }else{ 
      
             messageVC.senderId =  lastMessage.recipientUID // 3
             messageVC.senderDisplayName = lastMessage.recipientUserObj.fullName // 4
