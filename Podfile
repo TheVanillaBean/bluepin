@@ -10,7 +10,7 @@ target 'Bizmi' do
 	:branch => ‘feature/swift-3.0’
   pod 'PhoneNumberKit',
 	:git => "https://github.com/marmelroy/PhoneNumberKit.git", 
-	:branch => ‘swift3.0’
+	:branch => ‘master’
   pod 'SinchVerification-Swift'
   pod 'ALCameraViewController'
   pod 'AlamofireImage', '~> 3.0'
@@ -22,6 +22,9 @@ target 'Bizmi' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
+  pod 'Firebase/Messaging'
+  pod 'HotlineSDK'
+  pod 'BRYXBanner'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

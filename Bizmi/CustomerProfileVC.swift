@@ -32,13 +32,16 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     let profileIconItems: [UIImage] = [ //For Tableview
         UIImage(named: "Profile_Blue")!,
         UIImage(named: "Email_Blue")!,
-        UIImage(named: "Password_Blue")!
+        UIImage(named: "Password_Blue")!,
+        UIImage(named: "Contact_Support")!
+
     ]
     
     var alertTitles: [String] = [ //For tableview
         "Edit Full Name",
         "Edit Email",
-        "Change Password"
+        "Change Password",
+        "Contact Bizmi Support"
     ]
     
     override func viewDidLoad() {
@@ -98,7 +101,8 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         profileTextItems = [
             castedUser.fullName,
             castedUser.email,
-            "Change Password" //Because users password should not be displayed
+            "Change Password", //Because users password should not be displayed
+            "Contact Bizmi Support"
         ]
         
         tableView.reloadData()
@@ -137,7 +141,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
         tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
         
-        if (indexPath as NSIndexPath).row <= 1 { //Password change requires different functionality
+        if (indexPath as NSIndexPath).row < 2 { //Password change requires different functionality
             
             let alert = UIAlertController(title: alertTitles[(indexPath as NSIndexPath).row], message: "", preferredStyle: .alert)
             
@@ -156,6 +160,18 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             
             self.present(alert, animated: true, completion: nil)
             
+        }else if ( (indexPath as NSIndexPath).row == 3 ){
+            
+            let user = HotlineUser.sharedInstance();
+            
+            user?.name = castedUser.fullName
+            user?.email = castedUser.email
+            user?.phoneNumber = castedUser.phoneNumber
+            user?.externalID = castedUser.uuid;
+            
+            Hotline.sharedInstance().update(user)
+            
+            Hotline.sharedInstance().showConversations(self)
         }else {
             
             print("Change Password")
@@ -195,7 +211,16 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             case 0:
                 properties.updateValue(textInput as AnyObject, forKey: FULL_NAME)
             case 1:
-                properties.updateValue(textInput as AnyObject, forKey: EMAIL)
+                FBDataService.instance.resetEmail(textInput as String, onComplete: { (errMsg, data) in
+                    if errMsg != nil{
+                        Messages.showAlertDialog("Email Error", msgAlert: errMsg)
+                    }else{
+                        properties.updateValue(textInput as AnyObject, forKey: EMAIL)
+                        FBDataService.instance.updateUser(self.castedUser.uuid, propertes: properties, onComplete: { (errMsg, data) in
+                            self.castUser()
+                        })
+                    }
+                })
             default:
                 break
             }
@@ -284,9 +309,12 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     @IBAction func logoutBtnPressed(_ sender: AnyObject) {
         
-        FBDataService.instance.businessUserRef.removeAllObservers()
-        FBDataService.instance.businessFollowersRef.removeAllObservers()
-        FBDataService.instance.userChannelsRef.child(self.castedUser.uuid).removeAllObservers()
+        FBDataService.instance.removeObservers(uuid: FBDataService.instance.currentUser?.uid)
+        FBDataService.instance.clearAllFollowers()
+        FBDataService.instance.clearAllChannels()
+        FBDataService.instance.clearAllReservations()
+        FBDataService.instance.clearAllBusinesses()
+        FBDataService.instance.clearAllMessagesInChat()
 
         try! FIRAuth.auth()!.signOut()
         self.performSegue(withIdentifier: "customerLoggedOut", sender: nil)

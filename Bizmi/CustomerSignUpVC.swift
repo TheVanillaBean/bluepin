@@ -21,7 +21,7 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var fullNameTextField: MaterialTextField!
     
-    @IBOutlet weak var phoneNumberTextField: PhoneNumberTextField!
+    @IBOutlet weak var phoneNumberTextField: MaterialPhoneNumberTextView!
     
     @IBOutlet weak var passwordTextField: MaterialTextField!
     
@@ -116,7 +116,7 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
                             phoneNumber: phoneNumber)
         self.verification.initiate { (success:Bool, error: Error?) -> Void in
             if (success){
-                self.performSegue(withIdentifier: "phoneNotVerified", sender: nil);
+                self.performSegue(withIdentifier: "verifyPhoneNumber", sender: nil);
             } else {
                 Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error.debugDescription))
             }
@@ -169,17 +169,12 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     }
 
     
+    @IBAction func termsBtnPressed(_ sender: AnyObject) {
+        Hotline.sharedInstance().showFAQs(self)
+    }
+    
     
 }
-
-
-
-
-
-
-
-
-
 
 
 

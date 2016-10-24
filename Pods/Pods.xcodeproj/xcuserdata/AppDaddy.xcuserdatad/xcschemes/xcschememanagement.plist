@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>BRYXBanner.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>DeviceKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -62,7 +67,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0DF9E6B73AA3C5E28DFB8F81A406A8D5</key>
+		<key>0F1152D3032EBC441D6ABE5F620E0850</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -77,12 +82,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>24CC0BAD2C5E67A7166121443E0F202E</key>
+		<key>333E47F1004946B94926B19979768D18</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>333E47F1004946B94926B19979768D18</key>
+		<key>5922F047B4A7957BC568CFBD8FDFD545</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,7 +97,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>5BAA701E27637D1B80EFC41899477507</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8136A02841E9E01FE6B81238BC0E1533</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -103,11 +118,6 @@
 			<true/>
 		</dict>
 		<key>DAEFE5845A9A47287B43BE713DFD4B08</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DDA974E22D8E2BD5F1126385A88BE994</key>
 		<dict>
 			<key>primary</key>
 			<true/>

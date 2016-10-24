@@ -131,7 +131,6 @@ class ViewCustomerVC: UIViewController {
         
         print(potentialChannelNameTwo)
         channelName = potentialChannelNameOne
-        print("\(channelName!) ---channelname")
         
         for channelNameObj in FBDataService.instance.allChannelNames {
             
@@ -140,7 +139,6 @@ class ViewCustomerVC: UIViewController {
                 //Channel already exists
                 
                 channelName = channelNameObj
-                print("\(channelName) --------")
                 
                 break
             }

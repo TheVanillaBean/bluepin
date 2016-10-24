@@ -42,7 +42,8 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         UIImage(named: "Website_Blue")!,
         UIImage(named: "Email_Blue")!,
         UIImage(named: "Marker")!,
-        UIImage(named: "Password_Blue")!
+        UIImage(named: "Password_Blue")!,
+        UIImage(named: "Contact_Support")!
     ]
 
     var alertTitles: [String] = [
@@ -119,6 +120,7 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             castedUser.email,
             "Change Location",
             "Change Password", //Because users password should not be displayed
+            "Contact Bizmi Support"
         ]
 
         tableView.reloadData()
@@ -182,7 +184,19 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             
             performSegue(withIdentifier: "EditBusinessLocation", sender: nil)
             
-        }else {
+        }else if indexPath.row == 9{
+            
+            let user = HotlineUser.sharedInstance();
+            
+            user?.name = castedUser.businessName
+            user?.email = castedUser.email
+            user?.phoneNumber = castedUser.phoneNumber
+            user?.externalID = castedUser.uuid;
+            
+            Hotline.sharedInstance().update(user)
+            
+            Hotline.sharedInstance().showConversations(self)
+        }else{
             
             print("Change Password")
             self.showPasswordAlertDialog()
@@ -243,7 +257,16 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             case 5:
                 properties.updateValue(textInput as AnyObject, forKey: BUSINESS_WEBSITE)
             case 6:
-                properties.updateValue(textInput as AnyObject, forKey: EMAIL)
+                FBDataService.instance.resetEmail(textInput as String, onComplete: { (errMsg, data) in
+                    if errMsg != nil{
+                        Messages.showAlertDialog("Email Error", msgAlert: errMsg)
+                    }else{
+                        properties.updateValue(textInput as AnyObject, forKey: EMAIL)
+                        FBDataService.instance.updateUser(self.castedUser.uuid, propertes: properties, onComplete: { (errMsg, data) in
+                            self.castUser()
+                        })
+                    }
+                })
             default:
                 break
             }
@@ -257,9 +280,12 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
         if let rawNumber = rawPhoneNumber{
             
+            let phoneNumberKit = PhoneNumberKit()
+
             do {
-                let phoneNumber = try PhoneNumber(rawNumber: rawNumber, region: "US" )
-                return String(phoneNumber.toNational())
+                let phoneNumber = try phoneNumberKit.parse(rawNumber, withRegion: "US")
+                let phoneNumberString = try phoneNumberKit.format(phoneNumber, toType: .national)
+                return phoneNumberString
             }
             catch {
                 print("Generic parser error")
@@ -352,16 +378,17 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     @IBAction func logoutBtnPressed(_ sender: AnyObject) {
         
-        FBDataService.instance.businessUserRef.removeAllObservers()
-        FBDataService.instance.businessFollowersRef.removeAllObservers()
-        FBDataService.instance.userChannelsRef.child(self.castedUser.uuid).removeAllObservers()
+        FBDataService.instance.removeObservers(uuid: FBDataService.instance.currentUser?.uid)
+        FBDataService.instance.clearAllFollowers()
+        FBDataService.instance.clearAllChannels()
+        FBDataService.instance.clearAllReservations()
+        FBDataService.instance.clearAllBusinesses()
+        FBDataService.instance.clearAllMessagesInChat()
         
         try! FIRAuth.auth()!.signOut()
-        self.performSegue(withIdentifier: "customerLoggedOut", sender: nil)
+        self.performSegue(withIdentifier: "businessLoggedOut", sender: nil)
     }
-    
-    @IBAction func analyticsBtnPressed(_ sender: AnyObject) {
-    }
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         

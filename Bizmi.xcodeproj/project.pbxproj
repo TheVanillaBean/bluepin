@@ -41,13 +41,14 @@
 		5A7880FF1D3E261400F168AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7880FE1D3E261400F168AE /* ViewController.swift */; };
 		5A7881021D3E261500F168AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A7881001D3E261500F168AE /* Main.storyboard */; };
 		5A7881071D3E261500F168AE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A7881051D3E261500F168AE /* LaunchScreen.storyboard */; };
+		5A9BC2DB1DBD6CB400817A9E /* UIScrollView+EmptyDataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9BC2DA1DBD6CB400817A9E /* UIScrollView+EmptyDataSet.m */; };
 		5AAC6E071D6505D400D59F44 /* ViewMessageThreadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAC6E061D6505D400D59F44 /* ViewMessageThreadVC.swift */; };
 		5AB5281D1D91F8D500A81954 /* CustomerProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB5281C1D91F8D500A81954 /* CustomerProfileCell.swift */; };
 		5ABEC9611D7B9439009D7032 /* CustomerReservationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEC9601D7B9439009D7032 /* CustomerReservationCell.swift */; };
-		5AC190A31D8F465900DB2431 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5AC190A21D8F465900DB2431 /* GoogleService-Info.plist */; };
 		5AC190A51D8F4A0900DB2431 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC190A41D8F4A0900DB2431 /* AuthService.swift */; };
 		5AC190A71D8F631000DB2431 /* FBDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC190A61D8F631000DB2431 /* FBDataService.swift */; };
 		5AC190A91D8F681500DB2431 /* NewUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC190A81D8F681500DB2431 /* NewUser.swift */; };
+		5AC6D5761DB42C8100F76B7A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5AC6D5751DB42C8100F76B7A /* GoogleService-Info.plist */; };
 		5ACA47CA1D725AF400583632 /* ViewCustomerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACA47C91D725AF400583632 /* ViewCustomerVC.swift */; };
 		5ACF9D051D69354800ED25F7 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF9D041D69354800ED25F7 /* Structs.swift */; };
 		5ACF9D071D69B2E700ED25F7 /* CustomerMessageChannelsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF9D061D69B2E700ED25F7 /* CustomerMessageChannelsCell.swift */; };
@@ -121,13 +122,16 @@
 		5A7881011D3E261500F168AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5A7881061D3E261500F168AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5A7881081D3E261500F168AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5A9BC2D91DBD6CB400817A9E /* UIScrollView+EmptyDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+EmptyDataSet.h"; sourceTree = "<group>"; };
+		5A9BC2DA1DBD6CB400817A9E /* UIScrollView+EmptyDataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+EmptyDataSet.m"; sourceTree = "<group>"; };
 		5AAC6E061D6505D400D59F44 /* ViewMessageThreadVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewMessageThreadVC.swift; sourceTree = "<group>"; };
 		5AB5281C1D91F8D500A81954 /* CustomerProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerProfileCell.swift; sourceTree = "<group>"; };
 		5ABEC9601D7B9439009D7032 /* CustomerReservationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerReservationCell.swift; sourceTree = "<group>"; };
-		5AC190A21D8F465900DB2431 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5AC190A41D8F4A0900DB2431 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		5AC190A61D8F631000DB2431 /* FBDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBDataService.swift; sourceTree = "<group>"; };
 		5AC190A81D8F681500DB2431 /* NewUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewUser.swift; sourceTree = "<group>"; };
+		5AC6D5751DB42C8100F76B7A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "GeoFire/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5AC6D5771DB42F9600F76B7A /* Bizmi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bizmi.entitlements; sourceTree = "<group>"; };
 		5ACA47C91D725AF400583632 /* ViewCustomerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewCustomerVC.swift; sourceTree = "<group>"; };
 		5ACF9D041D69354800ED25F7 /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
 		5ACF9D061D69B2E700ED25F7 /* CustomerMessageChannelsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerMessageChannelsCell.swift; sourceTree = "<group>"; };
@@ -248,8 +252,11 @@
 		5A7880FB1D3E261400F168AE /* Bizmi */ = {
 			isa = PBXGroup;
 			children = (
+				5AC6D5771DB42F9600F76B7A /* Bizmi.entitlements */,
 				5A773BFB1D93C05300D14519 /* GeoFire */,
-				5AC190A21D8F465900DB2431 /* GoogleService-Info.plist */,
+				5AC6D5751DB42C8100F76B7A /* GoogleService-Info.plist */,
+				5A9BC2D91DBD6CB400817A9E /* UIScrollView+EmptyDataSet.h */,
+				5A9BC2DA1DBD6CB400817A9E /* UIScrollView+EmptyDataSet.m */,
 				5ADD36261D3E3BB500394637 /* Util */,
 				5ADD36271D3E3BBD00394637 /* Resources */,
 				5ADD36281D3E3BC600394637 /* Model */,
@@ -399,8 +406,17 @@
 				TargetAttributes = {
 					5A7880F81D3E261400F168AE = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = D4U8EYNJR5;
+						DevelopmentTeam = 9E229VA6PP;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -428,7 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5ADD362F1D3E3C3300394637 /* NotoSans-Bold.ttf in Resources */,
-				5AC190A31D8F465900DB2431 /* GoogleService-Info.plist in Resources */,
+				5AC6D5761DB42C8100F76B7A /* GoogleService-Info.plist in Resources */,
 				5A7881071D3E261500F168AE /* LaunchScreen.storyboard in Resources */,
 				5ADD36301D3E3C3300394637 /* NotoSans-BoldItalic.ttf in Resources */,
 				5ADD36311D3E3C3300394637 /* NotoSans-Italic.ttf in Resources */,
@@ -499,6 +515,7 @@
 				5ACF9D051D69354800ED25F7 /* Structs.swift in Sources */,
 				5AC190A51D8F4A0900DB2431 /* AuthService.swift in Sources */,
 				5AF412871D52A83200F184C0 /* BusinessProfileCell.swift in Sources */,
+				5A9BC2DB1DBD6CB400817A9E /* UIScrollView+EmptyDataSet.m in Sources */,
 				5ACF9D071D69B2E700ED25F7 /* CustomerMessageChannelsCell.swift in Sources */,
 				5ACF9D091D6A857100ED25F7 /* BusinessMessageChannelsCell.swift in Sources */,
 				5AAC6E071D6505D400D59F44 /* ViewMessageThreadVC.swift in Sources */,
@@ -670,8 +687,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Bizmi/Bizmi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9E229VA6PP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Bizmi/swift",
@@ -679,7 +698,7 @@
 				INFOPLIST_FILE = Bizmi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bizmiapp.Bizmi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bizmiapp.bizmiapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bizmi/Bizmi-Bridging-Header.h";
@@ -693,8 +712,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = Bizmi/Bizmi.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9E229VA6PP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Bizmi/swift",
@@ -702,7 +723,7 @@
 				INFOPLIST_FILE = Bizmi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bizmiapp.Bizmi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bizmiapp.bizmiapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bizmi/Bizmi-Bridging-Header.h";

@@ -85,9 +85,9 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
         
     }
     
-    func userProperties(_ uuid: String!, name: String!, businessType: String!, email: String!) -> Dictionary<String, AnyObject>  {
+    func userProperties(_ uuid: String!, name: String!, businessType: String!, email: String!, deviceToken: String!) -> Dictionary<String, AnyObject>  {
         
-        let profile: Dictionary<String, AnyObject> = [UUID: uuid as AnyObject, EMAIL: email as AnyObject, BUSINESS_NAME: name as AnyObject, BUSINESS_TYPE: businessType as AnyObject, USER_TYPE: USER_BUSINESS_TYPE as AnyObject]
+        let profile: Dictionary<String, AnyObject> = [UUID: uuid as AnyObject, EMAIL: email as AnyObject, BUSINESS_NAME: name as AnyObject, BUSINESS_TYPE: businessType as AnyObject, USER_TYPE: USER_BUSINESS_TYPE as AnyObject, DEVICE_TOKEN: deviceToken as AnyObject]
         
         return profile
         
@@ -108,13 +108,13 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
                 
                 let firUser = data as? FIRUser
                 
-                let properties = self.userProperties(firUser?.uid, name: user.businessName, businessType: user.businessType, email: user.email)
+                let properties = self.userProperties(firUser?.uid, name: user.businessName, businessType: user.businessType, email: user.email, deviceToken: self.appDelegate.deviceTokenString)
                 
                 FBDataService.instance.saveUser(firUser?.uid, isCustomer: false, propertes: properties, onComplete: { (errMsg, data) in
                     
                     if errMsg == nil {
                         self.view.hideToastActivity()
-                        //self.performSegueWithIdentifier("businessSignUp", sender: nil)
+                        self.performSegue(withIdentifier: "businessSignUp", sender: nil)
                     }
                     
                 })
@@ -124,6 +124,11 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
         }
         
     }
+    
+    @IBAction func termsBtnPressed(_ sender: AnyObject) {
+        Hotline.sharedInstance().showFAQs(self)
+    }
+    
     
 }
 

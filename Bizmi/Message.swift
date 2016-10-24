@@ -12,17 +12,34 @@ typealias MessageCompletion = (_ errMsg: String?) -> Void
 
 class Message{
     
+    fileprivate var _messageID: String!
     fileprivate var _messageType: String!
     fileprivate var _messageData: String!
     fileprivate var _senderUID: String!
     fileprivate var _recipientUID: String!
     fileprivate var _channelName: String!
-    fileprivate var _timeStamp: Double!
+    
+    fileprivate var _timeStamp: String!
     fileprivate var _messageLocation: String!
     
+    fileprivate var _timeStampDouble: Double!
+
     fileprivate var _senderUserObj: NewUser!
     fileprivate var _recipientuserObj: NewUser!
 
+    
+    var timeStampDouble: Double {
+        get{
+            return _timeStampDouble
+        }
+        
+        set(timeStamp){
+            
+            _timeStampDouble = timeStamp
+            
+        }
+    }
+    
     var messageLocation: String {
         get{
             return _messageLocation
@@ -112,7 +129,7 @@ class Message{
         }
     }
     
-    var timeStamp: Double {
+    var timeStamp: String {
         get{
             return _timeStamp
         }
@@ -133,6 +150,19 @@ class Message{
             
             if channelName != ""{
                 _channelName = channelName
+            }
+        }
+    }
+    
+    var messageID: String {
+        get{
+            return _messageID
+        }
+        
+        set(newInput){
+            
+            if newInput != ""{
+                _messageID = newInput
             }
         }
     }
@@ -162,7 +192,11 @@ class Message{
             let messageDict = snapshot.value as! [String : AnyObject]
             
             //print("snapshot Message------")
-
+            
+            if let id = messageDict[MESSAGE_UID] as? String{
+                print(id)
+                self.messageID = id
+            }
             if let type = messageDict[MESSAGE_TYPE] as? String{
                 self.messageType = type
             }
@@ -176,7 +210,15 @@ class Message{
             }
             
             if let stamp = messageDict[MESSAGE_TIMESTAMP] as? Double{
-                self.timeStamp = stamp
+                
+                let date = NSDate(timeIntervalSince1970: stamp/1000)
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "EEE MMM dd  "
+                let dateString = dateFormatter.string(from: date as Date)
+                
+                self.timeStamp = dateString
+                self.timeStampDouble = stamp
             }
             
             if let channel = messageDict[MESSAGE_CHANNEL_NAME]as? String{

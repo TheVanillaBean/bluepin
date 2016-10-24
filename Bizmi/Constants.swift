@@ -42,9 +42,11 @@ let BUSINESS_WEBSITE: String = "businessWebsite"
 let BUSINESS_HOURS: String = "businessHours"
 let BUSINESS_LOCATION: String = "businessLocation"
 let PROFILE_PIC_LOCATION: String = "userProfilePicLocation"
+let DEVICE_TOKEN: String = "deviceToken"
 
 //Messages
 
+let MESSAGE_UID: String = "messageID"
 let MESSAGE_TYPE: String = "messageType"
 let MESSAGE_LOCATION: String = "messageLocation"
 let MESSAGE_DATA: String = "messageData"
@@ -56,6 +58,22 @@ let MESSAGE_RECIPIENT_NAME: String = "recipientName"
 let MESSAGE_SENDER_NAME: String = "senderName"
 
 let MESSAGE_TEXT_TYPE: String = "type/text"
+
+//Notification Requests
+let REQUEST_ID: String = "requestID"
+let REQUEST_SENDER_ID: String = "senderID"
+let REQUEST_RECIPIENT_ID: String = "recipientID"
+let REQUEST_SENDER_NAME: String = "senderName"
+let REQUEST_MESSAGE: String = "message"
+
+//let NOTIF_MESSAGE: String = "You have a new message from "
+//let NOTIF_RESERVATION: String = "You have a new reservation from "
+//let NOTIF_RESERVATION_ACCEPTED: String = "Your reservation request has been accepted by "
+//let NOTIF_RESERVATION_DECLINED: String = "Your reservation request has been cancled by "
+let MESSAGE_NOTIF = "Message"
+let NEW_RESERVATION_NOTIF = "Reservation"
+let ACCEPTED_RESERVATION_NOTIF = "AcceptedRes"
+let DECLINED_RESERVATION_NOTIF = "DeclinedRes"
 
 //Reservations
 let RESERVATION_UID = "uuid"
@@ -80,6 +98,9 @@ let FIR_CHILD_CHANNELS = "Channels"
 let FIR_CHILD_MESSAGES = "Messages"
 let FIR_CHILD_RESERVATIONS = "Reservations"
 
+let FIR_CHILD_NOTIFICATIONS = "notificationRequests"
+
+
 let FIR_CHILD_CUSTOMER_FOLLOWERS = "Customer-Followers"
 let FIR_CHILD_BUSINESS_FOLLOWERS = "Business-Followers"
 let FIR_CHILD_USER_RESERVATIONS = "User-Reservations"
@@ -89,6 +110,15 @@ let FIR_CHILD_USER_RESERVATIONS = "User-Reservations"
 let FIR_STORAGE_CHILD_USER_PROFILE_PICS = "Profile-Pictures"
 let FIR_STORAGE_CHILD_MESSAGES = "Messages"
 
+//EMPTY DATA SETS
+
+let EMPTY_DATA_WELCOME = "Welcome"
+let EMPTY_MESSAGES_DATA_SET_BUSINESS = "You do not have any messages yet. Whenever a customer messages you, the conversation will be here."
+let EMPTY_FOLLOWERS_DATA_SET_BUSINESS = "You do not have any followers yet. Tell your customers to follow you on Bizmi so you can view them here."
+let EMPTY_RESERVATION_DATA_SET_BUSINESS = "You do not have any reservations yet. You can make a reservation for a customer by pressing the + button in the toolbar. Your customers will recieve a pending reservation and will have the option to accept or decline the reservation. All reservations will show up here."
+let EMPTY_MESSAGES_DATA_SET_CUSTOMER = "You do not have any messages yet. Whenever you messages a business, the conversation will be here."
+let EMPTY_BUSINESSES_DATA_SET_CUSTOMER = "There are currently no businesses in your area that use Bizmi. Contact a local business and refer them to Bizmi."
+let EMPTY_RESERVATION_DATA_SET_CUSTOMER = "You do not have any reservations yet. Whenever a business sends you a reservation, it will show up here as pending. You will then have the option to accept or decline the reservation."
 
 
 

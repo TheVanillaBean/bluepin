@@ -23,6 +23,7 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
     
     var customerName: String?
     var customerID: String?
+    var customerDeviceToken: String?
     
     var partySize: String!
     
@@ -44,6 +45,7 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
         
         customerName = FBDataService.instance.appointmentLeaderName
         customerID = FBDataService.instance.appointmentLeaderID
+        customerDeviceToken = FBDataService.instance.appointmentLeaderDeviceToken
         
         if customerID != "Select Customer"{
             self.partyLeaderField.setTitle(customerName, for: UIControlState())
@@ -53,18 +55,17 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
     }
     
     @IBAction func onPartySizeFieldChanged(_ sender: UITextField) {
+        if let size = Int(sender.text!){
         
-        
-        if Int(sender.text!)! == 0{
-            sender.text = "1"
-        }else if Int(sender.text!)! > 150 {
-            sender.text = "150"
-        }
-        
-        partySize = sender.text
-        
-        if let partySize = sender.text{
-            sender.text = "Party Size: \(partySize)"
+            if size == 0{
+                sender.text = "1"
+            }else if size > 150 {
+                sender.text = "150"
+            }
+            
+            partySize = sender.text!
+            
+            sender.text = "Party Size: \(partySize!)"
         }
     }
     
@@ -105,6 +106,17 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
                     FBReservation.setValue(res)
                     FBDataService.instance.userReservationsRef.child(self.customerID!).child(FBReservation.key).setValue(FIRServerValue.timestamp())
                     FBDataService.instance.userReservationsRef.child((FBDataService.instance.currentUser?.uid)!).child(FBReservation.key).setValue(FIRServerValue.timestamp())
+                    
+                    let notification = FBDataService.instance.notificationsRef.childByAutoId()
+                    
+                    var notificationRequest: Dictionary<String, AnyObject>
+                    
+                    notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: user.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.customerID! as AnyObject, REQUEST_MESSAGE: NEW_RESERVATION_NOTIF as AnyObject, REQUEST_SENDER_NAME: user.businessName as AnyObject]
+                    
+                    print(notificationRequest)
+                    
+                    notification.setValue(notificationRequest)
+
                     
                     self.clearFields()
                     self.navigationController?.popViewController(animated: true)

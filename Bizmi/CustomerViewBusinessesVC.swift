@@ -8,20 +8,53 @@
 
 import UIKit
 
-class CustomerViewBusinessesVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
+class CustomerViewBusinessesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate  {
 
     @IBOutlet weak var tableView: UITableView!
-        
+    
+    private let refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
      
         tableView.delegate = self
         tableView.dataSource = self
+        
+        tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
+        tableView.tableFooterView = UIView()
 
         FBDataService.instance.retriveAllBusinesses { (errMsg, data) in
-            print("lol")
             self.tableView.reloadData()
         }
         
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing Data ...", attributes: nil)
+        refreshControl.addTarget(self, action: #selector(CustomerViewBusinessesVC.refresh(sender:)), for: .valueChanged)
+        
+        // Add to Table View
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+    }
+    
+    func refresh(sender: UIRefreshControl) {
+        FBDataService.instance.retriveAllBusinesses { (errMsg, data) in
+            self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = EMPTY_DATA_WELCOME
+        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = EMPTY_BUSINESSES_DATA_SET_CUSTOMER
+        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
+        return NSAttributedString(string: str, attributes: attrs)
     }
     
     override func viewWillAppear(_ animated: Bool) {

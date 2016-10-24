@@ -10,6 +10,9 @@ import UIKit
 import Toast_Swift
 import SinchVerification
 import FirebaseAuth
+import Firebase
+import FirebaseInstanceID
+import FirebaseMessaging
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
@@ -34,6 +37,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         //validateUserToken()
         
        // print("view controller called twice")
+       // FIRMessaging.messaging().subscribe(toTopic: "/topics/user")
+
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,7 +47,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.isNavigationBarHidden = true
         
        // print("validate called twice")
-        validateUserToken()
+          validateUserToken()
         
     }
   
@@ -49,9 +55,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func validateUserToken() {
         
         authListener = FIRAuth.auth()?.addStateDidChangeListener { auth, user in
+            
             if let user = user {
                 // User is signed in.
-               //print(user.uid)
+               print(user.uid)
                let newUser = NewUser()
                newUser.castUser(user.uid, onComplete: { (errMsg) in
                     if errMsg == nil {
@@ -136,15 +143,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if !verifyCalled{
             if let userObj = user {
                 verifyCalled = true
+                
+                FIRMessaging.messaging().subscribe(toTopic: "/topics/user_\(userObj.uuid)")
+                
                 if userObj.userType == USER_BUSINESS_TYPE{
                     self.performSegue(withIdentifier: "businessLogin", sender: nil)
                 }else {
                     
                     if userObj.phoneNumberVerified == "true"{
-                        print("login vc--------")
                         self.performSegue(withIdentifier: "customerLogin", sender: nil)
                         
                     }else {
+
                         self.initiateVerificationProcess(userObj.phoneNumber)
                     }
                     

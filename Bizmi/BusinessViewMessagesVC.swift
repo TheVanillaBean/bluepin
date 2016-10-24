@@ -7,15 +7,16 @@
 //
 
 import UIKit
+import FirebaseMessaging
 
-class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
+class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate  {
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
     
     @IBOutlet weak var tableView: UITableView!
-    
+        
     var lastMessage: Message!
     
     var castedUser: NewUser!
@@ -44,6 +45,10 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         
+        tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
+        tableView.tableFooterView = UIView()
+        
         castUser()
         
         showActivityIndicator()
@@ -52,11 +57,21 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
         
     }
     
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = EMPTY_DATA_WELCOME
+        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = EMPTY_MESSAGES_DATA_SET_BUSINESS
+        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+    
     func onNewReservationBtnPressed(){
         
         performSegue(withIdentifier: "NewReservationFromTab", sender: nil)
-        
-        print("pressed VC")
         
     }
     
@@ -76,7 +91,6 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
             let userID = FBDataService.instance.currentUser?.uid
             
             if FBDataService.instance.channelChangedHandler == nil{
-                print("observer called ---------------")
                 FBDataService.instance.observeChannelsAddedForUser(userID)
                 FBDataService.instance.observeChannelsChangedForUser(userID)
             }
@@ -102,17 +116,17 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let channel = FBDataService.instance.allLastMessages[(indexPath as NSIndexPath).row]
+        let channel = FBDataService.instance.allLastMessages[ FBDataService.instance.allChannelNames[(indexPath as NSIndexPath).row] ]
                 
         if let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessChannelsCell") as? BusinessMessageChannelsCell{
             
-            cell.configureCell(channel)
+            cell.configureCell(channel!)
             
             return cell
         }else {
             
             let cell = BusinessMessageChannelsCell()
-            cell.configureCell(channel)
+            cell.configureCell(channel!)
             
             return cell
         }
@@ -132,7 +146,7 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
         
         tableView.deselectRow(at: indexPath, animated: true) //So tableview row doesn't stay highlighted
         
-        lastMessage = FBDataService.instance.allLastMessages[indexPath.row]
+        lastMessage = FBDataService.instance.allLastMessages[ FBDataService.instance.allChannelNames[(indexPath as NSIndexPath).row] ]
         performSegue(withIdentifier: "ViewMessageThreadFromBusiness", sender: nil)
         
     }
@@ -168,15 +182,8 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
         
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        // print("\(castedUser.uuid) id------")
-        //FBDataService.instance.userChannelsRef.child(castedUser.uuid).removeAllObservers()
-        //FBDataService.instance._allLastMessages.removeAll()
-        //FBDataService.instance._allChannelNames.removeAll()
-        // self.showActivityIndicator()
-        // self.tableView.reloadData()
-    }
- 
+    
+    
 }
     
 

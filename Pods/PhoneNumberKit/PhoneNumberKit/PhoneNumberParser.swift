@@ -12,9 +12,14 @@ import Foundation
 Parser. Contains parsing functions. 
 */
 class PhoneNumberParser {
-    let metadata = Metadata.sharedInstance
-    let regex = RegularExpressions.sharedInstance
-        
+    let metadata: MetadataManager
+    let regex: RegexManager
+    
+    init(regex: RegexManager, metadata: MetadataManager) {
+        self.regex = regex
+        self.metadata = metadata
+    }
+    
     // MARK: Normalizations
     
     /**
@@ -101,7 +106,7 @@ class PhoneNumberParser {
             let stringRange = NSMakeRange(startPosition, i)
             let subNumber = nsFullNumber.substring(with: stringRange)
             if let potentialCountryCode = UInt64(subNumber)
-                , metadata.metadataPerCode[potentialCountryCode] != nil {
+                , metadata.territoriesByCode[potentialCountryCode] != nil {
                     nationalNumber = nsFullNumber.substring(from: i)
                     return potentialCountryCode
             }
@@ -111,29 +116,14 @@ class PhoneNumberParser {
     
     // MARK: Validations
     
-    /**
-    Check number type (e.g +33 612-345-678 to .Mobile).
-    - Parameter phoneNumber: The number to check
-    - Returns: The type of the number
-    */
-    func checkNumberType(_ phoneNumber: PhoneNumber) -> PhoneNumberType {
-        guard let region = PhoneNumberKit().regionCodeForNumber(phoneNumber) else {
-            return .unknown
-        }
-        guard let metadata = metadata.fetchMetadataForCountry(region) else {
-            return .unknown
-        }
-        if phoneNumber.leadingZero {
-            let type = checkNumberType("0" + String(phoneNumber.nationalNumber), metadata: metadata)
+    func checkNumberType(_ nationalNumber: String, metadata: MetadataTerritory, leadingZero: Bool = false) -> PhoneNumberType {
+        if leadingZero {
+            let type = checkNumberType("0" + String(nationalNumber), metadata: metadata)
             if type != .unknown {
                 return type
             }
         }
-        let nationalNumber = String(phoneNumber.nationalNumber)
-        return checkNumberType(nationalNumber, metadata: metadata)
-    }
 
-    func checkNumberType(_ nationalNumber: String, metadata: MetadataTerritory) -> PhoneNumberType {
         guard let generalNumberDesc = metadata.generalDesc else {
             return .unknown
         }

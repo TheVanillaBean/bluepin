@@ -20,12 +20,13 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.delegate = self
         tableView.dataSource = self
         
+        FBDataService.instance.clearAllFollowers()
+        
         FBDataService.instance.retriveAllFollowers(businessID: (FBDataService.instance.currentUser?.uid)!) { (errMsg, data) in
             if errMsg == nil{
                 self.tableView.reloadData()
             }
         }
-
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -70,6 +71,7 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
             if errMsg == nil{
                 FBDataService.instance.appointmentLeaderName = castedUser.fullName
                 FBDataService.instance.appointmentLeaderID = self.customerID
+                FBDataService.instance.appointmentLeaderDeviceToken = castedUser.deviceToken
                 self.navigationController?.popViewController(animated: true)
             }
         }

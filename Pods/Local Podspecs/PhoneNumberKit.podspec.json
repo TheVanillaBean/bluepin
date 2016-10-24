@@ -1,6 +1,6 @@
 {
   "name": "PhoneNumberKit",
-  "version": "0.8.5",
+  "version": "1.0.1",
   "summary": "Swift framework for working with phone numbers",
   "description": "A Swift framework for parsing, formatting and validating international phone numbers. Inspired by Google's libphonenumber.",
   "homepage": "https://github.com/marmelroy/PhoneNumberKit",
@@ -10,14 +10,14 @@
   },
   "source": {
     "git": "https://github.com/marmelroy/PhoneNumberKit.git",
-    "tag": "0.8.5"
+    "tag": "1.0.1"
   },
   "social_media_url": "http://twitter.com/marmelroy",
   "requires_arc": true,
   "frameworks": "CoreTelephony",
   "platforms": {
     "ios": "8.0",
-    "osx": "10.9",
+    "osx": "10.10",
     "tvos": "9.0",
     "watchos": "2.0"
   },
@@ -26,7 +26,7 @@
       "name": "PhoneNumberKitCore",
       "platforms": {
         "ios": "8.0",
-        "osx": "10.9",
+        "osx": "10.10",
         "tvos": "9.0",
         "watchos": "2.0"
       },

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -24,44 +24,39 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
         tableView.delegate = self
         tableView.dataSource = self
         
-//        let currentUser = appDelegate.backendless.userService.currentUser
-//        user.populateUserData(currentUser)
-//        
+        tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
+        tableView.tableFooterView = UIView()
+   
         NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewReservationsVC.onReservationsRecieved), name: NSNotification.Name(rawValue: "reservationRetrieved"), object: nil)
         
-        FBDataService.instance.observeReservationsAddedForUser(FBDataService.instance.currentUser?.uid)
-//
-//        NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewReservationsVC.onReservationUpdated), name: NSNotification.Name(rawValue: "removeReservation"), object: nil)
-        
         showActivityIndicator()
-//        DataService.instance.findBusinessReservations(user.userObjectID)
-//        
-//        refreshControl = UIRefreshControl()
-//        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-//        refreshControl.addTarget(self, action: #selector(CustomerViewReservationsVC.refresh(_:)), for: UIControlEvents.valueChanged)
-//        tableView.addSubview(refreshControl) // not required when using UITableViewController
+        
+        FBDataService.instance.observeReservationsChangedForUser(FBDataService.instance.currentUser?.uid)
+        FBDataService.instance.observeReservationsAddedForUser(FBDataService.instance.currentUser?.uid)
+        FBDataService.instance.observeReservationsDeletedForUser(FBDataService.instance.currentUser?.uid)
+
     }
-    
-//    func refresh(_ sender:AnyObject) {
-//        showActivityIndicator()
-//        DataService.instance.clearCustomerReservation()
-//        DataService.instance.findBusinessReservations(user.userObjectID)
-//    }
-//    
+
     func onReservationsRecieved(){
         
         activityIndicator.stopAnimating()
-        
         tableView.reloadData()
         
     }
-//
-//    func onReservationUpdated(){
-//        
-//        DataService.instance.findBusinessReservations(user.userObjectID)
-//
-//    }
-//    
+    
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = EMPTY_DATA_WELCOME
+        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = EMPTY_RESERVATION_DATA_SET_BUSINESS
+        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+    
     //Setup Tableview
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -70,17 +65,17 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let reservation = FBDataService.instance.allReservations[(indexPath as NSIndexPath).row]
-                
+        let reservation = FBDataService.instance.allReservations[ FBDataService.instance.allReservationIDS[(indexPath as NSIndexPath).row] ]
+
         if let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessReservationCell") as? BusinessReservationCell{
             
-            cell.configureCell(reservation)
+            cell.configureCell(reservation!)
             
             return cell
         }else {
             
             let cell = BusinessReservationCell()
-            cell.configureCell(reservation)
+            cell.configureCell(reservation!)
             
             return cell
         }
@@ -98,7 +93,7 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
         
         tableView.deselectRow(at: indexPath, animated: true) //So 
         
-        selectedReservation = FBDataService.instance.allReservations[(indexPath as NSIndexPath).row]
+        selectedReservation = FBDataService.instance.allReservations[ FBDataService.instance.allReservationIDS[(indexPath as NSIndexPath).row] ]
         
         if selectedReservation.status == PENDING_STATUS{
             showAlertDialog()
@@ -113,11 +108,13 @@ class BusinessViewReservationsVC: UIViewController, UITableViewDelegate, UITable
         let alertController = UIAlertController(title: "Remove Reservation", message: "Do you want to delete this reservation for \(selectedReservation.customerName)?", preferredStyle: .alert)
         
         // Initialize Actions
-        let yesAction = UIAlertAction(title: "Accept", style: .default) { (action) -> Void in
-           // DataService.instance.removeReservation(self.selectedReservation)
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { (action) -> Void in
+            
+            FBDataService.instance.removeReservationForUser(self.selectedReservation.uuid, businessID: self.selectedReservation.businessID, customerID: self.selectedReservation.leaderID)
+            
         }
         
-        let noAction = UIAlertAction(title: "Decline", style: .default) { (action) -> Void in
+        let noAction = UIAlertAction(title: "No", style: .default) { (action) -> Void in
         }
         
         // Add Actions

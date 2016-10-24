@@ -21,6 +21,9 @@ class BusinessMessageChannelsCell: UITableViewCell {
     
     @IBOutlet weak var lastMessageLbl: TTTAttributedLabel!
     
+    @IBOutlet weak var timestampLbl: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -36,6 +39,7 @@ class BusinessMessageChannelsCell: UITableViewCell {
         
         //let placeholderImage = UIImage(named: "Placeholder")!
         lastMessageLbl.text = message.messageData
+        timestampLbl.text = message.timeStamp
         
         if FBDataService.instance.currentUser?.uid == message.senderUID{ //Current User was last sender
             
@@ -68,23 +72,24 @@ class BusinessMessageChannelsCell: UITableViewCell {
     
     func loadProfilePic(location: String!){
         
-        let ref = FIRStorage.storage().reference(forURL: location)
-        ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
-            if error != nil {
-                print("Unable to download image from Firebase storage")
-                print(error)
-                let placeholderImage = UIImage(named: "Placeholder")!
-                self.businessProfilePic.image = placeholderImage
-            } else {
-                print("Image downloaded from Firebase storage")
-                if let imgData = data {
-                    if let img = UIImage(data: imgData) {
-                        self.businessProfilePic.image = img
+        if location.characters.count > 2{
+            let ref = FIRStorage.storage().reference(forURL: location)
+            ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
+                if error != nil {
+                    print("Unable to download image from Firebase storage")
+                    print(error)
+                    let placeholderImage = UIImage(named: "Placeholder")!
+                    self.businessProfilePic.image = placeholderImage
+                } else {
+                    print("Image downloaded from Firebase storage")
+                    if let imgData = data {
+                        if let img = UIImage(data: imgData) {
+                            self.businessProfilePic.image = img
+                        }
                     }
                 }
-            }
-        })
-        
+            })
+            
+        }
     }
-    
 }

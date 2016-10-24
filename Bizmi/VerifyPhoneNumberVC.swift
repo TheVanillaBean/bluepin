@@ -32,14 +32,14 @@ class VerifyPhoneNumberVC: UIViewController {
             self.verifyTextField.text = ""
             
             verification.verify(pinCode,
-                completion: { (success:Bool, error:NSError?) -> Void in
+                completion: { (success:Bool, error:Error?) -> Void in
                     self.verifyBtn.isEnabled = true
                     if (success) {
                         
                         Messages.displayToastMessage(self.view, msg: "Verification Successful! Please wait...")
                         self.view.makeToastActivity(.center)
                         
-                        let properties = [PHONE_NUMBER_VERIFIED : "true"]
+                        let properties = [PHONE_NUMBER_VERIFIED : "true", DEVICE_TOKEN : self.appDelegate.deviceTokenString!]
                         
                         let currentUserID = FBDataService.instance.currentUser?.uid
                         
@@ -56,7 +56,7 @@ class VerifyPhoneNumberVC: UIViewController {
                     } else {
                         Messages.displayToastMessage(self.view, msg: "Verification Unsuccessful...")
                     }
-            } as! (Bool, Error?) -> Void)
+            })
             
         }
                                                             

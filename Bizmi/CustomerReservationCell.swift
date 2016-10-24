@@ -7,6 +7,7 @@
 //
 import UIKit
 import TTTAttributedLabel
+import FirebaseStorage
 
 class CustomerReservationCell: UITableViewCell {
     
@@ -29,39 +30,58 @@ class CustomerReservationCell: UITableViewCell {
         appointmentLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
    
     }
-//    
-//    func configureCell(_ reservation: Reservation!){
-//        
-//        let URL = Foundation.URL(string: "\(profilePicLocation(reservation.BusinessID!))")!
-//        let placeholderImage = UIImage(named: "Placeholder")!
-//        
-//        businessProfilePic.af_setImageWithURL(URL, placeholderImage: placeholderImage)
-//        
-//        businessNameLbl.text = reservation.BusinessName
-//        appointmentLbl.text = reservation.ReservationTime
-//        statusLbl.text = reservation.Status
-//        setStatusColor(reservation.Status)
-//
-//    }
-//    
-//    func profilePicLocation(_ userID: String) -> String{
-//        
-//        return "https://api.backendless.com/127af0a5-6fb8-985e-ff8c-2ee5ffb8ff00/v1/files/profilePics/\(userID)"
-//        
-//    }
-//    
-//    func setStatusColor(_ status: String!){
-//        
-//        if status == DataService.statusType.PENDING.rawValue{
-//            statusLbl.textColor = UIColor.orange
-//        }else if status == DataService.statusType.ACTIVE.rawValue{
-//            statusLbl.textColor = UIColor.green
-//        }else if status == DataService.statusType.INACTIVE.rawValue{
-//            statusLbl.textColor = UIColor.red
-//        }else if status == DataService.statusType.DECLINED.rawValue{
-//            statusLbl.textColor = UIColor.red
-//        }
-//        
-//    }
+    
+    func configureCell(_ reservation: Reservation){
+        
+        businessNameLbl.text = reservation.businessName
+        appointmentLbl.text = "Appointment Date: \(reservation.scheduledTime)"
+        statusLbl.text = reservation.status
+        setStatusColor(reservation.status)
+        
+        let user = NewUser()
+        user.castUser(reservation.leaderID) { (errMsg) in
+            if errMsg == nil{
+                self.loadProfilePic(location: user.userProfilePicLocation)
+            }
+        }
+        
+    }
+    
+    func loadProfilePic(location: String!){
+       
+        if location.characters.count > 2{
+
+            let ref = FIRStorage.storage().reference(forURL: location)
+            ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
+                if error != nil {
+                    print("Unable to download image from Firebase storage")
+                    print(error)
+                    let placeholderImage = UIImage(named: "Placeholder")!
+                    self.businessProfilePic.image = placeholderImage
+                } else {
+                    print("Image downloaded from Firebase storage")
+                    if let imgData = data {
+                        if let img = UIImage(data: imgData) {
+                            self.businessProfilePic.image = img
+                        }
+                    }
+                }
+            })
+        }
+    }
+    
+    func setStatusColor(_ status: String!){
+        
+        if status == PENDING_STATUS{
+            statusLbl.textColor = UIColor.orange
+        }else if status == ACTIVE_STATUS{
+            statusLbl.textColor = UIColor.green
+        }else if status == INACTIVE_STATUS{
+            statusLbl.textColor = UIColor.red
+        }else if status == DECLINED_STATUS{
+            statusLbl.textColor = UIColor.red
+        }
+        
+    }
     
 }

@@ -28,6 +28,21 @@ class NewUser{
     fileprivate var _userProfilePicLocation: String!
     fileprivate var _businessLocation: String!
     
+    fileprivate var _deviceToken: String!
+    
+    var deviceToken: String {
+        get{
+            return _deviceToken
+        }
+        
+        set(newInput){
+            
+            if newInput != ""{
+                _deviceToken = newInput
+            }
+        }
+    }
+    
     var uuid: String {
         get{
             return _uuid
@@ -272,6 +287,12 @@ class NewUser{
     func castUser(_ uuid: String, onComplete: UserCompletion?){
         
         FBDataService.instance.usersRef.child(uuid).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            guard snapshot.exists() else{
+                print("User doesn't exist")
+                return
+            }
+            
             // Get user value
             let userDict = snapshot.value as! [String : AnyObject]
             
@@ -320,6 +341,10 @@ class NewUser{
             
             if let loc = userDict[BUSINESS_LOCATION] as? String{
                 self.businessLocation = loc
+            }
+            
+            if let token = userDict[DEVICE_TOKEN] as? String{
+                self.deviceToken = token
             }
             
             onComplete?(nil)
