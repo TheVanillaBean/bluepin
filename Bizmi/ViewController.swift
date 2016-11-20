@@ -32,7 +32,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -175,8 +174,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.verification =
             SMSVerification(sinchApplicationKey,
                             phoneNumber: phoneNumber)
-        self.verification.initiate { (success:Bool, error: Error?) -> Void in
-            if (success){
+        self.verification.initiate { (result: InitiationResult, error: Error?) -> Void in
+            if (result.success){
                 self.performSegue(withIdentifier: "phoneNotVerified", sender: nil);
             } else {
                 Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error.debugDescription))

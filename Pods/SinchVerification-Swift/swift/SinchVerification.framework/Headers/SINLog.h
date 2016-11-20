@@ -7,11 +7,11 @@
 #ifndef SIN_LOG_H
 #define SIN_LOG_H
 
-#import "SINLogSeverity.h"
+#import "SINVLogSeverity.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SINLogCallback)(SINLogSeverity severity, NSString* area, NSString* message, NSDate* timestamp);
+typedef void (^SINLogCallback)(SINVLogSeverity severity, NSString* area, NSString* message, NSDate* timestamp);
 
 NS_ASSUME_NONNULL_END
 

@@ -25,6 +25,7 @@ target 'Bizmi' do
   pod 'Firebase/Messaging'
   pod 'HotlineSDK'
   pod 'BRYXBanner'
+  pod 'Firebase/Crash'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

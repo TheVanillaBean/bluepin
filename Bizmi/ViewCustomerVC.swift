@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseStorage
+import FirebaseDatabase
 
 class ViewCustomerVC: UIViewController {
     
@@ -31,6 +32,9 @@ class ViewCustomerVC: UIViewController {
     
     var currentUser: NewUser!
     
+    var allCustomerReservations: [String] = []
+    var allResrvatinsMadeForCustomer: [String] = []
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.navigationController?.isNavigationBarHidden = true
@@ -63,9 +67,8 @@ class ViewCustomerVC: UIViewController {
         
         customerNameLbl.text = castedCustomer.fullName
         followingDateLbl.text = followingDate
-        messagesSentLbl.text = calculateMessagesSent()
-        appointmentsMadeLbl.text = calculateAppointmentsMade()
-        
+        checkIfFUserHasSentAnyMessages()
+        calculateCustomerReservations()
         
     }
     
@@ -90,12 +93,64 @@ class ViewCustomerVC: UIViewController {
         }
     }
     
-    func calculateMessagesSent() -> String{
-        return "5309"
+    func checkIfFUserHasSentAnyMessages(){
+
+        let currentUserID = FBDataService.instance.currentUser?.uid
+    
+        _ = FBDataService.instance.userChannelsRef.child(currentUserID!).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+            
+            for snap in snapshot.children.allObjects as! [FIRDataSnapshot]{
+                
+                if snap.key.contains(self.customerID){
+                    self.calculateMessages(channelID: snap.key)
+                }
+            }
+        
+        })
+
     }
     
-    func calculateAppointmentsMade() -> String{
-        return "67"
+    func calculateMessages(channelID: String){
+    
+        _ = FBDataService.instance.channelsRef.child(channelID).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+            
+            self.messagesSentLbl.text = "\(snapshot.childrenCount)"
+            
+        })
+    
+    }
+    
+    func calculateCustomerReservations(){
+        
+        _ = FBDataService.instance.userReservationsRef.child(customerID).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+            
+            for snap in snapshot.children.allObjects as! [FIRDataSnapshot]{
+              
+                self.allCustomerReservations.append(snap.key)
+            }
+            
+            self.calculateBusinessReservations()
+            
+        })
+        
+    }
+    
+    func calculateBusinessReservations(){
+        
+        let currentUserID = FBDataService.instance.currentUser?.uid
+        
+        _ = FBDataService.instance.userReservationsRef.child(currentUserID!).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+            
+            for snap in snapshot.children.allObjects as! [FIRDataSnapshot]{
+                
+                if self.allCustomerReservations.contains(snap.key){
+                    self.allResrvatinsMadeForCustomer.append(snap.key)
+                }
+            }
+            
+            self.appointmentsMadeLbl.text = "\(self.allResrvatinsMadeForCustomer.count)"
+            
+        })
     }
    
     

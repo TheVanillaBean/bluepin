@@ -11,7 +11,7 @@ import UIKit
 class BorderImageView: UIImageView {
 
     override func awakeFromNib() {
-        layer.cornerRadius = 10.0
+        layer.cornerRadius = 15.0
         clipsToBounds = true;
         layer.borderWidth = 3.0
         layer.borderColor = ACCENT_COLOR.cgColor

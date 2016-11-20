@@ -71,7 +71,11 @@ class NewUser{
     
     var password: String {
         get{
-            return _password
+            if let password = _password{
+                return password
+            }else{
+                return ""
+            }
         }
         
         set(newPassword){

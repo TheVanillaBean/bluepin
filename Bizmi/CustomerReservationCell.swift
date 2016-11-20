@@ -34,12 +34,12 @@ class CustomerReservationCell: UITableViewCell {
     func configureCell(_ reservation: Reservation){
         
         businessNameLbl.text = reservation.businessName
-        appointmentLbl.text = "Appointment Date: \(reservation.scheduledTime)"
+        appointmentLbl.text = "Appointment Date: \n\(reservation.scheduledTime)"
         statusLbl.text = reservation.status
         setStatusColor(reservation.status)
         
         let user = NewUser()
-        user.castUser(reservation.leaderID) { (errMsg) in
+        user.castUser(reservation.businessID) { (errMsg) in
             if errMsg == nil{
                 self.loadProfilePic(location: user.userProfilePicLocation)
             }

@@ -67,7 +67,6 @@ class CustomerViewBusinessesVC: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let business = FBDataService.instance.allBusinesses[(indexPath as NSIndexPath).row]
-        
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ViewBusinessesCell") as? ViewBusinessesCell{
             
             cell.configureCell(business)

@@ -171,7 +171,7 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
             return false
         }
         
-//        // allow delegate to intervene
+        // allow delegate to intervene
 //        guard _delegate?.textField!(textField, shouldChangeCharactersIn: range, replacementString: string) ?? true else {
 //            return false
 //        }

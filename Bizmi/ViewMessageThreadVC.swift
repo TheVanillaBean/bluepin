@@ -245,7 +245,7 @@ class ViewMessageThreadVC: JSQMessagesViewController{
                         
                     }else{
                         
-                         notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: self.currentUser.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.otherUserID as AnyObject, REQUEST_MESSAGE: MESSAGE_NOTIF as AnyObject, REQUEST_SENDER_NAME: self.currentUser.businessName as AnyObject, "title": self.appDelegate.deviceTokenString as AnyObject]
+                         notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: self.currentUser.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.otherUserID as AnyObject, REQUEST_MESSAGE: MESSAGE_NOTIF as AnyObject, REQUEST_SENDER_NAME: self.currentUser.businessName as AnyObject]
                         
                     }
                 
@@ -340,7 +340,7 @@ class ViewMessageThreadVC: JSQMessagesViewController{
                 
         var iterator = iteratorStart
         
-        var iteratorEnd = iterator + 4
+        var iteratorEnd = iterator + 19
         
         self.showLoadEarlierMessagesHeader = false
         

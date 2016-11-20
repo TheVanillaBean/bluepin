@@ -25,7 +25,12 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var passwordTextField: MaterialTextField!
     
+    @IBOutlet weak var confirmPasswordTextField: MaterialTextField!
+    
+    
     @IBOutlet weak var submitBtn: UIButton!
+    
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -77,21 +82,41 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
         submitBtn.isEnabled = enable
     }
     
+    func showActivityIndicator() {
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+    }
+    
     @IBAction func signUpBtnPressed(_ sender: AnyObject) {
         
         toggleSubmit(false)
         
-        if let customerName = fullNameTextField.text, let phoneNumber = phoneNumberTextField.text, let email = emailTextField.text, let password = passwordTextField.text  {
+        if let customerName = fullNameTextField.text, let phoneNumber = phoneNumberTextField.text, let email = emailTextField.text, let password = passwordTextField.text, let confirmPassword = confirmPasswordTextField.text  {
             
-            passwordTextField.text = ""
+            if passwordTextField.text == ""{
+                toggleSubmit(true)
+                Messages.showAlertDialog("Error", msgAlert: "One or More Fields are Empty")
+            }else{
 
-            let user = NewUser(email: email, password: password, userType: USER_CUSTOMER_TYPE)
-            user.fullName = customerName
-            user.phoneNumber = phoneNumber
-            user.phoneNumberVerified = "false";
-            
-            signUpUser(user)
-            
+                if !self.validatePassword(password, confirmPassword: confirmPassword){
+                    toggleSubmit(true)
+                    Messages.showAlertDialog("Error", msgAlert: "Your passwords do not match! Re-enter your password.")
+                }else{
+                
+                passwordTextField.text = ""
+
+                let user = NewUser(email: email, password: password, userType: USER_CUSTOMER_TYPE)
+                user.fullName = customerName
+                user.phoneNumber = phoneNumber
+                user.phoneNumberVerified = "false";
+
+                signUpUser(user)
+                    
+                }
+            }
         }else{
             toggleSubmit(true)
             Messages.showAlertDialog("Error", msgAlert: "One or More Fields are Empty")
@@ -100,7 +125,7 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     
     func userProperties(_ uuid: String!, name: String!, number: String!, email: String!) -> Dictionary<String, AnyObject>  {
     
-        let profile: Dictionary<String, AnyObject> = [UUID: uuid as AnyObject, EMAIL: email as AnyObject, FULL_NAME: name as AnyObject, PHONE_NUMBER: number as AnyObject, USER_TYPE: USER_CUSTOMER_TYPE as AnyObject, PHONE_NUMBER_VERIFIED: "true" as AnyObject]
+        let profile: Dictionary<String, AnyObject> = [UUID: uuid as AnyObject, EMAIL: email as AnyObject, FULL_NAME: name as AnyObject, PHONE_NUMBER: number as AnyObject, USER_TYPE: USER_CUSTOMER_TYPE as AnyObject, PHONE_NUMBER_VERIFIED: "false" as AnyObject]
     
         return profile
     
@@ -111,8 +136,8 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
         self.verification =
             SMSVerification(sinchApplicationKey,
                             phoneNumber: phoneNumber)
-        self.verification.initiate { (success:Bool, error: Error?) -> Void in
-            if (success){
+        self.verification.initiate { (result: InitiationResult, error: Error?) -> Void in
+            if (result.success){
                 self.performSegue(withIdentifier: "verifyPhoneNumber", sender: nil);
             } else {
                 Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error.debugDescription))
@@ -123,7 +148,10 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     
     func signUpUser(_ userObj: NewUser?){
         
+        
         if let user = userObj{
+            
+            self.showActivityIndicator()
        
             AuthService.instance.signUp(user.email, password: user.password, onComplete: { (errMsg, data) in
 
@@ -140,12 +168,13 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
                 
                 FBDataService.instance.saveUser(firUser?.uid, isCustomer: true, propertes: properties, onComplete: { (errMsg, data) in
                     
-                        self.toggleSubmit(true)
-
                         if errMsg == nil {
                             self.initiateVerificationProcess(user.phoneNumber)
+                            self.activityIndicator.stopAnimating()
                         }
                     
+                        self.toggleSubmit(true)
+
                 })
                 
             })
@@ -167,6 +196,12 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
         Hotline.sharedInstance().showFAQs(self)
     }
     
+    func validatePassword(_ password: String, confirmPassword: String) -> Bool{
+        if password == confirmPassword{
+            return true
+        }
+        return false
+    }
     
 }
 

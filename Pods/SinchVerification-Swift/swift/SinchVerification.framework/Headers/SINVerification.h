@@ -7,6 +7,7 @@
 #import <Foundation/Foundation.h>
 #import "SINExport.h"
 #import "SINLog.h"
+#import "SINInitiationResult.h"
 
 /**
  * The SINVerification is the entry point of the Sinch Verification SDK.
@@ -24,7 +25,7 @@
  * 	 id<SINVerification> verification = [SINVerification SMSVerificationWithApplicationKey:@"<APPKEY>"
  * 	                                                                          phoneNumber:phoneNumberE164];
  *
- * 	 [self.verification initiateWithCompletionHandler:^(BOOL success, NSError *error) {
+ * 	 [self.verification initiateWithCompletionHandler:^(id<SINInitiationResult> result, NSError *error) {
  * 	   // verification initiated, user will now receive an SMS to their phone.
  * 	 }];
  *
@@ -57,10 +58,33 @@ SIN_EXPORT
  *                    code '1' added before the local subscriber number.
  *
  * @see SINPhoneNumberUtil for formatting a phone number in E.164 format.
- *
  */
 + (id<SINVerification>)SMSVerificationWithApplicationKey:(NSString*)applicationKey phoneNumber:(NSString*)phoneNumber;
 
+/**
+ * Instantiate a new SMS-based verification.
+ *
+ * @return A new SMS-based SINVerification instance.
+ *
+ * @param applicationKey Application key identifying the application.
+ *
+ * @param phoneNumber The phone number to verify.
+ *                    The phone number should be given according to E.164 number formatting
+ *                    (http://en.wikipedia.org/wiki/E.164) and should be prefixed with a '+'.
+ *                    E.g. to call the US phone number 415 555 0101, it should be specified as
+ *                    "+14155550101", where the '+' is the required prefix and the US country
+ *                    code '1' added before the local subscriber number.
+ *
+ * @param languageTags The preferred content language for SMS verification. It is specified
+ *                     via a list of IETF language tags in order of priority. If the first
+ *                     language is not available, the next one will be selected and so forth.
+ *                     The default is 'en-US'.
+ *
+ * @see SINPhoneNumberUtil for formatting a phone number in E.164 format.
+ */
++ (id<SINVerification>)SMSVerificationWithApplicationKey:(NSString*)applicationKey
+                                             phoneNumber:(NSString*)phoneNumber
+                                               languages:(NSArray<NSString*>*)languageTags;
 /**
  * Instantiate a new SMS-based verification.
  *
@@ -82,11 +106,41 @@ SIN_EXPORT
  *                    NSString*, e.g. encoded as JSON or Base64.)
  *
  * @see SINPhoneNumberUtil for formatting a phone number in E.164 format.
- *
  */
 + (id<SINVerification>)SMSVerificationWithApplicationKey:(NSString*)applicationKey
                                              phoneNumber:(NSString*)phoneNumber
                                                   custom:(NSString*)custom;
+/**
+ * Instantiate a new SMS-based verification.
+ *
+ * @return A new SMS-based SINVerification instance.
+ *
+ * @param applicationKey Application key identifying the application.
+ *
+ * @param phoneNumber The phone number to verify.
+ *                    The phone number should be given according to E.164 number formatting
+ *                    (http://en.wikipedia.org/wiki/E.164) and should be prefixed with a '+'.
+ *                    E.g. to call the US phone number 415 555 0101, it should be specified as
+ *                    "+14155550101", where the '+' is the required prefix and the US country
+ *                    code '1' added before the local subscriber number.
+ *
+ * @param custom      Application-specific custom data that will be passed to
+ *                    REST API callbacks made to the application's backend.
+ *                    This custom data will also be written to CDRs (Call Detail Records).
+ *                    (If complex data is to be passed along, it must first be encoded as a
+ *                    NSString*, e.g. encoded as JSON or Base64.)
+ *
+ * @param languageTags The preferred content language for SMS verification. It is specified
+ *                     via a list of IETF language tags in order of priority. If the first
+ *                     language is not available, the next one will be selected and so forth.
+ *                     The default is 'en-US'.
+ *
+ * @see SINPhoneNumberUtil for formatting a phone number in E.164 format.
+ */
++ (id<SINVerification>)SMSVerificationWithApplicationKey:(NSString*)applicationKey
+                                             phoneNumber:(NSString*)phoneNumber
+                                                  custom:(NSString*)custom
+                                               languages:(NSArray<NSString*>*)languageTags;
 
 /**
  * Instantiate a new Callout-based verification. The Sinch backend
@@ -165,7 +219,8 @@ SIN_EXPORT
  *
  * @param completionHandler Block that will be invoked upon successful initiation.
  */
-- (void)initiateWithCompletionHandler:(void (^)(BOOL success, NSError* __nullable error))completionHandler;
+- (void)initiateWithCompletionHandler:(void (^)(id<SINInitiationResult> result,
+                                                NSError* __nullable error))completionHandler;
 
 /**
  * Complete the verification by verifying the verification code sent to the user.

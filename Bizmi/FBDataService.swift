@@ -202,6 +202,7 @@ class FBDataService {
     var reservationAddedHandler: FirebaseHandle!
     var reservationChangedHandler: FirebaseHandle!
     var reservationDeletedHandler: FirebaseHandle!
+    
 
     //-------------End Firebase Observer Handlers-----------//
 
@@ -209,7 +210,6 @@ class FBDataService {
     //For Reservations
     var appointmentLeaderID: String = "Select Customer"
     var appointmentLeaderName: String!
-    var appointmentLeaderDeviceToken: String!
 
     func saveUser(_ uid: String!, isCustomer: Bool?, propertes: Dictionary<String, AnyObject>, onComplete: DataCompletion?) {
         
@@ -287,12 +287,12 @@ class FBDataService {
     //Load Businesses
     func retriveAllBusinesses(onComplete: DataCompletion?) {
         
-        self._allBusinesses.removeAll()
-       
         _ = businessUserRef.observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
             
             if let businessDict = snapshot.value as? [String : AnyObject]{
-
+                
+                self._allBusinesses.removeAll()
+                
                 for businessObj in businessDict{
                     let business = businessObj.key
                     self._allBusinesses.append(business)
@@ -307,14 +307,11 @@ class FBDataService {
     
     //Load Followers
     func retriveAllFollowers(businessID: String, onComplete: DataCompletion?) {
-        
-        self._allFollowers.removeAll()
-        self._allFollowersTime.removeAll()
-        
+                
         _ = businessFollowersRef.child(businessID).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
             
             if let followersDict = snapshot.value as? [String : AnyObject]{
-            
+                
                 for followObj in followersDict{
                     
                     let customerID = followObj.key
@@ -452,8 +449,7 @@ class FBDataService {
     
     func observeChannelsAddedForUser(_ uuid: String!){
         
-        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "channelRetrieved"), object: nil))
-        
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "channelRetrieved"), object: nil))        
         self.channelAddedHandler = self.userChannelsRef.child(uuid).observe(FIRDataEventType.childAdded, with: { (snapshot) in
             
             if snapshot.value != nil{
@@ -527,21 +523,32 @@ class FBDataService {
         let reservation = Reservation()
         reservation.castReservation(reservationID) { (errMsg) in
             if errMsg == nil{
-                self._allReservations[reservationID] = reservation
                 
-                let currentDate = NSDate()
+                if reservation.status == INACTIVE_STATUS{
                 
-                let scheduledTimeString = reservation.scheduledTime
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "E, d MMM yyyy hh:mm a"
-                if let scheduledDate = dateFormatter.date(from: scheduledTimeString){
+                    onComplete?("Delete Reservation", reservation.status as AnyObject?)
+
+                }else{
                 
-                    if scheduledDate < currentDate as Date{
-                        self.updateReservationForUser(reservation.uuid, status: INACTIVE_STATUS, businessID: reservation.businessID, customerID: reservation.leaderID)
+                    self._allReservations[reservationID] = reservation
+                    
+                    let currentDate = NSDate()
+                    
+                    let scheduledTimeString = reservation.scheduledTime
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "E, d MMM yyyy hh:mm a"
+                    
+                    if let scheduledDate = dateFormatter.date(from: scheduledTimeString){
+                    
+                        if scheduledDate < currentDate as Date && reservation.status != INACTIVE_STATUS{
+                            self.updateReservationForUser(reservation.uuid, status: INACTIVE_STATUS, businessID: reservation.businessID, customerID: reservation.leaderID)
+                        }
                     }
+                    
+                    onComplete?(nil, reservation.status as AnyObject?)
+
                 }
                 
-                onComplete?(nil, nil)
             }
         }
         
@@ -551,7 +558,7 @@ class FBDataService {
         
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "reservationRetrieved"), object: nil))
         
-        self.reservationAddedHandler = self.userReservationsRef.child(uuid).observe(FIRDataEventType.childAdded, with: { (snapshot) in
+        self.reservationAddedHandler = self.userReservationsRef.child(uuid).queryOrderedByValue().queryLimited(toLast: 25).observe(FIRDataEventType.childAdded, with: { (snapshot) in
             
             if snapshot.value != nil{
                 
@@ -567,15 +574,22 @@ class FBDataService {
         })
         
     }
-    
-    func observeReservationsChangedForUser(_ uuid: String!){
         
-        self.reservationChangedHandler = self.userReservationsRef.child(uuid).observe(FIRDataEventType.childChanged, with: { (snapshot) in
+    func observeReservationsChangedForUser(_ uuid: String!){
+
+        self.reservationChangedHandler = self.userReservationsRef.child(uuid).queryLimited(toLast: 25).observe(FIRDataEventType.childChanged, with: { (snapshot) in
+
             if snapshot.value != nil{
                 
                 let reservationID = snapshot.key
                 self.convertReservationIDToModel(reservationID, onComplete: { (errMsg, data) in
                     if errMsg == nil{
+                        
+                        if data as? String == INACTIVE_STATUS{
+                            self._allReservationIDS = self._allReservationIDS.filter { $0 != reservationID }
+                            self._allReservations.removeValue(forKey: reservationID)
+                        }
+
                         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "reservationRetrieved"), object: nil))
                     }
                 })
@@ -587,7 +601,7 @@ class FBDataService {
 
     func observeReservationsDeletedForUser(_ uuid: String!){
         
-        self.reservationDeletedHandler = self.userReservationsRef.child(uuid).observe(FIRDataEventType.childRemoved, with: { (snapshot) in
+        self.reservationDeletedHandler = self.userReservationsRef.child(uuid).queryLimited(toLast: 25).observe(FIRDataEventType.childRemoved, with: { (snapshot) in
             if snapshot.value != nil{
                 
                 let reservationID = snapshot.key
@@ -602,21 +616,33 @@ class FBDataService {
         
     }
     
-    func removeReservationForUser(_ reservationID: String!, businessID: String!, customerID: String!){
+    func removeReservationForUser(_ reservationID: String!, businessID: String!, customerID: String!, businessName: String!){
         
         self.reservationsRef.child(reservationID).removeValue()
         self.userReservationsRef.child(businessID).child(reservationID).removeValue()
         self.userReservationsRef.child(customerID).child(reservationID).removeValue()
+        
+        let notification = FBDataService.instance.notificationsRef.childByAutoId()
+        
+        let notificationRequest: Dictionary<String, AnyObject> = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: businessID as AnyObject, REQUEST_RECIPIENT_ID: customerID as AnyObject, REQUEST_MESSAGE: DELETED_RESERVATION_NOTIF as AnyObject, REQUEST_SENDER_NAME: businessName as AnyObject]
+
+        notification.setValue(notificationRequest)
 
     }
 
     func updateReservationForUser(_ reservationID: String!, status: String!, businessID: String!, customerID: String!){
         
+         let selecteReservation = self.allReservations[reservationID]
+        
          let reservation: Dictionary<String, AnyObject> = [RESERVATION_STATUS: status as AnyObject]
          self.reservationsRef.child(reservationID).updateChildValues(reservation)
         
-        self.userReservationsRef.child(businessID).child(reservationID).setValue(FIRServerValue.timestamp())
-        self.userReservationsRef.child(customerID).child(reservationID).setValue(FIRServerValue.timestamp())
+        let interval = Date(timeIntervalSince1970: (selecteReservation?.appointmentTimeInterval)!)
+        let newInterval = Date(timeInterval: 0.001, since: interval)
+        let time = Double(newInterval.timeIntervalSince1970)
+        
+        self.userReservationsRef.child(businessID).child(reservationID).setValue(time)
+        self.userReservationsRef.child(customerID).child(reservationID).setValue(time)
         
     }
     

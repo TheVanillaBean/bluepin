@@ -12,6 +12,7 @@ import AlamofireImage
 import PhoneNumberKit
 import FirebaseStorage
 import FirebaseAuth
+import FirebaseMessaging
 
 class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     
@@ -290,7 +291,9 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     @IBAction func logoutBtnPressed(_ sender: AnyObject) {
         
-        FBDataService.instance.removeObservers(uuid: FBDataService.instance.currentUser?.uid)
+        let userID = FBDataService.instance.currentUser?.uid
+        FBDataService.instance.removeObservers(uuid: userID!)
+        FIRMessaging.messaging().unsubscribe(fromTopic: "/topics/user_\(userID!)")
         FBDataService.instance.clearAllFollowers()
         FBDataService.instance.clearAllChannels()
         FBDataService.instance.clearAllReservations()

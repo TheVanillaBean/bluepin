@@ -41,8 +41,6 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
         
         castUser()
         
-        showActivityIndicator()
-        
         NotificationCenter.default.addObserver(self, selector: #selector(BusinessViewMessagesVC.onChannelsRetrieved), name: NSNotification.Name(rawValue: "channelRetrieved"), object: nil)
         
     }
@@ -69,7 +67,6 @@ class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableView
     
     func onChannelsRetrieved(){
         self.tableView.reloadData()
-        self.activityIndicator.stopAnimating()
     }
     
     func castUser(){

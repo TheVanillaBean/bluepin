@@ -372,6 +372,7 @@
 				5A7880F71D3E261400F168AE /* Resources */,
 				695702FD2BA2C79D428CE54D /* [CP] Embed Pods Frameworks */,
 				45561E57A843BDB80B470E02 /* [CP] Copy Pods Resources */,
+				5A5DC6C61DCF190600CA2FE3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -474,6 +475,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bizmi/Pods-Bizmi-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		5A5DC6C61DCF190600CA2FE3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "GOOGLE_APP_ID=1:1:679505489720:ios:df676ab58ce71ef3\n\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"/Users/AppDaddy/Desktop/Bizmi_Crash/ServiceAccount.json\"\n";
 		};
 		695702FD2BA2C79D428CE54D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -685,8 +699,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bizmiapp.bizmiapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bizmi/Bizmi-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -712,6 +728,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bizmi/Bizmi-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

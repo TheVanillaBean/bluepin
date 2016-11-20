@@ -23,8 +23,14 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var passwordTextField: MaterialTextField!
     
+    @IBOutlet weak var submitBtn: UIButton!
+    
+    @IBOutlet weak var confirmPasswordTextField: MaterialTextField!
+    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            
+    
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
+    
     override func viewDidLoad() {
         self.navigationItem.title = "New Business"
     }
@@ -67,15 +73,30 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
     
     @IBAction func signUpBtnPressed(_ sender: AnyObject) {
         
-        if let businessName = businessNameTextField.text, let businessType = businessTypeTextField.text, let email = emailTextField.text, let password = passwordTextField.text  {
+        if let businessName = businessNameTextField.text, let businessType = businessTypeTextField.text, let email = emailTextField.text, let password = passwordTextField.text, let confirmPassword = confirmPasswordTextField.text  {
             
-            passwordTextField.text = ""
-            
-            let user = NewUser(email: email, password: password, userType: USER_CUSTOMER_TYPE)
-            user.businessName = businessName
-            user.businessType = businessType
-            
-            signUpUser(user)
+            if passwordTextField.text == ""{
+                
+                toggleSubmit(true)
+                Messages.showAlertDialog("Error", msgAlert: "One or More Fields are Empty")
+                
+            }else{
+                if !self.validatePassword(password, confirmPassword: confirmPassword){
+                    toggleSubmit(true)
+                    Messages.showAlertDialog("Error", msgAlert: "Your passwords do not match! Re-enter your password.")
+                }else{
+                    
+                    passwordTextField.text = ""
+                    
+                    let user = NewUser(email: email, password: password, userType: USER_CUSTOMER_TYPE)
+                    user.businessName = businessName
+                    user.businessType = businessType
+                    
+                    signUpUser(user)
+                    
+                }
+
+            }
             
         }else{
             Messages.showAlertDialog("Error", msgAlert: "One or More Fields are Empty")
@@ -91,16 +112,25 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
         
     }
     
+    func validatePassword(_ password: String, confirmPassword: String) -> Bool{
+        if password == confirmPassword{
+            return true
+        }
+        return false
+    }
+    
     func signUpUser(_ userObj: NewUser?){
         
         if let user = userObj{
+            
+            self.showActivityIndicator()
             
             AuthService.instance.signUp(user.email, password: user.password, onComplete: { (errMsg, data) in
                 
                 user.password = ""
                 
                 guard errMsg == nil else {
-                    Messages.showAlertDialog("Authentication Error", msgAlert: errMsg)
+                    Messages.showAlertDialog("Authentication Error", msgAlert: errMsg?.description)
                     return
                 }
                 
@@ -111,8 +141,8 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
                 FBDataService.instance.saveUser(firUser?.uid, isCustomer: false, propertes: properties, onComplete: { (errMsg, data) in
                     
                     if errMsg == nil {
-                        self.view.hideToastActivity()
                         self.performSegue(withIdentifier: "businessSignUp", sender: nil)
+                        self.activityIndicator.stopAnimating()
                     }
                     
                 })
@@ -127,7 +157,17 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
         Hotline.sharedInstance().showFAQs(self)
     }
     
+    func toggleSubmit(_ enable: Bool){
+        submitBtn.isEnabled = enable
+    }
     
+    func showActivityIndicator() {
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+    }
 }
 
 

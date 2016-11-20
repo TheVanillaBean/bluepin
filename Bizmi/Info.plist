@@ -19,7 +19,9 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>13</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -27,8 +29,14 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera in order for you to take a photo.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location to pinpoint your distance from businesses.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need to access your microphone in order for you to use voice for text messaging.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library in order for you to set a profile pitcure.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NotoSans-Bold.ttf</string>
@@ -56,9 +64,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera in order for you to take a photo.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library in order for you to set a profile pitcure.</string>
 </dict>
 </plist>

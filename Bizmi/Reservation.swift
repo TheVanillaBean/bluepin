@@ -15,13 +15,26 @@ class Reservation{
     fileprivate var _uuid: String!
     fileprivate var _status: String!
     fileprivate var _timestamp: Double!
-    fileprivate var _size: String!
     fileprivate var _scheduledTime: String!
     fileprivate var _leaderID: String!
     fileprivate var _businessID: String!
     
     fileprivate var _businessName: String!
     fileprivate var _customerName: String!
+    
+    fileprivate var _appointmentTimeInterval: Double!
+
+    var appointmentTimeInterval: Double {
+        get{
+            return _appointmentTimeInterval
+        }
+        
+        set(newInput){
+            
+            _appointmentTimeInterval = newInput
+            
+        }
+    }
     
     var businessName: String {
         get{
@@ -84,20 +97,6 @@ class Reservation{
             
             _timestamp = newInput
           
-        }
-    }
-    
-    
-    var size: String {
-        get{
-            return _size
-        }
-        
-        set(newInput){
-            
-            if newInput != ""{
-                _size = newInput
-            }
         }
     }
     
@@ -167,9 +166,6 @@ class Reservation{
             if let timestamp = resDict[RESERVATION_TIMESTAMP] as? Double{
                 self.timestamp = timestamp
             }
-            if let size = resDict[RESERVATION_SIZE]as? String{
-                self.size = size
-            }
             if let time = resDict[RESERVATION_SCHEDULED_TIME] as? String{
                 self.scheduledTime = time
             }
@@ -179,7 +175,9 @@ class Reservation{
             if let businessID = resDict[RESERVATION_BUSINESS_ID] as? String{
                 self.businessID = businessID
             }
-            
+            if let timeInterval = resDict[RESERVATION_APPOINTMENT_TIME_INTERVAL] as? Double{
+                self.appointmentTimeInterval = timeInterval
+            }
             let customerObj = NewUser()
             customerObj.castUser(self.leaderID, onComplete: { (errMsg) in
                 if errMsg == nil{

@@ -18,6 +18,8 @@ class CustomerViewReservationsVC: UIViewController, UITableViewDelegate, UITable
     
     var currentUser: NewUser!
     
+    private let refreshControl = UIRefreshControl()
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -36,13 +38,42 @@ class CustomerViewReservationsVC: UIViewController, UITableViewDelegate, UITable
             
             if errMsg == nil{
                 self.showActivityIndicator()
-                FBDataService.instance.observeReservationsChangedForUser(FBDataService.instance.currentUser?.uid)
-                FBDataService.instance.observeReservationsAddedForUser(FBDataService.instance.currentUser?.uid)
-                FBDataService.instance.observeReservationsDeletedForUser(FBDataService.instance.currentUser?.uid)
+                
+                if FBDataService.instance.reservationAddedHandler == nil{
+
+                    FBDataService.instance.observeReservationsChangedForUser(FBDataService.instance.currentUser?.uid)
+                    FBDataService.instance.observeReservationsAddedForUser(FBDataService.instance.currentUser?.uid)
+                    FBDataService.instance.observeReservationsDeletedForUser(FBDataService.instance.currentUser?.uid)
+                }
             }
             
         }
         
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing Data ...", attributes: nil)
+        refreshControl.addTarget(self, action: #selector(CustomerViewBusinessesVC.refresh(sender:)), for: .valueChanged)
+        
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+        
+    }
+    
+    func refresh(sender: UIRefreshControl) {
+        FBDataService.instance.userReservationsRef.child((FBDataService.instance.currentUser?.uid)!).removeAllObservers()
+        
+        FBDataService.instance.reservationAddedHandler = nil
+        FBDataService.instance.reservationChangedHandler = nil
+        FBDataService.instance.reservationDeletedHandler = nil
+        
+        if FBDataService.instance.reservationAddedHandler == nil{
+            FBDataService.instance.clearAllReservations()
+            FBDataService.instance.observeReservationsChangedForUser(FBDataService.instance.currentUser?.uid)
+            FBDataService.instance.observeReservationsAddedForUser(FBDataService.instance.currentUser?.uid)
+            FBDataService.instance.observeReservationsDeletedForUser(FBDataService.instance.currentUser?.uid)
+            self.refreshControl.endRefreshing()
+        }
     }
     
     func onReservationsRecieved(){

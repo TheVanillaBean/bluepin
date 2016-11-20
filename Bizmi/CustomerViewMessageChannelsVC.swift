@@ -37,8 +37,6 @@ class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITa
         tableView.tableFooterView = UIView()
         
         castUser()
-
-        showActivityIndicator()
         
         NotificationCenter.default.addObserver(self, selector: #selector(CustomerViewMessageChannelsVC.onChannelsRetrieved), name: NSNotification.Name(rawValue: "channelRetrieved"), object: nil)
         
@@ -50,7 +48,6 @@ class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITa
     
     func onChannelsRetrieved(){
         self.tableView.reloadData()
-        self.activityIndicator.stopAnimating()
     }
     
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {

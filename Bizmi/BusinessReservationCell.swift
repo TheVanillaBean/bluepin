@@ -33,7 +33,7 @@ class BusinessReservationCell: UITableViewCell {
     func configureCell(_ reservation: Reservation){
         
         customerNamelbl.text = reservation.customerName
-        appointmentLbl.text = "Appointment Date: \(reservation.scheduledTime)"
+        appointmentLbl.text = "Appointment Date: \n\(reservation.scheduledTime)"
         statusLbl.text = reservation.status
         setStatusColor(reservation.status)
         

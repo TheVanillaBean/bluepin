@@ -23,8 +23,6 @@ class ViewBusinessesCell: UITableViewCell {
     
     @IBOutlet weak var businessLocationLbl: UILabel!
     
-    @IBOutlet weak var businessDesclbl: TTTAttributedLabel!
-    
     private var castedUser: NewUser!
 
     var geoFire: GeoFire!
@@ -35,29 +33,41 @@ class ViewBusinessesCell: UITableViewCell {
         businessBGImage.layer.cornerRadius = 1
         businessBGImage.clipsToBounds = true
         businessNameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
-        businessDesclbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
         
     }
     
     func configureCell(_ uuid: String){
         
-        self.geoFire = GeoFire(firebaseRef: FBDataService.instance.usersRef.child(uuid))
+        if uuid != ""{
         
-        castedUser = NewUser()
-        castedUser.castUser(uuid) { (errMsg) in
+            self.geoFire = GeoFire(firebaseRef: FBDataService.instance.usersRef.child(uuid))
             
-            self.geoFire.getLocationForKey(BUSINESS_LOCATION, withCallback: { (loc, error) in
-                if (error == nil) {
-                    self.reverseGeoLocate(loc!)
+            castedUser = NewUser()
+            castedUser.castUser(uuid) { (errMsg) in
+                
+                if errMsg == nil{
+                
+                    self.geoFire.getLocationForKey(BUSINESS_LOCATION, withCallback: { (loc, error) in
+                        if (error == nil) {
+                            
+                            if let location  = loc{
+                                self.reverseGeoLocate(location)
+                            }else{
+                                self.businessLocationLbl.text = "No Location Set"
+                            }
+                        }else{
+                            self.businessLocationLbl.text = "No Location Set"
+                        }
+                    })
+                    
+                    self.businessNameLbl.text = self.castedUser.businessName
+                    self.businessTypeLbl.text = self.castedUser.businessType
+                    
+                    self.loadProfilePic()
+                
                 }
-            })
-            
-            self.businessNameLbl.text = self.castedUser.businessName
-            self.businessTypeLbl.text = self.castedUser.businessType
-            self.businessDesclbl.text = self.castedUser.businessDesc
-            
-            self.loadProfilePic()
-            
+                
+            }
         }
     }
     
@@ -79,7 +89,6 @@ class ViewBusinessesCell: UITableViewCell {
                 }
             })
         }
-        print(castedUser.userProfilePicLocation)
         
     }
     

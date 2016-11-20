@@ -71,7 +71,6 @@ class ChoosePartyLeaderVC: UIViewController, UITableViewDelegate, UITableViewDat
             if errMsg == nil{
                 FBDataService.instance.appointmentLeaderName = castedUser.fullName
                 FBDataService.instance.appointmentLeaderID = self.customerID
-                FBDataService.instance.appointmentLeaderDeviceToken = castedUser.deviceToken
                 self.navigationController?.popViewController(animated: true)
             }
         }

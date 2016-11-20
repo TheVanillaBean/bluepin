@@ -20,7 +20,7 @@ class VerifyPhoneNumberVC: UIViewController {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     override func viewDidLoad() {
-        self.navigationItem.hidesBackButton = true
+       // self.navigationItem.hidesBackButton = true
         self.navigationItem.title = "Verify Phone Number"
     }
     

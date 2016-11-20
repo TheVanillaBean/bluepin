@@ -116,7 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Hotline.sharedInstance().updateDeviceToken(deviceToken as Data!)
-        FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: FIRInstanceIDAPNSTokenType.sandbox)
+        FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: FIRInstanceIDAPNSTokenType.prod)
         
         var token: String = ""
         for i in 0..<deviceToken.count {
@@ -139,21 +139,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if let info = userInfo["aps"] as? Dictionary<String, AnyObject> {
                 
-                if  let alert = info["alert"] as? Dictionary<String, AnyObject>{
+                if  let alert = info["alert"] {
                     
-                    
-                    if let title = alert["title"], let body = alert["body"]{
-
-                        if title as? String != self.deviceTokenString{
-                            
-                            let banner = Banner(title: "New Notification", subtitle: body as? String, image: UIImage(named: "AppIcon"), backgroundColor: DARK_PRIMARY_COLOR)
-                            banner.dismissesOnTap = true
-                            banner.show(duration: 5.0)
-                            
-                        }
-
-                    }
-                    
+                    let banner = Banner(title: "New Notification", subtitle: alert as? String, image: UIImage(named: "AppIcon"), backgroundColor: DARK_PRIMARY_COLOR)
+                    banner.dismissesOnTap = true
+                    banner.show(duration: 5.0)
                 }
                 
             }
@@ -163,9 +153,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func tokenRefreshNotification(_ notification: Notification) {
-        if let refreshedToken = FIRInstanceID.instanceID().token() {
-        }
-        
         connectToFcm()
     }
     

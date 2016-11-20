@@ -43,7 +43,7 @@ class ViewFollowersCell: UITableViewCell {
             dateFormatter.dateFormat = "MMM dd yyyy "
             let dateString = dateFormatter.string(from: date as Date)
 
-            self.followingDate.text = "Follower since: \(dateString)"
+            self.followingDate.text = "Customer since: \(dateString)"
 
             self.loadProfilePic()
             

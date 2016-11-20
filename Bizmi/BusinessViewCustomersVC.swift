@@ -41,6 +41,8 @@ class BusinessViewCustomersVC: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func refresh(sender: UIRefreshControl) {
+        FBDataService.instance.clearAllFollowers()
+
         FBDataService.instance.retriveAllFollowers(businessID: (FBDataService.instance.currentUser?.uid)!) { (errMsg, data) in
             self.tableView.reloadData()
             self.refreshControl.endRefreshing()

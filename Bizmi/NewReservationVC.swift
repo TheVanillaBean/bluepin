@@ -15,17 +15,23 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
     
     @IBOutlet weak var partyLeaderField: UIButton!
     
-    @IBOutlet weak var partySizeField: UITextField!
-    
     @IBOutlet weak var reservationTimeLbl: UILabel!
     
     @IBOutlet weak var dateDialog: UIDatePicker!
     
+    @IBOutlet weak var createReservationBtn: UIButton!
+    
     var customerName: String?
     var customerID: String?
-    var customerDeviceToken: String?
+    var timeInterval: Date?
     
-    var partySize: String!
+    var existingReservation: Reservation?
+    var isExistingReservation: Bool = false
+    
+    
+    //Add reservationID and isExistingReservation FIelds - set them in reservation tableview and in choosepesonvc
+    //If isExisting - change create resevation to change reservation
+    //set customername and customerID
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
     
@@ -45,43 +51,37 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
     
     func fillInFields(){
         
-        customerName = FBDataService.instance.appointmentLeaderName
-        customerID = FBDataService.instance.appointmentLeaderID
-        customerDeviceToken = FBDataService.instance.appointmentLeaderDeviceToken
         
-        if customerID != "Select Customer"{
+        if isExistingReservation{
+        
+            customerName = self.existingReservation?.customerName
+            customerID = self.existingReservation?.leaderID
+            
             self.partyLeaderField.setTitle(customerName, for: UIControlState())
-        }
-    
-    }
-    
-    @IBAction func onPartySizeFieldChanged(_ sender: UITextField) {
-        if let size = Int(sender.text!){
+            self.createReservationBtn.setTitle("Change Reservation", for: UIControlState())
+            
+            let date = NSDate(timeIntervalSince1970: ((self.existingReservation?.appointmentTimeInterval)!))
+            self.dateDialog.setDate(date as Date, animated: false)
+            
+        }else{
         
-            if size == 0{
-                sender.text = "1"
-            }else if size > 150 {
-                sender.text = "150"
+            customerName = FBDataService.instance.appointmentLeaderName
+            customerID = FBDataService.instance.appointmentLeaderID
+            
+            if customerID != "Select Customer"{
+                self.partyLeaderField.setTitle(customerName, for: UIControlState())
             }
             
-            partySize = sender.text!
-            
-            sender.text = "Party Size: \(partySize!)"
         }
     }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.text = partySize
-    }
-    
+
     @IBAction func onDateChanged(_ sender: UIDatePicker) {
-        
-        partySizeField.resignFirstResponder()
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, d MMM yyyy hh:mm a"
         let strDate = dateFormatter.string(from: sender.date)
         self.reservationTimeLbl.text = strDate
+        self.timeInterval = sender.date
         
     }
     
@@ -99,21 +99,47 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
             let user = NewUser()
             user.castUser(currentUserID, onComplete: { (errMsg) in
                 if errMsg == nil{
-                   
-                    let FBReservation = FBDataService.instance.reservationsRef.childByAutoId()
                     
-                    let res: Dictionary<String, AnyObject> = [RESERVATION_UID: FBReservation.key as AnyObject, RESERVATION_STATUS: PENDING_STATUS as AnyObject, RESERVATION_TIMESTAMP: FIRServerValue.timestamp() as AnyObject, RESERVATION_SIZE: self.partySize as AnyObject, RESERVATION_SCHEDULED_TIME: reservationTime as AnyObject, RESERVATION_PARTY_LEADER_ID: self.customerID! as AnyObject, RESERVATION_BUSINESS_ID: user.uuid as AnyObject]
+                    var FBReservation: FIRDatabaseReference!
+                    var res: Dictionary<String, AnyObject>
+
+                    let integerInterval = Int((self.timeInterval?.timeIntervalSince1970)!)
+                    let interval: NSNumber = NSNumber(value: integerInterval)
+                    
+                    if self.isExistingReservation{
+                        
+                        FBReservation = FBDataService.instance.reservationsRef.child((self.existingReservation?.uuid)!)
+                        
+                        res = [RESERVATION_UID: FBReservation.key as AnyObject, RESERVATION_STATUS: (self.existingReservation?.status)! as AnyObject, RESERVATION_TIMESTAMP: FIRServerValue.timestamp() as AnyObject, RESERVATION_SCHEDULED_TIME: reservationTime as AnyObject, RESERVATION_PARTY_LEADER_ID: self.customerID! as AnyObject, RESERVATION_BUSINESS_ID: user.uuid as AnyObject, RESERVATION_APPOINTMENT_TIME_INTERVAL: interval as AnyObject]
+                        
+                    }else{
+                        
+                        FBReservation = FBDataService.instance.reservationsRef.childByAutoId()
+                        
+                        res = [RESERVATION_UID: FBReservation.key as AnyObject, RESERVATION_STATUS: PENDING_STATUS as AnyObject, RESERVATION_TIMESTAMP: FIRServerValue.timestamp() as AnyObject, RESERVATION_SCHEDULED_TIME: reservationTime as AnyObject, RESERVATION_PARTY_LEADER_ID: self.customerID! as AnyObject, RESERVATION_BUSINESS_ID: user.uuid as AnyObject, RESERVATION_APPOINTMENT_TIME_INTERVAL: interval as AnyObject]
+                        
+                    }
                     
                     FBReservation.setValue(res)
-                    FBDataService.instance.userReservationsRef.child(self.customerID!).child(FBReservation.key).setValue(FIRServerValue.timestamp())
-                    FBDataService.instance.userReservationsRef.child((FBDataService.instance.currentUser?.uid)!).child(FBReservation.key).setValue(FIRServerValue.timestamp())
+
+                    FBDataService.instance.userReservationsRef.child(self.customerID!).child(FBReservation.key).setValue(interval)
+                    FBDataService.instance.userReservationsRef.child((FBDataService.instance.currentUser?.uid)!).child(FBReservation.key).setValue(interval)
                     
                     let notification = FBDataService.instance.notificationsRef.childByAutoId()
                     
                     var notificationRequest: Dictionary<String, AnyObject>
                     
-                    notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: user.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.customerID! as AnyObject, REQUEST_MESSAGE: NEW_RESERVATION_NOTIF as AnyObject, REQUEST_SENDER_NAME: user.businessName as AnyObject]
+                    if self.isExistingReservation{
+                        
+                        notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: user.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.customerID! as AnyObject, REQUEST_MESSAGE: EXISTING_RESERVATION_NOTIF as AnyObject, REQUEST_SENDER_NAME: user.businessName as AnyObject]
+                        
+                    }else{
+
+                        notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: user.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.customerID! as AnyObject, REQUEST_MESSAGE: NEW_RESERVATION_NOTIF as AnyObject, REQUEST_SENDER_NAME: user.businessName as AnyObject]
+                        
+                    }
                     
+                  
                     notification.setValue(notificationRequest)
                     
                     self.activityIndicator.stopAnimating()
@@ -128,7 +154,9 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
     }
 
     @IBAction func onPartyLeaderBtnPressed(_ sender: AnyObject) {
-        performSegue(withIdentifier: "ChoosePartyLeaderVC", sender: nil)
+        if !isExistingReservation{
+            performSegue(withIdentifier: "ChoosePartyLeaderVC", sender: nil)
+        }
     }
     
     func fieldsAreValid() -> Bool{
@@ -137,13 +165,7 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
             Messages.showAlertDialog("Invalid Field", msgAlert: "Please Select a Customer.")
             return false
         }
-        
-        if self.partySizeField.text == ""{
-            
-            Messages.showAlertDialog("Invalid Field", msgAlert: "Please Enter a Valid Party Size.")
-            return false
-        }
-        if reservationTimeLbl.text == "Time"{
+        if reservationTimeLbl.text == "Date and Time"{
             
             Messages.showAlertDialog("Invalid Field", msgAlert: "Please Enter a Valid Reservation Time.")
             return false
@@ -151,11 +173,15 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
         
         return true
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        clearFields()
+        FBDataService.instance.clearCurrentSelectedUser()
+    }
 
     func clearFields(){
         self.partyLeaderField.setTitle("Select Customer", for: UIControlState())
-        self.partySizeField.text = ""
-        self.reservationTimeLbl.text = "Time"
+        self.reservationTimeLbl.text = "Date and Time"
     }
     
     func showActivityIndicator() {
