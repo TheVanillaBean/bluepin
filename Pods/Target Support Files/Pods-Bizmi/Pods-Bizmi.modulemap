@@ -1,6 +1,0 @@
-framework module Pods_Bizmi {
-  umbrella header "Pods-Bizmi-umbrella.h"
-
-  export *
-  module * { export * }
-}

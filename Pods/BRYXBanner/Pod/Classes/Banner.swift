@@ -39,7 +39,7 @@ public enum BannerSpringiness {
 open class Banner: UIView {
     class func topWindow() -> UIWindow? {
         for window in UIApplication.shared.windows.reversed() {
-            if window.windowLevel == UIWindowLevelNormal && !window.isHidden && window.frame != CGRect.zero { return window }
+            if window.windowLevel == UIWindowLevelNormal && window.isKeyWindow && window.frame != CGRect.zero { return window }
         }
         return nil
     }
@@ -71,6 +71,9 @@ open class Banner: UIView {
             resetTintColor()
         }
     }
+    
+    /// The height of the banner. Default is 80.
+    open var minimumHeight: CGFloat = 80
     
     /// Whether or not the banner should show a shadow when presented.
     open var hasShadows = true {
@@ -162,6 +165,7 @@ open class Banner: UIView {
         addGestureRecognizers()
         initializeSubviews()
         resetTintColor()
+        imageView.image = image
         titleLabel.text = title
         detailLabel.text = subtitle
         backgroundView.backgroundColor = backgroundColor
@@ -241,7 +245,7 @@ open class Banner: UIView {
         ]
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(backgroundView)
-        minimumHeightConstraint = backgroundView.constraintWithAttribute(.height, .greaterThanOrEqual, to: 80)
+        minimumHeightConstraint = backgroundView.constraintWithAttribute(.height, .greaterThanOrEqual, to: minimumHeight)
         addConstraint(minimumHeightConstraint) // Arbitrary, but looks nice.
         addConstraints(backgroundView.constraintsEqualToSuperview())
         backgroundView.backgroundColor = backgroundColor
@@ -316,7 +320,7 @@ open class Banner: UIView {
         let statusBarSize = UIApplication.shared.statusBarFrame.size
         let heightOffset = min(statusBarSize.height, statusBarSize.width) // Arbitrary, but looks nice.
         contentTopOffsetConstraint.constant = heightOffset
-        minimumHeightConstraint.constant = statusBarSize.height > 0 ? 80 : 40
+        minimumHeightConstraint.constant = statusBarSize.height > 0 ? minimumHeight : 40
       } else {
         contentTopOffsetConstraint.constant = 0
         minimumHeightConstraint.constant = 0

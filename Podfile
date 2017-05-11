@@ -1,6 +1,6 @@
 platform :ios, ’9.0’
 
-target 'Bizmi' do
+target ‘Bluepin’ do
 
   use_frameworks!
 
