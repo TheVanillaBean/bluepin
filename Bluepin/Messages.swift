@@ -1,6 +1,6 @@
 //
-//  Errors.swift
-//  Bizmi
+//  Messages.swift
+//  Bluepin
 //
 //  Created by Alex on 7/26/16.
 //  Copyright © 2016 Alex. All rights reserved.

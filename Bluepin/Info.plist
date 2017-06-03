@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>BluePin</string>
+	<string>Bluepin</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -34,11 +34,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera in order for you to take a photo.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to pinpoint your distance from businesses.</string>
+	<string>We need your location to pinpoint your distance from businesses or to set your location if you are a business.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need to access your microphone in order for you to use voice for text messaging.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library in order for you to set a profile pitcure.</string>
+	<string>We need access to your photo library in order for you to set a profile picture.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NotoSans-Bold.ttf</string>

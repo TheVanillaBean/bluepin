@@ -1,6 +1,6 @@
 //
 //  BusinessReservationCell.swift
-//  Bizmi
+//  bluepin
 //
 //  Created by Alex on 9/3/16.
 //  Copyright © 2016 Alex. All rights reserved.

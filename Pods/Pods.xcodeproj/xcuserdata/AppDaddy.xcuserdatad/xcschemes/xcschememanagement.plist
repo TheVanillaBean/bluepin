@@ -54,6 +54,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Kingfisher.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>PhoneNumberKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -87,7 +92,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>095034AE11180D59963DBE7DFF6A52F2</key>
+		<key>03B13F18765BE2060373E6681FFC91B5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -97,12 +102,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>28C3308312AC85007C89F45414DAF546</key>
+		<key>2CAB9D1306B7DFBAB3E05B34C1E5E018</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4B0B3ABC474A52A73E710B8210F73C6E</key>
+		<key>5DAEBF10F248653C41AD61D77CA84931</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -112,12 +117,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
+		<key>73D8E26C09A7374F191AC9744F93F535</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8907818879584C484625ABB25DDDC822</key>
+		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -142,6 +147,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>C4944FEC314D1A66588651D006273ADE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>C7DCF2B547F7871B9BFD74DE93B0E173</key>
 		<dict>
 			<key>primary</key>
@@ -162,7 +172,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FF7F262D7559DF09BC95173611B72D45</key>
+		<key>DA8F4D47CF71E2544405F64852FB573C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

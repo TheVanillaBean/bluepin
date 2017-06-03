@@ -1,6 +1,6 @@
 //
 //  Constants.swift
-//  Bizmi
+//  Bluepin
 //
 //  Created by Alex on 7/19/16.
 //  Copyright © 2016 Alex. All rights reserved.
@@ -80,7 +80,9 @@ let RESERVATION_STATUS = "status"
 let RESERVATION_TIMESTAMP = "timestamp"
 let RESERVATION_SCHEDULED_TIME = "scheduledTime"
 let RESERVATION_PARTY_LEADER_ID = "leaderID"
+let RESERVATION_PARTY_LEADER_NAME = "leaderName"
 let RESERVATION_BUSINESS_ID = "businessID"
+let RESERVATION_BUSINESS_NAME = "businessName"
 let RESERVATION_APPOINTMENT_TIME_INTERVAL = "appointmentTimeInterval"
 
 let PENDING_STATUS = "pending"
@@ -108,10 +110,10 @@ let FIR_STORAGE_CHILD_MESSAGES = "Messages"
 //EMPTY DATA SETS
 let EMPTY_DATA_WELCOME = "Welcome"
 let EMPTY_MESSAGES_DATA_SET_BUSINESS = "You do not have any messages yet. Whenever a customer messages you, the conversation will show up here."
-let EMPTY_FOLLOWERS_DATA_SET_BUSINESS = "You do not have any followers yet. Tell your customers to download Bizmi and subscribe to your business page. They will then show up here."
+let EMPTY_FOLLOWERS_DATA_SET_BUSINESS = "You do not have any followers yet. Tell your customers to download Bluepin and subscribe to your business page. They will then show up here."
 let EMPTY_RESERVATION_DATA_SET_BUSINESS = "You do not have any reservations yet. You can make a reservation for a customer by pressing the + button in the toolbar. Your customers will recieve a pending reservation and will have the option to accept or decline the reservation. All reservations will show up here."
 let EMPTY_MESSAGES_DATA_SET_CUSTOMER = "You do not have any messages yet. Whenever you message a business, the conversation will show up here."
-let EMPTY_BUSINESSES_DATA_SET_CUSTOMER = "There are currently no businesses in your area that use Bizmi. Contact a local business and refer them to Bizmi."
+let EMPTY_BUSINESSES_DATA_SET_CUSTOMER = "There are currently no businesses in your area that use Bluepin. Contact a local business and refer them to Bluepin."
 let EMPTY_RESERVATION_DATA_SET_CUSTOMER = "You do not have any reservations yet. Whenever a business sends you a reservation, it will show up here as pending. You will then have the option to accept or decline the reservation."
 
 

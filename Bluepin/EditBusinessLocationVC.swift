@@ -1,6 +1,6 @@
 //
 //  EditBusinessLocationVC.swift
-//  Bizmi
+//  bluepin
 //
 //  Created by Alex on 8/7/16.
 //  Copyright © 2016 Alex. All rights reserved.

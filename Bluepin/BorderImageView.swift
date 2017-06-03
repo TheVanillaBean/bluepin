@@ -1,6 +1,6 @@
 //
 //  BorderImageView.swift
-//  Bizmi
+//  bluepin
 //
 //  Created by Alex on 8/10/16.
 //  Copyright © 2016 Alex. All rights reserved.

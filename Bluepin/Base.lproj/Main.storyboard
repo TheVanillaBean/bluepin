@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="iRc-sB-ktC">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -15,7 +19,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -30,21 +34,21 @@
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZPd-aM-BF9">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Bizmi_Logo" translatesAutoresizingMaskIntoConstraints="NO" id="1h3-Fh-d7G">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Bluepin_Logo" translatesAutoresizingMaskIntoConstraints="NO" id="1h3-Fh-d7G">
                                                 <rect key="frame" x="206" y="32" width="189" height="100"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="189" id="7K1-Wy-QMW"/>
                                                     <constraint firstAttribute="height" constant="100" id="R0o-W8-hdb"/>
                                                 </constraints>
                                             </imageView>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fB7-2a-qFQ" customClass="MaterialView" customModule="Bizmi" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fB7-2a-qFQ" customClass="MaterialView" customModule="Bluepin" customModuleProvider="target">
                                                 <rect key="frame" x="8" y="162" width="584" height="218"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Tnc-YY-wgW">
                                                 <rect key="frame" x="16" y="170" width="343" height="125"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="00t-1w-0Ax" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="00t-1w-0Ax" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -58,7 +62,7 @@
                                                             <outlet property="delegate" destination="BYZ-38-t0r" id="RjP-gC-fQ7"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BEI-eI-ttz" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BEI-eI-ttz" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="75" width="343" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
@@ -228,7 +232,7 @@
         <!--Forgot PasswordVC-->
         <scene sceneID="raR-Ek-hvg">
             <objects>
-                <viewController id="HFK-N6-VuZ" customClass="ForgotPasswordVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="HFK-N6-VuZ" customClass="ForgotPasswordVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uns-jn-dQs"/>
                         <viewControllerLayoutGuide type="bottom" id="nVr-hA-iXg"/>
@@ -243,14 +247,14 @@
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0nA-zk-ih9">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QsY-sm-lt3" customClass="MaterialView" customModule="Bizmi" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QsY-sm-lt3" customClass="MaterialView" customModule="Bluepin" customModuleProvider="target">
                                                 <rect key="frame" x="8" y="32" width="584" height="126"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Whz-WU-He6">
                                                 <rect key="frame" x="16" y="40" width="343" height="50"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dpU-wv-pAO" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dpU-wv-pAO" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -333,7 +337,7 @@
         <!--Customer Sign UpVC-->
         <scene sceneID="C7u-4W-Bu6">
             <objects>
-                <viewController id="Vw4-2y-9GI" customClass="CustomerSignUpVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Vw4-2y-9GI" customClass="CustomerSignUpVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="OSa-xg-qXA"/>
                         <viewControllerLayoutGuide type="bottom" id="EjD-6Y-RwW"/>
@@ -348,14 +352,14 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rrr-th-kmo">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fai-iY-7V6" customClass="MaterialView" customModule="Bizmi" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fai-iY-7V6" customClass="MaterialView" customModule="Bluepin" customModuleProvider="target">
                                                 <rect key="frame" x="8" y="24" width="584" height="317"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Zp1-qA-B66">
                                                 <rect key="frame" x="16" y="32" width="343" height="282"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Yi-8J-a6S" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Yi-8J-a6S" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -369,7 +373,7 @@
                                                             <outlet property="delegate" destination="Vw4-2y-9GI" id="pra-wa-G5m"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aPT-wS-37c" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aPT-wS-37c" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="58" width="343" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
@@ -382,7 +386,7 @@
                                                             <outlet property="delegate" destination="Vw4-2y-9GI" id="A8h-BV-Iqp"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone #" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4C9-MA-5g5" customClass="MaterialPhoneNumberTextView" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone #" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4C9-MA-5g5" customClass="MaterialPhoneNumberTextView" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="116" width="343" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -396,7 +400,7 @@
                                                             <outlet property="delegate" destination="Vw4-2y-9GI" id="D9b-br-8OB"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ga9-nh-A9b" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ga9-nh-A9b" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="174" width="343" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -410,7 +414,7 @@
                                                             <outlet property="delegate" destination="Vw4-2y-9GI" id="iqt-wg-WcY"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PCV-m5-abw" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PCV-m5-abw" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="232" width="343" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="Rmo-Gl-8HL"/>
@@ -447,7 +451,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="sYL-o4-1s1">
-                                                <rect key="frame" x="8" y="407" width="359" height="26"/>
+                                                <rect key="frame" x="8" y="407" width="359" height="29"/>
                                                 <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="12"/>
                                                 <state key="normal" title="By signing up, you agree to Bluepin's terms of use and privacy policy."/>
                                                 <connections>
@@ -509,7 +513,7 @@
         <!--Verify Phone NumberVC-->
         <scene sceneID="sZN-dI-nVC">
             <objects>
-                <viewController id="T0f-PA-Fo3" customClass="VerifyPhoneNumberVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="T0f-PA-Fo3" customClass="VerifyPhoneNumberVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9f4-nd-YJB"/>
                         <viewControllerLayoutGuide type="bottom" id="ifs-Ww-wIs"/>
@@ -518,10 +522,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="knL-D9-Ufr" customClass="MaterialView" customModule="Bizmi" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="knL-D9-Ufr" customClass="MaterialView" customModule="Bluepin" customModuleProvider="target">
                                 <rect key="frame" x="20" y="80" width="560" height="126"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Verification Code" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fcS-5z-pkk" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Verification Code" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fcS-5z-pkk" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                         <rect key="frame" x="16" y="8" width="528" height="50"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -600,7 +604,7 @@
         <!--Messages-->
         <scene sceneID="iZx-SH-ZJX">
             <objects>
-                <viewController storyboardIdentifier="BusinessMessagesVC" id="RXq-6F-5YB" customClass="BusinessViewMessagesVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BusinessMessagesVC" id="RXq-6F-5YB" customClass="BusinessViewMessagesVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="f0x-tY-NmP"/>
                         <viewControllerLayoutGuide type="bottom" id="YqW-ps-I52"/>
@@ -610,10 +614,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Yob-j5-15f">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessChannelsCell" rowHeight="100" id="GcD-Yl-Sgw" customClass="BusinessMessageChannelsCell" customModule="Bizmi" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessChannelsCell" rowHeight="100" id="GcD-Yl-Sgw" customClass="BusinessMessageChannelsCell" customModule="Bluepin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GcD-Yl-Sgw" id="ayM-F2-JKy">
@@ -639,7 +643,7 @@
                                                             </variation>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kp-Zb-EaL">
-                                                            <rect key="frame" x="206" y="0.0" width="42.5" height="25"/>
+                                                            <rect key="frame" x="206.5" y="0.0" width="42.5" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="xBh-mY-cwE"/>
                                                             </constraints>
@@ -649,7 +653,7 @@
                                                         </label>
                                                     </subviews>
                                                 </stackView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="7nc-NV-Y3w" customClass="BorderImageView" customModule="Bizmi" customModuleProvider="target">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="7nc-NV-Y3w" customClass="BorderImageView" customModule="Bluepin" customModuleProvider="target">
                                                     <rect key="frame" x="2" y="2" width="100" height="96"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="CAz-4v-Mp8"/>
@@ -721,7 +725,7 @@
         <!--Business Sign UpVC-->
         <scene sceneID="TDd-JH-jaX">
             <objects>
-                <viewController id="gp4-cn-0RD" customClass="BusinessSignUpVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="gp4-cn-0RD" customClass="BusinessSignUpVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hbD-eC-m2v"/>
                         <viewControllerLayoutGuide type="bottom" id="gOL-k3-du7"/>
@@ -736,14 +740,14 @@
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aSM-0V-38R">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cSU-HK-FBV" customClass="MaterialView" customModule="Bizmi" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cSU-HK-FBV" customClass="MaterialView" customModule="Bluepin" customModuleProvider="target">
                                                 <rect key="frame" x="8" y="16" width="584" height="317"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="RmU-Ix-9nw">
                                                 <rect key="frame" x="16" y="24" width="343" height="282"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QTQ-cd-WjK" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QTQ-cd-WjK" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -757,7 +761,7 @@
                                                             <outlet property="delegate" destination="gp4-cn-0RD" id="hAl-Vk-hzn"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Business Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qkx-V8-fYC" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Business Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qkx-V8-fYC" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="58" width="343" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
@@ -770,7 +774,7 @@
                                                             <outlet property="delegate" destination="gp4-cn-0RD" id="No6-Tu-IhU"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Business Type" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zs1-G8-M0e" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Business Type" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zs1-G8-M0e" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="116" width="343" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -784,7 +788,7 @@
                                                             <outlet property="delegate" destination="gp4-cn-0RD" id="b1I-h7-7vg"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="99S-05-d4Z" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="99S-05-d4Z" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="174" width="343" height="50"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -798,7 +802,7 @@
                                                             <outlet property="delegate" destination="gp4-cn-0RD" id="5Vq-Vw-wSe"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="DbJ-BJ-I4I" customClass="MaterialTextField" customModule="Bizmi" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="DbJ-BJ-I4I" customClass="MaterialTextField" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="232" width="343" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="VSv-XE-efH"/>
@@ -952,7 +956,7 @@
         <!--Customers-->
         <scene sceneID="ihW-EO-wNp">
             <objects>
-                <viewController id="4gy-rd-1BN" customClass="BusinessViewCustomersVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4gy-rd-1BN" customClass="BusinessViewCustomersVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L1i-nt-6Ok"/>
                         <viewControllerLayoutGuide type="bottom" id="7OT-C6-SVx"/>
@@ -962,17 +966,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BpQ-Z0-tQL">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="viewFollowersCell" rowHeight="100" id="Eay-E0-kLC" customClass="ViewFollowersCell" customModule="Bizmi" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="viewFollowersCell" rowHeight="100" id="Eay-E0-kLC" customClass="ViewFollowersCell" customModule="Bluepin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eay-E0-kLC" id="frj-Ui-d1A">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="O7B-fG-Nqx" customClass="BorderImageView" customModule="Bizmi" customModuleProvider="target">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="O7B-fG-Nqx" customClass="BorderImageView" customModule="Bluepin" customModuleProvider="target">
                                                     <rect key="frame" x="2" y="2" width="100" height="100"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="T3L-r0-uRI"/>
@@ -1048,7 +1052,7 @@
         <!--View CustomerVC-->
         <scene sceneID="PDV-6U-dOW">
             <objects>
-                <viewController id="STj-aY-CPV" customClass="ViewCustomerVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="STj-aY-CPV" customClass="ViewCustomerVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yvi-Ec-MG0"/>
                         <viewControllerLayoutGuide type="bottom" id="Eoy-Tp-jEr"/>
@@ -1063,7 +1067,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="38L-gm-A0a">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="900"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pMB-4J-eUG" customClass="MaterialView" customModule="Bizmi" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pMB-4J-eUG" customClass="MaterialView" customModule="Bluepin" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="125"/>
                                                 <color key="backgroundColor" red="0.01176470588" green="0.66274509800000003" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -1078,7 +1082,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="sU7-DN-6Er" customClass="BorderImageView" customModule="Bizmi" customModuleProvider="target">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="sU7-DN-6Er" customClass="BorderImageView" customModule="Bluepin" customModuleProvider="target">
                                                 <rect key="frame" x="238" y="50" width="125" height="125"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="125" id="K3Z-44-etC"/>
@@ -1086,7 +1090,7 @@
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cL4-aI-CWg">
-                                                <rect key="frame" x="16" y="24" width="1" height="22"/>
+                                                <rect key="frame" x="16" y="24" width="50" height="50"/>
                                                 <state key="normal" image="Cancel_Blue"/>
                                                 <connections>
                                                     <action selector="cancelBtnPressed:" destination="STj-aY-CPV" eventType="touchUpInside" id="IMG-Ub-IX5"/>
@@ -1112,16 +1116,16 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="Cym-cN-F9M">
-                                                <rect key="frame" x="8" y="260" width="584" height="145"/>
+                                                <rect key="frame" x="8" y="260" width="584" height="147"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7u5-4f-YxH">
-                                                        <rect key="frame" x="0.0" y="0.0" width="267" height="145"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="267" height="147"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CircleBG" translatesAutoresizingMaskIntoConstraints="NO" id="uld-Ok-6Xx">
-                                                                <rect key="frame" x="133" y="0.0" width="1" height="127"/>
+                                                                <rect key="frame" x="69.5" y="0.0" width="128" height="127"/>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Messages Sent" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="hfp-0Z-5L3">
-                                                                <rect key="frame" x="83" y="127" width="100" height="18"/>
+                                                                <rect key="frame" x="83.5" y="127" width="100" height="20"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -1129,13 +1133,13 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YxY-HQ-PA0">
-                                                        <rect key="frame" x="317" y="0.0" width="267" height="145"/>
+                                                        <rect key="frame" x="317" y="0.0" width="267" height="147"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CircleBG" translatesAutoresizingMaskIntoConstraints="NO" id="t5p-Jw-hnz">
-                                                                <rect key="frame" x="133" y="0.0" width="1" height="128"/>
+                                                                <rect key="frame" x="69.5" y="0.0" width="128" height="128"/>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Appointments Made" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="PpF-z6-dAM">
-                                                                <rect key="frame" x="63" y="128" width="140" height="19"/>
+                                                                <rect key="frame" x="63.5" y="128" width="140" height="19"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -1144,8 +1148,8 @@
                                                     </stackView>
                                                 </subviews>
                                             </stackView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="POT-1E-bRY" customClass="ButtonBorderBlue" customModule="Bizmi" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="421" width="584" height="50"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="POT-1E-bRY" customClass="ButtonBorderBlue" customModule="Bluepin" customModuleProvider="target">
+                                                <rect key="frame" x="8" y="423" width="584" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="Bq7-wO-TbG"/>
                                                     <constraint firstAttribute="height" constant="50" id="Se2-lG-vXb"/>
@@ -1175,7 +1179,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="----" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Csx-VC-NEQ">
-                                                <rect key="frame" x="103" y="301" width="75" height="45"/>
+                                                <rect key="frame" x="104" y="301" width="75" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="75" id="1h8-HI-EPx"/>
                                                     <constraint firstAttribute="height" constant="45" id="1ky-tJ-vaF"/>
@@ -1185,7 +1189,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="----" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lOq-Ae-fA5">
-                                                <rect key="frame" x="420" y="302" width="75" height="45"/>
+                                                <rect key="frame" x="421" y="302" width="75" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="75" id="5Zz-7g-tMx"/>
                                                     <constraint firstAttribute="height" constant="45" id="q9G-Kf-3nj"/>
@@ -1284,7 +1288,7 @@
         <!--Reservations-->
         <scene sceneID="b66-e1-MeN">
             <objects>
-                <viewController id="4nB-Te-mdk" customClass="BusinessViewReservationsVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4nB-Te-mdk" customClass="BusinessViewReservationsVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iWc-Ck-0sN"/>
                         <viewControllerLayoutGuide type="bottom" id="GT7-QX-NbF"/>
@@ -1294,17 +1298,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cdy-Ve-wxc">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessReservationCell" rowHeight="100" id="Rsn-h9-2sg" customClass="BusinessReservationCell" customModule="Bizmi" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessReservationCell" rowHeight="100" id="Rsn-h9-2sg" customClass="BusinessReservationCell" customModule="Bluepin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rsn-h9-2sg" id="jRY-jy-auH">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Fpg-2R-2Ts" customClass="BorderImageView" customModule="Bizmi" customModuleProvider="target">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Fpg-2R-2Ts" customClass="BorderImageView" customModule="Bluepin" customModuleProvider="target">
                                                     <rect key="frame" x="2" y="2" width="100" height="100"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="72r-Mj-FYd"/>
@@ -1359,7 +1363,7 @@
                                                             </variation>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-----" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="8cT-jB-jFD">
-                                                            <rect key="frame" x="124" y="0.0" width="124.5" height="25"/>
+                                                            <rect key="frame" x="124.5" y="0.0" width="124.5" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="tUX-Nt-Uvd"/>
                                                             </constraints>
@@ -1441,7 +1445,7 @@
         <!--New ReservationVC-->
         <scene sceneID="MsY-H9-In7">
             <objects>
-                <viewController id="WaD-UE-pj1" customClass="NewReservationVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="WaD-UE-pj1" customClass="NewReservationVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="o79-cO-aax"/>
                         <viewControllerLayoutGuide type="bottom" id="lJ4-sb-imd"/>
@@ -1583,7 +1587,7 @@
         <!--Choose Party LeaderVC-->
         <scene sceneID="X2H-gJ-mqJ">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="zJY-Pf-KKL" customClass="ChoosePartyLeaderVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="zJY-Pf-KKL" customClass="ChoosePartyLeaderVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wJs-1H-hCp"/>
                         <viewControllerLayoutGuide type="bottom" id="ZAS-ia-PZc"/>
@@ -1596,7 +1600,7 @@
                                 <rect key="frame" x="0.0" y="12" width="600" height="588"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChooseFollowerCell" rowHeight="100" id="Suf-Wz-2EB" customClass="ChoosePartyLeaderCell" customModule="Bizmi" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChooseFollowerCell" rowHeight="100" id="Suf-Wz-2EB" customClass="ChoosePartyLeaderCell" customModule="Bluepin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Suf-Wz-2EB" id="3xy-me-RBe">
@@ -1609,7 +1613,7 @@
                                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Tgg-FP-rOU" customClass="BorderImageView" customModule="Bizmi" customModuleProvider="target">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Tgg-FP-rOU" customClass="BorderImageView" customModule="Bluepin" customModuleProvider="target">
                                                     <rect key="frame" x="2" y="2" width="100" height="100"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="9bM-WD-vBV"/>
@@ -1684,7 +1688,7 @@
         <!--Profile-->
         <scene sceneID="HBR-Ie-xOC">
             <objects>
-                <viewController id="52g-OX-W7S" customClass="BusinessProfileVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="52g-OX-W7S" customClass="BusinessProfileVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MER-nY-Hyu"/>
                         <viewControllerLayoutGuide type="bottom" id="lhj-VB-SK1"/>
@@ -1700,7 +1704,7 @@
                                     <constraint firstAttribute="height" constant="128" id="zNj-6G-rPK"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="2sr-rO-9Xk" customClass="BorderImageView" customModule="Bizmi" customModuleProvider="target">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="2sr-rO-9Xk" customClass="BorderImageView" customModule="Bluepin" customModuleProvider="target">
                                 <rect key="frame" x="236" y="96" width="128" height="128"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -1719,10 +1723,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="6mS-Rw-85R">
-                                <rect key="frame" x="0.0" y="196" width="375" height="471"/>
+                                <rect key="frame" x="0.0" y="240" width="375" height="378"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   My Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="007-4w-8II">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="aB4-Lf-iet"/>
@@ -1739,10 +1743,10 @@
                                         </variation>
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jHf-Hb-ETh">
-                                        <rect key="frame" x="0.0" y="34" width="375" height="437"/>
+                                        <rect key="frame" x="0.0" y="14" width="375" height="364"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessProfileCell" rowHeight="50" id="stv-4z-whE" customClass="BusinessProfileCell" customModule="Bizmi" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessProfileCell" rowHeight="50" id="stv-4z-whE" customClass="BusinessProfileCell" customModule="Bluepin" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="stv-4z-whE" id="qrm-03-kd8">
@@ -1757,7 +1761,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="GI6-1I-pBM">
-                                                            <rect key="frame" x="56" y="8" width="311" height="20"/>
+                                                            <rect key="frame" x="56" y="8" width="311" height="24"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="3fl-WL-lqT"/>
                                                             </constraints>
@@ -1893,7 +1897,7 @@
         <!--Edit Business LocationVC-->
         <scene sceneID="K6l-KE-MgM">
             <objects>
-                <viewController id="ZKb-Ed-zOF" customClass="EditBusinessLocationVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ZKb-Ed-zOF" customClass="EditBusinessLocationVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FnF-Tn-JwO"/>
                         <viewControllerLayoutGuide type="bottom" id="Yyx-Uy-RIL"/>
@@ -1962,7 +1966,7 @@
         <!--Messages-->
         <scene sceneID="1jf-3L-Xgj">
             <objects>
-                <viewController storyboardIdentifier="CustomerViewMessageChannelsVC" id="Jhl-c6-lBE" customClass="CustomerViewMessageChannelsVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CustomerViewMessageChannelsVC" id="Jhl-c6-lBE" customClass="CustomerViewMessageChannelsVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hQH-ey-R9O"/>
                         <viewControllerLayoutGuide type="bottom" id="HJb-fv-p9Q"/>
@@ -1972,10 +1976,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xyg-LM-5TE">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomerChannelsCell" rowHeight="100" id="Ijb-Ha-x11" customClass="CustomerMessageChannelsCell" customModule="Bizmi" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomerChannelsCell" rowHeight="100" id="Ijb-Ha-x11" customClass="CustomerMessageChannelsCell" customModule="Bluepin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ijb-Ha-x11" id="qw9-wb-4gw">
@@ -1996,7 +2000,7 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="di2-ax-LMf" customClass="BorderImageView" customModule="Bizmi" customModuleProvider="target">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="di2-ax-LMf" customClass="BorderImageView" customModule="Bluepin" customModuleProvider="target">
                                                     <rect key="frame" x="2" y="2" width="100" height="96"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="O3t-VW-QCQ"/>
@@ -2006,7 +2010,7 @@
                                                     <rect key="frame" x="110" y="8" width="249" height="25"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="EHL-5O-YWv" customClass="TTTAttributedLabel">
-                                                            <rect key="frame" x="0.0" y="0.0" width="204" height="25"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="204.5" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="EGx-zw-Phz"/>
                                                                 <constraint firstAttribute="height" constant="25" id="Nlc-nD-otE"/>
@@ -2021,7 +2025,7 @@
                                                             </variation>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="3ZE-PM-JAt">
-                                                            <rect key="frame" x="204" y="0.0" width="45" height="25"/>
+                                                            <rect key="frame" x="204.5" y="0.0" width="44.5" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="3Yf-xK-e41"/>
                                                             </constraints>
@@ -2092,7 +2096,7 @@
         <!--Businesses-->
         <scene sceneID="PIK-sb-JWV">
             <objects>
-                <viewController id="0Af-6Y-MTv" customClass="CustomerViewBusinessesVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="0Af-6Y-MTv" customClass="CustomerViewBusinessesVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bnl-dI-lWV"/>
                         <viewControllerLayoutGuide type="bottom" id="hsJ-Qc-y05"/>
@@ -2102,17 +2106,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SSU-WB-7TH">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ViewBusinessesCell" rowHeight="100" id="ued-F7-by9" customClass="ViewBusinessesCell" customModule="Bizmi" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ViewBusinessesCell" rowHeight="100" id="ued-F7-by9" customClass="ViewBusinessesCell" customModule="Bluepin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ued-F7-by9" id="vE8-Uk-YJz">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="idd-xH-ct7" customClass="BorderImageView" customModule="Bizmi" customModuleProvider="target">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="idd-xH-ct7" customClass="BorderImageView" customModule="Bluepin" customModuleProvider="target">
                                                     <rect key="frame" x="2" y="2" width="100" height="100"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="600" id="3Kb-Ot-z28"/>
@@ -2136,10 +2140,10 @@
                                                     </variation>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tqC-qs-LQP">
-                                                    <rect key="frame" x="110" y="0.0" width="257" height="24"/>
+                                                    <rect key="frame" x="110" y="0.0" width="257" height="25"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="JkG-uP-Pw6" customClass="TTTAttributedLabel">
-                                                            <rect key="frame" x="0.0" y="0.0" width="231.5" height="24"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="211.5" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="30" id="hyG-Hb-1U5"/>
                                                             </constraints>
@@ -2153,10 +2157,10 @@
                                                             </variation>
                                                         </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="TPh-IC-5C4">
-                                                            <rect key="frame" x="231" y="0.0" width="25.5" height="24"/>
+                                                            <rect key="frame" x="211.5" y="0.0" width="45.5" height="25"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Marker" translatesAutoresizingMaskIntoConstraints="NO" id="xec-gs-5YI">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="1" height="24"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="28" id="w8y-Xg-j0Y"/>
                                                                         <constraint firstAttribute="width" constant="28" id="y35-bj-pAH"/>
@@ -2169,7 +2173,7 @@
                                                                     </variation>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-----" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="TXW-Lt-Z8u">
-                                                                    <rect key="frame" x="2" y="0.0" width="23.5" height="24"/>
+                                                                    <rect key="frame" x="26" y="0.0" width="19.5" height="25"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="AHk-fB-pW3"/>
                                                                         <constraint firstAttribute="width" id="FQn-tK-yBS"/>
@@ -2259,7 +2263,7 @@
         <!--View BusinessVC-->
         <scene sceneID="Yci-5M-utF">
             <objects>
-                <viewController id="3NM-0U-CIS" customClass="ViewBusinessVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="3NM-0U-CIS" customClass="ViewBusinessVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="I9I-0e-RYZ"/>
                         <viewControllerLayoutGuide type="bottom" id="flx-cZ-u01"/>
@@ -2274,7 +2278,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ooU-Yj-Bmb">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="900"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TWu-aF-9Fh" customClass="MaterialView" customModule="Bizmi" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TWu-aF-9Fh" customClass="MaterialView" customModule="Bluepin" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="125"/>
                                                 <color key="backgroundColor" red="0.011764705882352941" green="0.66274509803921566" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -2289,7 +2293,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="rFj-2M-GDo" customClass="BorderImageView" customModule="Bizmi" customModuleProvider="target">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="rFj-2M-GDo" customClass="BorderImageView" customModule="Bluepin" customModuleProvider="target">
                                                 <rect key="frame" x="238" y="50" width="125" height="125"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="125" id="6vr-yP-CK1"/>
@@ -2297,7 +2301,7 @@
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JWL-f8-SKZ">
-                                                <rect key="frame" x="16" y="24" width="1" height="22"/>
+                                                <rect key="frame" x="16" y="24" width="50" height="50"/>
                                                 <state key="normal" image="Cancel_Blue"/>
                                                 <connections>
                                                     <action selector="cancelBtnPressed:" destination="3NM-0U-CIS" eventType="touchUpInside" id="ElP-Yn-UAh"/>
@@ -2341,7 +2345,7 @@
                                                     </label>
                                                 </subviews>
                                             </stackView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EHP-iK-5Vq" customClass="ButtonBorderBlue" customModule="Bizmi" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EHP-iK-5Vq" customClass="ButtonBorderBlue" customModule="Bluepin" customModuleProvider="target">
                                                 <rect key="frame" x="8" y="373" width="584" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="3D8-h7-22o"/>
@@ -2382,7 +2386,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="8oa-fn-L4W">
                                                 <rect key="frame" x="8" y="460" width="584" height="170"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="onk-8s-IOc" customClass="ButtonBorderBlue" customModule="Bizmi" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="onk-8s-IOc" customClass="ButtonBorderBlue" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="584" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="YpN-h0-Sq4"/>
@@ -2402,7 +2406,7 @@
                                                             <action selector="phoneNumberBtnPressed:" destination="3NM-0U-CIS" eventType="touchUpInside" id="JRJ-18-GoC"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="szF-sc-uFM" customClass="ButtonBorderBlue" customModule="Bizmi" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="szF-sc-uFM" customClass="ButtonBorderBlue" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="60" width="584" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="i1G-iy-OHj"/>
@@ -2422,7 +2426,7 @@
                                                             <action selector="businessWebsiteBtnPressed:" destination="3NM-0U-CIS" eventType="touchUpInside" id="yvs-QV-tBN"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cxq-WU-Rhz" customClass="ButtonBorderBlue" customModule="Bizmi" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cxq-WU-Rhz" customClass="ButtonBorderBlue" customModule="Bluepin" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="120" width="584" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="qnR-XQ-rpK"/>
@@ -2596,7 +2600,7 @@
         <!--View Business LocationVC-->
         <scene sceneID="rN3-K2-JWU">
             <objects>
-                <viewController id="leR-nA-lTm" customClass="ViewBusinessLocationVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="leR-nA-lTm" customClass="ViewBusinessLocationVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zjc-xz-8AA"/>
                         <viewControllerLayoutGuide type="bottom" id="ka2-w2-mmY"/>
@@ -2657,7 +2661,7 @@
         <!--View Business WebsiteVC-->
         <scene sceneID="iDT-YR-JJy">
             <objects>
-                <viewController id="gJa-d2-eQb" customClass="ViewBusinessWebsiteVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="gJa-d2-eQb" customClass="ViewBusinessWebsiteVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="as3-Zc-NKD"/>
                         <viewControllerLayoutGuide type="bottom" id="n1Z-6I-t6E"/>
@@ -2703,7 +2707,7 @@
         <!--View Business HoursVC-->
         <scene sceneID="HxZ-Vp-m3R">
             <objects>
-                <viewController id="0t1-fT-eY0" customClass="ViewBusinessHoursVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="0t1-fT-eY0" customClass="ViewBusinessHoursVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UGO-Mc-pj4"/>
                         <viewControllerLayoutGuide type="bottom" id="SNs-Op-mL2"/>
@@ -2755,7 +2759,7 @@
         <!--View Message ThreadVC-->
         <scene sceneID="EV0-oN-VNo">
             <objects>
-                <viewController id="uM1-qU-jdG" customClass="ViewMessageThreadVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="uM1-qU-jdG" customClass="ViewMessageThreadVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="q40-4y-wu9"/>
                         <viewControllerLayoutGuide type="bottom" id="8WD-7t-8E4"/>
@@ -2777,7 +2781,7 @@
         <!--Reservations-->
         <scene sceneID="cf8-Bb-4Gs">
             <objects>
-                <viewController id="ahQ-St-BQ8" customClass="CustomerViewReservationsVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ahQ-St-BQ8" customClass="CustomerViewReservationsVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="e9U-xD-laH"/>
                         <viewControllerLayoutGuide type="bottom" id="8HI-R4-hsE"/>
@@ -2787,10 +2791,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aZd-HH-ufa">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReservationCell" rowHeight="100" id="qhS-XF-uzY" customClass="CustomerReservationCell" customModule="Bizmi" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReservationCell" rowHeight="100" id="qhS-XF-uzY" customClass="CustomerReservationCell" customModule="Bluepin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qhS-XF-uzY" id="mdG-J2-abd">
@@ -2821,7 +2825,7 @@
                                                             </variation>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-----" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="PrG-0U-aVx">
-                                                            <rect key="frame" x="166" y="0.0" width="82.5" height="25"/>
+                                                            <rect key="frame" x="166.5" y="0.0" width="82.5" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="uxh-XR-cO5"/>
                                                             </constraints>
@@ -2852,7 +2856,7 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="XzJ-RC-Rlq" customClass="BorderImageView" customModule="Bizmi" customModuleProvider="target">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="XzJ-RC-Rlq" customClass="BorderImageView" customModule="Bluepin" customModuleProvider="target">
                                                     <rect key="frame" x="2" y="2" width="100" height="100"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="100" id="GoU-ti-16u"/>
@@ -2906,7 +2910,7 @@
         <!--Profile-->
         <scene sceneID="8IE-Ei-ddm">
             <objects>
-                <viewController id="2Rc-WX-jJG" customClass="CustomerProfileVC" customModule="Bizmi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="2Rc-WX-jJG" customClass="CustomerProfileVC" customModule="Bluepin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Abk-Cu-15h"/>
                         <viewControllerLayoutGuide type="bottom" id="vXo-Yr-xMi"/>
@@ -2922,7 +2926,7 @@
                                     <constraint firstAttribute="height" constant="128" id="30Y-JR-L4C"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="uD7-r1-L8G" customClass="BorderImageView" customModule="Bizmi" customModuleProvider="target">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="uD7-r1-L8G" customClass="BorderImageView" customModule="Bluepin" customModuleProvider="target">
                                 <rect key="frame" x="236" y="96" width="128" height="128"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -2951,10 +2955,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="l6q-LF-5sy">
-                                <rect key="frame" x="0.0" y="196" width="375" height="471"/>
+                                <rect key="frame" x="0.0" y="240" width="375" height="378"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   My Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bcL-RL-jwb">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="5xf-uX-0bJ"/>
@@ -2971,10 +2975,10 @@
                                         </variation>
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="D8S-AO-MC9">
-                                        <rect key="frame" x="0.0" y="34" width="375" height="437"/>
+                                        <rect key="frame" x="0.0" y="14" width="375" height="364"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomerProfileCell" rowHeight="50" id="fIQ-vJ-MIg" customClass="CustomerProfileCell" customModule="Bizmi" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomerProfileCell" rowHeight="50" id="fIQ-vJ-MIg" customClass="CustomerProfileCell" customModule="Bluepin" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fIQ-vJ-MIg" id="51x-jh-sjk">
@@ -2991,7 +2995,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="0jf-kl-Ycg">
-                                                            <rect key="frame" x="56" y="8" width="311" height="20"/>
+                                                            <rect key="frame" x="56" y="8" width="311" height="24"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="j2o-HO-APO"/>
                                                             </constraints>
@@ -3150,7 +3154,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Bizmi_Logo" width="807" height="471"/>
+        <image name="Bluepin_Logo" width="221" height="61"/>
         <image name="Business_Grey" width="28" height="28"/>
         <image name="Cancel_Blue" width="50" height="50"/>
         <image name="Cancel_Full" width="50" height="50"/>
@@ -3170,11 +3174,11 @@
         <image name="Website_Blue" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rmP-4e-Kox"/>
-        <segue reference="30D-hv-PDd"/>
+        <segue reference="LO6-Gd-Omv"/>
+        <segue reference="6Nl-8j-bEw"/>
         <segue reference="BNX-ez-XnG"/>
-        <segue reference="Oao-ec-MQi"/>
-        <segue reference="jHS-lt-QyH"/>
+        <segue reference="aFy-Kg-L8m"/>
+        <segue reference="tG9-lc-vj1"/>
         <segue reference="SZT-54-A98"/>
     </inferredMetricsTieBreakers>
 </document>

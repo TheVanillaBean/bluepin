@@ -1,6 +1,6 @@
 //
 //  ViewBusinessesCell.swift
-//  Bizmi
+//  bluepin
 //
 //  Created by Alex on 8/6/16.
 //  Copyright © 2016 Alex. All rights reserved.
@@ -12,6 +12,7 @@ import TTTAttributedLabel
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
+import Kingfisher
 
 class ViewBusinessesCell: UITableViewCell {
     
@@ -33,6 +34,14 @@ class ViewBusinessesCell: UITableViewCell {
         businessBGImage.layer.cornerRadius = 1
         businessBGImage.clipsToBounds = true
         businessNameLbl.verticalAlignment = TTTAttributedLabelVerticalAlignment.top
+        
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        let placeholderImage = UIImage(named: "Placeholder")!
+        self.businessBGImage.image = placeholderImage
         
     }
     
@@ -63,7 +72,7 @@ class ViewBusinessesCell: UITableViewCell {
                     self.businessNameLbl.text = self.castedUser.businessName
                     self.businessTypeLbl.text = self.castedUser.businessType
                     
-                    self.loadProfilePic()
+                    self.loadProfilePic(uuid: uuid)
                 
                 }
                 
@@ -71,23 +80,43 @@ class ViewBusinessesCell: UITableViewCell {
         }
     }
     
-    func loadProfilePic(){
+    func loadProfilePic(uuid: String){
+        
         
         if castedUser.userProfilePicLocation != "" {
             
-            let ref = FIRStorage.storage().reference(forURL: castedUser.userProfilePicLocation)
-            ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
-                if error != nil {
-                    let placeholderImage = UIImage(named: "Placeholder")!
-                    self.businessBGImage.image = placeholderImage
-                } else {
-                    if let imgData = data {
-                        if let img = UIImage(data: imgData) {
-                            self.businessBGImage.image = img
-                        }
+            if ImageCache.default.isImageCached(forKey: uuid).cached {
+                
+                ImageCache.default.retrieveImage(forKey: uuid, options: nil) {
+                    image, cacheType in
+                    if let image = image {
+                        self.businessBGImage.image = image
                     }
                 }
-            })
+                
+            }else{
+                
+                let ref = FIRStorage.storage().reference(forURL: castedUser.userProfilePicLocation)
+                ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
+                    if error != nil {
+                        let placeholderImage = UIImage(named: "Placeholder")!
+                        self.businessBGImage.image = placeholderImage
+                    } else {
+                        if let imgData = data {
+                            if let img = UIImage(data: imgData) {
+                                
+                                ImageCache.default.store(img,
+                                                         original: imgData,
+                                                         forKey: uuid,
+                                                         toDisk: false)
+                                
+                                self.businessBGImage.image = img
+                            }
+                        }
+                    }
+                })
+
+            }
         }
         
     }
@@ -98,7 +127,7 @@ class ViewBusinessesCell: UITableViewCell {
           
             CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
                 
-                if let marks = placemarks , marks.count > 0 {
+                if let marks = placemarks, marks.count > 0 {
                     
                     let pm = marks[0] as CLPlacemark
                     

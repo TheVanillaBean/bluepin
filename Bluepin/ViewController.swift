@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  Bizmi
+//  bluepin
 //
 //  Created by Alex on 7/19/16.
 //  Copyright © 2016 Alex. All rights reserved.

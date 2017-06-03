@@ -1,6 +1,6 @@
 //
 //  NewReservationVC.swift
-//  Bizmi
+//  bluepin
 //
 //  Created by Alex on 8/28/16.
 //  Copyright © 2016 Alex. All rights reserved.
@@ -110,13 +110,13 @@ class NewReservationVC: UIViewController, UITextFieldDelegate  {
                         
                         FBReservation = FBDataService.instance.reservationsRef.child((self.existingReservation?.uuid)!)
                         
-                        res = [RESERVATION_UID: FBReservation.key as AnyObject, RESERVATION_STATUS: (self.existingReservation?.status)! as AnyObject, RESERVATION_TIMESTAMP: FIRServerValue.timestamp() as AnyObject, RESERVATION_SCHEDULED_TIME: reservationTime as AnyObject, RESERVATION_PARTY_LEADER_ID: self.customerID! as AnyObject, RESERVATION_BUSINESS_ID: user.uuid as AnyObject, RESERVATION_APPOINTMENT_TIME_INTERVAL: interval as AnyObject]
+                        res = [RESERVATION_UID: FBReservation.key as AnyObject, RESERVATION_STATUS: (self.existingReservation?.status)! as AnyObject, RESERVATION_TIMESTAMP: FIRServerValue.timestamp() as AnyObject, RESERVATION_SCHEDULED_TIME: reservationTime as AnyObject, RESERVATION_PARTY_LEADER_ID: self.customerID! as AnyObject, RESERVATION_BUSINESS_ID: user.uuid as AnyObject, RESERVATION_APPOINTMENT_TIME_INTERVAL: interval as AnyObject, RESERVATION_PARTY_LEADER_NAME: self.customerName as AnyObject, RESERVATION_BUSINESS_NAME: self.existingReservation?.businessName as AnyObject]
                         
                     }else{
                         
                         FBReservation = FBDataService.instance.reservationsRef.childByAutoId()
                         
-                        res = [RESERVATION_UID: FBReservation.key as AnyObject, RESERVATION_STATUS: PENDING_STATUS as AnyObject, RESERVATION_TIMESTAMP: FIRServerValue.timestamp() as AnyObject, RESERVATION_SCHEDULED_TIME: reservationTime as AnyObject, RESERVATION_PARTY_LEADER_ID: self.customerID! as AnyObject, RESERVATION_BUSINESS_ID: user.uuid as AnyObject, RESERVATION_APPOINTMENT_TIME_INTERVAL: interval as AnyObject]
+                        res = [RESERVATION_UID: FBReservation.key as AnyObject, RESERVATION_STATUS: PENDING_STATUS as AnyObject, RESERVATION_TIMESTAMP: FIRServerValue.timestamp() as AnyObject, RESERVATION_SCHEDULED_TIME: reservationTime as AnyObject, RESERVATION_PARTY_LEADER_ID: self.customerID! as AnyObject, RESERVATION_BUSINESS_ID: user.uuid as AnyObject, RESERVATION_APPOINTMENT_TIME_INTERVAL: interval as AnyObject, RESERVATION_PARTY_LEADER_NAME: self.customerName as AnyObject, RESERVATION_BUSINESS_NAME: user.businessName as AnyObject]
                         
                     }
                     

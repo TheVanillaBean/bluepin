@@ -1,6 +1,6 @@
 //
 //  CustomerProfileVC.swift
-//  Bizmi
+//  bluepin
 //
 //  Created by Alex on 7/27/16.
 //  Copyright © 2016 Alex. All rights reserved.
@@ -42,7 +42,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         "Edit Full Name",
         "Edit Email",
         "Change Password",
-        "Contact Bizmi Support"
+        "Contact Bluepin Support"
     ]
     
     override func viewDidLoad() {
@@ -59,8 +59,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func castUser(){
         castedUser.castUser((FBDataService.instance.currentUser?.uid)!) { (errMsg) in
-            print("Alex: \((FBDataService.instance.currentUser?.uid)!)")
-                self.loadCustomerProfileInfo()
+            self.loadCustomerProfileInfo()
         }
     }
     
@@ -96,7 +95,7 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             castedUser.fullName,
             castedUser.email,
             "Change Password",
-            "Contact Bizmi Support"
+            "Contact Bluepin Support"
         ]
         
         tableView.reloadData()

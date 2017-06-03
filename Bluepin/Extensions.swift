@@ -1,6 +1,6 @@
 //
 //  Extensions.swift
-//  Bizmi
+//  Bluepin
 //
 //  Created by Alex on 8/5/16.
 //  Copyright © 2016 Alex. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  CustomerSignUpVC.swift
-//  Bizmi
+//  bluepin
 //
 //  Created by Alex on 7/20/16.
 //  Copyright © 2016 Alex. All rights reserved.
@@ -132,18 +132,32 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
     }
     
     func initiateVerificationProcess(_ phoneNumber: String){
-    
-        self.verification =
-            SMSVerification(sinchApplicationKey,
-                            phoneNumber: phoneNumber)
-        self.verification.initiate { (result: InitiationResult, error: Error?) -> Void in
-            if (result.success){
-                self.performSegue(withIdentifier: "verifyPhoneNumber", sender: nil);
-            } else {
-                Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error.debugDescription))
-            }
-        }
 
+        let phoneNumberKit = PhoneNumberKit()
+
+        do {
+           let phoneNumber = try phoneNumberKit.parse(phoneNumber)
+            
+           let parsedPhoneNumber = phoneNumberKit.format(phoneNumber, toType: .e164)
+
+            self.verification =
+                SMSVerification(sinchApplicationKey,
+                                phoneNumber: parsedPhoneNumber)
+            
+            self.verification.initiate { (result: InitiationResult, error: Error?) -> Void in
+                if (result.success){
+                    self.performSegue(withIdentifier: "verifyPhoneNumber", sender: nil);
+                } else {
+                    Messages.displayToastMessage(self.view, msg: "There was an error starting the phone number verification process..." + (error.debugDescription))
+                }
+            }
+
+        }
+        catch {
+            print("Generic parser error")
+        }
+        
+    
     }
     
     func signUpUser(_ userObj: NewUser?){

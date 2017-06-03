@@ -1,6 +1,6 @@
 //
 //  FBDataService.swift
-//  Bizmi
+//  bluepin
 //
 //  Created by Alex on 9/18/16.
 //  Copyright © 2016 Alex. All rights reserved.
@@ -456,6 +456,7 @@ class FBDataService {
                 
                     let channelName = snapshot.key
                     self.convertLastMessageToMessageModel(channelName: channelName, onComplete: { (errMsg, data) in
+                        
                         self._allChannelNames.append(channelName)
                         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "channelRetrieved"), object: nil))
                     })
@@ -652,6 +653,14 @@ class FBDataService {
     
         self.userReservationsRef.child(uuid).removeAllObservers()
         self.userChannelsRef.child(uuid).removeAllObservers()
+        
+        self.channelAddedHandler = nil;
+        self.channelChangedHandler = nil;
+        
+        self.reservationAddedHandler = nil;
+        self.reservationChangedHandler = nil;
+        self.reservationDeletedHandler = nil;
+        
         
     }
     

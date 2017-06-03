@@ -1,6 +1,6 @@
 //
 //  ForgotPasswordVC.swift
-//  Bizmi
+//  bluepin
 //
 //  Created by Alex on 7/20/16.
 //  Copyright © 2016 Alex. All rights reserved.

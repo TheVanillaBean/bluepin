@@ -1,6 +1,6 @@
 //
 //  BusinessProfileVC.swift
-//  Bizmi
+//  bluepin
 //
 //  Created by Alex on 7/27/16.
 //  Copyright © 2016 Alex. All rights reserved.
@@ -113,7 +113,7 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             castedUser.email,
             "Change Location",
             "Change Password", 
-            "Contact Bizmi Support"
+            "Contact Bluepin Support"
         ]
 
         tableView.reloadData()

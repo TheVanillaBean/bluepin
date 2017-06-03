@@ -85,6 +85,7 @@ PODS:
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
+  - Kingfisher (3.8.0)
   - PhoneNumberKit (1.2.3):
     - PhoneNumberKit/PhoneNumberKitCore (= 1.2.3)
     - PhoneNumberKit/UIKit (= 1.2.3)
@@ -111,6 +112,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - HotlineSDK
   - JSQMessagesViewController
+  - Kingfisher (~> 3.0)
   - PhoneNumberKit (from `https://github.com/marmelroy/PhoneNumberKit.git`, branch `master`)
   - SinchVerification-Swift
   - Toast-Swift (from `https://github.com/scalessec/Toast-Swift.git`, branch `feature/swift-3.0`)
@@ -153,12 +155,13 @@ SPEC CHECKSUMS:
   HotlineSDK: 68dbb77eee147583da71d1a86190a6be73798b6e
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  Kingfisher: 7b8a055fc5c2afc61407d1a499e4e0981b1a6ac4
   PhoneNumberKit: 5398d6e18871de17afff41f10e1e5ed5e3ae47ad
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   SinchVerification-Swift: e74bb3c09c3e02e6711d1e962ac56ae0239dabe0
   Toast-Swift: 25c3d98db42dc70d9a77b5006ee000e0becb458e
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: 9e2452093a11b2157c7a3067d32547af8230229b
+PODFILE CHECKSUM: 01a718515856324dfaacf0740fe7a78bb558bfba
 
 COCOAPODS: 1.2.1
