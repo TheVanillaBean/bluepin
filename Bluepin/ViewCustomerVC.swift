@@ -160,43 +160,55 @@ class ViewCustomerVC: UIViewController {
     
     @IBAction func messageCustomerBtnPressed(_ sender: AnyObject) {
         
-        performSegue(withIdentifier: "ViewMessageThreadFromViewCustomerVC", sender: nil)
-        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-       
-        let navVc = segue.destination as! UINavigationController
-        let messageVC = navVc.viewControllers.first as! ViewMessageThreadVC
-        
         let currentUserUID = self.currentUser.uuid
         
         var channelName: String!
         
-        let potentialChannelNameOne = "\(currentUserUID)-\(castedCustomer.uuid)"
-        let potentialChannelNameTwo = "\(castedCustomer.uuid)-\(currentUserUID)"
-        
-        channelName = potentialChannelNameOne
-        
-        for channelNameObj in FBDataService.instance.allChannelNames {
+        _ = FBDataService.instance.channelIDSRef.child(currentUserUID).child(self.castedCustomer.uuid).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
             
-            if channelNameObj == potentialChannelNameOne || channelNameObj == potentialChannelNameTwo{
+            if snapshot.exists(){
+                let value = snapshot.value as? NSDictionary
                 
-                channelName = channelNameObj
-                break
+                if let name = value?[CHANNEL_ID] as? String {
+                    channelName = name
+                }
+                
+                
+            }else {
+                let newChannelID = FBDataService.instance.userChannelsRef.child(currentUserUID).childByAutoId().key;
+                FBDataService.instance.channelIDSRef.child(currentUserUID).child(self.castedCustomer.uuid).child(CHANNEL_ID).setValue(newChannelID)
+                FBDataService.instance.channelIDSRef.child(self.castedCustomer.uuid).child(currentUserUID).child(CHANNEL_ID).setValue(newChannelID)
+                channelName = newChannelID
+                
+            }
+            
+            self.performSegue(withIdentifier: "ViewMessageThreadFromViewCustomerVC", sender: channelName)
+            
+        })
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "ViewMessageThreadFromViewCustomerVC" {
+            
+            let navVc = segue.destination as! UINavigationController
+            let messageVC = navVc.viewControllers.first as! ViewMessageThreadVC
+            
+            let currentUserUID = self.currentUser.uuid
+            
+            if let channelName = sender as? String{
+                
+                messageVC.currentUser = self.currentUser
+                messageVC.mainChannelName = channelName
+                messageVC.recipientUser = self.castedCustomer
+                messageVC.channelRef = FBDataService.instance.channelsRef.child(channelName)
+                messageVC.senderId =  currentUserUID
+                messageVC.senderDisplayName = self.currentUser.businessName
+                
             }
             
         }
-        
-        
-        messageVC.currentUser = self.currentUser
-        messageVC.mainChannelName = channelName!
-        messageVC.senderId = currentUserUID // 3
-        messageVC.senderDisplayName = self.currentUser.businessName // 4
-        messageVC.currentUserID = currentUserUID
-        messageVC.otherUserName = self.castedCustomer.fullName
-        messageVC.otherUserID = self.castedCustomer.uuid
-        messageVC.otherUserProfilePictureLocation = self.castedCustomer.userProfilePicLocation
         
     }
     

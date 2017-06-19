@@ -364,10 +364,8 @@ class BusinessProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         FBDataService.instance.removeObservers(uuid: userID!)
         FIRMessaging.messaging().unsubscribe(fromTopic: "/topics/user_\(userID!)")
         FBDataService.instance.clearAllFollowers()
-        FBDataService.instance.clearAllChannels()
         FBDataService.instance.clearAllReservations()
         FBDataService.instance.clearAllBusinesses()
-        FBDataService.instance.clearAllMessagesInChat()
         
         try! FIRAuth.auth()!.signOut()
         self.performSegue(withIdentifier: "businessLoggedOut", sender: nil)

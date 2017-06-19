@@ -22,8 +22,8 @@ class CustomerMessageChannelsCell: UITableViewCell {
     @IBOutlet weak var lastMessageLbl: TTTAttributedLabel!
     
     @IBOutlet weak var timestampLbl: UILabel!
-    
-    
+
+
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -34,17 +34,30 @@ class CustomerMessageChannelsCell: UITableViewCell {
         
     }
     
-    func configureCell(_ message: Message){
+    func configureCell(_ message: [String: AnyObject]){
         
-        lastMessageLbl.text = message.messageData
-        timestampLbl.text = message.timeStamp
+        lastMessageLbl.text = message[MESSAGE_TEXT] as? String
+        timestampLbl.text = getFormattedTimeStamp(date: message[MESSAGE_TIMESTAMP] as! Date)
 
-        if FBDataService.instance.currentUser?.uid == message.senderUID{
-            self.loadUserDisplayName(message.recipientUID)
+        if FBDataService.instance.currentUser?.uid == message[MESSAGE_SENDERID] as? String{
+            self.loadUserDisplayName(message[MESSAGE_RECIPIENTID] as! String)
         }else{
-            self.loadUserDisplayName(message.senderUID)
+            self.loadUserDisplayName(message[MESSAGE_SENDERID] as! String)
         }
         
+    }
+    
+    func getFormattedTimeStamp(date: Date) -> String{
+        
+        let dateDouble: Double = Double(date.timeIntervalSince1970)
+        
+        let date = Date(timeIntervalSince1970: dateDouble/1000)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEE MMM dd"
+        let dateString = dateFormatter.string(from: date as Date)
+        
+        return dateString
     }
     
     func loadUserDisplayName(_ uid: String!){
@@ -52,7 +65,7 @@ class CustomerMessageChannelsCell: UITableViewCell {
         user.castUser(uid) { (errMsg) in
             if errMsg == nil{
                 
-                if user.userType == "Business"{
+                if user.userType == USER_BUSINESS_TYPE{
                     self.businessNameLbl.text = user.businessName
                 }else{
                     self.businessNameLbl.text = user.fullName

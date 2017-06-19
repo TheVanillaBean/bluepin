@@ -13,61 +13,57 @@ import JSQMessagesViewController
 
 class ViewMessageThreadVC: JSQMessagesViewController{
 
+    var channelRef: FIRDatabaseReference?
+    private lazy var messageRef: FIRDatabaseReference = self.channelRef!.child(FIR_CHILD_MESSAGES)
+    private var newMessageRefHandle: FIRDatabaseHandle?
+    private var messages: [JSQMessage] = []
+    private var messageIDS: [String] = []
+    private var firstMessageID: String = "NONE"
+    var showLoadMoreHeader: Bool = true
+
     var mainChannelName: String = ""
-    var currentUserID: String = ""
-    var otherUserName: String = ""
-    var otherUserID: String = ""
-    var otherUserProfilePictureLocation: String = ""
 
     var currentUser: NewUser!
-    var otherUser: NewUser!
-    
-    var iterator: Int = 1
+    var recipientUser: NewUser!
     
     var outgoingBubbleImageView: JSQMessagesBubbleImage!
     var incomingBubbleImageView: JSQMessagesBubbleImage!
     
-    var newMessageHandler: FirebaseHandle!
-    
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0,y: 0, width: 50, height: 50)) as UIActivityIndicatorView
+    
     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    var recipientName: String {
+        get {
+            return recipientUser.userType == USER_CUSTOMER_TYPE ? recipientUser.fullName : recipientUser.businessName
+        }
+    }
+    
+    var senderName: String {
+        get {
+            return currentUser.userType == USER_CUSTOMER_TYPE ? currentUser.fullName : currentUser.businessName
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        self.title = otherUserName
+        self.title = recipientName
         setupBubbles()
         setUpBackButton()
+        observeMessages()
         
         collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
-        
-        self.showLoadEarlierMessagesHeader = true
-        
-        self.otherUser = NewUser()
-        self.otherUser.castUser(self.otherUserID) { (errMsg) in
-            if errMsg == nil{
-                self.retrieveAllChatIDS(onComplete: { (errMsg, data) in
-                    
-                    if FBDataService.instance.allMessageIDSInChat.count > 0{
-                        self.loadMessages(iteratorStart: self.iterator, loadMoreMessages: false)
-                    }else{
-                        self.showLoadEarlierMessagesHeader = false
-                    }
-                    
-                    self.observeNewMessages()
-                })
-            }
+
+    }
+    
+    deinit {
+        if let refHandle = newMessageRefHandle {
+            messageRef.removeObserver(withHandle: refHandle)
         }
-        
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
-        
-    }
-    
+
     func setUpBackButton(){
         
         self.navigationController? .setNavigationBarHidden(false, animated:true)
@@ -84,23 +80,18 @@ class ViewMessageThreadVC: JSQMessagesViewController{
     func popToRoot(_ sender:UIBarButtonItem){
         self.dismiss(animated: true, completion: nil)
     }
-    
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
-        return FBDataService.instance.allJSQMessagesInChat[indexPath.item]
+        return messages[indexPath.item]
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return FBDataService.instance.allJSQMessagesInChat.count
+        return messages.count
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
         
-        let message = FBDataService.instance.allJSQMessagesInChat[indexPath.item]
+        let message = messages[indexPath.item]
         if message.senderId == senderId {
             return outgoingBubbleImageView
         } else {
@@ -111,7 +102,7 @@ class ViewMessageThreadVC: JSQMessagesViewController{
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
         
-        let message = FBDataService.instance.allJSQMessagesInChat[(indexPath as NSIndexPath).item] // 1
+        let message = messages[indexPath.item]
         
         if message.senderId == senderId {
             cell.textView!.textColor = UIColor.white
@@ -123,9 +114,7 @@ class ViewMessageThreadVC: JSQMessagesViewController{
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, header headerView: JSQMessagesLoadEarlierHeaderView!, didTapLoadEarlierMessagesButton sender: UIButton!) {
-        
-        self.loadMessages(iteratorStart: self.iterator, loadMoreMessages: true)
-        
+        self.loadMoreMessages()
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
@@ -138,14 +127,13 @@ class ViewMessageThreadVC: JSQMessagesViewController{
 
         let dateDouble: Double = Double(jsqDate.timeIntervalSince1970)
         
-        let date = NSDate(timeIntervalSince1970: dateDouble/1000)
+        let date = Date(timeIntervalSince1970: dateDouble/1000)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEE MMM d, h:mm a"
         let dateString = dateFormatter.string(from: date as Date)
         
         return NSAttributedString(string: dateString, attributes: fontAttribute)
-
     }
     
     func convertBottomDateToString(jsqDate: Date) -> NSAttributedString{
@@ -154,112 +142,101 @@ class ViewMessageThreadVC: JSQMessagesViewController{
 
         let dateDouble: Double = Double(jsqDate.timeIntervalSince1970)
         
-        let date = NSDate(timeIntervalSince1970: dateDouble/1000)
+        let date = Date(timeIntervalSince1970: dateDouble/1000)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         let dateString = dateFormatter.string(from: date as Date)
         
-        
         return NSAttributedString(string: dateString, attributes: textAttribute)
+    }
+    
+    
+    private func isSameDay(indexPath: Int) -> Bool {
+ 
+        if let milliMessageDate = messages[indexPath].date, let prevMilliMessageDate = messages[indexPath - 1].date {
         
+            let messageDate = Date(timeIntervalSince1970: Double(milliMessageDate.timeIntervalSince1970) / 1000)
+            let prevDate = Date(timeIntervalSince1970: Double(prevMilliMessageDate.timeIntervalSince1970) / 1000)
+
+            if (Calendar.current.isDate(messageDate, inSameDayAs: prevDate)) {
+                return true
+            }
+            
+        }
+        
+        return false;
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
-        
-        if (indexPath.item % 4 == 0) {
-            let message: JSQMessage = FBDataService.instance.allJSQMessagesInChat[(indexPath as NSIndexPath).item]
-            return self.convertTopDateToString(jsqDate: message.date)
-        }
-        
-        return nil;
-    }
-    
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
-       
-        if (indexPath.item % 4 == 0) {
-            return kJSQMessagesCollectionViewCellLabelHeightDefault;
-        }
-        return 0.0;
-    }
-    
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellBottomLabelAt indexPath: IndexPath!) -> CGFloat {
-        
-        if (indexPath.item % 1 == 0) {
-            return kJSQMessagesCollectionViewCellLabelHeightDefault
-        }
-        return 0.0;
-        
+        if messageIDS[indexPath.item] == firstMessageID {return self.convertTopDateToString(jsqDate: messages[indexPath.item].date)}
+        if indexPath.item == 0  {return nil}
+        return !isSameDay(indexPath: indexPath.item) ? self.convertTopDateToString(jsqDate: messages[indexPath.item].date): nil
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellBottomLabelAt indexPath: IndexPath!) -> NSAttributedString! {
-       
-        if (indexPath.item % 1 == 0) {
-            let message: JSQMessage = FBDataService.instance.allJSQMessagesInChat[(indexPath as NSIndexPath).item]
-            return self.convertBottomDateToString(jsqDate: message.date)
-        }
-        
-        return nil;
-        
+        return indexPath.item % 1 == 0 ? self.convertBottomDateToString(jsqDate: messages[indexPath.item].date) : nil
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
+        if messageIDS[indexPath.item] == firstMessageID  {return kJSQMessagesCollectionViewCellLabelHeightDefault}
+        if indexPath.item == 0 {return 0.0}
+        return !isSameDay(indexPath: indexPath.item) ? kJSQMessagesCollectionViewCellLabelHeightDefault : 0.0
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellBottomLabelAt indexPath: IndexPath!) -> CGFloat {
+        return indexPath.item % 1 == 0 ? kJSQMessagesCollectionViewCellLabelHeightDefault : 0.0
     }
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
-
-        let message = Message(messageType: MESSAGE_TEXT_TYPE, messageData: text, senderUID: senderId, recipientUID: otherUserID, channelName: self.mainChannelName)
-
-        self.inputToolbar.contentView.textView.text = ""
         
-        publishMessage(message)
+        let FBMessage = messageRef.childByAutoId()
+        
+        let messageItem: Dictionary<String, AnyObject> = [
+             MESSAGE_TYPE: MESSAGE_TEXT_TYPE as AnyObject,
+             MESSAGE_TEXT: text! as AnyObject,
+             MESSAGE_SENDERID: senderId as AnyObject,
+             MESSAGE_RECIPIENTID: recipientUser.uuid as AnyObject,
+             MESSAGE_TIMESTAMP: FIRServerValue.timestamp() as AnyObject,
+             MESSAGE_CHANNEL_NAME: mainChannelName as AnyObject,
+             MESSAGE_UID: FBMessage.key as AnyObject
+        ]
+        
+        FBDataService.instance.channelIDSRef.child(currentUser.uuid).child(recipientUser.uuid).child(CHANNEL_ID).setValue(mainChannelName)
+        FBDataService.instance.channelIDSRef.child(recipientUser.uuid).child(currentUser.uuid).child(CHANNEL_ID).setValue(mainChannelName)
+        FBMessage.setValue(messageItem)
+        
+        FBDataService.instance.userChannelsRef.child(currentUser.uuid).child(mainChannelName).setValue(messageItem)
+        FBDataService.instance.userChannelsRef.child(recipientUser.uuid).child(mainChannelName).setValue(messageItem)
+        
+        let notification = FBDataService.instance.notificationsRef.childByAutoId()
+        
+        var notificationRequest: Dictionary<String, AnyObject>
+        
+        notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: self.currentUser.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.recipientUser.uuid as AnyObject, REQUEST_MESSAGE: MESSAGE_NOTIF as AnyObject, REQUEST_SENDER_NAME: self.senderName as AnyObject]
+        
+        notification.setValue(notificationRequest)
         
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
-  
+        
     }
     
-    func publishMessage(_ messageItem: Message) {
-     
-        showActivityIndicator()
-        
-        let FBMessage = FBDataService.instance.messagesRef.childByAutoId()
-        
-        let message: Dictionary<String, AnyObject> = [MESSAGE_TYPE: messageItem.messageType as AnyObject, MESSAGE_LOCATION: FBMessage.key as AnyObject, MESSAGE_SENDERID: messageItem.senderUID as AnyObject, MESSAGE_RECIPIENTID: messageItem.recipientUID as AnyObject, MESSAGE_TIMESTAMP: FIRServerValue.timestamp() as AnyObject, MESSAGE_CHANNEL_NAME: messageItem.channelName as AnyObject]
-        
-        FBMessage.setValue(message)
-
-        let messageStorageRef = FBDataService.instance.messagesStorageRef.child(FBMessage.key)
-        let data = messageItem.messageData.data(using: .utf8)
-        
-        _ = messageStorageRef.put(data!, metadata: nil) { metadata, error in
-            if (error != nil) {
-            } else {
-                    FBDataService.instance.channelsRef.child(self.mainChannelName).child(FBMessage.key).setValue(FIRServerValue.timestamp())
-                    FBDataService.instance.userChannelsRef.child(self.currentUser.uuid).child(self.mainChannelName).setValue(FIRServerValue.timestamp())
-                    FBDataService.instance.userChannelsRef.child(self.otherUserID).child(self.mainChannelName).setValue(FIRServerValue.timestamp())
-
-                    let notification = FBDataService.instance.notificationsRef.childByAutoId()
-                
-                    var notificationRequest: Dictionary<String, AnyObject>
-                
-                    if self.currentUser.userType == "Customer"{
-                        
-                        notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: self.currentUser.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.otherUserID as AnyObject, REQUEST_MESSAGE: MESSAGE_NOTIF as AnyObject, REQUEST_SENDER_NAME: self.currentUser.fullName as AnyObject]
-                        
-                    }else{
-                        
-                         notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: self.currentUser.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.otherUserID as AnyObject, REQUEST_MESSAGE: MESSAGE_NOTIF as AnyObject, REQUEST_SENDER_NAME: self.currentUser.businessName as AnyObject]
-                        
-                    }
-                
-                    notification.setValue(notificationRequest)
-            }
+    private func appendMessage(withId id: String, name: String, text: String, date: Date, key: String) {
+        if let message = JSQMessage(senderId: id, senderDisplayName: name, date: date, text: text) {
+            messages.append(message)
+            messageIDS.append(key)
         }
-
     }
     
     func showActivityIndicator() {
+        view.addSubview(activityIndicator)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0))
+        view.addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0))
+
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-        view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
     }
     
@@ -270,135 +247,124 @@ class ViewMessageThreadVC: JSQMessagesViewController{
     }
 
     override func didPressAccessoryButton(_ sender: UIButton!) {
-        if currentUser.userType == "Business"{
-            FBDataService.instance.appointmentLeaderName = otherUserName
-            FBDataService.instance.appointmentLeaderID = otherUserID
+        if currentUser.userType == USER_BUSINESS_TYPE{
+            FBDataService.instance.appointmentLeaderName = recipientUser.fullName
+            FBDataService.instance.appointmentLeaderID = recipientUser.uuid
             performSegue(withIdentifier: "NewReservationFromMessageThread", sender: nil)
         }else{
             Messages.displayToastMessage(self.view, msg: "We are currently working on implementing a photo upload feature. There will be an update in a few weeks :)")
         }
-
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        FBDataService.instance.channelsRef.child(self.mainChannelName).removeObserver(withHandle: newMessageHandler)
-        FBDataService.instance._allMessageIDSInChat.removeAll()
-        FBDataService.instance._allMessagesInChat.removeAll()
-        FBDataService.instance._allJSQMessagesInChat.removeAll()
+    private func getSenderDisplayName(senderID: String) -> String{
+        return senderID == currentUser.uuid ? senderName : recipientName
     }
-
-    func observeNewMessages(){
-        
-        let firstGroup = DispatchGroup()
-        
-        newMessageHandler = FBDataService.instance.channelsRef.child(self.mainChannelName).queryLimited(toLast: 5).observe(FIRDataEventType.childAdded, with: { (snapshot) in
-            
-            if !FBDataService.instance.allMessageIDSInChat.contains(snapshot.key){
-                self.showActivityIndicator()
-                
-                firstGroup.enter()
-                
-                FBDataService.instance.convertMessageIDToMessageModel(messageID: snapshot.key, onComplete: { (errMsg, data) in
-                    FBDataService.instance.organizeMessages()
-                    firstGroup.leave()
-                })
-                
-                firstGroup.notify(queue: DispatchQueue.main, execute: {
-                    
-                    let newMessage = FBDataService.instance.newJSQMessage
-                    
-                    if newMessage.senderId != self.currentUserID{
-                        self.finishReceivingMessage()
-                    }else {
-                        self.finishSendingMessage()
-                    }
-                    
-                    self.activityIndicator.stopAnimating()
-                })
-            }
+    
+    func getFirstMessage(){
+        messageRef.queryLimited(toFirst: 1).queryOrderedByKey().observeSingleEvent(of: .childAdded, with: { (snapshot) in
+            self.firstMessageID = snapshot.key
         })
     }
-    
-    
-    func retrieveAllChatIDS(onComplete: DataCompletion?){
+
+    private func observeMessages() {
         
-        _ = FBDataService.instance.channelsRef.child(self.mainChannelName).queryOrderedByValue().observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
-            
-                for snap in snapshot.children.allObjects as! [FIRDataSnapshot]{
-                    
-                    FBDataService.instance._allMessageIDSInChat.append(snap.key)
-                }
-                
-                onComplete?(nil, nil)
+        messageRef = channelRef!.child(FIR_CHILD_MESSAGES)
         
-        })
-    }
-    
-    func loadMessages(iteratorStart: Int, loadMoreMessages: Bool){
+        getFirstMessage()
         
-        let firstGroup = DispatchGroup()
-                
-        var iterator = iteratorStart
-        
-        var iteratorEnd = iterator + 19
-        
-        self.showLoadEarlierMessagesHeader = false
-        
-        while iterator <= (iteratorEnd){
+        newMessageRefHandle = messageRef.queryLimited(toLast:25).queryOrderedByKey().observe(.childAdded, with: { (snapshot) in
             
             self.showActivityIndicator()
             
-            firstGroup.enter()
+            let messageData = snapshot.value as! [String : AnyObject]
             
-            let messageID = FBDataService.instance.allMessageIDSInChat[ FBDataService.instance.allMessageIDSInChat.count - iterator ]
-            iterator = iterator + 1
-            self.iterator = self.iterator + 1
-            
-            if iterator >= FBDataService.instance.allMessageIDSInChat.count{
-                iteratorEnd =  FBDataService.instance.allMessageIDSInChat.count - iteratorEnd
+            if let type = messageData[MESSAGE_TYPE] as! String!, let senderID = messageData[MESSAGE_SENDERID] as! String!, let stamp = messageData[MESSAGE_TIMESTAMP] as! Double!, let text = messageData[MESSAGE_TEXT] as! String!, text.characters.count > 0 {
                 
-                if iteratorEnd < 1{
-                    iteratorEnd = 0
-                }
-            }
-            
-            FBDataService.instance.convertMessageIDToMessageModel(messageID: messageID, onComplete: { (errMsg, data) in
-                FBDataService.instance.organizeMessages()
-                firstGroup.leave()
-            })
-            
-            firstGroup.notify(queue: DispatchQueue.main, execute: {
-                
-                if loadMoreMessages{
+                if type == MESSAGE_TEXT_TYPE {
+        
+                    let date = NSDate(timeIntervalSince1970: stamp)
+                    self.appendMessage(withId: senderID, name: self.getSenderDisplayName(senderID: senderID), text: text, date: date as Date, key: snapshot.key)
                     
-                    self.collectionView.reloadData()
+                    if self.messages.count > 24 && snapshot.key != self.firstMessageID && self.showLoadMoreHeader{
+                        self.showLoadEarlierMessagesHeader = true
+                    }
                     
-                }else{
-                
-                    let newMessage = FBDataService.instance.newJSQMessage
+                    if snapshot.key == self.firstMessageID{
+                        self.showLoadEarlierMessagesHeader = false
+                        self.showLoadMoreHeader = false
+                    }
                     
-                    if newMessage.senderId != self.currentUserID{
-                        self.finishReceivingMessage()
-                    }else {
-                        self.finishSendingMessage()
+                    if self.firstMessageID == "NONE" || self.firstMessageID == snapshot.key{
+                        self.inputToolbar.contentView.textView.text = ""
+                        self.collectionView.reloadData()
+                    }else{
+                        if senderID == self.currentUser.uuid{
+                            self.finishSendingMessage(animated: true)
+                        }else {
+                            self.finishReceivingMessage(animated: true)
+                        }
                     }
                     
                 }
                 
-                self.activityIndicator.stopAnimating()
-                
-                if FBDataService.instance.allMessageIDSInChat.count == FBDataService.instance.allJSQMessagesInChat.count{
-                    
-                    self.showLoadEarlierMessagesHeader = false
-                    
-                }else{
-                    
-                    self.showLoadEarlierMessagesHeader = true
-
-                }
-            })
+            } else {
+                print("Error! Could not decode message data")
+            }
             
-        }
+            self.activityIndicator.stopAnimating()
+
+        })
+        
     }
     
-}
+    private func loadMoreMessages() {
+        
+        let endingIndexKey = messageIDS.first
+        
+        messageRef.queryEnding(atValue: endingIndexKey).queryLimited(toLast: 16).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+
+            self.showActivityIndicator()
+
+            var previousMessages: [JSQMessage] = []
+            var previousMessageIDS: [String] = []
+            
+            for child in snapshot.children {
+                
+                let childSnapshot = snapshot.childSnapshot(forPath: (child as AnyObject).key)
+
+                let messageData = childSnapshot.value as! [String : AnyObject]
+                
+                if let type = messageData[MESSAGE_TYPE] as! String!, let senderID = messageData[MESSAGE_SENDERID] as! String!, let stamp = messageData[MESSAGE_TIMESTAMP] as! Double!, let text = messageData[MESSAGE_TEXT] as! String!, text.characters.count > 0 {
+                    
+                    if type == MESSAGE_TEXT_TYPE {
+                        
+                        let date = NSDate(timeIntervalSince1970: stamp)
+                        if let message = JSQMessage(senderId: senderID, senderDisplayName: self.getSenderDisplayName(senderID: senderID), date: date as Date, text: text) {
+                            previousMessages.append(message)
+                            previousMessageIDS.append(childSnapshot.key)
+                        }
+                    }
+                    
+                } else {
+                    print("Error! Could not decode message data")
+                }
+         
+            }
+            
+            if previousMessageIDS.first == self.firstMessageID {
+                self.showLoadEarlierMessagesHeader = false
+                self.showLoadMoreHeader = false
+            }
+            
+            self.messages.remove(at: 0)
+            self.messageIDS.remove(at: 0)
+            self.messages = Array([previousMessages, self.messages].joined())
+            self.messageIDS = Array([previousMessageIDS, self.messageIDS].joined())
+            self.activityIndicator.stopAnimating()
+            self.collectionView.reloadData()
+            
+        })
+        
+     }
+    
+  }

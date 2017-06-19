@@ -26,6 +26,8 @@
 		5A3026BC1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3026BB1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift */; };
 		5A3026BE1D5C534000B3E382 /* ViewBusinessHoursVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3026BD1D5C534000B3E382 /* ViewBusinessHoursVC.swift */; };
 		5A33FF981D41007D00498EC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A33FF971D41007D00498EC2 /* Assets.xcassets */; };
+		5A480AFB1EE92EA20019A920 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A480AFA1EE92E960019A920 /* Channel.swift */; };
+		5A4CFDE71EEAA6FE0089B80C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A4CFDE61EEAA6FE0089B80C /* GoogleService-Info.plist */; };
 		5A4D3A201D57FE72003C1CC1 /* EditBusinessLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4D3A1F1D57FE72003C1CC1 /* EditBusinessLocationVC.swift */; };
 		5A4D3A221D580CEB003C1CC1 /* BusinessAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4D3A211D580CEB003C1CC1 /* BusinessAnnotation.swift */; };
 		5A575A731D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A575A721D48B94B0031FC8B /* MaterialPhoneNumberTextView.swift */; };
@@ -64,7 +66,6 @@
 		5AF71CB91D488A9B009B6951 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF71CB81D488A9B009B6951 /* Messages.swift */; };
 		5AF845B81D56E2D400F4A727 /* ViewBusinessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF845B71D56E2D400F4A727 /* ViewBusinessVC.swift */; };
 		5AFB6F3C1D497174008E332B /* VerifyPhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB6F3B1D497174008E332B /* VerifyPhoneNumberVC.swift */; };
-		5AFBC0311EC3AD3D0017C92D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5AFBC0301EC3AD3D0017C92D /* GoogleService-Info.plist */; };
 		5AFC0F7E1D7BD14A00CAE39A /* BusinessReservationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFC0F7D1D7BD14A00CAE39A /* BusinessReservationCell.swift */; };
 		5AFE32921DA1C53700A2D820 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFE32911DA1C53700A2D820 /* Message.swift */; };
 		5CEE9562D2EAE22DCA03B173 /* Pods_Bluepin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D0DB832CA070D9B01A8F315 /* Pods_Bluepin.framework */; };
@@ -92,6 +93,8 @@
 		5A3026BB1D5C3C6000B3E382 /* ViewBusinessWebsiteVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessWebsiteVC.swift; sourceTree = "<group>"; };
 		5A3026BD1D5C534000B3E382 /* ViewBusinessHoursVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessHoursVC.swift; sourceTree = "<group>"; };
 		5A33FF971D41007D00498EC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5A480AFA1EE92E960019A920 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
+		5A4CFDE61EEAA6FE0089B80C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5A4D3A1F1D57FE72003C1CC1 /* EditBusinessLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBusinessLocationVC.swift; sourceTree = "<group>"; };
 		5A4D3A211D580CEB003C1CC1 /* BusinessAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessAnnotation.swift; sourceTree = "<group>"; };
 		5A4D7FA71EC3F9AC00985EB8 /* Bluepin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bluepin.entitlements; sourceTree = "<group>"; };
@@ -145,7 +148,6 @@
 		5AF71CB81D488A9B009B6951 /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		5AF845B71D56E2D400F4A727 /* ViewBusinessVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewBusinessVC.swift; sourceTree = "<group>"; };
 		5AFB6F3B1D497174008E332B /* VerifyPhoneNumberVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyPhoneNumberVC.swift; sourceTree = "<group>"; };
-		5AFBC0301EC3AD3D0017C92D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5AFC0F7D1D7BD14A00CAE39A /* BusinessReservationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessReservationCell.swift; sourceTree = "<group>"; };
 		5AFE32911DA1C53700A2D820 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8645C214E14E20DB58C1F663 /* Pods-Bizmi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bizmi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bizmi/Pods-Bizmi.release.xcconfig"; sourceTree = "<group>"; };
@@ -248,7 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				5A4D7FA71EC3F9AC00985EB8 /* Bluepin.entitlements */,
-				5AFBC0301EC3AD3D0017C92D /* GoogleService-Info.plist */,
+				5A4CFDE61EEAA6FE0089B80C /* GoogleService-Info.plist */,
 				5A773BFB1D93C05300D14519 /* GeoFire */,
 				5A9BC2D91DBD6CB400817A9E /* UIScrollView+EmptyDataSet.h */,
 				5A9BC2DA1DBD6CB400817A9E /* UIScrollView+EmptyDataSet.m */,
@@ -296,6 +298,7 @@
 				5AF4093D1D73C3C300814B65 /* Reservation.swift */,
 				5AC190A81D8F681500DB2431 /* NewUser.swift */,
 				5AFE32911DA1C53700A2D820 /* Message.swift */,
+				5A480AFA1EE92E960019A920 /* Channel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -439,7 +442,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5ADD362F1D3E3C3300394637 /* NotoSans-Bold.ttf in Resources */,
-				5AFBC0311EC3AD3D0017C92D /* GoogleService-Info.plist in Resources */,
+				5A4CFDE71EEAA6FE0089B80C /* GoogleService-Info.plist in Resources */,
 				5A7881071D3E261500F168AE /* LaunchScreen.storyboard in Resources */,
 				5ADD36301D3E3C3300394637 /* NotoSans-BoldItalic.ttf in Resources */,
 				5ADD36311D3E3C3300394637 /* NotoSans-Italic.ttf in Resources */,
@@ -493,7 +496,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "GOOGLE_APP_ID=1:1:975754215068:ios:cf05a373fc3e9c5d\n\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"/Users/AppDaddy/Documents/Bluepin_Crash/ServiceAccount.json\"\n\n\n";
+			shellScript = "GOOGLE_APP_ID=1:975754215068:ios:cf05a373fc3e9c5d\n\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"/Users/AppDaddy/Documents/Bluepin_Crash_Prod/ServiceAccount.json\"\n\n\n";
 		};
 		695702FD2BA2C79D428CE54D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -568,6 +571,7 @@
 				5A129BF81D49C83000FE5126 /* CustomerProfileVC.swift in Sources */,
 				5A773C111D93C05300D14519 /* GFQuery.m in Sources */,
 				5A3026B61D5BE97C00B3E382 /* BorderImageView.swift in Sources */,
+				5A480AFB1EE92EA20019A920 /* Channel.swift in Sources */,
 				5ADD36361D3E3D3E00394637 /* MaterialView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

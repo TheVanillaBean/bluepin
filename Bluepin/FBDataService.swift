@@ -56,6 +56,10 @@ class FBDataService {
         return mainRef.child(FIR_CHILD_CHANNELS)
     }
     
+    var channelIDSRef: FIRDatabaseReference {
+        return mainRef.child(FIR_CHILD_CHANNEL_IDS)
+    }
+    
     var messagesRef: FIRDatabaseReference {
         return mainRef.child(FIR_CHILD_MESSAGES)
     }
@@ -146,42 +150,6 @@ class FBDataService {
         return _allBusinessesFollowed
     }
     
-    var _allChannelNames: [String] = []
-    
-    var allChannelNames: [String]{
-        return _allChannelNames
-    }
-    
-    var _allLastMessages: [String: Message] = [String: Message]()
-    
-    var allLastMessages: [String: Message]{
-        return _allLastMessages
-    }
-    
-    var _allMessageIDSInChat: [String] = []
-    
-    var allMessageIDSInChat: [String]{
-        return _allMessageIDSInChat
-    }
-    
-    var _allMessagesInChat: [Message] = []
-    
-    var allMessagesInChat: [Message]{
-        return _allMessagesInChat
-    }
-    
-    var _allJSQMessagesInChat: [JSQMessage] = []
-    
-    var allJSQMessagesInChat: [JSQMessage]{
-        return _allJSQMessagesInChat
-    }
-    
-    var _newJSQMessage: JSQMessage?
-    
-    var newJSQMessage: JSQMessage{
-        return _newJSQMessage!
-    }
-    
     var _allReservationIDS: [String] = []
     
     var allReservationIDS: [String]{
@@ -195,9 +163,6 @@ class FBDataService {
     }
     
     //-------------Firebase Observer Handlers-----------//
-    
-    var channelAddedHandler: FirebaseHandle!
-    var channelChangedHandler: FirebaseHandle!
 
     var reservationAddedHandler: FirebaseHandle!
     var reservationChangedHandler: FirebaseHandle!
@@ -424,99 +389,6 @@ class FBDataService {
 
     }
     
-    //--------Messaging Retrieve Channels
-
-    func convertLastMessageToMessageModel(channelName: String, onComplete: DataCompletion?){
-        
-        _ = channelsRef.child(channelName).queryLimited(toLast: 1).observeSingleEvent(of: .childAdded, with: { (snapshot) in
-            if snapshot.value != nil{
-                
-                let messageID = snapshot.key
-                
-                let message = Message()
-                message.castMessage(messageID, onComplete: { (errMsg) in
-                    if errMsg == nil{
-                        self._allLastMessages[channelName] = message
-                        onComplete?(nil, nil)
-                    }
-                })
-                
-            }else{
-                onComplete?("No Messages for User", nil)
-            }
-        })
-    }
-    
-    func observeChannelsAddedForUser(_ uuid: String!){
-        
-        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "channelRetrieved"), object: nil))        
-        self.channelAddedHandler = self.userChannelsRef.child(uuid).observe(FIRDataEventType.childAdded, with: { (snapshot) in
-            
-            if snapshot.value != nil{
-                
-                    let channelName = snapshot.key
-                    self.convertLastMessageToMessageModel(channelName: channelName, onComplete: { (errMsg, data) in
-                        
-                        self._allChannelNames.append(channelName)
-                        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "channelRetrieved"), object: nil))
-                    })
-            }
-        })
-        
-    }
-    
-    func observeChannelsChangedForUser(_ uuid: String!){
-        
-        self.channelChangedHandler = self.userChannelsRef.child(uuid).observe(FIRDataEventType.childChanged, with: { (snapshot) in
-            if snapshot.value != nil{
-                
-                let channelName = snapshot.key
-                self.convertLastMessageToMessageModel(channelName: channelName, onComplete: { (errMsg, data) in
-                    NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "channelRetrieved"), object: nil))
-                })
-              
-            }
-        })
-        
-    }
-
-    
-   //End Channels Retirveing
-    
-    
-   //Messaging Conversation
-    
-    func organizeMessages(){
-        FBDataService.instance._allJSQMessagesInChat.sort { $0.date < $1.date }
-    }
-    
-    func convertMessageIDToMessageModel(messageID: String!, onComplete: DataCompletion?){
-                
-        let message = Message()
-        message.castMessage(messageID, onComplete: { (errMsg) in
-            if errMsg == nil{
-                let convertedMessage = self.convertMessageToJSQMessage(message: message)
-                FBDataService.instance._allMessagesInChat.append(message)
-                FBDataService.instance._allJSQMessagesInChat.append(convertedMessage)
-                self._newJSQMessage = convertedMessage
-                onComplete?(nil, nil)
-            }
-        })
-        
-    }
-    
-    func convertMessageToJSQMessage(message: Message) -> JSQMessage{
-        
-        let messageDate = Date(timeIntervalSince1970: Double(message.timeStampDouble))
-        
-        let newJSQMessage =  JSQMessage(senderId: message.senderUID, senderDisplayName: "", date: messageDate, text: message.messageData)
-        return newJSQMessage!
-        
-    }
- 
-    
-    //End Messaging Conversation
-    
     //Reservations
     
     func convertReservationIDToModel(_ reservationID: String, onComplete: DataCompletion?){
@@ -654,13 +526,9 @@ class FBDataService {
         self.userReservationsRef.child(uuid).removeAllObservers()
         self.userChannelsRef.child(uuid).removeAllObservers()
         
-        self.channelAddedHandler = nil;
-        self.channelChangedHandler = nil;
-        
         self.reservationAddedHandler = nil;
         self.reservationChangedHandler = nil;
         self.reservationDeletedHandler = nil;
-        
         
     }
     
@@ -679,20 +547,9 @@ class FBDataService {
         self._allBusinessesFollowed.removeAll()
     }
     
-    func clearAllChannels(){
-        self._allChannelNames.removeAll()
-        self._allLastMessages.removeAll()
-    }
-    
     func clearAllReservations(){
         self._allReservationIDS.removeAll()
         self._allReservations.removeAll()
-    }
-    
-    func clearAllMessagesInChat(){
-        self._allJSQMessagesInChat.removeAll()
-        self._allMessagesInChat.removeAll()
-        self._allMessageIDSInChat.removeAll()
     }
     
 }

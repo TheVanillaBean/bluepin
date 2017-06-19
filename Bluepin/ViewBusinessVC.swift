@@ -289,7 +289,30 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
 //---------------------------End MapView Setup
     
     @IBAction func onMessageBtnPressed(_ sender: AnyObject) {
-        performSegue(withIdentifier: "ViewMessageThread", sender: nil)
+    
+        let currentUserUID = self.currentUser.uuid
+        
+        var channelName: String!
+        
+        _ = FBDataService.instance.channelIDSRef.child(currentUserUID).child(self.castedBusiness.uuid).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+            
+            if snapshot.exists(){
+                let value = snapshot.value as? NSDictionary
+                
+                if let name = value?[CHANNEL_ID] as? String {
+                    channelName = name
+                }
+                
+                
+            }else {
+                let newChannelID = FBDataService.instance.userChannelsRef.child(currentUserUID).childByAutoId().key;
+                channelName = newChannelID
+            }
+            
+            self.performSegue(withIdentifier: "ViewMessageThread", sender: channelName)
+            
+        })
+        
     }
     
     @IBAction func onSubscribeBtnPressed(_ sender: AnyObject) {
@@ -399,31 +422,17 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
             
             let currentUserUID = self.currentUser.uuid
         
-            var channelName: String!
-            
-            let potentialChannelNameOne = "\(currentUserUID)-\(castedBusiness.uuid)"
-            let potentialChannelNameTwo = "\(castedBusiness.uuid) - \(currentUserUID)"
-            
-            channelName = potentialChannelNameOne
-
-            for channelNameObj in FBDataService.instance.allChannelNames {
+            if let channelName = sender as? String{
                 
-                if channelNameObj == potentialChannelNameOne || channelNameObj == potentialChannelNameTwo{
-                    
-                    channelName = channelNameObj
-                    break
-                }
-               
+                messageVC.currentUser = self.currentUser
+                messageVC.mainChannelName = channelName
+                messageVC.recipientUser = self.castedBusiness
+                messageVC.channelRef = FBDataService.instance.channelsRef.child(channelName)
+                messageVC.senderId =  currentUserUID
+                messageVC.senderDisplayName = self.currentUser.fullName
+
+
             }
-        
-            messageVC.currentUser = self.currentUser
-            messageVC.mainChannelName = channelName!
-            messageVC.senderId =  currentUserUID
-            messageVC.senderDisplayName = self.currentUser.fullName //
-            messageVC.currentUserID = currentUserUID
-            messageVC.otherUserName = self.castedBusiness.businessName
-            messageVC.otherUserID = self.castedBusiness.uuid
-            messageVC.otherUserProfilePictureLocation = self.castedBusiness.userProfilePicLocation
     
         }
         
