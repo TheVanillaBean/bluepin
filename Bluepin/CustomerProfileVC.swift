@@ -71,8 +71,8 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
        
         if castedUser.userProfilePicLocation != "" {
             
-            let ref = FIRStorage.storage().reference(forURL: castedUser.userProfilePicLocation)
-            ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
+            let ref = Storage.storage().reference(forURL: castedUser.userProfilePicLocation)
+            ref.getData(maxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.userProfileImg.image = placeholderImage
@@ -264,9 +264,9 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                 
                 let imageData: Data = UIImageJPEGRepresentation(image!.correctlyOrientedImage(), 0.5)!
                 
-                let filePath: FIRStorageReference = FBDataService.instance.profilePicsStorageRef.child("\(self!.castedUser.uuid).png")
+                let filePath: StorageReference = FBDataService.instance.profilePicsStorageRef.child("\(self!.castedUser.uuid).png")
                 
-                let metadata = FIRStorageMetadata()
+                let metadata = StorageMetadata()
                 metadata.contentType = "image/jpg"
                 
                 self!.loadingPicLbl.text = "Loading..."
@@ -292,12 +292,12 @@ class CustomerProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
         let userID = FBDataService.instance.currentUser?.uid
         FBDataService.instance.removeObservers(uuid: userID!)
-        FIRMessaging.messaging().unsubscribe(fromTopic: "/topics/user_\(userID!)")
+        Messaging.messaging().unsubscribe(fromTopic: "/topics/user_\(userID!)")
         FBDataService.instance.clearAllFollowers()
         FBDataService.instance.clearAllReservations()
         FBDataService.instance.clearAllBusinesses()
 
-        try! FIRAuth.auth()!.signOut()
+        try! Auth.auth().signOut()
         self.performSegue(withIdentifier: "customerLoggedOut", sender: nil)
 
     }

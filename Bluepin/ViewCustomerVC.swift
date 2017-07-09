@@ -77,8 +77,8 @@ class ViewCustomerVC: UIViewController {
         
         if castedCustomer.userProfilePicLocation != "" {
             
-            let ref = FIRStorage.storage().reference(forURL: castedCustomer.userProfilePicLocation)
-            ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
+            let ref = Storage.storage().reference(forURL: castedCustomer.userProfilePicLocation)
+            ref.getData(maxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.customerProfilePicImg.image = placeholderImage
@@ -97,9 +97,9 @@ class ViewCustomerVC: UIViewController {
 
         let currentUserID = FBDataService.instance.currentUser?.uid
     
-        _ = FBDataService.instance.userChannelsRef.child(currentUserID!).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+        _ = FBDataService.instance.userChannelsRef.child(currentUserID!).observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
             
-            for snap in snapshot.children.allObjects as! [FIRDataSnapshot]{
+            for snap in snapshot.children.allObjects as! [DataSnapshot]{
                 
                 if snap.key.contains(self.customerID){
                     self.calculateMessages(channelID: snap.key)
@@ -112,7 +112,7 @@ class ViewCustomerVC: UIViewController {
     
     func calculateMessages(channelID: String){
     
-        _ = FBDataService.instance.channelsRef.child(channelID).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+        _ = FBDataService.instance.channelsRef.child(channelID).observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
             
             self.messagesSentLbl.text = "\(snapshot.childrenCount)"
             
@@ -122,9 +122,9 @@ class ViewCustomerVC: UIViewController {
     
     func calculateCustomerReservations(){
         
-        _ = FBDataService.instance.userReservationsRef.child(customerID).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+        _ = FBDataService.instance.userReservationsRef.child(customerID).observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
             
-            for snap in snapshot.children.allObjects as! [FIRDataSnapshot]{
+            for snap in snapshot.children.allObjects as! [DataSnapshot]{
               
                 self.allCustomerReservations.append(snap.key)
             }
@@ -139,9 +139,9 @@ class ViewCustomerVC: UIViewController {
         
         let currentUserID = FBDataService.instance.currentUser?.uid
         
-        _ = FBDataService.instance.userReservationsRef.child(currentUserID!).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+        _ = FBDataService.instance.userReservationsRef.child(currentUserID!).observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
             
-            for snap in snapshot.children.allObjects as! [FIRDataSnapshot]{
+            for snap in snapshot.children.allObjects as! [DataSnapshot]{
                 
                 if self.allCustomerReservations.contains(snap.key){
                     self.allResrvatinsMadeForCustomer.append(snap.key)
@@ -164,7 +164,7 @@ class ViewCustomerVC: UIViewController {
         
         var channelName: String!
         
-        _ = FBDataService.instance.channelIDSRef.child(currentUserUID).child(self.castedCustomer.uuid).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+        _ = FBDataService.instance.channelIDSRef.child(currentUserUID).child(self.castedCustomer.uuid).observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
             
             if snapshot.exists(){
                 let value = snapshot.value as? NSDictionary

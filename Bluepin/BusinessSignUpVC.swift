@@ -134,7 +134,7 @@ class BusinessSignUpVC: UIViewController, UITextFieldDelegate {
                     return
                 }
                 
-                let firUser = data as? FIRUser
+                let firUser = data as? User
                 
                 let properties = self.userProperties(firUser?.uid, name: user.businessName, businessType: user.businessType, email: user.email, deviceToken: self.appDelegate.deviceTokenString)
                 

@@ -170,8 +170,8 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         
         if castedBusiness.userProfilePicLocation != "" {
             
-            let ref = FIRStorage.storage().reference(forURL: castedBusiness.userProfilePicLocation)
-            ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
+            let ref = Storage.storage().reference(forURL: castedBusiness.userProfilePicLocation)
+            ref.getData(maxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.businessProfileImg.image = placeholderImage
@@ -294,7 +294,7 @@ class ViewBusinessVC: UIViewController, MKMapViewDelegate {
         
         var channelName: String!
         
-        _ = FBDataService.instance.channelIDSRef.child(currentUserUID).child(self.castedBusiness.uuid).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+        _ = FBDataService.instance.channelIDSRef.child(currentUserUID).child(self.castedBusiness.uuid).observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
             
             if snapshot.exists(){
                 let value = snapshot.value as? NSDictionary

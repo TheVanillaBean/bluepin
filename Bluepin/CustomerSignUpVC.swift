@@ -176,7 +176,7 @@ class CustomerSignUpVC: UIViewController, UITextFieldDelegate {
                     return
                 }
                 
-                let firUser = data as? FIRUser
+                let firUser = data as? User
                 
                 let properties = self.userProperties(firUser?.uid, name: user.fullName, number: user.phoneNumber, email: user.email)
                 

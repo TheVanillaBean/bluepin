@@ -27,7 +27,7 @@ target ‘Bluepin’ do
   pod 'BRYXBanner'
   pod 'Firebase/Crash'
   pod 'Kingfisher', '~> 3.0'
-
+  pod 'ImagePicker'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

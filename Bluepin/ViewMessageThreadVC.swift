@@ -10,13 +10,18 @@ import UIKit
 import FirebaseStorage
 import FirebaseDatabase
 import JSQMessagesViewController
+import ImagePicker
 
-class ViewMessageThreadVC: JSQMessagesViewController{
+class ViewMessageThreadVC: JSQMessagesViewController, ImagePickerDelegate{
 
-    var channelRef: FIRDatabaseReference?
-    private lazy var messageRef: FIRDatabaseReference = self.channelRef!.child(FIR_CHILD_MESSAGES)
-    private var newMessageRefHandle: FIRDatabaseHandle?
+    private let imageURLNotSetKey = "NOTSET"
+    
+    var channelRef: DatabaseReference?
+    private lazy var messageRef: DatabaseReference = self.channelRef!.child(FIR_CHILD_MESSAGES)
+    private var newMessageRefHandle: DatabaseHandle?
+    private var updatedMessageRefHandle: DatabaseHandle?
     private var messages: [JSQMessage] = []
+    private var photoMessageMap = [String: JSQPhotoMediaItem]()
     private var messageIDS: [String] = []
     private var firstMessageID: String = "NONE"
     var showLoadMoreHeader: Bool = true
@@ -45,6 +50,8 @@ class ViewMessageThreadVC: JSQMessagesViewController{
         }
     }
     
+    let imagePicker = ImagePickerController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,11 +62,24 @@ class ViewMessageThreadVC: JSQMessagesViewController{
         
         collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
+        
+        var config = Configuration()
+        config.doneButtonTitle = "Finish"
+        config.noImagesTitle = "Sorry! There are no images here!"
+        config.recordLocation = false
+        config.allowMultiplePhotoSelection = false
+        
+        imagePicker.configuration = config
+        imagePicker.delegate = self
 
     }
     
     deinit {
         if let refHandle = newMessageRefHandle {
+            messageRef.removeObserver(withHandle: refHandle)
+        }
+        
+        if let refHandle = updatedMessageRefHandle {
             messageRef.removeObserver(withHandle: refHandle)
         }
     }
@@ -104,12 +124,13 @@ class ViewMessageThreadVC: JSQMessagesViewController{
         
         let message = messages[indexPath.item]
         
-        if message.senderId == senderId {
-            cell.textView!.textColor = UIColor.white
-        } else {
-            cell.textView!.textColor = UIColor.black
+        if !message.isMediaMessage{
+            if message.senderId == senderId {
+                cell.textView!.textColor = UIColor.white
+            } else {
+                cell.textView!.textColor = UIColor.black
+            }
         }
-        
         return cell
     }
     
@@ -197,7 +218,7 @@ class ViewMessageThreadVC: JSQMessagesViewController{
              MESSAGE_TEXT: text! as AnyObject,
              MESSAGE_SENDERID: senderId as AnyObject,
              MESSAGE_RECIPIENTID: recipientUser.uuid as AnyObject,
-             MESSAGE_TIMESTAMP: FIRServerValue.timestamp() as AnyObject,
+             MESSAGE_TIMESTAMP: ServerValue.timestamp() as AnyObject,
              MESSAGE_CHANNEL_NAME: mainChannelName as AnyObject,
              MESSAGE_UID: FBMessage.key as AnyObject
         ]
@@ -228,6 +249,20 @@ class ViewMessageThreadVC: JSQMessagesViewController{
         }
     }
     
+    private func addPhotoMessage(withId id: String, key: String, name: String, date: Date, mediaItem: JSQPhotoMediaItem) {
+        
+        if let message = JSQMessage(senderId: id, senderDisplayName: name, date: date, media: mediaItem){
+            messages.append(message)
+            messageIDS.append(key)
+
+            if (mediaItem.image == nil) {
+                photoMessageMap[key] = mediaItem
+            }
+            
+            collectionView.reloadData()
+        }
+    }
+    
     func showActivityIndicator() {
         view.addSubview(activityIndicator)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -252,7 +287,7 @@ class ViewMessageThreadVC: JSQMessagesViewController{
             FBDataService.instance.appointmentLeaderID = recipientUser.uuid
             performSegue(withIdentifier: "NewReservationFromMessageThread", sender: nil)
         }else{
-            Messages.displayToastMessage(self.view, msg: "We are currently working on implementing a photo upload feature. There will be an update in a few weeks :)")
+            present(imagePicker, animated: true, completion: nil)
         }
     }
     
@@ -278,34 +313,49 @@ class ViewMessageThreadVC: JSQMessagesViewController{
             
             let messageData = snapshot.value as! [String : AnyObject]
             
-            if let type = messageData[MESSAGE_TYPE] as! String!, let senderID = messageData[MESSAGE_SENDERID] as! String!, let stamp = messageData[MESSAGE_TIMESTAMP] as! Double!, let text = messageData[MESSAGE_TEXT] as! String!, text.characters.count > 0 {
+            if let type = messageData[MESSAGE_TYPE] as! String!, let senderID = messageData[MESSAGE_SENDERID] as! String!, let stamp = messageData[MESSAGE_TIMESTAMP] as! Double!{
                 
-                if type == MESSAGE_TEXT_TYPE {
-        
+                if type == MESSAGE_TEXT_TYPE, let text = messageData[MESSAGE_TEXT] as! String!, text.characters.count > 0 {
+
                     let date = NSDate(timeIntervalSince1970: stamp)
                     self.appendMessage(withId: senderID, name: self.getSenderDisplayName(senderID: senderID), text: text, date: date as Date, key: snapshot.key)
                     
-                    if self.messages.count > 24 && snapshot.key != self.firstMessageID && self.showLoadMoreHeader{
-                        self.showLoadEarlierMessagesHeader = true
-                    }
                     
-                    if snapshot.key == self.firstMessageID{
-                        self.showLoadEarlierMessagesHeader = false
-                        self.showLoadMoreHeader = false
-                    }
+                }else if type == MESSAGE_IMAGE_TYPE, let photoURL = messageData[MESSAGE_PHOTO_URL] as! String!{
                     
-                    if self.firstMessageID == "NONE" || self.firstMessageID == snapshot.key{
-                        self.inputToolbar.contentView.textView.text = ""
-                        self.collectionView.reloadData()
-                    }else{
-                        if senderID == self.currentUser.uuid{
-                            self.finishSendingMessage(animated: true)
-                        }else {
-                            self.finishReceivingMessage(animated: true)
+                    let date = NSDate(timeIntervalSince1970: stamp)
+                    if let mediaItem = JSQPhotoMediaItem(maskAsOutgoing: senderID == self.senderId) {
+                        self.addPhotoMessage(withId: senderID, key: snapshot.key, name: self.getSenderDisplayName(senderID: senderID), date: date as Date, mediaItem: mediaItem)
+                        
+                        print("fetching image before prefix")
+                        
+                        if photoURL.hasPrefix("gs://") {
+                            print("has prefix")
+                            self.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: nil)
                         }
                     }
-                    
                 }
+                
+                if self.messages.count > 24 && snapshot.key != self.firstMessageID && self.showLoadMoreHeader{
+                    self.showLoadEarlierMessagesHeader = true
+                }
+                
+                if snapshot.key == self.firstMessageID{
+                    self.showLoadEarlierMessagesHeader = false
+                    self.showLoadMoreHeader = false
+                }
+                
+                if self.firstMessageID == "NONE" || self.firstMessageID == snapshot.key{
+                    self.inputToolbar.contentView.textView.text = ""
+                    self.collectionView.reloadData()
+                }else{
+                    if senderID == self.currentUser.uuid{
+                        self.finishSendingMessage(animated: true)
+                    }else {
+                        self.finishReceivingMessage(animated: true)
+                    }
+                }
+
                 
             } else {
                 print("Error! Could not decode message data")
@@ -313,6 +363,17 @@ class ViewMessageThreadVC: JSQMessagesViewController{
             
             self.activityIndicator.stopAnimating()
 
+        })
+        
+        updatedMessageRefHandle = messageRef.observe(.childChanged, with: { (snapshot) in
+            let key = snapshot.key
+            let messageData = snapshot.value as! [String : AnyObject]
+            
+            if let photoURL = messageData[MESSAGE_PHOTO_URL] as! String!, photoURL != self.imageURLNotSetKey {
+                if let mediaItem = self.photoMessageMap[key] {
+                    self.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: key)
+                }
+            }
         })
         
     }
@@ -365,6 +426,117 @@ class ViewMessageThreadVC: JSQMessagesViewController{
             
         })
         
-     }
+    }
     
-  }
+    func sendPhotoMessage() -> String? {
+        
+        let FBMessage = messageRef.childByAutoId()
+        
+        let messageItem: Dictionary<String, AnyObject> = [
+            MESSAGE_TYPE: MESSAGE_IMAGE_TYPE as AnyObject,
+            MESSAGE_PHOTO_URL: imageURLNotSetKey as AnyObject,
+            MESSAGE_SENDERID: senderId as AnyObject,
+            MESSAGE_RECIPIENTID: recipientUser.uuid as AnyObject,
+            MESSAGE_TIMESTAMP: ServerValue.timestamp() as AnyObject,
+            MESSAGE_CHANNEL_NAME: mainChannelName as AnyObject,
+            MESSAGE_UID: FBMessage.key as AnyObject
+        ]
+        
+        FBDataService.instance.channelIDSRef.child(currentUser.uuid).child(recipientUser.uuid).child(CHANNEL_ID).setValue(mainChannelName)
+        FBDataService.instance.channelIDSRef.child(recipientUser.uuid).child(currentUser.uuid).child(CHANNEL_ID).setValue(mainChannelName)
+        FBMessage.setValue(messageItem)
+        
+        FBDataService.instance.userChannelsRef.child(currentUser.uuid).child(mainChannelName).setValue(messageItem)
+        FBDataService.instance.userChannelsRef.child(recipientUser.uuid).child(mainChannelName).setValue(messageItem)
+        
+        let notification = FBDataService.instance.notificationsRef.childByAutoId()
+        
+        var notificationRequest: Dictionary<String, AnyObject>
+        
+        notificationRequest = [REQUEST_ID: notification.key as AnyObject, REQUEST_SENDER_ID: self.currentUser.uuid as AnyObject, REQUEST_RECIPIENT_ID: self.recipientUser.uuid as AnyObject, REQUEST_MESSAGE: MESSAGE_NOTIF as AnyObject, REQUEST_SENDER_NAME: self.senderName as AnyObject]
+        
+        notification.setValue(notificationRequest)
+        
+        JSQSystemSoundPlayer.jsq_playMessageSentSound()
+        
+        return FBMessage.key
+
+    }
+    
+    func setImageURL(_ url: String, forPhotoMessageWithKey key: String) {
+        let itemRef = messageRef.child(key)
+        itemRef.updateChildValues([MESSAGE_PHOTO_URL: url])
+    }
+    
+    private func fetchImageDataAtURL(_ photoURL: String, forMediaItem mediaItem: JSQPhotoMediaItem, clearsPhotoMessageMapOnSuccessForKey key: String?) {
+        
+        let storageRef = Storage.storage().reference(forURL: photoURL)
+        storageRef.getData(maxSize: INT64_MAX){ (data, error) in
+            if let error = error {
+                print("Error downloading image data: \(error)")
+                return
+            }
+            
+            storageRef.getMetadata(completion: { (metadata, metadataErr) in
+                if let error = metadataErr {
+                    print("Error downloading metadata: \(error)")
+                    return
+                }
+         
+                if let imgData = data{
+                    print("media item set")
+                    mediaItem.image = UIImage.init(data: imgData)
+                    self.collectionView.reloadData()
+                }
+        
+                guard key != nil else {
+                    return
+                }
+                self.photoMessageMap.removeValue(forKey: key!)
+            })
+        }
+    }
+    
+    
+    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+    }
+    
+    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        
+        imagePicker.dismiss(animated: true, completion: nil)
+        
+        if images.first != nil{
+            
+            if let key = sendPhotoMessage() {
+          
+                let image = images.first?.correctlyOrientedImage()
+
+                let imageData: Data = UIImageJPEGRepresentation(image!, 0.5)!
+                
+                let filePath: StorageReference = FBDataService.instance.messagesStorageRef.child("\(key).jpg")
+                
+                let metadata = StorageMetadata()
+                metadata.contentType = "image/jpg"
+                
+                FBDataService.instance.uploadFile(filePath, data: imageData, metadata: metadata, onComplete: { (errMsg, data) in
+                    if errMsg != nil {
+                        Messages.showAlertDialog("Upload Issue", msgAlert: errMsg)
+                    }else{
+                        print(filePath.description + "url")
+                        self.setImageURL(filePath.description, forPhotoMessageWithKey: key)
+                    }
+                })
+                
+            }
+            
+        
+        }
+        
+    }
+
+    
+}

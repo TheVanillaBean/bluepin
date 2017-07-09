@@ -20,7 +20,7 @@ class AuthService {
     
     func login(_ email: String, password: String, onComplete: AuthCompletion?) {
         
-        FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             
             if error != nil {
                 self.handleFirebaseError(error! as NSError, onComplete: onComplete)
@@ -33,13 +33,13 @@ class AuthService {
     
     func signUp(_ email: String, password: String, onComplete: AuthCompletion?){
         
-        FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
+        Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             if error != nil {
                 self.handleFirebaseError(error! as NSError, onComplete: onComplete)
             } else {
                 if user?.uid != nil {
                     
-                    FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+                    Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
                         
                         if error != nil {
                             self.handleFirebaseError(error! as NSError, onComplete: onComplete)
@@ -56,20 +56,20 @@ class AuthService {
    
     func handleFirebaseError(_ error: NSError, onComplete: AuthCompletion?) {
         print(error.debugDescription)
-        if let errorCode = FIRAuthErrorCode(rawValue: error.code) {
+        if let errorCode = AuthErrorCode(rawValue: error.code) {
             switch (errorCode) {
-            case .errorCodeInvalidEmail:
+            case .invalidEmail:
                 onComplete?("Invalid email address", nil)
                 break
-            case .errorCodeWrongPassword:
+            case .wrongPassword:
                 onComplete?("Invalid password", nil)
                 break
-            case .errorCodeEmailAlreadyInUse, .errorCodeAccountExistsWithDifferentCredential:
+            case .emailAlreadyInUse, .accountExistsWithDifferentCredential:
                 onComplete?("Could not create account. Email already in use", nil)
                 break
-            case .errorCodeUserDisabled:
+            case .userDisabled:
                 onComplete?("Account Temporally Disabled. Contact Support to get issue resolved", nil)
-            case .errorCodeWeakPassword:
+            case .weakPassword:
                 onComplete?("Weak Password. Password must be greater than six characters", nil)
             default:
                 onComplete?("There was a problem authenticating. Try again.", nil)

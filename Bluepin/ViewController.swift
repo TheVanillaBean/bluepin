@@ -26,7 +26,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var verification: Verification!
     
-    var authListener: FIRAuthStateDidChangeListenerHandle!
+    var authListener: AuthStateDidChangeListenerHandle!
     
     var verifyCalled: Bool = false
     
@@ -43,7 +43,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func validateUserToken() {
         
-        authListener = FIRAuth.auth()?.addStateDidChangeListener { auth, user in
+        authListener = Auth.auth().addStateDidChangeListener { auth, user in
             
             if let user = user {
                print(user.uid)
@@ -63,7 +63,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        FIRAuth.auth()?.removeStateDidChangeListener(authListener)
+        Auth.auth().removeStateDidChangeListener(authListener)
     }
     
     override func viewWillDisappear(_ animated: Bool){
@@ -106,7 +106,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             AuthService.instance.login(email, password: password, onComplete: { (errMsg, data) in
                 
                 if errMsg == nil{
-                    if let firUser = data as? FIRUser{
+                    if let firUser = data as? User{
                         let newUser = NewUser()
                         newUser.castUser(firUser.uid, onComplete: { (errMsg) in
                             if errMsg == nil {
@@ -131,7 +131,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if let userObj = user {
                 verifyCalled = true
                 
-                FIRMessaging.messaging().subscribe(toTopic: "/topics/user_\(userObj.uuid)")
+                Messaging.messaging().subscribe(toTopic: "/topics/user_\(userObj.uuid)")
                 
                 if userObj.userType == USER_BUSINESS_TYPE{
                     self.performSegue(withIdentifier: "businessLogin", sender: nil)

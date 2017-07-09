@@ -24,55 +24,55 @@ class FBDataService {
         return _instance
     }
     
-    var mainRef: FIRDatabaseReference {
-        return FIRDatabase.database().reference()
+    var mainRef: DatabaseReference {
+        return Database.database().reference()
     }
     
-    var usersRef: FIRDatabaseReference {
+    var usersRef: DatabaseReference {
         return mainRef.child(FIR_CHILD_USERS)
     }
     
-    var businessUserRef: FIRDatabaseReference {
+    var businessUserRef: DatabaseReference {
         return mainRef.child(FIR_CHILD_USERS_BUSINESS)
     }
     
-    var customerUserRef: FIRDatabaseReference {
+    var customerUserRef: DatabaseReference {
         return mainRef.child(FIR_CHILD_USERS_CUSTOMER)
     }
     
-    var businessFollowersRef: FIRDatabaseReference {
+    var businessFollowersRef: DatabaseReference {
         return mainRef.child(FIR_CHILD_BUSINESS_FOLLOWERS)
     }
     
-    var customerFollowersRef: FIRDatabaseReference {
+    var customerFollowersRef: DatabaseReference {
         return mainRef.child(FIR_CHILD_CUSTOMER_FOLLOWERS)
     }
     
-    var userChannelsRef: FIRDatabaseReference {
+    var userChannelsRef: DatabaseReference {
         return mainRef.child(FIR_CHILD_USER_CHANNELS)
     }
     
-    var channelsRef: FIRDatabaseReference {
+    var channelsRef: DatabaseReference {
         return mainRef.child(FIR_CHILD_CHANNELS)
     }
     
-    var channelIDSRef: FIRDatabaseReference {
+    var channelIDSRef: DatabaseReference {
         return mainRef.child(FIR_CHILD_CHANNEL_IDS)
     }
     
-    var messagesRef: FIRDatabaseReference {
+    var messagesRef: DatabaseReference {
         return mainRef.child(FIR_CHILD_MESSAGES)
     }
     
-    var userReservationsRef: FIRDatabaseReference {
+    var userReservationsRef: DatabaseReference {
         return mainRef.child(FIR_CHILD_USER_RESERVATIONS)
     }
     
-    var reservationsRef: FIRDatabaseReference {
+    var reservationsRef: DatabaseReference {
         return mainRef.child(FIR_CHILD_RESERVATIONS)
     }
     
-    var notificationsRef: FIRDatabaseReference {
+    var notificationsRef: DatabaseReference {
         return mainRef.child(FIR_CHILD_NOTIFICATIONS)
     }
     
@@ -81,9 +81,9 @@ class FBDataService {
 
     //-----------------Current User--------------------//
 
-    var currentUser: FIRUser? {
+    var currentUser: User? {
         
-        if let user = FIRAuth.auth()?.currentUser {
+        if let user = Auth.auth().currentUser {
             // User is signed in.
             return user
         } else {
@@ -100,15 +100,15 @@ class FBDataService {
     //-----------------Storage References--------------------//
 
     
-    var mainStorageRef: FIRStorageReference {
-        return FIRStorage.storage().reference()
+    var mainStorageRef: StorageReference {
+        return Storage.storage().reference()
     }
     
-    var profilePicsStorageRef: FIRStorageReference {
+    var profilePicsStorageRef: StorageReference {
         return mainStorageRef.child(FIR_STORAGE_CHILD_USER_PROFILE_PICS)
     }
    
-    var messagesStorageRef: FIRStorageReference {
+    var messagesStorageRef: StorageReference {
         return mainStorageRef.child(FIR_STORAGE_CHILD_MESSAGES)
     }
     
@@ -199,7 +199,7 @@ class FBDataService {
     
     func resetPassword(_ email: String!, onComplete: DataCompletion?) {
         
-        FIRAuth.auth()?.sendPasswordReset(withEmail: email) { error in
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
             if let error = error {
                 onComplete?("An error occured... \(error)", nil)
             } else {
@@ -211,9 +211,9 @@ class FBDataService {
     
     func resetEmail(_ email: String!, onComplete: DataCompletion?) {
         
-        let user = FIRAuth.auth()?.currentUser
+        let user = Auth.auth().currentUser
         
-        user?.updateEmail(email) { error in
+        user?.updateEmail(to: email) { error in
             if let error = error {
                 onComplete?(error.localizedDescription, nil)
             } else {
@@ -223,9 +223,9 @@ class FBDataService {
         
     }
     
-    func uploadFile(_ filePath: FIRStorageReference!, data: Data!, metadata: FIRStorageMetadata!, onComplete: DataCompletion?){
+    func uploadFile(_ filePath: StorageReference!, data: Data!, metadata: StorageMetadata!, onComplete: DataCompletion?){
        
-        let uploadTask = filePath.put(data, metadata: metadata);
+        let uploadTask = filePath.putData(data, metadata: metadata);
 
         uploadTask.observe(.progress) { snapshot in
             if let progress = snapshot.progress {
@@ -242,7 +242,7 @@ class FBDataService {
         
         uploadTask.observe(.failure) { snapshot in
             guard let storageError = snapshot.error else { return }
-            guard FIRStorageErrorCode(rawValue: storageError._code) != nil else { return }
+            guard StorageErrorCode(rawValue: storageError._code) != nil else { return }
             uploadTask.removeAllObservers()
             onComplete?("There was an upload error. Check your connection.", nil)
         }
@@ -252,7 +252,7 @@ class FBDataService {
     //Load Businesses
     func retriveAllBusinesses(onComplete: DataCompletion?) {
         
-        _ = businessUserRef.observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+        _ = businessUserRef.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
             
             if let businessDict = snapshot.value as? [String : AnyObject]{
                 
@@ -273,7 +273,7 @@ class FBDataService {
     //Load Followers
     func retriveAllFollowers(businessID: String, onComplete: DataCompletion?) {
                 
-        _ = businessFollowersRef.child(businessID).observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+        _ = businessFollowersRef.child(businessID).observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
             
             if let followersDict = snapshot.value as? [String : AnyObject]{
                 
@@ -303,16 +303,16 @@ class FBDataService {
                         self.customerFollowersRef.child(customerID).child(businessID).removeValue()
                         onComplete?(nil, false as AnyObject?)
                     }else{
-                        self.businessFollowersRef.child(businessID).child(customerID).setValue(FIRServerValue.timestamp())
-                        self.customerFollowersRef.child(customerID).child(businessID).setValue(FIRServerValue.timestamp())
+                        self.businessFollowersRef.child(businessID).child(customerID).setValue(ServerValue.timestamp())
+                        self.customerFollowersRef.child(customerID).child(businessID).setValue(ServerValue.timestamp())
                         onComplete?(nil, true as AnyObject?)
                     }
                     
                     self._allBusinessesFollowed.removeAll()
 
                 }else{
-                    self.businessFollowersRef.child(businessID).child(customerID).setValue(FIRServerValue.timestamp())
-                    self.customerFollowersRef.child(customerID).child(businessID).setValue(FIRServerValue.timestamp())
+                    self.businessFollowersRef.child(businessID).child(customerID).setValue(ServerValue.timestamp())
+                    self.customerFollowersRef.child(customerID).child(businessID).setValue(ServerValue.timestamp())
                     onComplete?(nil, true as AnyObject?)
                 }
             }else{
@@ -431,7 +431,7 @@ class FBDataService {
         
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "reservationRetrieved"), object: nil))
         
-        self.reservationAddedHandler = self.userReservationsRef.child(uuid).queryOrderedByValue().queryLimited(toLast: 25).observe(FIRDataEventType.childAdded, with: { (snapshot) in
+        self.reservationAddedHandler = self.userReservationsRef.child(uuid).queryOrderedByValue().queryLimited(toLast: 25).observe(DataEventType.childAdded, with: { (snapshot) in
             
             if snapshot.value != nil{
                 
@@ -450,7 +450,7 @@ class FBDataService {
         
     func observeReservationsChangedForUser(_ uuid: String!){
 
-        self.reservationChangedHandler = self.userReservationsRef.child(uuid).queryLimited(toLast: 25).observe(FIRDataEventType.childChanged, with: { (snapshot) in
+        self.reservationChangedHandler = self.userReservationsRef.child(uuid).queryLimited(toLast: 25).observe(DataEventType.childChanged, with: { (snapshot) in
 
             if snapshot.value != nil{
                 
@@ -474,7 +474,7 @@ class FBDataService {
 
     func observeReservationsDeletedForUser(_ uuid: String!){
         
-        self.reservationDeletedHandler = self.userReservationsRef.child(uuid).queryLimited(toLast: 25).observe(FIRDataEventType.childRemoved, with: { (snapshot) in
+        self.reservationDeletedHandler = self.userReservationsRef.child(uuid).queryLimited(toLast: 25).observe(DataEventType.childRemoved, with: { (snapshot) in
             if snapshot.value != nil{
                 
                 let reservationID = snapshot.key

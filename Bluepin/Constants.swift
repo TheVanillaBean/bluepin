@@ -51,6 +51,7 @@ let MESSAGE_TYPE: String = "messageType"
 let MESSAGE_LOCATION: String = "messageLocation"
 let MESSAGE_TEXT: String = "messageText"
 let MESSAGE_DATA: String = "messageData"
+let MESSAGE_PHOTO_URL: String = "photoMessageURL"
 let MESSAGE_SENDERID: String = "senderUID"
 let MESSAGE_RECIPIENTID: String = "recipientUID"
 let MESSAGE_TIMESTAMP: String = "timeStamp"
@@ -59,6 +60,7 @@ let MESSAGE_RECIPIENT_NAME: String = "recipientName"
 let MESSAGE_SENDER_NAME: String = "senderName"
 
 let MESSAGE_TEXT_TYPE: String = "type/text"
+let MESSAGE_IMAGE_TYPE: String = "type/image"
 
 //Channel Keys
 let CHANNEL_ID: String = "ChannelID"

@@ -12,9 +12,9 @@ import FirebaseMessaging
 
 class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate  {
 
-    private lazy var channelsRef: FIRDatabaseReference = FBDataService.instance.userChannelsRef
-    private var channelRefAddedHandle: FIRDatabaseHandle?
-    private var channelRefChangedHandle: FIRDatabaseHandle?
+    private lazy var channelsRef: DatabaseReference = FBDataService.instance.userChannelsRef
+    private var channelRefAddedHandle: DatabaseHandle?
+    private var channelRefChangedHandle: DatabaseHandle?
     
     private var channelMessages: [String: [String: AnyObject]] = [:]
     private var channels: [Channel] = []
@@ -168,9 +168,9 @@ class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITa
 
                 let lastMessage = snapshot.value as! [String : AnyObject]
                 
-                if let channelID = lastMessage[MESSAGE_CHANNEL_NAME] as! String!, let type = lastMessage[MESSAGE_TYPE] as! String!, let senderID = lastMessage[MESSAGE_SENDERID] as! String!, let recipientID = lastMessage[MESSAGE_RECIPIENTID] as! String!, let stamp = lastMessage[MESSAGE_TIMESTAMP] as! Double!, let text = lastMessage[MESSAGE_TEXT] as! String!, text.characters.count > 0 {
+                if let channelID = lastMessage[MESSAGE_CHANNEL_NAME] as! String!, let type = lastMessage[MESSAGE_TYPE] as! String!, let senderID = lastMessage[MESSAGE_SENDERID] as! String!, let recipientID = lastMessage[MESSAGE_RECIPIENTID] as! String!, let stamp = lastMessage[MESSAGE_TIMESTAMP] as! Double!{
                     
-                    if type == MESSAGE_TEXT_TYPE {
+                    if type == MESSAGE_TEXT_TYPE, let text = lastMessage[MESSAGE_TEXT] as! String!, text.characters.count > 0  {
                         
                         let date = Date(timeIntervalSince1970: stamp)
                         let messageItem: Dictionary<String, AnyObject> = [
@@ -186,6 +186,21 @@ class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITa
                         self.channelMessages[channelID] = messageItem
                         self.tableView.reloadData()
                         
+                    }else if type == MESSAGE_IMAGE_TYPE{
+                        
+                        let date = Date(timeIntervalSince1970: stamp)
+                        let messageItem: Dictionary<String, AnyObject> = [
+                            MESSAGE_CHANNEL_NAME: channelID as AnyObject,
+                            MESSAGE_TYPE: MESSAGE_TEXT_TYPE as AnyObject,
+                            MESSAGE_TEXT: "Photo Sent" as AnyObject,
+                            MESSAGE_SENDERID: senderID as AnyObject,
+                            MESSAGE_RECIPIENTID: recipientID as AnyObject,
+                            MESSAGE_TIMESTAMP: date as AnyObject,
+                            ]
+                        
+                        self.channels.append(Channel(channelID: channelID, date: date as Date))
+                        self.channelMessages[channelID] = messageItem
+                        self.tableView.reloadData()
                     }
                     
                 } else {
@@ -209,9 +224,9 @@ class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITa
                 
                 let lastMessage = snapshot.value as! [String : AnyObject]
                 
-                if let channelID = lastMessage[MESSAGE_CHANNEL_NAME] as! String!, let type = lastMessage[MESSAGE_TYPE] as! String!, let senderID = lastMessage[MESSAGE_SENDERID] as! String!, let recipientID = lastMessage[MESSAGE_RECIPIENTID] as! String!, let stamp = lastMessage[MESSAGE_TIMESTAMP] as! Double!, let text = lastMessage[MESSAGE_TEXT] as! String!, text.characters.count > 0 {
+                if let channelID = lastMessage[MESSAGE_CHANNEL_NAME] as! String!, let type = lastMessage[MESSAGE_TYPE] as! String!, let senderID = lastMessage[MESSAGE_SENDERID] as! String!, let recipientID = lastMessage[MESSAGE_RECIPIENTID] as! String!, let stamp = lastMessage[MESSAGE_TIMESTAMP] as! Double! {
                     
-                    if type == MESSAGE_TEXT_TYPE {
+                    if type == MESSAGE_TEXT_TYPE, let text = lastMessage[MESSAGE_TEXT] as! String!, text.characters.count > 0 {
                         
                         let date = Date(timeIntervalSince1970: stamp)
                         let messageItem: Dictionary<String, AnyObject> = [
@@ -229,6 +244,24 @@ class CustomerViewMessageChannelsVC: UIViewController, UITableViewDelegate, UITa
                         self.channels.sort { $0.date > $1.date }
                         self.tableView.reloadData()
                         
+                    }else if type == MESSAGE_IMAGE_TYPE{
+                        
+                        let date = Date(timeIntervalSince1970: stamp)
+                        let messageItem: Dictionary<String, AnyObject> = [
+                            MESSAGE_CHANNEL_NAME: channelID as AnyObject,
+                            MESSAGE_TYPE: MESSAGE_TEXT_TYPE as AnyObject,
+                            MESSAGE_TEXT: "Photo Sent" as AnyObject,
+                            MESSAGE_SENDERID: senderID as AnyObject,
+                            MESSAGE_RECIPIENTID: recipientID as AnyObject,
+                            MESSAGE_TIMESTAMP: date as AnyObject,
+                            ]
+                        
+                        self.channels = self.channels.filter {$0.channelID != channelID}
+                        self.channels.append(Channel(channelID: channelID, date: date as Date))
+                        self.channelMessages[channelID] = messageItem
+                        self.channels.sort { $0.date > $1.date }
+                        self.tableView.reloadData()
+
                     }
                     
                 } else {

@@ -56,8 +56,8 @@ class ViewFollowersCell: UITableViewCell {
         
         if castedUser.userProfilePicLocation != "" {
             
-            let ref = FIRStorage.storage().reference(forURL: castedUser.userProfilePicLocation)
-            ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
+            let ref = Storage.storage().reference(forURL: castedUser.userProfilePicLocation)
+            ref.getData(maxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.profileImg.image = placeholderImage

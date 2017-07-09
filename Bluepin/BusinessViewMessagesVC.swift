@@ -12,9 +12,9 @@ import FirebaseMessaging
 
 class BusinessViewMessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate  {
     
-    private lazy var channelsRef: FIRDatabaseReference = FBDataService.instance.userChannelsRef
-    private var channelRefAddedHandle: FIRDatabaseHandle?
-    private var channelRefChangedHandle: FIRDatabaseHandle?
+    private lazy var channelsRef: DatabaseReference = FBDataService.instance.userChannelsRef
+    private var channelRefAddedHandle: DatabaseHandle?
+    private var channelRefChangedHandle: DatabaseHandle?
 
     private var channelMessages: [String: [String: AnyObject]] = [:]
     private var channels: [Channel] = []

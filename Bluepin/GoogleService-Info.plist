@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>975754215068-5t9uufi3v1h9sqobfg956je6803hrerv.apps.googleusercontent.com</string>
+	<string>508089690296-ha6rlg8epo6sgg7nst57ntb6l89t07tr.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.975754215068-5t9uufi3v1h9sqobfg956je6803hrerv</string>
+	<string>com.googleusercontent.apps.508089690296-ha6rlg8epo6sgg7nst57ntb6l89t07tr</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDyD_sYLoI0VEymriprXIAiSupGp8rX92k</string>
+	<string>AIzaSyBAwqvm0fn3934jAUyjnIJWdVMPq83oRVQ</string>
 	<key>GCM_SENDER_ID</key>
-	<string>975754215068</string>
+	<string>508089690296</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.bluepinapp.bluepin</string>
 	<key>PROJECT_ID</key>
-	<string>bluepin-96060</string>
+	<string>bluepin-development</string>
 	<key>STORAGE_BUCKET</key>
-	<string>bluepin-96060.appspot.com</string>
+	<string>bluepin-development.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true/>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:975754215068:ios:cf05a373fc3e9c5d</string>
+	<string>1:508089690296:ios:cf05a373fc3e9c5d</string>
 	<key>DATABASE_URL</key>
-	<string>https://bluepin-96060.firebaseio.com</string>
+	<string>https://bluepin-development.firebaseio.com</string>
 </dict>
 </plist>

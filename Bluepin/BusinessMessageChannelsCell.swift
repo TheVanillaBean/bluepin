@@ -83,8 +83,8 @@ class BusinessMessageChannelsCell: UITableViewCell {
     func loadProfilePic(location: String!){
         
         if location.characters.count > 2{
-            let ref = FIRStorage.storage().reference(forURL: location)
-            ref.data(withMaxSize: 20 * 1024 * 1024, completion: { (data, error) in
+            let ref = Storage.storage().reference(forURL: location)
+            ref.getData(maxSize: 20 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
                     let placeholderImage = UIImage(named: "Placeholder")!
                     self.businessProfilePic.image = placeholderImage

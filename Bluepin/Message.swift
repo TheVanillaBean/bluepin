@@ -227,7 +227,7 @@ class Message{
                 
                 self.messageLocation = loc
                 
-                FBDataService.instance.messagesStorageRef.child(loc).data(withMaxSize: 10 * 1024 * 1024) { (data, error) -> Void in
+                FBDataService.instance.messagesStorageRef.child(loc).getData(maxSize: 10 * 1024 * 1024) { (data, error) -> Void in
                     if (error != nil) {
                         onComplete?(error?.localizedDescription)
                     } else {
